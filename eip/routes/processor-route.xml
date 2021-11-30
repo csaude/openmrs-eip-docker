@@ -1,0 +1,106 @@
+<routes xmlns="http://camel.apache.org/schema/spring">
+
+    <route id="db-event-processor" errorHandlerRef="outBoundErrorHandler">
+        <from uri="direct:db-event-processor" />
+
+        <log message="Processing db event: ${body}" loggingLevel="DEBUG" />
+
+        <when>
+            <!-- For a subclass table, fetch the identifier(uuid) from the parent table e.g person.uuid value for patient table joining on the FK -->
+            <simple>${body.identifier} == null &amp;&amp; ${exchangeProperty.is-subclass} == true</simple>
+            <choice>
+                <when>
+                    <simple>${body.tableName} == 'patient'</simple>
+                    <setProperty name="debezium-refTable">
+                        <constant>person</constant>
+                    </setProperty>
+                    <setProperty name="debezium-refColumn">
+                        <constant>person_id</constant>
+                    </setProperty>
+                    <setProperty name="debezium-column">
+                        <constant>patient_id</constant>
+                    </setProperty>
+                </when>
+                <otherwise>
+                    <setProperty name="debezium-refTable">
+                        <constant>orders</constant>
+                    </setProperty>
+                    <setProperty name="debezium-refColumn">
+                        <constant>order_id</constant>
+                    </setProperty>
+                    <setProperty name="debezium-column">
+                        <constant>order_id</constant>
+                    </setProperty>
+                </otherwise>
+            </choice>
+
+            <log message="Looking up uuid for ${body.tableName} from ${exchangeProperty.debezium-refTable} table" loggingLevel="DEBUG" />
+
+            <toD uri="sql:SELECT uuid FROM ${exchangeProperty.debezium-refTable} WHERE ${exchangeProperty.debezium-refColumn}='${body.primaryKeyId}'?dataSource=openmrsDataSource" />
+
+            <when>
+                <simple>${body.size()} == 1</simple>
+                <script>
+                    <spel>#{getProperty('event').setIdentifier(body[0].get('uuid'))}</spel>
+                </script>
+            </when>
+        </when>
+
+        <when>
+            <simple>${exchangeProperty.db-event-destinations} == null</simple>
+            <setProperty name="db-event-destinations">
+                <simple>{{db-event.destinations}}</simple>
+            </setProperty>
+        </when>
+
+        <split parallelProcessing="false">
+            <simple>${exchangeProperty.db-event-destinations}</simple>
+            <setProperty name="db-event-dest">
+                <simple>${body.trim()}</simple>
+            </setProperty>
+
+            <!-- Ensure there is no retry items in the queue for this route for the entity so that events that happened
+                later don't overwrite those that happened before them, this ONLY applies to new events and not retries.
+            -->
+            <when>
+                <simple>${exchangeProperty.retry-item-id} == null &amp;&amp; ${exchangeProperty.route-retry-count-map.get(${exchangeProperty.db-event-dest})} > 0</simple>
+                <log message="Moving the event to the failure queue because the entity has ${exchangeProperty.route-retry-count-map.get(${exchangeProperty.db-event-dest})} event(s) in the retry queue for route: ${exchangeProperty.db-event-dest}" />
+                <setProperty name="retry-event-message">
+                    <simple>Cannot process the event because the entity has ${exchangeProperty.route-retry-count-map.get(${exchangeProperty.db-event-dest})} event(s) in the retry queue</simple>
+                </setProperty>
+                <throwException exceptionType="org.openmrs.eip.component.exception.EIPException" message="${exchangeProperty.retry-event-message}" />
+            </when>
+
+            <log message="Publishing to destination: ${exchangeProperty.db-event-dest}" loggingLevel="DEBUG" />
+
+            <setBody>
+                <simple>${exchangeProperty.event}</simple>
+            </setBody>
+
+            <toD uri="direct:${exchangeProperty.db-event-dest}" />
+
+            <!-- TODO Move deleting of item from queue to the retry-route, reason it is here is because the splitter in
+                the retry-route doesn't work properly with a NoErrorHandler -->
+            <when>
+                <simple>${exchangeProperty.retry-item-id} != null</simple>
+                <log message="Removing from the error queue an item with id: ${exchangeProperty.retry-item-id}" />
+
+                <toD uri="jpa:SenderRetryQueueItem?query=DELETE FROM SenderRetryQueueItem WHERE id = ${exchangeProperty.retry-item-id}" />
+                
+                <log loggingLevel="DEBUG" message="Successfully removed from the error queue an item with id: ${exchangeProperty.retry-item-id}" />
+            </when>
+
+            <when>
+                <simple>${exchangeProperty.dbzmEvent} != null</simple>
+                <log message="Removing item with id: ${exchangeProperty.dbzmEvent.id} from the debezium event queue" loggingLevel="DEBUG" />
+
+                <toD uri="jpa:DebeziumEvent?query=DELETE FROM DebeziumEvent WHERE id = ${exchangeProperty.dbzmEvent.id}" />
+
+                <log message="Successfully removed item with id: ${exchangeProperty.dbzmEvent.id} from the debezium event queue" loggingLevel="DEBUG" />
+            </when>
+        </split>
+
+        <log message="Done processing db event" loggingLevel="DEBUG" />
+    </route>
+
+</routes>

@@ -1,0 +1,126 @@
+INFO  2021-11-29 14:53:28,942 [main] o.o.e.a.SyncApplication:50 Starting SyncApplication on customer with PID 11 (/home/eip/openmrs-eip-app-sender.jar started by root in /home/eip)
+INFO  2021-11-29 14:53:28,966 [main] o.o.e.a.SyncApplication:679 The following profiles are active: sender
+INFO  2021-11-29 14:53:32,126 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-11-29 14:53:32,211 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 18ms. Found 0 repository interfaces.
+INFO  2021-11-29 14:53:32,215 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-11-29 14:53:33,273 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 1057ms. Found 71 repository interfaces.
+INFO  2021-11-29 14:53:35,631 [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335 Bean 'org.apache.camel.spring.boot.CamelAutoConfiguration' of type [org.apache.camel.spring.boot.CamelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+INFO  2021-11-29 14:53:38,125 [main] o.s.b.w.e.t.TomcatWebServer:90 Tomcat initialized with port(s): 9088 (http)
+INFO  2021-11-29 14:53:38,212 [main] o.a.c.h.Http11NioProtocol:173 Initializing ProtocolHandler ["http-nio-9088"]
+INFO  2021-11-29 14:53:38,252 [main] o.a.c.c.StandardService:173 Starting service [Tomcat]
+INFO  2021-11-29 14:53:38,253 [main] o.a.c.c.StandardEngine:173 Starting Servlet engine: [Apache Tomcat/9.0.17]
+INFO  2021-11-29 14:53:39,398 [main] o.a.j.s.TldScanner:173 At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+INFO  2021-11-29 14:53:39,713 [main] o.a.c.c.C.[.[.[/]:173 Initializing Spring embedded WebApplicationContext
+INFO  2021-11-29 14:53:39,715 [main] o.s.w.c.ContextLoader:296 Root WebApplicationContext: initialization completed in 10566 ms
+INFO  2021-11-29 14:53:40,616 [main] o.a.c.s.LRUCacheFactory:90 Detected and using LRUCacheFactory: camel-caffeine-lrucache
+INFO  2021-11-29 14:53:43,537 [main] c.z.h.HikariDataSource:110 HikariPool-1 - Starting...
+WARN  2021-11-29 14:53:43,544 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-11-29 14:53:44,199 [main] c.z.h.HikariDataSource:123 HikariPool-1 - Start completed.
+INFO  2021-11-29 14:53:45,579 [main] l.lockservice:23 Successfully acquired change log lock
+INFO  2021-11-29 14:53:46,880 [main] l.changelog:23 Reading from openmrs_eip_sender_mgt_05_gurue_lioma.LIQUIBASECHANGELOG
+INFO  2021-11-29 14:53:47,168 [main] l.lockservice:23 Successfully released change log lock
+INFO  2021-11-29 14:53:48,033 [main] c.z.h.HikariDataSource:110 HikariPool-2 - Starting...
+WARN  2021-11-29 14:53:48,034 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-11-29 14:53:48,048 [main] c.z.h.HikariDataSource:123 HikariPool-2 - Start completed.
+INFO  2021-11-29 14:53:48,309 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+	name: mngt
+	...]
+INFO  2021-11-29 14:53:48,692 [main] o.h.Version:46 HHH000412: Hibernate Core {5.3.9.Final}
+INFO  2021-11-29 14:53:48,698 [main] o.h.c.Environment:213 HHH000206: hibernate.properties not found
+INFO  2021-11-29 14:53:49,530 [main] o.h.a.c.Version:49 HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+INFO  2021-11-29 14:53:51,004 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-11-29 14:53:53,049 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'mngt'
+INFO  2021-11-29 14:53:53,172 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+	name: openmrs
+	...]
+INFO  2021-11-29 14:53:53,658 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-11-29 14:53:57,057 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'openmrs'
+INFO  2021-11-29 14:53:58,564 [main] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+INFO  2021-11-29 14:54:03,209 [main] o.s.s.w.DefaultSecurityFilterChain:51 Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@72d7afff, org.springframework.security.web.context.SecurityContextPersistenceFilter@2b76ecd5, org.springframework.security.web.header.HeaderWriterFilter@1640a6b5, org.springframework.security.web.csrf.CsrfFilter@10f192d8, org.springframework.security.web.authentication.logout.LogoutFilter@63ccb1b2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@17c72ffa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5b9df3b3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3e0a112f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c41f6a0, org.springframework.security.web.session.SessionManagementFilter@47fce2c4, org.springframework.security.web.access.ExceptionTranslationFilter@1ee52741, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5a8835c6]
+INFO  2021-11-29 14:54:04,048 [main] o.s.s.c.ThreadPoolTaskExecutor:181 Initializing ExecutorService 'applicationTaskExecutor'
+WARN  2021-11-29 14:54:04,280 [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration:237 spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+INFO  2021-11-29 14:54:05,336 [main] o.a.c.s.b.SpringBootRoutesCollector:120 Loading additional Camel XML routes from: file:routes/*.xml
+INFO  2021-11-29 14:54:08,020 [main] o.a.c.s.b.SpringBootRoutesCollector:146 Loading additional Camel XML rests from: classpath:camel-rest/*.xml
+INFO  2021-11-29 14:54:10,557 [main] o.a.c.i.e.AbstractCamelContext:2635 Apache Camel 3.3.0 (CamelContext: camel-1) is starting
+INFO  2021-11-29 14:54:10,559 [main] o.a.c.c.j.JpaComponent:153 Using EntityManagerFactory configured: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@263558c9
+INFO  2021-11-29 14:54:10,562 [main] o.a.c.c.j.JpaComponent:178 Using TransactionManager found in registry with id [transactionTemplate] org.springframework.orm.jpa.JpaTransactionManager@2ce3d95a
+INFO  2021-11-29 14:54:10,563 [main] o.a.c.i.e.AbstractCamelContext:2778 StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html
+INFO  2021-11-29 14:54:10,585 [main] o.a.c.c.f.FileEndpoint:123 Endpoint is configured with noop=true so forcing endpoint to be idempotent as well
+INFO  2021-11-29 14:54:10,740 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-complex-obs-sync started and consuming from: file://
+INFO  2021-11-29 14:54:10,743 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: out-bound-db-sync started and consuming from: direct://out-bound-db-sync
+INFO  2021-11-29 14:54:10,743 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: dlc-route started and consuming from: direct://dlc
+INFO  2021-11-29 14:54:10,744 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-processor started and consuming from: direct://debezium-event-processor
+INFO  2021-11-29 14:54:10,745 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-reader started and consuming from: scheduler://debezium-reader
+INFO  2021-11-29 14:54:10,746 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-error-handler started and consuming from: direct://outbound-error-handler
+INFO  2021-11-29 14:54:10,746 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: db-event-processor started and consuming from: direct://db-event-processor
+INFO  2021-11-29 14:54:10,747 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: sender-retry started and consuming from: scheduler://retry
+INFO  2021-11-29 14:54:10,748 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: shutdown-route started and consuming from: direct://shutdown-route
+INFO  2021-11-29 14:54:10,755 [main] o.a.c.i.e.AbstractCamelContext:2687 Total 9 routes, of which 9 are started
+INFO  2021-11-29 14:54:10,757 [main] o.a.c.i.e.AbstractCamelContext:2692 Apache Camel 3.3.0 (CamelContext: camel-1) started in 0.199 seconds
+INFO  2021-11-29 14:54:10,765 [main] o.a.c.h.Http11NioProtocol:173 Starting ProtocolHandler ["http-nio-9088"]
+INFO  2021-11-29 14:54:10,890 [main] o.s.b.w.e.t.TomcatWebServer:204 Tomcat started on port(s): 9088 (http) with context path ''
+INFO  2021-11-29 14:54:10,895 [main] o.o.e.a.SyncApplication:59 Started SyncApplication in 45.354211918 seconds (JVM running for 48.559)
+INFO  2021-11-29 14:54:11,811 [Camel (camel-1) thread #3 - scheduler://retry] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+INFO  2021-11-29 15:10:52,117 [main] o.o.e.a.SyncApplication:50 Starting SyncApplication on customer with PID 16 (/home/eip/openmrs-eip-app-sender.jar started by root in /home/eip)
+INFO  2021-11-29 15:10:52,134 [main] o.o.e.a.SyncApplication:679 The following profiles are active: sender
+INFO  2021-11-29 15:10:54,355 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-11-29 15:10:54,382 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 9ms. Found 0 repository interfaces.
+INFO  2021-11-29 15:10:54,383 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-11-29 15:10:55,123 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 738ms. Found 71 repository interfaces.
+INFO  2021-11-29 15:10:57,008 [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335 Bean 'org.apache.camel.spring.boot.CamelAutoConfiguration' of type [org.apache.camel.spring.boot.CamelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+INFO  2021-11-29 15:10:58,673 [main] o.s.b.w.e.t.TomcatWebServer:90 Tomcat initialized with port(s): 9088 (http)
+INFO  2021-11-29 15:10:58,751 [main] o.a.c.h.Http11NioProtocol:173 Initializing ProtocolHandler ["http-nio-9088"]
+INFO  2021-11-29 15:10:58,782 [main] o.a.c.c.StandardService:173 Starting service [Tomcat]
+INFO  2021-11-29 15:10:58,783 [main] o.a.c.c.StandardEngine:173 Starting Servlet engine: [Apache Tomcat/9.0.17]
+INFO  2021-11-29 15:10:59,621 [main] o.a.j.s.TldScanner:173 At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+INFO  2021-11-29 15:10:59,939 [main] o.a.c.c.C.[.[.[/]:173 Initializing Spring embedded WebApplicationContext
+INFO  2021-11-29 15:10:59,940 [main] o.s.w.c.ContextLoader:296 Root WebApplicationContext: initialization completed in 7676 ms
+INFO  2021-11-29 15:11:00,323 [main] o.a.c.s.LRUCacheFactory:90 Detected and using LRUCacheFactory: camel-caffeine-lrucache
+INFO  2021-11-29 15:11:01,968 [main] c.z.h.HikariDataSource:110 HikariPool-1 - Starting...
+WARN  2021-11-29 15:11:01,975 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-11-29 15:11:02,311 [main] c.z.h.HikariDataSource:123 HikariPool-1 - Start completed.
+INFO  2021-11-29 15:11:03,183 [main] l.lockservice:23 Successfully acquired change log lock
+INFO  2021-11-29 15:11:04,357 [main] l.changelog:23 Reading from openmrs_eip_sender_mgt_05_gurue_lioma.LIQUIBASECHANGELOG
+INFO  2021-11-29 15:11:04,551 [main] l.lockservice:23 Successfully released change log lock
+INFO  2021-11-29 15:11:05,146 [main] c.z.h.HikariDataSource:110 HikariPool-2 - Starting...
+WARN  2021-11-29 15:11:05,147 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-11-29 15:11:05,177 [main] c.z.h.HikariDataSource:123 HikariPool-2 - Start completed.
+INFO  2021-11-29 15:11:05,288 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+	name: mngt
+	...]
+INFO  2021-11-29 15:11:05,404 [main] o.h.Version:46 HHH000412: Hibernate Core {5.3.9.Final}
+INFO  2021-11-29 15:11:05,409 [main] o.h.c.Environment:213 HHH000206: hibernate.properties not found
+INFO  2021-11-29 15:11:05,838 [main] o.h.a.c.Version:49 HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+INFO  2021-11-29 15:11:06,310 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-11-29 15:11:07,962 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'mngt'
+INFO  2021-11-29 15:11:08,025 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+	name: openmrs
+	...]
+INFO  2021-11-29 15:11:08,341 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-11-29 15:11:11,485 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'openmrs'
+INFO  2021-11-29 15:11:12,478 [main] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+INFO  2021-11-29 15:11:16,899 [main] o.s.s.w.DefaultSecurityFilterChain:51 Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b9df3b3, org.springframework.security.web.context.SecurityContextPersistenceFilter@270ab7bc, org.springframework.security.web.header.HeaderWriterFilter@4cd9ee2c, org.springframework.security.web.csrf.CsrfFilter@15a41088, org.springframework.security.web.authentication.logout.LogoutFilter@2de82bf8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3810806c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@359a2c96, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@23ee70a7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@67b20b4c, org.springframework.security.web.session.SessionManagementFilter@3b663112, org.springframework.security.web.access.ExceptionTranslationFilter@43edd2ea, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2f5a092e]
+INFO  2021-11-29 15:11:17,720 [main] o.s.s.c.ThreadPoolTaskExecutor:181 Initializing ExecutorService 'applicationTaskExecutor'
+WARN  2021-11-29 15:11:17,936 [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration:237 spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+INFO  2021-11-29 15:11:18,788 [main] o.a.c.s.b.SpringBootRoutesCollector:120 Loading additional Camel XML routes from: file:routes/*.xml
+INFO  2021-11-29 15:11:20,866 [main] o.a.c.s.b.SpringBootRoutesCollector:146 Loading additional Camel XML rests from: classpath:camel-rest/*.xml
+INFO  2021-11-29 15:11:22,717 [main] o.a.c.i.e.AbstractCamelContext:2635 Apache Camel 3.3.0 (CamelContext: camel-1) is starting
+INFO  2021-11-29 15:11:22,719 [main] o.a.c.c.j.JpaComponent:153 Using EntityManagerFactory configured: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@68105edc
+INFO  2021-11-29 15:11:22,722 [main] o.a.c.c.j.JpaComponent:178 Using TransactionManager found in registry with id [transactionTemplate] org.springframework.orm.jpa.JpaTransactionManager@3d605657
+INFO  2021-11-29 15:11:22,723 [main] o.a.c.i.e.AbstractCamelContext:2778 StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html
+INFO  2021-11-29 15:11:22,740 [main] o.a.c.c.f.FileEndpoint:123 Endpoint is configured with noop=true so forcing endpoint to be idempotent as well
+INFO  2021-11-29 15:11:22,848 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-complex-obs-sync started and consuming from: file://
+INFO  2021-11-29 15:11:22,855 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: out-bound-db-sync started and consuming from: direct://out-bound-db-sync
+INFO  2021-11-29 15:11:22,855 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: dlc-route started and consuming from: direct://dlc
+INFO  2021-11-29 15:11:22,855 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-processor started and consuming from: direct://debezium-event-processor
+INFO  2021-11-29 15:11:22,857 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-reader started and consuming from: scheduler://debezium-reader
+INFO  2021-11-29 15:11:22,857 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-error-handler started and consuming from: direct://outbound-error-handler
+INFO  2021-11-29 15:11:22,858 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: db-event-processor started and consuming from: direct://db-event-processor
+INFO  2021-11-29 15:11:22,860 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: sender-retry started and consuming from: scheduler://retry
+INFO  2021-11-29 15:11:22,861 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: shutdown-route started and consuming from: direct://shutdown-route
+INFO  2021-11-29 15:11:22,868 [main] o.a.c.i.e.AbstractCamelContext:2687 Total 9 routes, of which 9 are started
+INFO  2021-11-29 15:11:22,868 [main] o.a.c.i.e.AbstractCamelContext:2692 Apache Camel 3.3.0 (CamelContext: camel-1) started in 0.151 seconds
+INFO  2021-11-29 15:11:22,875 [main] o.a.c.h.Http11NioProtocol:173 Starting ProtocolHandler ["http-nio-9088"]
+INFO  2021-11-29 15:11:22,989 [main] o.s.b.w.e.t.TomcatWebServer:204 Tomcat started on port(s): 9088 (http) with context path ''
+INFO  2021-11-29 15:11:22,994 [main] o.o.e.a.SyncApplication:59 Started SyncApplication in 32.821128874 seconds (JVM running for 34.367)
+INFO  2021-11-29 15:11:23,933 [Camel (camel-1) thread #3 - scheduler://retry] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory

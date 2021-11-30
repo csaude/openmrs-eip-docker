@@ -1,2 +1,2 @@
 # openmrs-eip-docker
-A Docker based eip configuration
+Docker based configuration for EIP application
