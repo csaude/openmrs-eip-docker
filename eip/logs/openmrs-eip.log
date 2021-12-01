@@ -1,126 +1,654 @@
-INFO  2021-11-29 14:53:28,942 [main] o.o.e.a.SyncApplication:50 Starting SyncApplication on customer with PID 11 (/home/eip/openmrs-eip-app-sender.jar started by root in /home/eip)
-INFO  2021-11-29 14:53:28,966 [main] o.o.e.a.SyncApplication:679 The following profiles are active: sender
-INFO  2021-11-29 14:53:32,126 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
-INFO  2021-11-29 14:53:32,211 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 18ms. Found 0 repository interfaces.
-INFO  2021-11-29 14:53:32,215 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
-INFO  2021-11-29 14:53:33,273 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 1057ms. Found 71 repository interfaces.
-INFO  2021-11-29 14:53:35,631 [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335 Bean 'org.apache.camel.spring.boot.CamelAutoConfiguration' of type [org.apache.camel.spring.boot.CamelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-INFO  2021-11-29 14:53:38,125 [main] o.s.b.w.e.t.TomcatWebServer:90 Tomcat initialized with port(s): 9088 (http)
-INFO  2021-11-29 14:53:38,212 [main] o.a.c.h.Http11NioProtocol:173 Initializing ProtocolHandler ["http-nio-9088"]
-INFO  2021-11-29 14:53:38,252 [main] o.a.c.c.StandardService:173 Starting service [Tomcat]
-INFO  2021-11-29 14:53:38,253 [main] o.a.c.c.StandardEngine:173 Starting Servlet engine: [Apache Tomcat/9.0.17]
-INFO  2021-11-29 14:53:39,398 [main] o.a.j.s.TldScanner:173 At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-INFO  2021-11-29 14:53:39,713 [main] o.a.c.c.C.[.[.[/]:173 Initializing Spring embedded WebApplicationContext
-INFO  2021-11-29 14:53:39,715 [main] o.s.w.c.ContextLoader:296 Root WebApplicationContext: initialization completed in 10566 ms
-INFO  2021-11-29 14:53:40,616 [main] o.a.c.s.LRUCacheFactory:90 Detected and using LRUCacheFactory: camel-caffeine-lrucache
-INFO  2021-11-29 14:53:43,537 [main] c.z.h.HikariDataSource:110 HikariPool-1 - Starting...
-WARN  2021-11-29 14:53:43,544 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-INFO  2021-11-29 14:53:44,199 [main] c.z.h.HikariDataSource:123 HikariPool-1 - Start completed.
-INFO  2021-11-29 14:53:45,579 [main] l.lockservice:23 Successfully acquired change log lock
-INFO  2021-11-29 14:53:46,880 [main] l.changelog:23 Reading from openmrs_eip_sender_mgt_05_gurue_lioma.LIQUIBASECHANGELOG
-INFO  2021-11-29 14:53:47,168 [main] l.lockservice:23 Successfully released change log lock
-INFO  2021-11-29 14:53:48,033 [main] c.z.h.HikariDataSource:110 HikariPool-2 - Starting...
-WARN  2021-11-29 14:53:48,034 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-INFO  2021-11-29 14:53:48,048 [main] c.z.h.HikariDataSource:123 HikariPool-2 - Start completed.
-INFO  2021-11-29 14:53:48,309 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+INFO  2021-12-01 07:58:32,530 [main] o.o.e.a.SyncApplication:50 Starting SyncApplication on customer with PID 7 (/home/eip/openmrs-eip-app-sender.jar started by root in /home/eip)
+INFO  2021-12-01 07:58:32,591 [main] o.o.e.a.SyncApplication:679 The following profiles are active: sender
+INFO  2021-12-01 07:58:35,413 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-12-01 07:58:35,491 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 47ms. Found 0 repository interfaces.
+INFO  2021-12-01 07:58:35,493 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-12-01 07:58:36,364 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 870ms. Found 71 repository interfaces.
+INFO  2021-12-01 07:58:38,911 [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335 Bean 'org.apache.camel.spring.boot.CamelAutoConfiguration' of type [org.apache.camel.spring.boot.CamelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+INFO  2021-12-01 07:58:40,924 [main] o.s.b.w.e.t.TomcatWebServer:90 Tomcat initialized with port(s): 9088 (http)
+INFO  2021-12-01 07:58:40,991 [main] o.a.c.h.Http11NioProtocol:173 Initializing ProtocolHandler ["http-nio-9088"]
+INFO  2021-12-01 07:58:41,024 [main] o.a.c.c.StandardService:173 Starting service [Tomcat]
+INFO  2021-12-01 07:58:41,025 [main] o.a.c.c.StandardEngine:173 Starting Servlet engine: [Apache Tomcat/9.0.17]
+INFO  2021-12-01 07:58:42,152 [main] o.a.j.s.TldScanner:173 At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+INFO  2021-12-01 07:58:42,479 [main] o.a.c.c.C.[.[.[/]:173 Initializing Spring embedded WebApplicationContext
+INFO  2021-12-01 07:58:42,480 [main] o.s.w.c.ContextLoader:296 Root WebApplicationContext: initialization completed in 9671 ms
+INFO  2021-12-01 07:58:43,168 [main] o.a.c.s.LRUCacheFactory:90 Detected and using LRUCacheFactory: camel-caffeine-lrucache
+INFO  2021-12-01 07:58:44,780 [main] c.z.h.HikariDataSource:110 HikariPool-1 - Starting...
+WARN  2021-12-01 07:58:44,787 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-12-01 07:58:45,226 [main] c.z.h.HikariDataSource:123 HikariPool-1 - Start completed.
+INFO  2021-12-01 07:58:46,494 [main] l.lockservice:23 Successfully acquired change log lock
+INFO  2021-12-01 07:58:47,789 [main] l.changelog:23 Reading from openmrs_eip_sender_mgt_05_gurue_lioma.LIQUIBASECHANGELOG
+INFO  2021-12-01 07:58:48,035 [main] l.lockservice:23 Successfully released change log lock
+INFO  2021-12-01 07:58:48,923 [main] c.z.h.HikariDataSource:110 HikariPool-2 - Starting...
+WARN  2021-12-01 07:58:48,923 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-12-01 07:58:48,942 [main] c.z.h.HikariDataSource:123 HikariPool-2 - Start completed.
+INFO  2021-12-01 07:58:49,129 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
 	name: mngt
 	...]
-INFO  2021-11-29 14:53:48,692 [main] o.h.Version:46 HHH000412: Hibernate Core {5.3.9.Final}
-INFO  2021-11-29 14:53:48,698 [main] o.h.c.Environment:213 HHH000206: hibernate.properties not found
-INFO  2021-11-29 14:53:49,530 [main] o.h.a.c.Version:49 HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
-INFO  2021-11-29 14:53:51,004 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
-INFO  2021-11-29 14:53:53,049 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'mngt'
-INFO  2021-11-29 14:53:53,172 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+INFO  2021-12-01 07:58:49,410 [main] o.h.Version:46 HHH000412: Hibernate Core {5.3.9.Final}
+INFO  2021-12-01 07:58:49,415 [main] o.h.c.Environment:213 HHH000206: hibernate.properties not found
+INFO  2021-12-01 07:58:50,056 [main] o.h.a.c.Version:49 HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+INFO  2021-12-01 07:58:51,453 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-12-01 07:58:53,450 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'mngt'
+INFO  2021-12-01 07:58:53,516 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
 	name: openmrs
 	...]
-INFO  2021-11-29 14:53:53,658 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
-INFO  2021-11-29 14:53:57,057 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'openmrs'
-INFO  2021-11-29 14:53:58,564 [main] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
-INFO  2021-11-29 14:54:03,209 [main] o.s.s.w.DefaultSecurityFilterChain:51 Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@72d7afff, org.springframework.security.web.context.SecurityContextPersistenceFilter@2b76ecd5, org.springframework.security.web.header.HeaderWriterFilter@1640a6b5, org.springframework.security.web.csrf.CsrfFilter@10f192d8, org.springframework.security.web.authentication.logout.LogoutFilter@63ccb1b2, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@17c72ffa, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5b9df3b3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3e0a112f, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c41f6a0, org.springframework.security.web.session.SessionManagementFilter@47fce2c4, org.springframework.security.web.access.ExceptionTranslationFilter@1ee52741, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@5a8835c6]
-INFO  2021-11-29 14:54:04,048 [main] o.s.s.c.ThreadPoolTaskExecutor:181 Initializing ExecutorService 'applicationTaskExecutor'
-WARN  2021-11-29 14:54:04,280 [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration:237 spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-INFO  2021-11-29 14:54:05,336 [main] o.a.c.s.b.SpringBootRoutesCollector:120 Loading additional Camel XML routes from: file:routes/*.xml
-INFO  2021-11-29 14:54:08,020 [main] o.a.c.s.b.SpringBootRoutesCollector:146 Loading additional Camel XML rests from: classpath:camel-rest/*.xml
-INFO  2021-11-29 14:54:10,557 [main] o.a.c.i.e.AbstractCamelContext:2635 Apache Camel 3.3.0 (CamelContext: camel-1) is starting
-INFO  2021-11-29 14:54:10,559 [main] o.a.c.c.j.JpaComponent:153 Using EntityManagerFactory configured: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@263558c9
-INFO  2021-11-29 14:54:10,562 [main] o.a.c.c.j.JpaComponent:178 Using TransactionManager found in registry with id [transactionTemplate] org.springframework.orm.jpa.JpaTransactionManager@2ce3d95a
-INFO  2021-11-29 14:54:10,563 [main] o.a.c.i.e.AbstractCamelContext:2778 StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html
-INFO  2021-11-29 14:54:10,585 [main] o.a.c.c.f.FileEndpoint:123 Endpoint is configured with noop=true so forcing endpoint to be idempotent as well
-INFO  2021-11-29 14:54:10,740 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-complex-obs-sync started and consuming from: file://
-INFO  2021-11-29 14:54:10,743 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: out-bound-db-sync started and consuming from: direct://out-bound-db-sync
-INFO  2021-11-29 14:54:10,743 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: dlc-route started and consuming from: direct://dlc
-INFO  2021-11-29 14:54:10,744 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-processor started and consuming from: direct://debezium-event-processor
-INFO  2021-11-29 14:54:10,745 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-reader started and consuming from: scheduler://debezium-reader
-INFO  2021-11-29 14:54:10,746 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-error-handler started and consuming from: direct://outbound-error-handler
-INFO  2021-11-29 14:54:10,746 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: db-event-processor started and consuming from: direct://db-event-processor
-INFO  2021-11-29 14:54:10,747 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: sender-retry started and consuming from: scheduler://retry
-INFO  2021-11-29 14:54:10,748 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: shutdown-route started and consuming from: direct://shutdown-route
-INFO  2021-11-29 14:54:10,755 [main] o.a.c.i.e.AbstractCamelContext:2687 Total 9 routes, of which 9 are started
-INFO  2021-11-29 14:54:10,757 [main] o.a.c.i.e.AbstractCamelContext:2692 Apache Camel 3.3.0 (CamelContext: camel-1) started in 0.199 seconds
-INFO  2021-11-29 14:54:10,765 [main] o.a.c.h.Http11NioProtocol:173 Starting ProtocolHandler ["http-nio-9088"]
-INFO  2021-11-29 14:54:10,890 [main] o.s.b.w.e.t.TomcatWebServer:204 Tomcat started on port(s): 9088 (http) with context path ''
-INFO  2021-11-29 14:54:10,895 [main] o.o.e.a.SyncApplication:59 Started SyncApplication in 45.354211918 seconds (JVM running for 48.559)
-INFO  2021-11-29 14:54:11,811 [Camel (camel-1) thread #3 - scheduler://retry] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
-INFO  2021-11-29 15:10:52,117 [main] o.o.e.a.SyncApplication:50 Starting SyncApplication on customer with PID 16 (/home/eip/openmrs-eip-app-sender.jar started by root in /home/eip)
-INFO  2021-11-29 15:10:52,134 [main] o.o.e.a.SyncApplication:679 The following profiles are active: sender
-INFO  2021-11-29 15:10:54,355 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
-INFO  2021-11-29 15:10:54,382 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 9ms. Found 0 repository interfaces.
-INFO  2021-11-29 15:10:54,383 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
-INFO  2021-11-29 15:10:55,123 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 738ms. Found 71 repository interfaces.
-INFO  2021-11-29 15:10:57,008 [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335 Bean 'org.apache.camel.spring.boot.CamelAutoConfiguration' of type [org.apache.camel.spring.boot.CamelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-INFO  2021-11-29 15:10:58,673 [main] o.s.b.w.e.t.TomcatWebServer:90 Tomcat initialized with port(s): 9088 (http)
-INFO  2021-11-29 15:10:58,751 [main] o.a.c.h.Http11NioProtocol:173 Initializing ProtocolHandler ["http-nio-9088"]
-INFO  2021-11-29 15:10:58,782 [main] o.a.c.c.StandardService:173 Starting service [Tomcat]
-INFO  2021-11-29 15:10:58,783 [main] o.a.c.c.StandardEngine:173 Starting Servlet engine: [Apache Tomcat/9.0.17]
-INFO  2021-11-29 15:10:59,621 [main] o.a.j.s.TldScanner:173 At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-INFO  2021-11-29 15:10:59,939 [main] o.a.c.c.C.[.[.[/]:173 Initializing Spring embedded WebApplicationContext
-INFO  2021-11-29 15:10:59,940 [main] o.s.w.c.ContextLoader:296 Root WebApplicationContext: initialization completed in 7676 ms
-INFO  2021-11-29 15:11:00,323 [main] o.a.c.s.LRUCacheFactory:90 Detected and using LRUCacheFactory: camel-caffeine-lrucache
-INFO  2021-11-29 15:11:01,968 [main] c.z.h.HikariDataSource:110 HikariPool-1 - Starting...
-WARN  2021-11-29 15:11:01,975 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-INFO  2021-11-29 15:11:02,311 [main] c.z.h.HikariDataSource:123 HikariPool-1 - Start completed.
-INFO  2021-11-29 15:11:03,183 [main] l.lockservice:23 Successfully acquired change log lock
-INFO  2021-11-29 15:11:04,357 [main] l.changelog:23 Reading from openmrs_eip_sender_mgt_05_gurue_lioma.LIQUIBASECHANGELOG
-INFO  2021-11-29 15:11:04,551 [main] l.lockservice:23 Successfully released change log lock
-INFO  2021-11-29 15:11:05,146 [main] c.z.h.HikariDataSource:110 HikariPool-2 - Starting...
-WARN  2021-11-29 15:11:05,147 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
-INFO  2021-11-29 15:11:05,177 [main] c.z.h.HikariDataSource:123 HikariPool-2 - Start completed.
-INFO  2021-11-29 15:11:05,288 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+INFO  2021-12-01 07:58:53,865 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-12-01 07:58:57,229 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'openmrs'
+INFO  2021-12-01 07:58:58,395 [main] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+INFO  2021-12-01 07:59:02,474 [main] o.s.s.w.DefaultSecurityFilterChain:51 Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5d08a65c, org.springframework.security.web.context.SecurityContextPersistenceFilter@1b984ba5, org.springframework.security.web.header.HeaderWriterFilter@242ebd3b, org.springframework.security.web.csrf.CsrfFilter@598f1faf, org.springframework.security.web.authentication.logout.LogoutFilter@6a9ac8b, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4678ec43, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@41433530, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@28dd8786, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c13534a, org.springframework.security.web.session.SessionManagementFilter@6e96f3cd, org.springframework.security.web.access.ExceptionTranslationFilter@659ac28c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1d686622]
+INFO  2021-12-01 07:59:03,553 [main] o.s.s.c.ThreadPoolTaskExecutor:181 Initializing ExecutorService 'applicationTaskExecutor'
+WARN  2021-12-01 07:59:03,758 [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration:237 spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+INFO  2021-12-01 07:59:04,813 [main] o.a.c.s.b.SpringBootRoutesCollector:120 Loading additional Camel XML routes from: file:routes/*.xml
+INFO  2021-12-01 07:59:06,633 [main] o.a.c.s.b.SpringBootRoutesCollector:146 Loading additional Camel XML rests from: classpath:camel-rest/*.xml
+INFO  2021-12-01 07:59:08,450 [main] o.a.c.i.e.AbstractCamelContext:2635 Apache Camel 3.3.0 (CamelContext: camel-1) is starting
+INFO  2021-12-01 07:59:08,453 [main] o.a.c.c.j.JpaComponent:153 Using EntityManagerFactory configured: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@6e4ea0bd
+INFO  2021-12-01 07:59:08,456 [main] o.a.c.c.j.JpaComponent:178 Using TransactionManager found in registry with id [transactionTemplate] org.springframework.orm.jpa.JpaTransactionManager@53c9541c
+INFO  2021-12-01 07:59:08,457 [main] o.a.c.i.e.AbstractCamelContext:2778 StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html
+INFO  2021-12-01 07:59:08,476 [main] o.a.c.c.f.FileEndpoint:123 Endpoint is configured with noop=true so forcing endpoint to be idempotent as well
+INFO  2021-12-01 07:59:08,597 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-complex-obs-sync started and consuming from: file://
+INFO  2021-12-01 07:59:08,599 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: out-bound-db-sync started and consuming from: direct://out-bound-db-sync
+INFO  2021-12-01 07:59:08,599 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: dlc-route started and consuming from: direct://dlc
+INFO  2021-12-01 07:59:08,600 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-processor started and consuming from: direct://debezium-event-processor
+INFO  2021-12-01 07:59:08,601 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-reader started and consuming from: scheduler://debezium-reader
+INFO  2021-12-01 07:59:08,601 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-error-handler started and consuming from: direct://outbound-error-handler
+INFO  2021-12-01 07:59:08,602 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: db-event-processor started and consuming from: direct://db-event-processor
+INFO  2021-12-01 07:59:08,603 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: sender-retry started and consuming from: scheduler://retry
+INFO  2021-12-01 07:59:08,603 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: shutdown-route started and consuming from: direct://shutdown-route
+INFO  2021-12-01 07:59:08,609 [main] o.a.c.i.e.AbstractCamelContext:2687 Total 9 routes, of which 9 are started
+INFO  2021-12-01 07:59:08,610 [main] o.a.c.i.e.AbstractCamelContext:2692 Apache Camel 3.3.0 (CamelContext: camel-1) started in 0.159 seconds
+INFO  2021-12-01 07:59:08,620 [main] o.a.c.h.Http11NioProtocol:173 Starting ProtocolHandler ["http-nio-9088"]
+INFO  2021-12-01 07:59:08,712 [main] o.s.b.w.e.t.TomcatWebServer:204 Tomcat started on port(s): 9088 (http) with context path ''
+INFO  2021-12-01 07:59:08,718 [main] o.o.e.a.SyncApplication:59 Started SyncApplication in 38.286641716 seconds (JVM running for 41.222)
+INFO  2021-12-01 07:59:10,232 [Camel (camel-1) thread #3 - scheduler://retry] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+INFO  2021-12-01 08:12:38,613 [main] o.o.e.a.SyncApplication:50 Starting SyncApplication on customer with PID 7 (/home/eip/openmrs-eip-app-sender.jar started by root in /home/eip)
+INFO  2021-12-01 08:12:38,655 [main] o.o.e.a.SyncApplication:679 The following profiles are active: sender
+INFO  2021-12-01 08:12:41,013 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-12-01 08:12:41,054 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 18ms. Found 0 repository interfaces.
+INFO  2021-12-01 08:12:41,056 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-12-01 08:12:41,685 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 629ms. Found 71 repository interfaces.
+INFO  2021-12-01 08:12:43,918 [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335 Bean 'org.apache.camel.spring.boot.CamelAutoConfiguration' of type [org.apache.camel.spring.boot.CamelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+INFO  2021-12-01 08:12:45,932 [main] o.s.b.w.e.t.TomcatWebServer:90 Tomcat initialized with port(s): 9088 (http)
+INFO  2021-12-01 08:12:46,003 [main] o.a.c.h.Http11NioProtocol:173 Initializing ProtocolHandler ["http-nio-9088"]
+INFO  2021-12-01 08:12:46,049 [main] o.a.c.c.StandardService:173 Starting service [Tomcat]
+INFO  2021-12-01 08:12:46,050 [main] o.a.c.c.StandardEngine:173 Starting Servlet engine: [Apache Tomcat/9.0.17]
+INFO  2021-12-01 08:12:46,886 [main] o.a.j.s.TldScanner:173 At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+INFO  2021-12-01 08:12:47,240 [main] o.a.c.c.C.[.[.[/]:173 Initializing Spring embedded WebApplicationContext
+INFO  2021-12-01 08:12:47,247 [main] o.s.w.c.ContextLoader:296 Root WebApplicationContext: initialization completed in 8395 ms
+INFO  2021-12-01 08:12:48,140 [main] o.a.c.s.LRUCacheFactory:90 Detected and using LRUCacheFactory: camel-caffeine-lrucache
+INFO  2021-12-01 08:12:49,615 [main] c.z.h.HikariDataSource:110 HikariPool-1 - Starting...
+WARN  2021-12-01 08:12:49,621 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-12-01 08:12:49,943 [main] c.z.h.HikariDataSource:123 HikariPool-1 - Start completed.
+INFO  2021-12-01 08:12:50,979 [main] l.lockservice:23 Successfully acquired change log lock
+INFO  2021-12-01 08:12:52,156 [main] l.changelog:23 Reading from openmrs_eip_sender_mgt_05_gurue_lioma.LIQUIBASECHANGELOG
+INFO  2021-12-01 08:12:52,345 [main] l.lockservice:23 Successfully released change log lock
+INFO  2021-12-01 08:12:53,211 [main] c.z.h.HikariDataSource:110 HikariPool-2 - Starting...
+WARN  2021-12-01 08:12:53,212 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-12-01 08:12:53,219 [main] c.z.h.HikariDataSource:123 HikariPool-2 - Start completed.
+INFO  2021-12-01 08:12:53,318 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
 	name: mngt
 	...]
-INFO  2021-11-29 15:11:05,404 [main] o.h.Version:46 HHH000412: Hibernate Core {5.3.9.Final}
-INFO  2021-11-29 15:11:05,409 [main] o.h.c.Environment:213 HHH000206: hibernate.properties not found
-INFO  2021-11-29 15:11:05,838 [main] o.h.a.c.Version:49 HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
-INFO  2021-11-29 15:11:06,310 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
-INFO  2021-11-29 15:11:07,962 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'mngt'
-INFO  2021-11-29 15:11:08,025 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+INFO  2021-12-01 08:12:53,434 [main] o.h.Version:46 HHH000412: Hibernate Core {5.3.9.Final}
+INFO  2021-12-01 08:12:53,437 [main] o.h.c.Environment:213 HHH000206: hibernate.properties not found
+INFO  2021-12-01 08:12:53,880 [main] o.h.a.c.Version:49 HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+INFO  2021-12-01 08:12:54,315 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-12-01 08:12:55,912 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'mngt'
+INFO  2021-12-01 08:12:55,966 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
 	name: openmrs
 	...]
-INFO  2021-11-29 15:11:08,341 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
-INFO  2021-11-29 15:11:11,485 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'openmrs'
-INFO  2021-11-29 15:11:12,478 [main] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
-INFO  2021-11-29 15:11:16,899 [main] o.s.s.w.DefaultSecurityFilterChain:51 Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5b9df3b3, org.springframework.security.web.context.SecurityContextPersistenceFilter@270ab7bc, org.springframework.security.web.header.HeaderWriterFilter@4cd9ee2c, org.springframework.security.web.csrf.CsrfFilter@15a41088, org.springframework.security.web.authentication.logout.LogoutFilter@2de82bf8, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3810806c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@359a2c96, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@23ee70a7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@67b20b4c, org.springframework.security.web.session.SessionManagementFilter@3b663112, org.springframework.security.web.access.ExceptionTranslationFilter@43edd2ea, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@2f5a092e]
-INFO  2021-11-29 15:11:17,720 [main] o.s.s.c.ThreadPoolTaskExecutor:181 Initializing ExecutorService 'applicationTaskExecutor'
-WARN  2021-11-29 15:11:17,936 [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration:237 spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-INFO  2021-11-29 15:11:18,788 [main] o.a.c.s.b.SpringBootRoutesCollector:120 Loading additional Camel XML routes from: file:routes/*.xml
-INFO  2021-11-29 15:11:20,866 [main] o.a.c.s.b.SpringBootRoutesCollector:146 Loading additional Camel XML rests from: classpath:camel-rest/*.xml
-INFO  2021-11-29 15:11:22,717 [main] o.a.c.i.e.AbstractCamelContext:2635 Apache Camel 3.3.0 (CamelContext: camel-1) is starting
-INFO  2021-11-29 15:11:22,719 [main] o.a.c.c.j.JpaComponent:153 Using EntityManagerFactory configured: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@68105edc
-INFO  2021-11-29 15:11:22,722 [main] o.a.c.c.j.JpaComponent:178 Using TransactionManager found in registry with id [transactionTemplate] org.springframework.orm.jpa.JpaTransactionManager@3d605657
-INFO  2021-11-29 15:11:22,723 [main] o.a.c.i.e.AbstractCamelContext:2778 StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html
-INFO  2021-11-29 15:11:22,740 [main] o.a.c.c.f.FileEndpoint:123 Endpoint is configured with noop=true so forcing endpoint to be idempotent as well
-INFO  2021-11-29 15:11:22,848 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-complex-obs-sync started and consuming from: file://
-INFO  2021-11-29 15:11:22,855 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: out-bound-db-sync started and consuming from: direct://out-bound-db-sync
-INFO  2021-11-29 15:11:22,855 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: dlc-route started and consuming from: direct://dlc
-INFO  2021-11-29 15:11:22,855 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-processor started and consuming from: direct://debezium-event-processor
-INFO  2021-11-29 15:11:22,857 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-reader started and consuming from: scheduler://debezium-reader
-INFO  2021-11-29 15:11:22,857 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-error-handler started and consuming from: direct://outbound-error-handler
-INFO  2021-11-29 15:11:22,858 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: db-event-processor started and consuming from: direct://db-event-processor
-INFO  2021-11-29 15:11:22,860 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: sender-retry started and consuming from: scheduler://retry
-INFO  2021-11-29 15:11:22,861 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: shutdown-route started and consuming from: direct://shutdown-route
-INFO  2021-11-29 15:11:22,868 [main] o.a.c.i.e.AbstractCamelContext:2687 Total 9 routes, of which 9 are started
-INFO  2021-11-29 15:11:22,868 [main] o.a.c.i.e.AbstractCamelContext:2692 Apache Camel 3.3.0 (CamelContext: camel-1) started in 0.151 seconds
-INFO  2021-11-29 15:11:22,875 [main] o.a.c.h.Http11NioProtocol:173 Starting ProtocolHandler ["http-nio-9088"]
-INFO  2021-11-29 15:11:22,989 [main] o.s.b.w.e.t.TomcatWebServer:204 Tomcat started on port(s): 9088 (http) with context path ''
-INFO  2021-11-29 15:11:22,994 [main] o.o.e.a.SyncApplication:59 Started SyncApplication in 32.821128874 seconds (JVM running for 34.367)
-INFO  2021-11-29 15:11:23,933 [Camel (camel-1) thread #3 - scheduler://retry] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+INFO  2021-12-01 08:12:56,232 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+INFO  2021-12-01 08:12:59,479 [main] o.s.o.j.LocalContainerEntityManagerFactoryBean:416 Initialized JPA EntityManagerFactory for persistence unit 'openmrs'
+INFO  2021-12-01 08:13:01,359 [main] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+INFO  2021-12-01 08:13:07,021 [main] o.s.s.w.DefaultSecurityFilterChain:51 Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@17d45cfb, org.springframework.security.web.context.SecurityContextPersistenceFilter@70efdd18, org.springframework.security.web.header.HeaderWriterFilter@41433530, org.springframework.security.web.csrf.CsrfFilter@7a2ffb0b, org.springframework.security.web.authentication.logout.LogoutFilter@f1e1d66, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@782e0844, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4c05f83b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7683ea43, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1fb00a6d, org.springframework.security.web.session.SessionManagementFilter@2569afda, org.springframework.security.web.access.ExceptionTranslationFilter@1b984ba5, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3b11deb6]
+INFO  2021-12-01 08:13:08,224 [main] o.s.s.c.ThreadPoolTaskExecutor:181 Initializing ExecutorService 'applicationTaskExecutor'
+WARN  2021-12-01 08:13:08,406 [main] o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration$JpaWebMvcConfiguration:237 spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+INFO  2021-12-01 08:13:09,351 [main] o.a.c.s.b.SpringBootRoutesCollector:120 Loading additional Camel XML routes from: file:routes/*.xml
+INFO  2021-12-01 08:13:11,512 [main] o.a.c.s.b.SpringBootRoutesCollector:146 Loading additional Camel XML rests from: classpath:camel-rest/*.xml
+INFO  2021-12-01 08:13:13,836 [main] o.a.c.i.e.AbstractCamelContext:2635 Apache Camel 3.3.0 (CamelContext: camel-1) is starting
+INFO  2021-12-01 08:13:13,839 [main] o.a.c.c.j.JpaComponent:153 Using EntityManagerFactory configured: org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@7dc51783
+INFO  2021-12-01 08:13:13,841 [main] o.a.c.c.j.JpaComponent:178 Using TransactionManager found in registry with id [transactionTemplate] org.springframework.orm.jpa.JpaTransactionManager@585672dd
+INFO  2021-12-01 08:13:13,841 [main] o.a.c.i.e.AbstractCamelContext:2778 StreamCaching is not in use. If using streams then its recommended to enable stream caching. See more details at http://camel.apache.org/stream-caching.html
+INFO  2021-12-01 08:13:13,863 [main] o.a.c.c.f.FileEndpoint:123 Endpoint is configured with noop=true so forcing endpoint to be idempotent as well
+INFO  2021-12-01 08:13:13,983 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-complex-obs-sync started and consuming from: file://
+INFO  2021-12-01 08:13:13,985 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: out-bound-db-sync started and consuming from: direct://out-bound-db-sync
+INFO  2021-12-01 08:13:13,985 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: dlc-route started and consuming from: direct://dlc
+INFO  2021-12-01 08:13:13,985 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-processor started and consuming from: direct://debezium-event-processor
+INFO  2021-12-01 08:13:13,986 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: debezium-event-reader started and consuming from: scheduler://debezium-reader
+INFO  2021-12-01 08:13:13,987 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: outbound-error-handler started and consuming from: direct://outbound-error-handler
+INFO  2021-12-01 08:13:13,987 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: db-event-processor started and consuming from: direct://db-event-processor
+INFO  2021-12-01 08:13:13,988 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: sender-retry started and consuming from: scheduler://retry
+INFO  2021-12-01 08:13:13,988 [main] o.a.c.i.e.AbstractCamelContext:3423 Route: shutdown-route started and consuming from: direct://shutdown-route
+INFO  2021-12-01 08:13:13,993 [main] o.a.c.i.e.AbstractCamelContext:2687 Total 9 routes, of which 9 are started
+INFO  2021-12-01 08:13:13,994 [main] o.a.c.i.e.AbstractCamelContext:2692 Apache Camel 3.3.0 (CamelContext: camel-1) started in 0.157 seconds
+INFO  2021-12-01 08:13:13,999 [main] o.a.c.h.Http11NioProtocol:173 Starting ProtocolHandler ["http-nio-9088"]
+INFO  2021-12-01 08:13:14,134 [main] o.s.b.w.e.t.TomcatWebServer:204 Tomcat started on port(s): 9088 (http) with context path ''
+INFO  2021-12-01 08:13:14,140 [main] o.o.e.a.SyncApplication:59 Started SyncApplication in 37.465503823 seconds (JVM running for 39.168)
+INFO  2021-12-01 08:13:15,085 [Camel (camel-1) thread #3 - scheduler://retry] o.h.h.i.QueryTranslatorFactoryInitiator:47 HHH000397: Using ASTQueryTranslatorFactory
+WARN  2021-12-01 08:24:40,456 [Camel (camel-1) thread #3 - scheduler://retry] c.z.h.p.PoolBase:176 HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@7fe93440 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+WARN  2021-12-01 08:24:40,456 [Camel (camel-1) thread #2 - scheduler://debezium-reader] c.z.h.p.PoolBase:176 HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@55b118ec (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
+WARN  2021-12-01 08:24:40,472 [Camel (camel-1) thread #3 - scheduler://retry] o.h.e.j.s.SqlExceptionHelper:137 SQL Error: 0, SQLState: 08003
+WARN  2021-12-01 08:24:40,472 [Camel (camel-1) thread #2 - scheduler://debezium-reader] o.h.e.j.s.SqlExceptionHelper:137 SQL Error: 0, SQLState: 08003
+ERROR 2021-12-01 08:24:40,472 [Camel (camel-1) thread #2 - scheduler://debezium-reader] o.h.e.j.s.SqlExceptionHelper:142 HikariPool-1 - Connection is not available, request timed out after 50791ms.
+ERROR 2021-12-01 08:24:40,472 [Camel (camel-1) thread #3 - scheduler://retry] o.h.e.j.s.SqlExceptionHelper:142 HikariPool-1 - Connection is not available, request timed out after 50791ms.
+ERROR 2021-12-01 08:24:40,473 [Camel (camel-1) thread #2 - scheduler://debezium-reader] o.h.e.j.s.SqlExceptionHelper:142 No operations allowed after connection closed.
+ERROR 2021-12-01 08:24:40,473 [Camel (camel-1) thread #3 - scheduler://retry] o.h.e.j.s.SqlExceptionHelper:142 No operations allowed after connection closed.
+ERROR 2021-12-01 08:25:12,346 [Camel (camel-1) thread #2 - scheduler://debezium-reader] dlc-route:155 Error with message: 
+ERROR 2021-12-01 08:25:13,595 [Camel (camel-1) thread #2 - scheduler://debezium-reader] dlc-route:155 Cause: Unable to acquire JDBC Connection
+WARN  2021-12-01 08:25:14,246 [Camel (camel-1) thread #3 - scheduler://retry] outbound-error-handler:164 Error: Unable to acquire JDBC Connection
+WARN  2021-12-01 08:25:15,693 [Camel (camel-1) thread #3 - scheduler://retry] outbound-error-handler:164 Cause: No operations allowed after connection closed.
+INFO  2021-12-01 08:25:15,713 [Camel (camel-1) thread #3 - scheduler://retry] outbound-error-handler:158 Adding new item to retry queue
+INFO  2021-12-01 08:25:16,319 [Camel (camel-1) thread #3 - scheduler://retry] outbound-error-handler:158 Adding failed DB event for each registered route
+WARN  2021-12-01 08:25:19,926 [Camel (camel-1) thread #3 - scheduler://retry] o.h.e.j.s.SqlExceptionHelper:137 SQL Error: 1048, SQLState: 23000
+ERROR 2021-12-01 08:25:19,927 [Camel (camel-1) thread #3 - scheduler://retry] o.h.e.j.s.SqlExceptionHelper:142 Column 'operation' cannot be null
+ERROR 2021-12-01 08:25:20,014 [Camel (camel-1) thread #3 - scheduler://retry] o.a.c.p.e.DefaultErrorHandler:203 Failed delivery for (MessageId: ID-customer-1638346393875-0-745 on ExchangeId: ID-customer-1638346393875-0-745). Exhausted after delivery attempt: 1 caught: javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: could not execute statement
+
+Message History (complete message history is disabled)
+---------------------------------------------------------------------------------------------------------------------------------------
+RouteId              ProcessorId          Processor                                                                        Elapsed (ms)
+[sender-retry      ] [sender-retry      ] [from[scheduler://retry?delay=1000&initialDelay=1000]                          ] [    156886]
+	...
+[outbound-error-han] [to5               ] [jpa:SenderRetryQueueItem?usePersist=true                                      ] [         0]
+
+Stacktrace
+---------------------------------------------------------------------------------------------------------------------------------------
+javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:154)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:181)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:188)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:806)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:784)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:366)
+	at com.sun.proxy.$Proxy133.persist(Unknown Source)
+	at org.apache.camel.component.jpa.JpaProducer$3.save(JpaProducer.java:324)
+	at org.apache.camel.component.jpa.JpaProducer$3.doInTransaction(JpaProducer.java:300)
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+	at org.apache.camel.component.jpa.JpaProducer.processEntity(JpaProducer.java:254)
+	at org.apache.camel.component.jpa.JpaProducer.process(JpaProducer.java:173)
+	at org.apache.camel.support.AsyncProcessorConverterHelper$ProcessorToAsyncProcessorBridge.process(AsyncProcessorConverterHelper.java:67)
+	at org.apache.camel.processor.SendProcessor.process(SendProcessor.java:168)
+	at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$SimpleTask.run(RedeliveryErrorHandler.java:395)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.schedule(DefaultReactiveExecutor.java:148)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor.scheduleMain(DefaultReactiveExecutor.java:60)
+	at org.apache.camel.processor.Pipeline.process(Pipeline.java:147)
+	at org.apache.camel.processor.CamelInternalProcessor.process(CamelInternalProcessor.java:286)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.sendTimerExchange(SchedulerConsumer.java:58)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.poll(SchedulerConsumer.java:43)
+	at org.apache.camel.support.ScheduledPollConsumer.doRun(ScheduledPollConsumer.java:187)
+	at org.apache.camel.support.ScheduledPollConsumer.run(ScheduledPollConsumer.java:106)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+	Suppressed: org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection
+		at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:48)
+		at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+		at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+		at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:109)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getPhysicalConnection(LogicalConnectionManagedImpl.java:136)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getConnectionForTransactionManagement(LogicalConnectionManagedImpl.java:254)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.begin(LogicalConnectionManagedImpl.java:262)
+		at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.begin(JdbcResourceLocalTransactionCoordinatorImpl.java:236)
+		at org.hibernate.engine.transaction.internal.TransactionImpl.begin(TransactionImpl.java:86)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.enlistInCurrentTransaction(ExtendedEntityManagerCreator.java:420)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.doJoinTransaction(ExtendedEntityManagerCreator.java:398)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:349)
+		at com.sun.proxy.$Proxy133.joinTransaction(Unknown Source)
+		at org.apache.camel.component.jpa.JpaProducer$1.doInTransaction(JpaProducer.java:184)
+		at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+		at org.apache.camel.component.jpa.JpaProducer.processQuery(JpaProducer.java:181)
+		at org.apache.camel.component.jpa.JpaProducer.process(JpaProducer.java:171)
+		at org.apache.camel.support.AsyncProcessorConverterHelper$ProcessorToAsyncProcessorBridge.process(AsyncProcessorConverterHelper.java:67)
+		at org.apache.camel.processor.SendDynamicProcessor.lambda$process$0(SendDynamicProcessor.java:195)
+		at org.apache.camel.impl.engine.DefaultProducerCache.doInAsyncProducer(DefaultProducerCache.java:309)
+		at org.apache.camel.processor.SendDynamicProcessor.process(SendDynamicProcessor.java:180)
+		at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.doRun(RedeliveryErrorHandler.java:702)
+		at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.run(RedeliveryErrorHandler.java:616)
+		... 15 common frames omitted
+	Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 50791ms.
+		at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:676)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:190)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+		at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+		at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+		at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:35)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:106)
+		... 34 common frames omitted
+	Caused by: java.sql.SQLNonTransientConnectionException: No operations allowed after connection closed.
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:110)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:89)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:63)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:73)
+		at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:73)
+		at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2508)
+		at com.zaxxer.hikari.pool.PoolBase.setNetworkTimeout(PoolBase.java:550)
+		at com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:165)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:179)
+		... 39 common frames omitted
+	Caused by: com.mysql.cj.exceptions.ConnectionIsClosedException: No operations allowed after connection closed.
+		at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+		at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+		at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+		at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+		at com.mysql.cj.NativeSession.checkClosed(NativeSession.java:1263)
+		at com.mysql.cj.jdbc.ConnectionImpl.checkClosed(ConnectionImpl.java:575)
+		at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2504)
+		... 42 common frames omitted
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:59)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:178)
+	at org.hibernate.dialect.identity.GetGeneratedKeysDelegate.executeAndExtract(GetGeneratedKeysDelegate.java:57)
+	at org.hibernate.id.insert.AbstractReturningDelegate.performInsert(AbstractReturningDelegate.java:42)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3075)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3665)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:81)
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:645)
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:282)
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:263)
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:317)
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:332)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:289)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:196)
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:127)
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:192)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:135)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:62)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:799)
+	... 30 common frames omitted
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'operation' cannot be null
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:970)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1109)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1057)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1377)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1042)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:175)
+	... 47 common frames omitted
+WARN  2021-12-01 08:25:20,018 [Camel (camel-1) thread #3 - scheduler://retry] o.a.c.p.FatalFallbackErrorHandler:168 Exception occurred while trying to handle previously thrown exception on exchangeId: ID-customer-1638346393875-0-744 using: [direct://outbound-error-handler]. The previous and the new exception will be logged in the following.
+WARN  2021-12-01 08:25:20,018 [Camel (camel-1) thread #3 - scheduler://retry] o.a.c.p.FatalFallbackErrorHandler:166 \--> Previous exception on exchangeId: ID-customer-1638346393875-0-744
+org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:48)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:109)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getPhysicalConnection(LogicalConnectionManagedImpl.java:136)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getConnectionForTransactionManagement(LogicalConnectionManagedImpl.java:254)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.begin(LogicalConnectionManagedImpl.java:262)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.begin(JdbcResourceLocalTransactionCoordinatorImpl.java:236)
+	at org.hibernate.engine.transaction.internal.TransactionImpl.begin(TransactionImpl.java:86)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.enlistInCurrentTransaction(ExtendedEntityManagerCreator.java:420)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.doJoinTransaction(ExtendedEntityManagerCreator.java:398)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:349)
+	at com.sun.proxy.$Proxy133.joinTransaction(Unknown Source)
+	at org.apache.camel.component.jpa.JpaProducer$1.doInTransaction(JpaProducer.java:184)
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+	at org.apache.camel.component.jpa.JpaProducer.processQuery(JpaProducer.java:181)
+	at org.apache.camel.component.jpa.JpaProducer.process(JpaProducer.java:171)
+	at org.apache.camel.support.AsyncProcessorConverterHelper$ProcessorToAsyncProcessorBridge.process(AsyncProcessorConverterHelper.java:67)
+	at org.apache.camel.processor.SendDynamicProcessor.lambda$process$0(SendDynamicProcessor.java:195)
+	at org.apache.camel.impl.engine.DefaultProducerCache.doInAsyncProducer(DefaultProducerCache.java:309)
+	at org.apache.camel.processor.SendDynamicProcessor.process(SendDynamicProcessor.java:180)
+	at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.doRun(RedeliveryErrorHandler.java:702)
+	at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.run(RedeliveryErrorHandler.java:616)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.schedule(DefaultReactiveExecutor.java:148)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor.scheduleMain(DefaultReactiveExecutor.java:60)
+	at org.apache.camel.processor.Pipeline.process(Pipeline.java:147)
+	at org.apache.camel.processor.CamelInternalProcessor.process(CamelInternalProcessor.java:286)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.sendTimerExchange(SchedulerConsumer.java:58)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.poll(SchedulerConsumer.java:43)
+	at org.apache.camel.support.ScheduledPollConsumer.doRun(ScheduledPollConsumer.java:187)
+	at org.apache.camel.support.ScheduledPollConsumer.run(ScheduledPollConsumer.java:106)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 50791ms.
+	at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:676)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:190)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+	at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:35)
+	at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:106)
+	... 34 common frames omitted
+Caused by: java.sql.SQLNonTransientConnectionException: No operations allowed after connection closed.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:110)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:89)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:63)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:73)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:73)
+	at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2508)
+	at com.zaxxer.hikari.pool.PoolBase.setNetworkTimeout(PoolBase.java:550)
+	at com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:165)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:179)
+	... 39 common frames omitted
+Caused by: com.mysql.cj.exceptions.ConnectionIsClosedException: No operations allowed after connection closed.
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.NativeSession.checkClosed(NativeSession.java:1263)
+	at com.mysql.cj.jdbc.ConnectionImpl.checkClosed(ConnectionImpl.java:575)
+	at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2504)
+	... 42 common frames omitted
+WARN  2021-12-01 08:25:20,019 [Camel (camel-1) thread #3 - scheduler://retry] o.a.c.p.FatalFallbackErrorHandler:166 \--> New exception on exchangeId: ID-customer-1638346393875-0-744
+javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:154)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:181)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:188)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:806)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:784)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:366)
+	at com.sun.proxy.$Proxy133.persist(Unknown Source)
+	at org.apache.camel.component.jpa.JpaProducer$3.save(JpaProducer.java:324)
+	at org.apache.camel.component.jpa.JpaProducer$3.doInTransaction(JpaProducer.java:300)
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+	at org.apache.camel.component.jpa.JpaProducer.processEntity(JpaProducer.java:254)
+	at org.apache.camel.component.jpa.JpaProducer.process(JpaProducer.java:173)
+	at org.apache.camel.support.AsyncProcessorConverterHelper$ProcessorToAsyncProcessorBridge.process(AsyncProcessorConverterHelper.java:67)
+	at org.apache.camel.processor.SendProcessor.process(SendProcessor.java:168)
+	at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$SimpleTask.run(RedeliveryErrorHandler.java:395)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.schedule(DefaultReactiveExecutor.java:148)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor.scheduleMain(DefaultReactiveExecutor.java:60)
+	at org.apache.camel.processor.Pipeline.process(Pipeline.java:147)
+	at org.apache.camel.processor.CamelInternalProcessor.process(CamelInternalProcessor.java:286)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.sendTimerExchange(SchedulerConsumer.java:58)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.poll(SchedulerConsumer.java:43)
+	at org.apache.camel.support.ScheduledPollConsumer.doRun(ScheduledPollConsumer.java:187)
+	at org.apache.camel.support.ScheduledPollConsumer.run(ScheduledPollConsumer.java:106)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+	Suppressed: org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection
+		at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:48)
+		at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+		at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+		at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:109)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getPhysicalConnection(LogicalConnectionManagedImpl.java:136)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getConnectionForTransactionManagement(LogicalConnectionManagedImpl.java:254)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.begin(LogicalConnectionManagedImpl.java:262)
+		at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.begin(JdbcResourceLocalTransactionCoordinatorImpl.java:236)
+		at org.hibernate.engine.transaction.internal.TransactionImpl.begin(TransactionImpl.java:86)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.enlistInCurrentTransaction(ExtendedEntityManagerCreator.java:420)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.doJoinTransaction(ExtendedEntityManagerCreator.java:398)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:349)
+		at com.sun.proxy.$Proxy133.joinTransaction(Unknown Source)
+		at org.apache.camel.component.jpa.JpaProducer$1.doInTransaction(JpaProducer.java:184)
+		at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+		at org.apache.camel.component.jpa.JpaProducer.processQuery(JpaProducer.java:181)
+		at org.apache.camel.component.jpa.JpaProducer.process(JpaProducer.java:171)
+		at org.apache.camel.support.AsyncProcessorConverterHelper$ProcessorToAsyncProcessorBridge.process(AsyncProcessorConverterHelper.java:67)
+		at org.apache.camel.processor.SendDynamicProcessor.lambda$process$0(SendDynamicProcessor.java:195)
+		at org.apache.camel.impl.engine.DefaultProducerCache.doInAsyncProducer(DefaultProducerCache.java:309)
+		at org.apache.camel.processor.SendDynamicProcessor.process(SendDynamicProcessor.java:180)
+		at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.doRun(RedeliveryErrorHandler.java:702)
+		at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.run(RedeliveryErrorHandler.java:616)
+		... 15 common frames omitted
+	Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 50791ms.
+		at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:676)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:190)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+		at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+		at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+		at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:35)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:106)
+		... 34 common frames omitted
+	Caused by: java.sql.SQLNonTransientConnectionException: No operations allowed after connection closed.
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:110)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:89)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:63)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:73)
+		at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:73)
+		at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2508)
+		at com.zaxxer.hikari.pool.PoolBase.setNetworkTimeout(PoolBase.java:550)
+		at com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:165)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:179)
+		... 39 common frames omitted
+	Caused by: com.mysql.cj.exceptions.ConnectionIsClosedException: No operations allowed after connection closed.
+		at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+		at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+		at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+		at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+		at com.mysql.cj.NativeSession.checkClosed(NativeSession.java:1263)
+		at com.mysql.cj.jdbc.ConnectionImpl.checkClosed(ConnectionImpl.java:575)
+		at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2504)
+		... 42 common frames omitted
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:59)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:178)
+	at org.hibernate.dialect.identity.GetGeneratedKeysDelegate.executeAndExtract(GetGeneratedKeysDelegate.java:57)
+	at org.hibernate.id.insert.AbstractReturningDelegate.performInsert(AbstractReturningDelegate.java:42)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3075)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3665)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:81)
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:645)
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:282)
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:263)
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:317)
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:332)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:289)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:196)
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:127)
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:192)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:135)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:62)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:799)
+	... 30 common frames omitted
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'operation' cannot be null
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:970)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1109)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1057)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1377)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1042)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:175)
+	... 47 common frames omitted
+WARN  2021-12-01 08:25:20,021 [Camel (camel-1) thread #3 - scheduler://retry] o.a.c.p.e.DeadLetterChannel:212 New exception occurred during processing by the DeadLetterChannel[direct://outbound-error-handler] due org.hibernate.exception.ConstraintViolationException: could not execute statement. The new exception is being handled as deadLetterHandleNewException=true.
+javax.persistence.PersistenceException: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:154)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:181)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:188)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:806)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:784)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:366)
+	at com.sun.proxy.$Proxy133.persist(Unknown Source)
+	at org.apache.camel.component.jpa.JpaProducer$3.save(JpaProducer.java:324)
+	at org.apache.camel.component.jpa.JpaProducer$3.doInTransaction(JpaProducer.java:300)
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+	at org.apache.camel.component.jpa.JpaProducer.processEntity(JpaProducer.java:254)
+	at org.apache.camel.component.jpa.JpaProducer.process(JpaProducer.java:173)
+	at org.apache.camel.support.AsyncProcessorConverterHelper$ProcessorToAsyncProcessorBridge.process(AsyncProcessorConverterHelper.java:67)
+	at org.apache.camel.processor.SendProcessor.process(SendProcessor.java:168)
+	at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$SimpleTask.run(RedeliveryErrorHandler.java:395)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor$Worker.schedule(DefaultReactiveExecutor.java:148)
+	at org.apache.camel.impl.engine.DefaultReactiveExecutor.scheduleMain(DefaultReactiveExecutor.java:60)
+	at org.apache.camel.processor.Pipeline.process(Pipeline.java:147)
+	at org.apache.camel.processor.CamelInternalProcessor.process(CamelInternalProcessor.java:286)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.sendTimerExchange(SchedulerConsumer.java:58)
+	at org.apache.camel.component.scheduler.SchedulerConsumer.poll(SchedulerConsumer.java:43)
+	at org.apache.camel.support.ScheduledPollConsumer.doRun(ScheduledPollConsumer.java:187)
+	at org.apache.camel.support.ScheduledPollConsumer.run(ScheduledPollConsumer.java:106)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+	Suppressed: org.hibernate.exception.JDBCConnectionException: Unable to acquire JDBC Connection
+		at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:48)
+		at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+		at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+		at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:109)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getPhysicalConnection(LogicalConnectionManagedImpl.java:136)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.getConnectionForTransactionManagement(LogicalConnectionManagedImpl.java:254)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.begin(LogicalConnectionManagedImpl.java:262)
+		at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.begin(JdbcResourceLocalTransactionCoordinatorImpl.java:236)
+		at org.hibernate.engine.transaction.internal.TransactionImpl.begin(TransactionImpl.java:86)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.enlistInCurrentTransaction(ExtendedEntityManagerCreator.java:420)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.doJoinTransaction(ExtendedEntityManagerCreator.java:398)
+		at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:349)
+		at com.sun.proxy.$Proxy133.joinTransaction(Unknown Source)
+		at org.apache.camel.component.jpa.JpaProducer$1.doInTransaction(JpaProducer.java:184)
+		at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:140)
+		at org.apache.camel.component.jpa.JpaProducer.processQuery(JpaProducer.java:181)
+		at org.apache.camel.component.jpa.JpaProducer.process(JpaProducer.java:171)
+		at org.apache.camel.support.AsyncProcessorConverterHelper$ProcessorToAsyncProcessorBridge.process(AsyncProcessorConverterHelper.java:67)
+		at org.apache.camel.processor.SendDynamicProcessor.lambda$process$0(SendDynamicProcessor.java:195)
+		at org.apache.camel.impl.engine.DefaultProducerCache.doInAsyncProducer(DefaultProducerCache.java:309)
+		at org.apache.camel.processor.SendDynamicProcessor.process(SendDynamicProcessor.java:180)
+		at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.doRun(RedeliveryErrorHandler.java:702)
+		at org.apache.camel.processor.errorhandler.RedeliveryErrorHandler$RedeliveryTask.run(RedeliveryErrorHandler.java:616)
+		... 15 common frames omitted
+	Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 50791ms.
+		at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:676)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:190)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:155)
+		at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+		at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:122)
+		at org.hibernate.internal.NonContextualJdbcConnectionAccess.obtainConnection(NonContextualJdbcConnectionAccess.java:35)
+		at org.hibernate.resource.jdbc.internal.LogicalConnectionManagedImpl.acquireConnectionIfNeeded(LogicalConnectionManagedImpl.java:106)
+		... 34 common frames omitted
+	Caused by: java.sql.SQLNonTransientConnectionException: No operations allowed after connection closed.
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:110)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:89)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:63)
+		at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:73)
+		at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:73)
+		at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2508)
+		at com.zaxxer.hikari.pool.PoolBase.setNetworkTimeout(PoolBase.java:550)
+		at com.zaxxer.hikari.pool.PoolBase.isConnectionAlive(PoolBase.java:165)
+		at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:179)
+		... 39 common frames omitted
+	Caused by: com.mysql.cj.exceptions.ConnectionIsClosedException: No operations allowed after connection closed.
+		at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+		at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+		at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+		at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+		at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+		at com.mysql.cj.NativeSession.checkClosed(NativeSession.java:1263)
+		at com.mysql.cj.jdbc.ConnectionImpl.checkClosed(ConnectionImpl.java:575)
+		at com.mysql.cj.jdbc.ConnectionImpl.setNetworkTimeout(ConnectionImpl.java:2504)
+		... 42 common frames omitted
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at org.hibernate.exception.internal.SQLExceptionTypeDelegate.convert(SQLExceptionTypeDelegate.java:59)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:42)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:113)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:99)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:178)
+	at org.hibernate.dialect.identity.GetGeneratedKeysDelegate.executeAndExtract(GetGeneratedKeysDelegate.java:57)
+	at org.hibernate.id.insert.AbstractReturningDelegate.performInsert(AbstractReturningDelegate.java:42)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3075)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3665)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:81)
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:645)
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:282)
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:263)
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:317)
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:332)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:289)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:196)
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:127)
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:192)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:135)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:62)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:799)
+	... 30 common frames omitted
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'operation' cannot be null
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:117)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:97)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:970)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1109)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1057)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1377)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:1042)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:175)
+	... 47 common frames omitted
+INFO  2021-12-01 08:46:52,006 [main] o.o.e.a.SyncApplication:50 Starting SyncApplication on customer with PID 7 (/home/eip/openmrs-eip-app-sender.jar started by root in /home/eip)
+INFO  2021-12-01 08:46:52,021 [main] o.o.e.a.SyncApplication:679 The following profiles are active: sender
+INFO  2021-12-01 08:46:55,422 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-12-01 08:46:55,514 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 24ms. Found 0 repository interfaces.
+INFO  2021-12-01 08:46:55,516 [main] o.s.d.r.c.RepositoryConfigurationDelegate:126 Bootstrapping Spring Data repositories in DEFAULT mode.
+INFO  2021-12-01 08:46:56,385 [main] o.s.d.r.c.RepositoryConfigurationDelegate:182 Finished Spring Data repository scanning in 868ms. Found 71 repository interfaces.
+INFO  2021-12-01 08:46:59,279 [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335 Bean 'org.apache.camel.spring.boot.CamelAutoConfiguration' of type [org.apache.camel.spring.boot.CamelAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+INFO  2021-12-01 08:47:01,480 [main] o.s.b.w.e.t.TomcatWebServer:90 Tomcat initialized with port(s): 9088 (http)
+INFO  2021-12-01 08:47:01,614 [main] o.a.c.h.Http11NioProtocol:173 Initializing ProtocolHandler ["http-nio-9088"]
+INFO  2021-12-01 08:47:01,699 [main] o.a.c.c.StandardService:173 Starting service [Tomcat]
+INFO  2021-12-01 08:47:01,701 [main] o.a.c.c.StandardEngine:173 Starting Servlet engine: [Apache Tomcat/9.0.17]
+INFO  2021-12-01 08:47:03,082 [main] o.a.j.s.TldScanner:173 At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+INFO  2021-12-01 08:47:03,519 [main] o.a.c.c.C.[.[.[/]:173 Initializing Spring embedded WebApplicationContext
+INFO  2021-12-01 08:47:03,521 [main] o.s.w.c.ContextLoader:296 Root WebApplicationContext: initialization completed in 11180 ms
+INFO  2021-12-01 08:47:04,395 [main] o.a.c.s.LRUCacheFactory:90 Detected and using LRUCacheFactory: camel-caffeine-lrucache
+INFO  2021-12-01 08:47:07,112 [main] c.z.h.HikariDataSource:110 HikariPool-1 - Starting...
+WARN  2021-12-01 08:47:07,119 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-12-01 08:47:07,802 [main] c.z.h.HikariDataSource:123 HikariPool-1 - Start completed.
+INFO  2021-12-01 08:47:09,276 [main] l.lockservice:23 Successfully acquired change log lock
+INFO  2021-12-01 08:47:10,706 [main] l.changelog:23 Reading from openmrs_eip_sender_mgt_05_gurue_lioma.LIQUIBASECHANGELOG
+INFO  2021-12-01 08:47:10,945 [main] l.lockservice:23 Successfully released change log lock
+INFO  2021-12-01 08:47:11,883 [main] c.z.h.HikariDataSource:110 HikariPool-2 - Starting...
+WARN  2021-12-01 08:47:11,886 [main] c.z.h.u.DriverDataSource:68 Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+INFO  2021-12-01 08:47:11,899 [main] c.z.h.HikariDataSource:123 HikariPool-2 - Start completed.
+INFO  2021-12-01 08:47:12,157 [main] o.h.j.i.u.LogHelper:31 HHH000204: Processing PersistenceUnitInfo [
+	name: mngt
+	...]
+INFO  2021-12-01 08:47:12,540 [main] o.h.Version:46 HHH000412: Hibernate Core {5.3.9.Final}
+INFO  2021-12-01 08:47:12,555 [main] o.h.c.Environment:213 HHH000206: hibernate.properties not found
+INFO  2021-12-01 08:47:13,298 [main] o.h.a.c.Version:49 HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+INFO  2021-12-01 08:47:14,880 [main] o.h.d.Dialect:157 HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
