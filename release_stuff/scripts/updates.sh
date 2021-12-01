@@ -67,7 +67,7 @@ else
 	        echo "EIP APLICATION STOPPED! >> $HOME_DIR/updates.log"
 	        echo "PERFORMING UPDATES... >> $HOME_DIR/updates.log"
 
-	        cp -R $RELEASE_DIR/* .
+		cp -R $RELEASE_DIR/release_stuff/* .
 	        echo "UPDATE DONE! >> $HOME_DIR/updates.log"
 
 	        echo "RESTARING EIP APPLICATION >> $HOME_DIR/updates.log"
