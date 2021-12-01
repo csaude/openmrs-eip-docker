@@ -19,9 +19,6 @@ services:
             - spring_artemis_port=8001
 
         volumes: 
-            - type: bind
-              source: ./release_stuff
-              target: /home/eip/release_stuff 
             - ./install.sh:/home/eip/scripts/install.sh
-
+            - ./release_stuff/:/home/eip_setup/:ro
         restart: unless-stopped

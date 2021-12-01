@@ -15,7 +15,7 @@ else
 
 	cd $HOME_DIR
 
-	source release_stuff/scripts/realease_info.sh	
+	source ../eip_setup/scripts/realease_info.sh	
 
 	REMOTE_RELEASE_NAME=$RELEASE_NAME
 	REMOTE_RELEASE_DATE=$RELEASE_DATE
@@ -26,7 +26,7 @@ else
 
 	echo "COPPING APP FILES"
 
-	cp -R release_stuff/* .
+	cp -R ../eip_setup/* .
 	echo "ALL FILES WERE COPIED"
         echo "STARING EIP APPLICATION"
 	scripts/eip.sh
@@ -37,7 +37,7 @@ fi
 
 # Add update script to cron
 echo "Adding updates.sh to crontab"
-echo "*/1       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
+echo "*/2       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
 echo "Script added to crontab"
 crond -f -l 8
 
