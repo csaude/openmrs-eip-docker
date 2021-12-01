@@ -17,12 +17,5 @@ echo -n "Preparing to start Eip Application: [$EIP_MODE]"
 echo -n "Starting Eip Application: [$EIP_MODE]"
 cd $EIP_HOME
 
-#java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar &
+java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar &
 echo -n "APPLICATION STARTED IN BACKGROUND."
-
-# Add update script to cron
-echo "Adding updates.sh to crontab"
-echo "*/1       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
-echo "Script added to crontab"
-crond -f -l 8
-

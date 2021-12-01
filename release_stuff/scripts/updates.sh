@@ -10,7 +10,7 @@ ONGOING_UPDATE_INFO_FILE="/home/eip/ongoing_update_info"
 if [ -f "$ONGOING_UPDATE_INFO_FILE" ]; then
 	echo "THERE IS ANOTHER UPDATE PROCESS ONGOING >> $HOME_DIR/updates.log"
 else
-	echo "UPDATE ONGOING..." > /home/eip/ongoing_update_info
+	echo "UPDATE ONGOING..." > $ONGOING_UPDATE_INFO_FILE 
 
 	#INSTALL GIT
 	echo "TRYING TO INSTALL GIT >> $HOME_DIR/updates.log"
@@ -54,10 +54,10 @@ else
 	REMOTE_RELEASE_DATE=$RELEASE_DATE
 
 
-	echo "LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCA_RELEASE_DATE}  >> $HOME_DIR/updates.log"
-	echo "REMOVE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE}  >> $HOME_DIR/updates.log"
+	echo "LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE}  >> $HOME_DIR/updates.log"
+	echo "REMOTE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE}  >> $HOME_DIR/updates.log"
 
-	if [ $LOCAL_RELEASE_DATE != $REMOTE_RELEASE_DATE ]; then
+	if [[ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]]; then
 	        echo "UPDATES FOUND..."  >> $HOME_DIR/updates.log
 	        echo "PERFORMING UPDATE STEPS... >> $HOME_DIR/updates.log"
 	        echo "STOPPING EIP APPLICATION.. >> $HOME_DIR/updates.log"
@@ -70,12 +70,12 @@ else
 	        cp -R $RELEASE_DIR/* .
 	        echo "UPDATE DONE! >> $HOME_DIR/updates.log"
 
-	        echo "RESTARING EIP APPLICATION"  >> $HOME_DIR/updates.log
+	        echo "RESTARING EIP APPLICATION >> $HOME_DIR/updates.log"
 	        scripts/eip.sh start
-	        echo "EIP APPLICATION RESTARTED"  >> $HOME_DIR/updates.log
+	        echo "EIP APPLICATION RESTARTED >> $HOME_DIR/updates.log"
 
 	else
-        	echo "NO UPDATES FOUND..."  >> $HOME_DIR/updates.log
+        	echo "NO UPDATES FOUND... >> $HOME_DIR/updates.log"
 	fi
 	rm /home/eip/ongoing_update_info
 fi
