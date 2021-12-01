@@ -2,7 +2,7 @@
 This project hold the necessary stuffs for eip application
 
 # Notes
-To avoid dsn issue running automated update process create a daemon.json file in location /var/lib/docker and put bellow code
+To avoid dsn issue running automated update process create a daemon.json file in location /var/lib/docker and put bellow code \n
 {
     "dns": ["8.8.8.8"]
 }
