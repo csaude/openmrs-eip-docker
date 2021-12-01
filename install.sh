@@ -4,7 +4,10 @@
 
 #ENV
 HOME_DIR="/home/eip"
-INSTALL_FINISHED_REPORT_FILE="/home/install_finished_report_file"
+EIP_SETUP_STUFF_DIR="/home/eip_setup"
+SCRIPTS_DIR="$HOME_DIR/scripts"
+SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
+INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
 	echo "INSTALLATION FINISHED"
@@ -15,7 +18,7 @@ else
 
 	cd $HOME_DIR
 
-	source ../eip_setup/scripts/realease_info.sh	
+	source $/scripts/release_info.sh	
 
 	REMOTE_RELEASE_NAME=$RELEASE_NAME
 	REMOTE_RELEASE_DATE=$RELEASE_DATE
@@ -26,18 +29,18 @@ else
 
 	echo "COPPING APP FILES"
 
-	cp -R ../eip_setup/* .
+	cp -R $EIP_SETUP_STUFF_DIR/* $HOME_DIR/
 	echo "ALL FILES WERE COPIED"
         echo "STARING EIP APPLICATION"
-	scripts/eip.sh
+	$SCRIPTS_DIR/eip.sh
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
-	echo "Installation finished at " >> /home/install_finished_report_file
+	echo "Installation finished at $timestamp" >> INSTALL_FINISHED_REPORT_FILE
 fi
 
 # Add update script to cron
 echo "Adding updates.sh to crontab"
-echo "*/2       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
+echo "*/30       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
 echo "Script added to crontab"
 crond -f -l 8
 

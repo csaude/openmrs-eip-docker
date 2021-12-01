@@ -43,12 +43,12 @@ else
 	echo "EIP PROJECT PULLED FROM DOCKER >> $HOME_DIR/updates.log" 
 
 
-	source $SCRIPTS_DIR/realease_info.sh
+	source $SCRIPTS_DIR/release_info.sh
 
 	LOCAL_RELEASE_NAME=$RELEASE_NAME
 	LOCAL_RELEASE_DATE=$RELEASE_DATE
 
-	source $RELEASE_SCRIPTS_DIR/realease_info.sh
+	source $RELEASE_SCRIPTS_DIR/release_info.sh
 
 	REMOTE_RELEASE_NAME=$RELEASE_NAME
 	REMOTE_RELEASE_DATE=$RELEASE_DATE
