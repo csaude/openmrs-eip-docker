@@ -3,8 +3,8 @@
 #
 
 #ENV
-HOME_DIR="/home/eip/"
-RELEASE_DIR="/home/eip/openmrs-eip-docker/"
+HOME_DIR="/home/eip"
+RELEASE_DIR="/home/eip/openmrs-eip-docker"
 ONGOING_UPDATE_INFO_FILE="/home/eip/ongoing_update_info"
 
 if [ -f "$ONGOING_UPDATE_INFO_FILE" ]; then
@@ -48,7 +48,7 @@ else
 	LOCAL_RELEASE_NAME=$RELEASE_NAME
 	LOCAL_RELEASE_DATE=$RELEASE_DATE
 
-	source $RELEASE_DIR/scripts/realease_info.sh
+	source $RELEASE_DIR/release_stuff/scripts/realease_info.sh
 
 	REMOTE_RELEASE_NAME=$RELEASE_NAME
 	REMOTE_RELEASE_DATE=$RELEASE_DATE
@@ -57,7 +57,7 @@ else
 	echo "LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCA_RELEASE_DATE}  >> $HOME_DIR/updates.log"
 	echo "REMOVE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE}  >> $HOME_DIR/updates.log"
 
-	if [ $LOCAL_RELEASE_DATE != $REMOTE_RELEASE_DATE ]. then
+	if [ $LOCAL_RELEASE_DATE != $REMOTE_RELEASE_DATE ]; then
 	        echo "UPDATES FOUND..."  >> $HOME_DIR/updates.log
 	        echo "PERFORMING UPDATE STEPS... >> $HOME_DIR/updates.log"
 	        echo "STOPPING EIP APPLICATION.. >> $HOME_DIR/updates.log"
@@ -77,5 +77,6 @@ else
 	else
         	echo "NO UPDATES FOUND..."  >> $HOME_DIR/updates.log
 	fi
+	rm /home/eip/ongoing_update_info
 fi
 
