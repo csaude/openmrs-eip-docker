@@ -6,10 +6,26 @@ apk add git
 
 export HOME_DIR="/home/eip/"
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
-echo "LISTING $HOME_DIR CONTENT AT $timestamp" >> $HOME_DIR/updates.log
+echo "CHECKING FOR UPDATES AT $timestamp" >> $HOME_DIR/updates.log
 echo "-------------------------------------------------------------" >> $HOME_DIR/updates.log
 
 cd $HOME_DIR
+
+if not dir_exists then ...
+   #log the cloning process
+   git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-releases.git
+   #log the finishing clone process  
+   #notify via email the remote administrator that the clonig was don
+fi
+
+
+git pull origin master
+
+if there_is_changes then
+	#execute the change script
+fi
+
+
 ls >> $HOME_DIR/updates.log
 
 ~

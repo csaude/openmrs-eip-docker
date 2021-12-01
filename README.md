@@ -1,2 +1,2 @@
-# openmrs-eip-docker
-Docker based configuration for EIP application
+# openmrs-eip-releases
+This project hold the necessary stuffs for eip application
