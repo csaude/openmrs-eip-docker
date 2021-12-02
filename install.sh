@@ -18,7 +18,7 @@ else
 
 	cd $HOME_DIR
 
-	source $/scripts/release_info.sh	
+	source $SETUP_SCRIPTS_DIR/release_info.sh	
 
 	REMOTE_RELEASE_NAME=$RELEASE_NAME
 	REMOTE_RELEASE_DATE=$RELEASE_DATE
@@ -31,16 +31,17 @@ else
 
 	cp -R $EIP_SETUP_STUFF_DIR/* $HOME_DIR/
 	echo "ALL FILES WERE COPIED"
-        echo "STARING EIP APPLICATION"
-	$SCRIPTS_DIR/eip.sh
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
-	echo "Installation finished at $timestamp" >> INSTALL_FINISHED_REPORT_FILE
+	echo "Installation finished at $timestamp" >> $INSTALL_FINISHED_REPORT_FILE
 fi
+echo "STARING EIP APPLICATION"
+
+$SCRIPTS_DIR/eip.sh
 
 # Add update script to cron
 echo "Adding updates.sh to crontab"
-echo "*/30       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
+echo "*/2       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
 echo "Script added to crontab"
 crond -f -l 8
 

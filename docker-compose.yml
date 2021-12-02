@@ -9,11 +9,11 @@ services:
             - "9087:9087"
         network_mode: host
         environment:
-            - db_sync_senderId=05_gurue_lioma
+            - db_sync_senderId=22_qlm_24_julho
             - server_port=9088
             - openmrs_db_host=localhost
             - openmrs_db_port=3308
-            - openmrs_db_name=openmrs_lioma
+            - openmrs_db_name=openmrs_24_julho
             - spring_openmrs_datasource_password=root
             - spring_artemis_host=localhost
             - spring_artemis_port=8001
