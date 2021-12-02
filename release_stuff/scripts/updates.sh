@@ -62,7 +62,7 @@ else
 	        echo "PERFORMING UPDATE STEPS... >> $HOME_DIR/updates.log"
 	        echo "STOPPING EIP APPLICATION.. >> $HOME_DIR/updates.log"
 
-	        $SCRIPTS_DIR/eip.sh stop
+	        $SCRIPTS_DIR/eip_stop.sh
 
 	        echo "EIP APLICATION STOPPED! >> $HOME_DIR/updates.log"
 	        echo "PERFORMING UPDATES... >> $HOME_DIR/updates.log"
@@ -71,7 +71,7 @@ else
 	        echo "UPDATE DONE! >> $HOME_DIR/updates.log"
 
 	        echo "RESTARING EIP APPLICATION >> $HOME_DIR/updates.log"
-	        $SCRIPTS_DIR/eip.sh start
+	        $SCRIPTS_DIR/eip_startup.sh
 	        echo "EIP APPLICATION RESTARTED >> $HOME_DIR/updates.log"
 
 	else
