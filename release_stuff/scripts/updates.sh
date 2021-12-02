@@ -40,7 +40,7 @@ else
 	echo "LOOKING FOR EIP PROJECT UPDATES >> $HOME_DIR/updates.log"
 	echo "PULLING EIP PROJECT FROM DOCKER >> $HOME_DIR/updates.log"
 	git -C $RELEASE_BASE_DIR pull origin main
-	echo "EIP PROJECT PULLED FROM DOCKER >> $HOME_DIR/updates.log" 
+	echo "EIP PROJECT PULLED FROM GIT REPOSITORY >> $HOME_DIR/updates.log" 
 
 
 	source $SCRIPTS_DIR/release_info.sh
