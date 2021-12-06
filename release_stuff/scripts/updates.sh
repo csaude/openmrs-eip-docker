@@ -89,7 +89,7 @@ else
         echo "From: jorge.boane@fgh.org.mz" >> $EMAIL_CONTENT_FILE
         echo "Subject: EIP REMOTO - ESTADO DE ACTUALIZACAO[$db_sync_senderId]" >> $EMAIL_CONTENT_FILE
 	echo "Caros" >> $EMAIL_CONTENT_FILE
-       	echo "Junto enviamos o report da ultima tentativa de actualizacaoSegue da aplicacao openmrs-eip." >> $EMAIL_CONTENT_FILE 
+       	echo "Junto enviamos o report da ultima tentativa de actualizacao da aplicacao openmrs-eip." >> $EMAIL_CONTENT_FILE 
 	echo "" >> $EMAIL_CONTENT_FILE
 	echo "INFORMACAO DAS RELEASES" >> $EMAIL_CONTENT_FILE
 	echo "---------------------" >> $EMAIL_CONTENT_FILE
