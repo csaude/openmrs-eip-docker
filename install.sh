@@ -1,10 +1,10 @@
 #!/bin/sh
 # This scrip is intended to check for updates for eip application and apply them when avaliable
 #
-
 #ENV
 HOME_DIR="/home/eip"
-EIP_SETUP_STUFF_DIR="/home/eip_setup"
+EIP_SETUP_BASE_DIR="/home/openmrs-eip-docker"
+EIP_SETUP_STUFF_DIR="$EIP_SETUP_BASE_DIR/release_stuff"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
@@ -30,6 +30,8 @@ else
 	echo "COPPING APP FILES"
 
 	cp -R $EIP_SETUP_STUFF_DIR/* $HOME_DIR/
+	cp -R $EIP_SETUP_BASE_DIR $HOME_DIR 
+
 	echo "ALL FILES WERE COPIED"
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`

@@ -2,8 +2,7 @@ version: '3.2'
 services:
     openmrs-eip-sender:
         image: openjdk:8-alpine 
-        #command: /home/eip/scripts/system_startup.sh && crond -f -l 8 && /home/eip/scripts/eip_tmp.sh
-        command: /home/eip/scripts/install.sh 2>&1 | tee -a eip.log
+        command: /home/eip/scripts/install.sh 2>&1 | tee -a /home/eip/eip.log
         container_name: openmrs-eip-sender
         ports:
             - "9087:9087"
@@ -17,8 +16,10 @@ services:
             - spring_openmrs_datasource_password=root
             - spring_artemis_host=localhost
             - spring_artemis_port=8001
-
+        working_dir: /home/eip
         volumes: 
             - ./install.sh:/home/eip/scripts/install.sh
-            - ./release_stuff/:/home/eip_setup/:ro
+            - ./:/home/openmrs-eip-docker/:ro
+            - ./logs/:/home/eip/logs
+            - ./release_stuff/ssmpt.conf:/etc/ssmtp/ssmtp.conf
         restart: unless-stopped
