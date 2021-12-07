@@ -2,7 +2,9 @@
 This project hold the necessary stuffs for eip application installation using a docker container. The eip application run in a container called openmrs-eip-sender. The container has the ability to pickup updates for eip application. The new releases (routes, jar, scripts, etc) must be put in [release_stuff](./release_stuff) directory. The release update mechanism check the information in [release_info.sh](./release_stuff/scripts/release_info.sh) script. So, every time there is a new release the information in this script must be changed. 
 
 # Prerequisites
-To have the eip application run, the mysql bin-logs must be active in the remote openmrs database. If you are using openmrs instance based on [this docker project](https://github.com/FriendsInGlobalHealth/openmrs-docker-2x) follow the steps bellow:
+To have the eip application run, the mysql bin-logs must be active in the remote openmrs database.
+
+If you are using openmrs instance based on [this docker project](https://github.com/FriendsInGlobalHealth/openmrs-docker-2x) follow the steps bellow:
 <ol>
         <li>
                 Enter the docker project directory using a command
