@@ -8,6 +8,8 @@ RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
+EPTSSYNC_SETUP_STUFF_DIR="$RELEASE_DIR/etc/eptssync"
+EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 
 ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 
@@ -73,6 +75,8 @@ else
 	        echo "PERFORMING UPDATES..." | tee $HOME_DIR/updates.log
 
 	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
+		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
+
 	        echo "UPDATE DONE!" | tee $HOME_DIR/updates.log
 
 	        echo "RESTARING EIP APPLICATION" | tee $HOME_DIR/updates.log

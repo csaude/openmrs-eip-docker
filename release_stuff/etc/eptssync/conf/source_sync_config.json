@@ -1,0 +1,635 @@
+{
+  "syncRootDirectory" : "/home/eip/application/eptssync",
+  "originAppLocationCode" : $db_sync_senderId,
+  "tablesConfigurations" : [ {
+    "tableName" : "concept",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "concept_datatype",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "visit",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "concept_datatype",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "encounter",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "location",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "visit",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "encounter_provider",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "encounter",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "provider",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "visit",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "encounter_type",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "location",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "location",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "note",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "encounter",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "note",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "obs",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "location",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "orders",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "obs",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "encounter",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "visit",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "orders",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "encounter",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "provider",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "orders",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "patient",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : "person",
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "patient_identifier",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "location",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "patient_identifier_type",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "patient_program",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "location",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "patient_state",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient_program",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "person",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "person_address",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "person_attribute",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "person_attribute_type",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "person_name",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "program",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "concept",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "program_workflow",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "program",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "concept",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "program_workflow_state",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "program_workflow",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "concept",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "provider",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "provider_attribute_type",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "program_workflow",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "relationship",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "relationship_type",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "users",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "person",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : true,
+    "disabled" : false
+  }, {
+    "tableName" : "visit",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "location",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "visit_attribute",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "visit",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "visit_type",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : true,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "cohort",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    } ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  }, {
+    "tableName" : "cohort_member",
+    "parents" : [ {
+      "defaultValueDueInconsistency" : 1,
+      "tableName" : "users",
+      "ignorable" : false
+    }, {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "cohort",
+      "ignorable" : false
+    },
+    {
+      "defaultValueDueInconsistency" : 0,
+      "tableName" : "patient",
+      "refColumnName": "patient_id",
+      "refColumnType": "int",
+      "ignorable" : false
+    }  ],
+    "sharePkWith" : null,
+    "extraConditionForExport" : null,
+    "metadata" : false,
+    "removeForbidden" : false,
+    "disabled" : false
+  } ],
+  "firstExport" : true,
+  "connInfo" : {
+    "dataBaseUserName" : "root",
+    "dataBaseUserPassword" : "root",
+    "connectionURI" : "jdbc:mysql://openmrs_db_host:$openmrs_db_port/openmrs_db_name?autoReconnect=true&amp;sessionVariables=storage_engine=InnoDB&amp;useUnicode=true&amp;characterEncoding=UTF-8",
+    "driveClassName" : "com.mysql.jdbc.Driver"
+  },
+  "installationType" : "source",
+  "operations" : [ {
+    "operationType" : "database_preparation",
+    "maxRecordPerProcessing" : 1,
+    "maxSupportedEngines" : 1,
+    "minRecordsPerEngine" : 1,
+    "doIntegrityCheckInTheEnd" : false,
+    "child" : {
+      "operationType" : "pojo_generation",
+      "maxRecordPerProcessing" : 1,
+      "maxSupportedEngines" : 1,
+      "minRecordsPerEngine" : 1,
+      "doIntegrityCheckInTheEnd" : false,
+      "child" : {
+        "operationType" : "inconsistency_solver",
+        "maxRecordPerProcessing" : 1000,
+        "maxSupportedEngines" : 15,
+        "minRecordsPerEngine" : 1000,
+        "doIntegrityCheckInTheEnd" : true,
+        "child" : {
+          "operationType" : "export",
+          "maxRecordPerProcessing" : 1000,
+          "maxSupportedEngines" : 15,
+          "minRecordsPerEngine" : 100,
+          "doIntegrityCheckInTheEnd" : false,
+          "child" : {
+            "operationType" : "transport",
+            "maxRecordPerProcessing" : 1000,
+            "maxSupportedEngines" : 15,
+            "minRecordsPerEngine" : 50,
+            "doIntegrityCheckInTheEnd" : false,
+            "child" : null,
+            "disabled" : false,
+            "processingMode" : "sequencial",
+            "sourceFolders" : null
+          },
+          "disabled" : false,
+          "processingMode" : "sequencial",
+          "sourceFolders" : null
+        },
+        "disabled" : false,
+        "processingMode" : "sequencial",
+        "sourceFolders" : null
+      },
+      "disabled" : false,
+      "processingMode" : "sequencial",
+      "sourceFolders" : null
+    },
+    "disabled" : false,
+    "processingMode" : "sequencial",
+    "sourceFolders" : null
+  } ],
+  "automaticStart" : true,
+  "childConfigFilePath" : null,
+  "disabled" : false,
+  "classPath" : "/home/eip/application/eptssync/eptssync-api-1.0-SNAPSHOT.jar"
+}

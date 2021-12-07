@@ -10,7 +10,6 @@
 # Set EIP environment.
 export EIP_HOME=/home/eip
 export EIP_MODE=sender
-apk add mpack
 # Start application.
 echo -n "Preparing to start Eip Application: [$EIP_MODE]"
 #sleep 10 
