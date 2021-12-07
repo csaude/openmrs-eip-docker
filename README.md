@@ -58,8 +58,13 @@ You need to setup the bellow env variables in [docker-compose](docker-compose.ym
             - spring_artemis_host=ACTIVE_MQ_ARTEMIS
             - spring_artemis_port=ACTIVE_MQ_PORT
             
+# Running the project
+To run the project for the first time hit the bellow command inside the root of the project directory
+        
+        docker-compose up -d
+        
 # Notes
-To avoid dsn issue running automated update process create a daemon.json file in location /var/lib/docker and put bellow code
+If you notice some issue installing the application create a daemon.json file in location /var/lib/docker and put bellow code
 
 {
   
