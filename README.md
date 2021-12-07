@@ -46,7 +46,7 @@ To have the eip application run, the mysql bin-logs must be active in the remote
 
 
 # Setup
-You need to setup the bellow env variables in [docker-compose file](docker-compose.yml):
+You need to setup the bellow env variables in [docker-compose](docker-compose.yml) file:
 
         environment:
             - db_sync_senderId=SENDER_ID[Found the IDs here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
