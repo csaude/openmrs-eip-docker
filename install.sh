@@ -51,7 +51,7 @@ $SCRIPTS_DIR/eip_startup.sh
 
 # Add update script to cron
 echo "Adding updates.sh to crontab"
-echo "*/2       *       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
+echo "0       */5       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
 echo "Script added to crontab"
 crond -f -l 8
 
