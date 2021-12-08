@@ -69,7 +69,7 @@ Setup the bellow env variables in [docker-compose](docker-compose.yml) file loca
             - spring_artemis_port=ACTIVE_MQ_PORT
             
 
- [Found_the_IDs_here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
+ The SENDER_ID codes can be found [here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
         
 # Running the project
 To run the project for the first time hit the bellow command inside the root of the project directory
