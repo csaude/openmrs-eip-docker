@@ -46,9 +46,9 @@ If you are using openmrs instance based on [this docker project](https://github.
                 </ul>
         </li>
 </ol> 
-        The result should be as shown in the image
+ The result should be as shown in the image
         
-        ![bin-logs](https://user-images.githubusercontent.com/4964616/144993577-3bb8837c-936d-4c03-b288-e32b6c7c00a4.png)
+ ![bin_log](etc/bin-logs.png)
 
 
 # Setup
