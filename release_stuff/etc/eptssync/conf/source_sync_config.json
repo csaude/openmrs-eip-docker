@@ -1,6 +1,18 @@
 {
-  "syncRootDirectory" : "/home/eip/application/eptssync",
-  "originAppLocationCode" : $db_sync_senderId,
+  "syncRootDirectory" : "/home/eptssync/",
+  "originAppLocationCode" : "24_julho",
+  appsInfo:[
+
+                {
+                        applicationCode: "main",
+                        connInfo: {
+                                dataBaseUserName: "root",
+                                dataBaseUserPassword: "root",
+                                connectionURI: "jdbc:mysql://localhost:3308/openmrs_24_julho?autoReconnect=true&useSSL=false",
+                                driveClassName: "com.mysql.jdbc.Driver"
+                        }
+                }
+  ],
   "tablesConfigurations" : [ {
     "tableName" : "concept",
     "parents" : [ {
@@ -570,12 +582,6 @@
     "disabled" : false
   } ],
   "firstExport" : true,
-  "connInfo" : {
-    "dataBaseUserName" : "root",
-    "dataBaseUserPassword" : "root",
-    "connectionURI" : "jdbc:mysql://openmrs_db_host:$openmrs_db_port/openmrs_db_name?autoReconnect=true&amp;sessionVariables=storage_engine=InnoDB&amp;useUnicode=true&amp;characterEncoding=UTF-8",
-    "driveClassName" : "com.mysql.jdbc.Driver"
-  },
   "installationType" : "source",
   "operations" : [ {
     "operationType" : "database_preparation",
@@ -608,11 +614,11 @@
             "minRecordsPerEngine" : 50,
             "doIntegrityCheckInTheEnd" : false,
             "child" : null,
-            "disabled" : false,
+            "disabled" : true,
             "processingMode" : "sequencial",
             "sourceFolders" : null
           },
-          "disabled" : false,
+          "disabled" : true,
           "processingMode" : "sequencial",
           "sourceFolders" : null
         },
@@ -631,5 +637,5 @@
   "automaticStart" : true,
   "childConfigFilePath" : null,
   "disabled" : false,
-  "classPath" : "/home/eip/application/eptssync/eptssync-api-1.0-SNAPSHOT.jar"
+  "classPath" : "/home/eptssync/eptssync-api-1.0-SNAPSHOT.jar"
 }

@@ -21,6 +21,5 @@ services:
             - ./install.sh:/home/eip/scripts/install.sh
             - ./:/home/openmrs-eip-docker/:ro
             - ./eip_logs/:/home/eip/logs
-            - ./eptssync_logs/:/home/eip/application/eptssync/logs
             - ./release_stuff/ssmpt.conf:/etc/ssmtp/ssmtp.conf
         restart: unless-stopped

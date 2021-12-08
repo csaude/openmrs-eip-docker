@@ -1,14 +1,14 @@
 {
 	installationType: "neutral",
 	
-	syncRootDirectory: "/home/eptssync",
+	syncRootDirectory: "/home/application/eptssync",
 	classPath: "/home/eptssync/eptssync-api-1.0-SNAPSHOT.jar",
 	
-	originAppLocationCode: "fgh_24_julho",
+	originAppLocationCode: "db_sync_senderId",
 	firstExport: true,
 	automaticStart: true, 
 	applicationCode: "eip",
-	observationDate: 1618351200000,
+	observationDate: eptssync_observation_date,
 
 	appsInfo:[
 
@@ -16,8 +16,8 @@
 			applicationCode: "main",
 			connInfo: {
 				dataBaseUserName: "root",
-				dataBaseUserPassword: "root",
-				connectionURI: "jdbc:mysql://localhost:3308/openmrs_24_julho?autoReconnect=true&useSSL=false",
+				dataBaseUserPassword: "spring_openmrs_datasource_password",
+				connectionURI: "jdbc:mysql://openmrs_db_host:openmrs_db_port/openmrs_db_name?autoReconnect=true&useSSL=false",
 				driveClassName: "com.mysql.jdbc.Driver"
 			}
 		},
@@ -25,8 +25,8 @@
 			applicationCode: "eip",
 			connInfo: {
 				dataBaseUserName:"root",
-				dataBaseUserPassword: "root",
-				connectionURI: "jdbc:mysql://localhost:3308/openmrs_eip_sender_mgt_22_qlm_24_julho?autoReconnect=true&useSSL=false",
+				dataBaseUserPassword: "spring_openmrs_datasource_password",
+				connectionURI: "jdbc:mysql://openmrs_db_host:openmrs_db_port/openmrs_eip_sender_mgt_db_sync_senderId?autoReconnect=true&useSSL=false",
 				driveClassName: "com.mysql.jdbc.Driver"
 			}
 		}

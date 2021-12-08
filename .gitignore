@@ -1,4 +1,5 @@
 eip/*
 bkps/*
 eip_logs/
-eptssync_logs/
+release_stuff/etc/eptssync/process_status/
+release_stuff/etc/eptssync/pojo/
