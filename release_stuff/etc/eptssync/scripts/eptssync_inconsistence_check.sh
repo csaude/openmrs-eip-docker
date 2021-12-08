@@ -11,7 +11,10 @@
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 EPTSSYNC_HOME="/home/eptssync"
-CONFIG_FILE=$EPTSSYNC_HOME/conf/source_sync_config.json
+CONFIG_FILE=$EPTSSYNC_HOME/conf/source_sync_config.tmp.json
+CONFIG_FILE_ORIGINAL=$EPTSSYNC_HOME/conf/source_sync_config.json
+
+cp $CONFIG_FILE_ORIGINAL $CONFIG_FILE
 
 #PREPARE THE CONFIG FILE
 sed -i "s/origin_app_location_code/$origin_app_location_code/g" $CONFIG_FILE 

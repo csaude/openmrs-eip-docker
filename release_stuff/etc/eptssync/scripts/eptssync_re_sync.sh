@@ -11,7 +11,10 @@
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 EPTSSYNC_HOME=/home/application/eptssync
 EPTSSYNC_HOME=/home/eip/application/eptssync
-CONFIG_FILE=$EPTSSYNC_HOME/conf/detect_changed_records.json
+CONFIG_FILE=$EPTSSYNC_HOME/conf/detect_changed_records.tmp.json
+CONFIG_FILE_ORIGINAL=$EPTSSYNC_HOME/conf/detect_changed_records.json
+
+cp $CONFIG_FILE_ORIGINAL $CONFIG_FILE
 
 #PREPARE THE CONFIG FILE
 sed -i 's/db_sync_senderId/$db_sync_senderId/g' $CONFIG_FILE

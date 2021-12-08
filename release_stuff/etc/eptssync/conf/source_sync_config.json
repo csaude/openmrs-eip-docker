@@ -1,14 +1,14 @@
 {
   "syncRootDirectory" : "/home/eptssync/",
-  "originAppLocationCode" : "24_julho",
+  "originAppLocationCode" : "origin_app_location_code",
   appsInfo:[
 
                 {
                         applicationCode: "main",
                         connInfo: {
                                 dataBaseUserName: "root",
-                                dataBaseUserPassword: "root",
-                                connectionURI: "jdbc:mysql://localhost:3308/openmrs_24_julho?autoReconnect=true&useSSL=false",
+                                dataBaseUserPassword: "spring_openmrs_datasource_password",
+                                connectionURI: "jdbc:mysql://openmrs_db_host:openmrs_db_port/openmrs_db_name?autoReconnect=true&useSSL=false",
                                 driveClassName: "com.mysql.jdbc.Driver"
                         }
                 }
