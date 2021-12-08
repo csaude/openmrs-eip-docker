@@ -76,6 +76,10 @@ To run the project for the first time hit the bellow command inside the root of 
         
         docker-compose up -d
         
+Follow the logs using
+
+<code>docker exec -it openmrs-eip-sender tail -f /home/eip/logs/openmrs-eip.log</code>
+        
 # Notes
 If you notice some issue installing the application create a daemon.json file in location /var/lib/docker and put bellow code
 
