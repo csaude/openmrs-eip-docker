@@ -55,11 +55,11 @@ If you are using openmrs instance based on [this docker project](https://github.
 
 Clone the project into the remote computer
 
-<code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</>
+<code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
         
 Setup the bellow env variables in [docker-compose](docker-compose.yml) file located in root of openmrs-eip-docker directory. The env variables are located in "environment" session:
    
-            - db_sync_senderId=SENDER_ID [Found the IDs here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
+            - db_sync_senderId=SENDER_ID
             - server_port=The port for EIP console(Use 8081 if avaliable)
             - openmrs_db_host=OPENMRS_DB_HOST
             - openmrs_db_port=OPENMRS_DB_PORT
@@ -68,6 +68,9 @@ Setup the bellow env variables in [docker-compose](docker-compose.yml) file loca
             - spring_artemis_host=ACTIVE_MQ_ARTEMIS
             - spring_artemis_port=ACTIVE_MQ_PORT
             
+
+ [Found_the_IDs_here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
+        
 # Running the project
 To run the project for the first time hit the bellow command inside the root of the project directory
         
