@@ -1,7 +1,11 @@
 # Introduction
 This project hold the necessary stuffs for eip application installation using a docker container. The eip application run in a container called openmrs-eip-sender. The container has the ability to pickup updates for eip application. The new releases (routes, jar, scripts, etc) must be put in [release_stuff](./release_stuff) directory. The release update mechanism check the information in [release_info.sh](./release_stuff/scripts/release_info.sh) script. So, every time there is a new release the information in this script must be changed. 
 
+
 # Prerequisites
+Note: before you go for upgrade and eip installation you may want to run the inconsistences check agaist the openmrs db. Please refere to [Running inconsistence check session](#inconsistence_check). 
+
+
 To have the eip application run, the mysql bin-logs must be active in the remote openmrs database.
 
 If you are using openmrs instance based on [this docker project](https://github.com/FriendsInGlobalHealth/openmrs-docker-2x) follow the steps bellow:
@@ -75,3 +79,24 @@ If you notice some issue installing the application create a daemon.json file in
 }
 
 Depending on your docker environment this file could be in /etc/docker/daemon.json
+
+# Running inconsistence check
+<a name="inconsistence_check"></a>
+
+This docker project is packed with the inconsistency check module (epts-sync). The rountine to check the inconsistences run in separeted docker service which is defined in [docker-compose-inconsistence-check.yml](docker-compose-inconsistence-check.yml) file.
+
+To run the inconsistence check you must define the following env variables under the "environment" session in the mentioned file.
+
+            - origin_app_location_code=SITE_NAME
+            - openmrs_db_host=OPENMRS_DB_HOST
+            - openmrs_db_port=OPENMRS_DB_PORT
+            - openmrs_db_name=OPENMRS_DB_NAME
+            - spring_openmrs_datasource_password=OPENMRS_PASSWORD
+
+Then hit the command
+
+<code>docker-compose -f docker-compose-inconsistence-check.yml up -d</code>
+
+Follow the logs using the command bellow
+
+<code>docker logs --follow epts-inconsistence-check</code>
