@@ -37,7 +37,7 @@ If you are using openmrs instance based on [this docker project](https://github.
                 </ul>
         </li>
         <li>
-                After this, the 3 lines added  in step 2 must apear in “~/.my.cnf” file inside dabase container.
+                After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container.
         </li>
         <li>
                 After rebuilding the containers you should check if the bin-logs is up running the instrunction bellow in mysql database
@@ -46,16 +46,20 @@ If you are using openmrs instance based on [this docker project](https://github.
                 </ul>
         </li>
 </ol> 
-        The result should be as shown in the image
+ The result should be as shown in the image
         
-        ![bin-logs](https://user-images.githubusercontent.com/4964616/144993577-3bb8837c-936d-4c03-b288-e32b6c7c00a4.png)
+ ![bin_log](etc/bin-logs.png)
 
 
 # Setup
-You need to setup the bellow env variables in [docker-compose](docker-compose.yml) file:
-        environment:
+
+Clone the project into the remote computer (clone under /opt/openmrs/appdata/)
+
+<code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
         
-            - db_sync_senderId=SENDER_ID [Found the IDs here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
+Setup the bellow env variables in [docker-compose](docker-compose.yml) file located in root of openmrs-eip-docker directory. The env variables are located in "environment" session:
+   
+            - db_sync_senderId=SENDER_ID
             - server_port=The port for EIP console(Use 8081 if avaliable)
             - openmrs_db_host=OPENMRS_DB_HOST
             - openmrs_db_port=OPENMRS_DB_PORT
@@ -63,11 +67,21 @@ You need to setup the bellow env variables in [docker-compose](docker-compose.ym
             - spring_openmrs_datasource_password=OPENMRS_DB_USER
             - spring_artemis_host=ACTIVE_MQ_ARTEMIS
             - spring_artemis_port=ACTIVE_MQ_PORT
+            - spring_artemis_user=ACTIVE_MQ_USER
+            - spring_artemis_password=ACTIVE_MQ_PASSWORD
+
             
+
+ The SENDER_ID codes can be found [here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
+        
 # Running the project
 To run the project for the first time hit the bellow command inside the root of the project directory
         
         docker-compose up -d
+        
+Follow the logs using
+
+<code>docker exec -it openmrs-eip-sender tail -f /home/eip/logs/openmrs-eip.log</code>
         
 # Notes
 If you notice some issue installing the application create a daemon.json file in location /var/lib/docker and put bellow code
