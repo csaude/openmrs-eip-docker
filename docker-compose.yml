@@ -5,17 +5,19 @@ services:
         command: /home/eip/scripts/install.sh 2>&1 | tee -a /home/eip/eip.log
         container_name: openmrs-eip-sender
         ports:
-            - "9087:9087"
+            - "8081:8081"
         network_mode: host
         environment:
-            - db_sync_senderId=22_qlm_24_julho
-            - server_port=9088
-            - openmrs_db_host=localhost
-            - openmrs_db_port=3308
-            - openmrs_db_name=openmrs_24_julho
-            - spring_openmrs_datasource_password=root
-            - spring_artemis_host=localhost
-            - spring_artemis_port=8001
+            - db_sync_senderId=SENDER_ID
+            - server_port=SERVER_PORT
+            - openmrs_db_host=OPENMRS_DB_HOST
+            - openmrs_db_port=OPENMRS_DB_PORT
+            - openmrs_db_name=OPENMRS_DB_NAME
+            - spring_openmrs_datasource_password=OPENMRS_DB_USER
+            - spring_artemis_host=ACTIVE_MQ_ARTEMIS
+            - spring_artemis_port=ACTIVE_MQ_PORT
+            - spring_artemis_user=ACTIVE_MQ_USER
+            - spring_artemis_password=ACTIVE_MQ_PASSWORD
         working_dir: /home/eip
         volumes: 
             - ./install.sh:/home/eip/scripts/install.sh

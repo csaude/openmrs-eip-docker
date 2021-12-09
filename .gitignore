@@ -4,3 +4,6 @@ eip_logs/
 release_stuff/etc/eptssync/process_status/
 release_stuff/etc/eptssync/pojo/
 release_stuff/etc/eptssync/conf/source_sync_config.tmp.json
+docker-compose.prod.yml
+docker-compose.test.yml
+
