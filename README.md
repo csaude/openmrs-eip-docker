@@ -67,6 +67,9 @@ Setup the bellow env variables in [docker-compose](docker-compose.yml) file loca
             - spring_openmrs_datasource_password=OPENMRS_DB_USER
             - spring_artemis_host=ACTIVE_MQ_ARTEMIS
             - spring_artemis_port=ACTIVE_MQ_PORT
+            - spring_artemis_user=ACTIVE_MQ_USER
+            - spring_artemis_password=ACTIVE_MQ_PASSWORD
+
             
 
  The SENDER_ID codes can be found [here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
