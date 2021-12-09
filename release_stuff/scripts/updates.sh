@@ -42,6 +42,8 @@ else
 	   	echo "RELEASE PROJECT CLONED TO $RELEASE_BASE_DIR" | tee $HOME_DIR/updates.log
 	fi
 
+	git config --global user.email "jpboane@gmail.com"
+	git config --global user.name "jpboane"
 
 	#Pull changes from remote project
 	echo "LOOKING FOR EIP PROJECT UPDATES" | tee $HOME_DIR/updates.log
