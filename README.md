@@ -37,7 +37,7 @@ If you are using openmrs instance based on [this docker project](https://github.
                 </ul>
         </li>
         <li>
-                After this, the 3 lines added  in step 2 must apear in “~/.my.cnf” file inside dabase container.
+                After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container.
         </li>
         <li>
                 After rebuilding the containers you should check if the bin-logs is up running the instrunction bellow in mysql database
@@ -53,7 +53,7 @@ If you are using openmrs instance based on [this docker project](https://github.
 
 # Setup
 
-Clone the project into the remote computer
+Clone the project into the remote computer (clone under /opt/openmrs/appdata/)
 
 <code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
         
