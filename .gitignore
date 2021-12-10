@@ -6,3 +6,4 @@ release_stuff/etc/eptssync/pojo/
 release_stuff/etc/eptssync/conf/source_sync_config.tmp.json
 eip.prod.env
 eip.test.env
+eip.env
