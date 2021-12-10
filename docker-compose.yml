@@ -2,22 +2,11 @@ version: '3.2'
 services:
     openmrs-eip-sender:
         image: openjdk:8-alpine 
-        command: /home/eip/scripts/install.sh 2>&1 | tee -a /home/eip/eip.log
+        command: /home/eip/scripts/install.sh
         container_name: openmrs-eip-sender
-        ports:
-            - "8081:8081"
         network_mode: host
-        environment:
-            - db_sync_senderId=SENDER_ID
-            - server_port=SERVER_PORT
-            - openmrs_db_host=OPENMRS_DB_HOST
-            - openmrs_db_port=OPENMRS_DB_PORT
-            - openmrs_db_name=OPENMRS_DB_NAME
-            - spring_openmrs_datasource_password=OPENMRS_DB_USER
-            - spring_artemis_host=ACTIVE_MQ_ARTEMIS
-            - spring_artemis_port=ACTIVE_MQ_PORT
-            - spring_artemis_user=ACTIVE_MQ_USER
-            - spring_artemis_password=ACTIVE_MQ_PASSWORD
+        env_file:
+            - ./eip.env
         working_dir: /home/eip
         volumes: 
             - ./install.sh:/home/eip/scripts/install.sh
