@@ -68,19 +68,27 @@ Now login as eip user
 Clone the project into the remote computer (clone under /home/eip)
 
 <code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
+
+Copy the [./eip.template.env](eip.template.env) file to ./eip.env using the command
+
+<code>cp eip.template.env eip.env</code>
+
+Edit the env in the file copied above putting the correct values for the env variables 
+
+<code>
         
-Setup the bellow env variables in [docker-compose](docker-compose.yml) file located in root of openmrs-eip-docker directory. The env variables are located in "environment" session:
-   
-            - db_sync_senderId=SENDER_ID
-            - server_port=The port for EIP console(Use 8081 if avaliable)
-            - openmrs_db_host=OPENMRS_DB_HOST
-            - openmrs_db_port=OPENMRS_DB_PORT
-            - openmrs_db_name=OPENMRS_DB_NAME
-            - spring_openmrs_datasource_password=OPENMRS_DB_USER
-            - spring_artemis_host=ACTIVE_MQ_ARTEMIS
-            - spring_artemis_port=ACTIVE_MQ_PORT
-            - spring_artemis_user=ACTIVE_MQ_USER
-            - spring_artemis_password=ACTIVE_MQ_PASSWORD
+        db_sync_senderId=SENDER_ID
+        server_port=SERVER_PORT
+        openmrs_db_host=OPENMRS_DB_HOST
+        openmrs_db_port=OPENMRS_DB_PORT
+        openmrs_db_name=OPENMRS_DB_NAME
+        spring_openmrs_datasource_password=OPENMRS_DB_USER
+        spring_artemis_host=ACTIVE_MQ_ARTEMIS
+        spring_artemis_port=ACTIVE_MQ_PORT
+        spring_artemis_user=ACTIVE_MQ_USER
+        spring_artemis_password=ACTIVE_MQ_PASSWORD
+        origin_app_location_code=ORIGIN_APP_LOCATION_CODE
+</code>
 
             
 
