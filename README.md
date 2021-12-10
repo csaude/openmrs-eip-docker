@@ -53,7 +53,19 @@ If you are using openmrs instance based on [this docker project](https://github.
 
 # Setup
 
-Clone the project into the remote computer (clone under /opt/openmrs/appdata/)
+Create a eip user
+
+<code>sudo useradd -m -d /home/eip -s /bin/bash -g sudo,docker eip</code>
+
+Define a password for eip user
+
+<code>sudo passwd eip</code>
+
+Now login as eip user
+
+<code>su - eip</code>
+
+Clone the project into the remote computer (clone under /home/eip)
 
 <code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
         
