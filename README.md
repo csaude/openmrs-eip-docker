@@ -55,7 +55,7 @@ If you are using openmrs instance based on [this docker project](https://github.
 
 Create a eip user
 
-<code>sudo useradd -m -d /home/eip -s /bin/bash -g sudo,docker eip</code>
+<code>sudo useradd -m -d /home/eip -s /bin/bash -G sudo,docker eip</code>
 
 Define a password for eip user
 
