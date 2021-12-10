@@ -5,12 +5,8 @@ services:
         command: /home/eptssync/scripts/eptssync_inconsistence_check.sh
         container_name: epts-inconsistence-check
         network_mode: host
-        environment:
-            - origin_app_location_code=qlm_24_julho
-            - openmrs_db_host=localhost
-            - openmrs_db_port=3308
-            - openmrs_db_name=openmrs_24_julho
-            - spring_openmrs_datasource_password=root
+        env_file:
+            - ./eip.env
         working_dir: /home/eptssync
         volumes: 
             - ./release_stuff/etc/eptssync:/home/eptssync
