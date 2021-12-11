@@ -48,6 +48,7 @@ fi
 echo "STARING EIP APPLICATION"
 
 $SCRIPTS_DIR/eip_startup.sh
+$SCRIPTS_DIR/updates.sh
 
 # Add update script to cron
 echo "Adding updates.sh to crontab"
