@@ -30,3 +30,4 @@ cd $EPTSSYNC_HOME
 #java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" 
 java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" > $EPTSSYNC_HOME/logs/log.txt
 echo -n "APPLICATION STARTED IN BACKGROUND."
+
