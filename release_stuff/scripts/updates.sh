@@ -117,4 +117,5 @@ else
 	echo "EMAIL SENT!"
 
 	rm $ONGOING_UPDATE_INFO_FILE
+	$SCRIPTS_DIR/eip_startup.sh
 fi
