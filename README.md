@@ -95,7 +95,7 @@ Edit the env in the file copied above putting the correct values for the env var
  The SENDER_ID codes can be found [here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true)
         
 # Running the project
-To run the project for the first time hit the bellow command inside the root of the project directory
+To run the project for the first time hit the bellow command inside of the eip user home directory (/home/eip)
         
         docker-compose up -d
         
