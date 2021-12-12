@@ -67,7 +67,7 @@ Now login as eip user
 
 Clone the project into the remote computer (clone under /home/eip)
 
-<code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
+<code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git /home/eip</code>
 
 Copy the [./eip.template.env](eip.template.env) file to ./eip.env using the command
 
