@@ -13,11 +13,11 @@ export EIP_MODE=sender
 # Start application.
 echo -n "Preparing to start Eip Application: [$EIP_MODE]"
 
-source scripts/setenv.sh
-
 sleep 59 
 echo -n "Starting Eip Application: [$EIP_MODE]"
 cd $EIP_HOME
+
+source scripts/setenv.sh
 
 java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar &
 echo -n "APPLICATION STARTED IN BACKGROUND."
