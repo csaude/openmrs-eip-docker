@@ -133,4 +133,4 @@ Then hit the command
 
 Follow the logs using the command bellow
 
-<code>docker logs --follow epts-inconsistence-check</code>
+<code>docker exec -it epts-inconsistence-check tail -f /home/eptssync/logs/log.txt</code>
