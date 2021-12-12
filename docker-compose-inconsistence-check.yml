@@ -10,3 +10,4 @@ services:
         working_dir: /home/eptssync
         volumes: 
             - ./release_stuff/etc/eptssync:/home/eptssync
+            - ./logs:/home/eptssync/logs
