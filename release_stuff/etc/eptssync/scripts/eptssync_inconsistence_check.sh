@@ -27,6 +27,6 @@ sed -i "s/spring_openmrs_datasource_password/$spring_openmrs_datasource_password
 # Start application.
 echo -n "Starting EPTS Application"
 cd $EPTSSYNC_HOME
-java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" 
-#java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" > $EPTSSYNC_HOME/logs/logs_$timestamp.txt
+#java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" 
+java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" > $EPTSSYNC_HOME/logs/log.txt
 echo -n "APPLICATION STARTED IN BACKGROUND."
