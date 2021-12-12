@@ -7,3 +7,11 @@ release_stuff/etc/eptssync/conf/source_sync_config.tmp.json
 eip.prod.env
 eip.test.env
 eip.env
+.bash_history
+.bash_logout
+.bashrc
+.cache/
+.profile
+.sudo_as_admin_successful
+.viminfo
+
