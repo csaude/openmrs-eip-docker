@@ -48,11 +48,11 @@ fi
 echo "STARING EIP APPLICATION"
 
 $SCRIPTS_DIR/eip_startup.sh
+$SCRIPTS_DIR/install_crons.sh
 $SCRIPTS_DIR/updates.sh
 
 # Add update script to cron
 echo "Adding updates.sh to crontab"
-echo "0       */5       *       *       *       /home/eip/scripts/updates.sh" >> /etc/crontabs/root
 echo "Script added to crontab"
 crond -f -l 8
 

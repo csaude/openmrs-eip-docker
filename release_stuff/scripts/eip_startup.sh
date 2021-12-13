@@ -13,7 +13,7 @@ export EIP_MODE=sender
 # Start application.
 echo -n "Preparing to start Eip Application: [$EIP_MODE]"
 
-sleep 59 
+sleep 20 
 echo -n "Starting Eip Application: [$EIP_MODE]"
 cd $EIP_HOME
 

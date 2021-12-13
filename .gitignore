@@ -14,5 +14,5 @@ eip.env
 .profile
 .sudo_as_admin_successful
 .viminfo
-
+shared/
 

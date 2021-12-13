@@ -79,6 +79,9 @@ else
 	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
 
+	        #INSTALL THE CRONS
+        	$SCRIPTS_DIR/install_crons.sh
+
 	        echo "UPDATE DONE!" | tee $HOME_DIR/updates.log
 
 	        echo "RESTARING EIP APPLICATION" | tee $HOME_DIR/updates.log
