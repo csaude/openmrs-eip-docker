@@ -4,8 +4,6 @@ services:
         image: openjdk:8-alpine 
         command: /home/eip/scripts/install.sh
         container_name: openmrs-eip-sender
-        ports:
-            - "8081:8081"
         network_mode: host
         env_file:
             - ./eip.env
