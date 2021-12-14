@@ -136,6 +136,7 @@ Follow the logs using the command bellow
 
 <code>docker exec -it epts-inconsistence-check tail -f /home/eptssync/logs/log.txt</code>
 
+<a name="migration"></a>
 # Migrating old eip installation to docker based one
 
 Login as eip user using the terminal
