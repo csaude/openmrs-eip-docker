@@ -148,7 +148,7 @@ First create a old-staff directory and put all old stuff there
 
 <code>mv * old_staff</code>
 
-Now Follow the [setup](#setup) instructions 
+Now Follow the [setup](#setup) instructions. Note that you will not need to create eip user!! 
 
 
 
