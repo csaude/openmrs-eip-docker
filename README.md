@@ -51,6 +51,7 @@ If you are using openmrs instance based on [this docker project](https://github.
  ![bin_log](etc/bin-logs.png)
 
 
+<a name="setup"></a>
 # Setup
 
 Create a eip user
@@ -134,3 +135,21 @@ Then hit the command
 Follow the logs using the command bellow
 
 <code>docker exec -it epts-inconsistence-check tail -f /home/eptssync/logs/log.txt</code>
+
+# Migrating old eip installation to docker based one
+
+Login as eip user using the terminal
+
+<code>su - eip</code>
+
+First create a old-staff directory and put all old stuff there
+
+<code>mkdir old_staff</code>
+
+<code>mv * old_staff</code>
+
+Now Follow the [setup](#setup) instructions 
+
+
+
+
