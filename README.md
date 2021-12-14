@@ -142,7 +142,13 @@ Login as eip user using the terminal
 
 <code>su - eip</code>
 
-First create a old-staff directory and put all old stuff there
+Stop the eip application and remove the eip service
+
+<code>sudo systemctl stop eip</code>
+
+<code>sudo systemctl disable eip</code>
+
+Now create a old-staff directory and put all old stuff there.
 
 <code>mkdir old_staff</code>
 
