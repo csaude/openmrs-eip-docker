@@ -51,7 +51,6 @@ If you are using openmrs instance based on [this docker project](https://github.
  ![bin_log](etc/bin-logs.png)
 
 
-<a name="setup"></a>
 # Setup
 
 Create a eip user
@@ -66,6 +65,7 @@ Now login as eip user
 
 <code>su - eip</code>
 
+<a name="setup"></a>
 Clone the project into the remote computer (clone under /home/eip)
 
 <code>git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git /home/eip</code>
