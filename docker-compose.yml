@@ -14,4 +14,5 @@ services:
             - ./logs/:/home/eip/logs
             - ./shared:/home/eip/shared
             - ./release_stuff/ssmpt.conf:/etc/ssmtp/ssmtp.conf
+            - ./.debezium:/home/eip/.debezium
         restart: unless-stopped
