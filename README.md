@@ -23,7 +23,7 @@ If you are using openmrs instance based on [this docker project](https://github.
                 </ul>
         </li>
         <li>
-                Edit the file mysql/fgh-mysql.cnf in docker project adding 3 lines under [mysqld] group:           
+                Edit the file mysql/mysql.cnf in docker project adding 3 lines under [mysqld] group:           
                 <pre>    
                 log-bin=mysql-bin.log
                 binlog_format=row
