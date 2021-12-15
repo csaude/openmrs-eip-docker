@@ -71,7 +71,7 @@ Init a git repository in /home/eip directory
 
 <code>git init</code>
 
-Associete the project to related docker project in github
+Associate the project to related docker project in github
 
 <code>git remote add origin https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
 
