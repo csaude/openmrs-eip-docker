@@ -93,8 +93,6 @@ Edit the env in the file copied above putting the correct values for the env var
         openmrs_db_port=OPENMRS_DB_PORT
         openmrs_db_name=OPENMRS_DB_NAME
         spring_openmrs_datasource_password=OPENMRS_DB_USER
-        spring_artemis_host=ACTIVE_MQ_ARTEMIS
-        spring_artemis_port=ACTIVE_MQ_PORT
         spring_artemis_user=ACTIVE_MQ_USER
         spring_artemis_password=ACTIVE_MQ_PASSWORD
         origin_app_location_code=ORIGIN_APP_LOCATION_CODE
