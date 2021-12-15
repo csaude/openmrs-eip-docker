@@ -73,7 +73,7 @@ Init a git repository in /home/eip directory
 
 Associete the project to related docker project in github
 
-<code>git add remote https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
+<code>git remote add origin https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git</code>
 
 Pull the remote project into local directory
 
