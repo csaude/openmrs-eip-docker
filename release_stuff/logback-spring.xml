@@ -4,7 +4,7 @@
     <springProperty name="eip.base.dir" source="eip.home" defaultValue="/home/eip" />
 
     <property name="LOGS_PATTERN" value="%-5level %date [%thread] %logger{8}:%line %msg%n" />
-    <property name="LOGS_DIR" value="${eip.base.dir}${file.separator}logs" />
+    <property name="LOGS_DIR" value="${eip.base.dir}${file.separator}shared${file.separator}eip${file.separator}logs" />
     <property name="LOGS_FILE_NAME" value="openmrs-eip" />
     <property name="LOGS_FILE_NAME_EXT" value="log" />
     <property name="LOGS_FILE" value="${LOGS_DIR}${file.separator}${LOGS_FILE_NAME}.${LOGS_FILE_NAME_EXT}" />

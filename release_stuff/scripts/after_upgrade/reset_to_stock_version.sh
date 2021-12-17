@@ -1,8 +1,20 @@
 #!/usr/bin/expect -f
 
 set timeout -1
-mkdir /home/eip/tmp_scripts
-cp /home/eip/scripts/* /home/eip/tmp_scripts/
+
+HOME_DIR=/home/eip
+LOG_DIR=$HOME_DIR/shared/logs
+OLD_EIP_LOG_DIR=$HOME_DIR/logs
+
+
+if [ ! -d "$LOG_DIR" ]; then
+       mkdir -p $LOG_DIR
+       echo "THE LOG DIR WAS CREATED" | tee -a $LOG_DIR/reset_to_stock.log
+fi
+
+
+mv $OLD_EIP_LOG_DIR/* $LOG_DIR/eip/ 
+
 
 spawn scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r /home/eip/tmp_scripts eip@localhost:/home/eip/prg/docker/openmrs-eip-docker/
 expect "eip@localhost's password:"

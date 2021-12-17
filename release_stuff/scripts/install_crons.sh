@@ -3,22 +3,31 @@
 #
 
 # Set environment.
-CRONS_HOME=/home/eip/cron
+HOME_DIR=/home/eip
+CRONS_HOME=$HOME_DIR/cron
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
+LOG_DIR=$HOME_DIR/shared/logs/cron
+
+if [ -d "$LOG_DIR" ]; then
+       echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/cron_install.log
+else
+       mkdir -p $LOG_DIR
+       echo "THE LOG DIR WAS CREATED" | tee -a $LOG_DIR/cron_install.log
+fi
 
 cd $CRONS_HOME
 
 for FILE in *.sh; do 
 	if [ -f "$FILE"_installed ]; then
-   		echo "The $FILE is allredy installed" | tee $CRONS_HOME/install.log
+   		echo "The $FILE is allredy installed" | tee -a $LOG_DIR/cron_install.log
 	else
-   		echo "INSTALLING CRON ON $FILE" | tee $CRONS_HOME/install.log
+   		echo "INSTALLING CRON ON $FILE" | tee -a $LOG_DIR/cron_install.log
 		./$FILE
-   		echo "CRON ON $FILE INSTALLED" | tee $CRONS_HOME/install.log
+   		echo "CRON ON $FILE INSTALLED" | tee -a $LOG_DIR/cron_install.log
 		echo "Cron installed on $timestamp" > "$FILE"_installed
 	fi
 
 done
 
-echo "AL CRONS WERE INSTALLED" | tee $CRONS_HOME/install.log
+echo "AL CRONS WERE INSTALLED" | tee -a $LOG_DIR/cron_install.log
 
