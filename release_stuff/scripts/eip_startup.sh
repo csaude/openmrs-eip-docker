@@ -19,6 +19,8 @@ cd $EIP_HOME
 
 source scripts/setenv.sh
 
+cp application-sender-template.properties application-sender.properties
+
 sed -i "s/spring_artemis_host/$spring_artemis_host/g" application-sender.properties
 sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
