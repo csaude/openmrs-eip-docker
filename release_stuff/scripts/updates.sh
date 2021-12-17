@@ -79,7 +79,9 @@ else
 	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
 		
+		echo "RUNNING STARTUP SCRIPTS!" | tee $HOME_DIR/updates.log
 		$SCRIPTS_DIR/reset_to_stock_version.sh
+		echo "STARTUP SCRIPTS RUN!" | tee $HOME_DIR/updates.log
 	        #INSTALL THE CRONS
         	$SCRIPTS_DIR/install_crons.sh
 		$SCRIPTS_DIR/install_crons.sh
