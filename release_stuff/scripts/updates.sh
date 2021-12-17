@@ -107,12 +107,6 @@ else
 	echo "" >> $EMAIL_CONTENT_FILE
 	echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $EMAIL_CONTENT_FILE
 
-	#INSTALL SSMPT
-	apk update
-	echo "INSTALLING SSMPT"
-	apk add ssmtp
-	echo "SSMPT INSTALLED"
-
 	sendmail -t -f  < $EMAIL_CONTENT_FILE
 
 	rm $EMAIL_CONTENT_FILE
