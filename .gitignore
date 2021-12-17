@@ -15,4 +15,4 @@ eip.env
 .sudo_as_admin_successful
 .viminfo
 shared/
-
+.debezium/
