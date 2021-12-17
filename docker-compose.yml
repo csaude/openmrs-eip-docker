@@ -15,4 +15,5 @@ services:
             - ./shared:/home/eip/shared
             - ./release_stuff/ssmpt.conf:/etc/ssmtp/ssmtp.conf
             - ./.debezium:/home/eip/.debezium
+            - ./tmp_scripts:/home/eip/scripts/bkps
         restart: unless-stopped
