@@ -47,6 +47,7 @@ else
 fi
 echo "STARING EIP APPLICATION"
 
+$SCRIPTS_DIR/apk_install.sh
 $SCRIPTS_DIR/eip_startup.sh
 $SCRIPTS_DIR/install_crons.sh
 $SCRIPTS_DIR/updates.sh
