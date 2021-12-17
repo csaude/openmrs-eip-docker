@@ -2,10 +2,10 @@
 
 set timeout -1
 
-HOST_DIR=/home/eip/prg/docker/eip-docker-testing
-HOME_DIR=/home/eip
-SHARED_DIR=$HOME_DIR/shared
-LOG_DIR=$SHARED_DIR/logs
+export HOST_DIR=/home/eip/prg/docker/eip-docker-testing
+export HOME_DIR=/home/eip
+export SHARED_DIR=$HOME_DIR/shared
+export LOG_DIR=$SHARED_DIR/logs
 
 if [ ! -d "$LOG_DIR/eip" ]; then
        mkdir -p $EIP_LOG_DIR

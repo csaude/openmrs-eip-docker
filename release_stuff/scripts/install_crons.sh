@@ -17,15 +17,13 @@ fi
 
 cd $CRONS_HOME
 
+cp cron /etc/crontabs/root
+
 for FILE in *.sh; do 
-	if [ -f "$FILE"_installed ]; then
-   		echo "The $FILE is allredy installed" | tee -a $LOG_DIR/cron_install.log
-	else
-   		echo "INSTALLING CRON ON $FILE" | tee -a $LOG_DIR/cron_install.log
-		./$FILE
-   		echo "CRON ON $FILE INSTALLED" | tee -a $LOG_DIR/cron_install.log
-		echo "Cron installed on $timestamp" > "$FILE"_installed
-	fi
+ 	echo "INSTALLING CRON ON $FILE" | tee -a $LOG_DIR/cron_install.log
+	./$FILE
+   	echo "CRON ON $FILE INSTALLED" | tee -a $LOG_DIR/cron_install.log
+	echo "Cron installed on $timestamp" > "$FILE"_installed
 
 done
 
