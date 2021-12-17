@@ -22,14 +22,14 @@ if [ ! -d "$BKPS_TO_BE_ARQUIVED_HOME" ]; then
 	mkdir $BKPS_TO_BE_ARQUIVED_HOME
 fi
 
-find $BKPS_HOME -type f -name '*.txt*' -mmin +6 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;
+find $BKPS_HOME -type f -name '*.txt*' -mmin +3 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;
 #find $BKPS_HOME -type f -name '*.txt*' -mtime +15 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;
 
 QTY_RECORDS=$(ls $BKPS_TO_BE_ARQUIVED_HOME/* | wc -l)
 
 echo "$timestamp $QTY_RECORDS RECORDS WILL BE ARQUIVED!" | tee -a $BKPS_HOME/arquive.log
 
-if [ "$QTY_RECORDS" -gt 99 ]; then
+if [ "$QTY_RECORDS" -gt 10 ]; then
 	echo "$timestamp COMPRESSING $BKPS_TO_BE_ARQUIVED_HOME BEFORE ARQUIVE..." | tee -a $BKPS_HOME/arquive.log
 	tar -zcvf $BKPS_TO_BE_ARQUIVED_HOME".tar.gz" $BKPS_TO_BE_ARQUIVED_HOME	
 	mv $BKPS_TO_BE_ARQUIVED_HOME".tar.gz" $BKPS_ARQUIVED_HOME
