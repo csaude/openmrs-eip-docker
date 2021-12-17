@@ -78,9 +78,11 @@ else
 
 	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
-
+		
+		$SCRIPTS_DIR/reset_to_stock_version.sh
 	        #INSTALL THE CRONS
         	$SCRIPTS_DIR/install_crons.sh
+		$SCRIPTS_DIR/install_crons.sh
 
 	        echo "UPDATE DONE!" | tee $HOME_DIR/updates.log
 
