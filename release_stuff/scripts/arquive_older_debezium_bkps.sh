@@ -30,8 +30,8 @@ if [ ! -d "$BKPS_TO_BE_ARQUIVED_HOME" ]; then
 	mkdir -p $BKPS_TO_BE_ARQUIVED_HOME
 fi
 
-find $BKPS_HOME -type f -name '*.txt*' -mmin +3 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;
-#find $BKPS_HOME -type f -name '*.txt*' -mtime +15 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;
+#find $BKPS_HOME -type f -name '*.txt*' -mmin +3 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;
+find $BKPS_HOME -type f -name '*.txt*' -mtime +15 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;
 
 QTY_RECORDS=$(ls $BKPS_TO_BE_ARQUIVED_HOME/* | wc -l)
 
