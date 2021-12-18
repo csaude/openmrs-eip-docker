@@ -10,12 +10,18 @@
 # Set EIP environment.
 export EIP_HOME=/home/eip
 export EIP_MODE=sender
+
+
+cd $EIP_HOME
+
+#TEMPORARY CODE TO RESET THE CONTAINER
+$SCRIPTS_DIR/after_upgrade_scripts.sh
+
 # Start application.
 echo -n "Preparing to start Eip Application: [$EIP_MODE]"
 
 sleep 20 
 echo -n "Starting Eip Application: [$EIP_MODE]"
-cd $EIP_HOME
 
 source scripts/setenv.sh
 

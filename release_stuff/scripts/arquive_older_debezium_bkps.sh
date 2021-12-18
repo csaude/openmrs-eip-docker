@@ -27,7 +27,7 @@ BKPS_TO_BE_ARQUIVED_HOME="$BKPS_HOME/arquive_$(ls $BKPS_ARQUIVED_HOME | wc -l)"
 
 if [ ! -d "$BKPS_TO_BE_ARQUIVED_HOME" ]; then
 	echo "$timestamp CREATING TEMPORARY DIR FOR ARQUIVING CURRENT FILES($BKPS_TO_BE_ARQUIVED_HOME)" | tee -a $LOG_DIR/arquive.log
-	mkdir $BKPS_TO_BE_ARQUIVED_HOME
+	mkdir -p $BKPS_TO_BE_ARQUIVED_HOME
 fi
 
 find $BKPS_HOME -type f -name '*.txt*' -mmin +3 -exec mv {} $BKPS_TO_BE_ARQUIVED_HOME \;

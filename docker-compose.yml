@@ -11,9 +11,6 @@ services:
         volumes: 
             - ./install.sh:/home/eip/scripts/install.sh
             - ./:/home/openmrs-eip-docker/:ro
-              #- ./logs/:/home/eip/logs
             - ./shared:/home/eip/shared
             - ./release_stuff/ssmpt.conf:/etc/ssmtp/ssmtp.conf
-              #- ./.debezium:/home/eip/.debezium
-            - ./tmp_scripts:/home/eip/tmp_scripts
         restart: unless-stopped
