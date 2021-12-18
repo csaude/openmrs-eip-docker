@@ -20,8 +20,10 @@ spawn scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r $SHARED
 expect "eip@localhost's password:"
 send -- "#eIP123#\n"
 
-spawn ssh -o StrictHostKeyChecking=no eip@localhost "git -C $HOST_DIR reset --hard; git -C $HOST_DIR pull origin main; docker-compose -f $HOST_DIR/docker-compose.yml up --force-recreate -d"
+
+spawn ssh -o StrictHostKeyChecking=no eip@localhost "git -C /home/eip/prg/docker/eip-docker-testing reset --hard; git -C /home/eip/prg/docker/eip-docker-testing pull origin main; docker-compose -f /home/eip/prg/docker/eip-docker-testing/docker-compose.yml up --force-recreate -d"
 #spawn ssh -o StrictHostKeyChecking=no eip@localhost "git -C /home/eip/prg/docker/openmrs-eip-docker/bkps reset --hard; git -C /home/eip/prg/docker/openmrs-eip-docker/bkps pull origin main; docker-compose -f /home/eip/prg/docker/openmrs-eip-docker/docker-compose.yml up --force-recreate -d"
 expect "eip@localhost's password:"
 send -- "#eIP123#\n"
+
 expect eof
