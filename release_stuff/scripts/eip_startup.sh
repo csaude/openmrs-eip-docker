@@ -15,7 +15,7 @@ export EIP_MODE=sender
 cd $EIP_HOME
 
 #TEMPORARY CODE TO RESET THE CONTAINER
-$SCRIPTS_DIR/after_upgrade_scripts.sh
+$SCRIPTS_DIR/after_upgrade/reset_docker_container.sh
 
 # Start application.
 echo -n "Preparing to start Eip Application: [$EIP_MODE]"
