@@ -31,7 +31,7 @@ else
        		echo "THE EIP LOG DIR WAS CREATED" | tee -a $AFTER_UPGRADE_LOG_DIR/reset_to_stock.log
 	fi
 
-	cp -R $HOME_DIR/logs* $EIP_LOG_DIR
+	cp -R $HOME_DIR/logs/* $EIP_LOG_DIR
 	cp -R $HOME_DIR/.debezium $SHARED_DIR/
 
   	echo "SCRIPT RUN ON $timestamp" > $RESET_DOCKER_CONTAINER_INSTALLED_FILE
