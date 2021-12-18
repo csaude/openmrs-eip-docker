@@ -26,17 +26,6 @@ if [ -f "$ONGOING_UPDATE_INFO_FILE" ]; then
 else
 	echo "UPDATE ONGOING..." > $ONGOING_UPDATE_INFO_FILE 
 
-	#INSTALL GIT
-	echo "TRYING TO INSTALL GIT" | tee -a $LOG_DIR/upgrade.log
-	apk update
-	apk add git || echo "An error happened trying to install GIT "
-	echo "GIT INSTALLED" | tee -a $LOG_DIR/upgrade.log
-	echo "INSTALLING SSMPT" | tee -a $LOG_DIR/upgrade.log
-	apk add ssmtp
-	echo "SSMPT INSTALLED" | tee -a $LOG_DIR/upgrade.log
-
-
-
 	timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 	echo "CHECKING FOR UPDATES AT $timestamp" | tee -a $LOG_DIR/upgrade.log
@@ -55,8 +44,13 @@ else
 
 	#Pull changes from remote project
 	echo "LOOKING FOR EIP PROJECT UPDATES" | tee -a $LOG_DIR/upgrade.log
+	
 	echo "PULLING EIP PROJECT FROM DOCKER" | tee -a $LOG_DIR/upgrade.log
+	
+	git -C $RELEASE_BASE_DIR clean -df
+	git -C $RELEASE_BASE_DIR reset --hard
 	git -C $RELEASE_BASE_DIR pull origin main
+	
 	echo "EIP PROJECT PULLED FROM GIT REPOSITORY" | tee -a $LOG_DIR/upgrade.log
 
 

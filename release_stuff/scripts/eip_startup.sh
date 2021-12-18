@@ -10,7 +10,11 @@
 # Set EIP environment.
 export EIP_HOME=/home/eip
 export EIP_MODE=sender
+export HOME_DIR=/home/eip
+export SCRIPTS_DIR=$HOME_DIR/scripts
 
+#TEMPORARY CODE TO RESET THE CONTAINER
+$SCRIPTS_DIR/after_upgrade/reset_docker_container.sh
 
 cd $EIP_HOME
 
