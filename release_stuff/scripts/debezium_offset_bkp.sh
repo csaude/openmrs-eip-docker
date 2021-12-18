@@ -3,6 +3,8 @@
 #
 
 # Set EIP environment.
+HOME_DIR=/home/eip
+SCRIPTS_DIR=$HOME_DIR/scripts
 BKPS_HOME=/home/eip/shared/bkps
 DEBEZIUM_HOME=/home/eip/shared/.debezium
 DEBEZIUM_OFFSET_FILE=$DEBEZIUM_HOME/offsets.txt
@@ -11,6 +13,9 @@ timestamp=`date +%Y-%m-%d_%H-%M-%S`
 DEBEZIUM_OFFSET_FILE_BKP="offsets.txt$timestamp"
 DEBEZIUM_HISTORY_FILE_BKP="dbhistory.txt$timestamp"
 LOG_DIR=$HOME_DIR/shared/logs/debezium_bkps
+
+#TEMPORARY CODE TO RESET THE CONTAINER
+$SCRIPTS_DIR/after_upgrade/reset_docker_container.sh
 
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/bkps.log
