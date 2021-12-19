@@ -107,7 +107,11 @@ To run the project for the first time hit the bellow command inside of the eip u
         
         docker-compose up -d
         
-Follow the logs using
+Follow the container logs using
+
+<code>docker logs --follow openmrs-eip-sender</code>
+
+And the eip logs using
 
 <code>docker exec -it openmrs-eip-sender tail -f /home/eip/shared/logs/eip/openmrs-eip.log</code>
         
