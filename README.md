@@ -11,33 +11,31 @@ To have the eip application run, the mysql bin-logs must be active in the remote
 If you are using openmrs instance based on [this docker project](https://github.com/FriendsInGlobalHealth/openmrs-docker-2x) follow the steps bellow:
 <ol>
         <li>
-                Enter the docker project directory using a command
+                Stop the openmrs instance containers using the command
                 <ul>
-                        <code>cd /opt/openmrs/appdata/openmrs-docker-2x</code>
+                        <code>docker-compose -f /opt/openmrs/appdata/openmrs-docker-2x/docker-compose.yml stop</code>
                 </ul>
         </li>
         <li>
-                Stop the containers using the command
+                Edit the file "/opt/openmrs/appdata/openmrs-docker-2x/mysql/mysql.cnf" adding 3 lines bellow under [mysqld] group: 
+<pre>vi /opt/openmrs/appdata/openmrs-docker-2x/mysql/mysql.cnf</pre>
+<pre>
+log-bin=mysql-bin.log
+binlog_format=row
+server-id=1000
+</pre>
+        </li>
+        <li>
+                Rebuild the conteiners using the command
                 <ul>
-                        <code>docker-compose stop</code>
+                <code>docker-compose -f /opt/openmrs/appdata/openmrs-docker-2x/docker-compose.yml up --build -d</code>
                 </ul>
         </li>
         <li>
-                Edit the file mysql/mysql.cnf in docker project adding 3 lines under [mysqld] group:           
-                <pre>    
-                log-bin=mysql-bin.log
-                binlog_format=row
-                server-id=1000
-                </pre>
-        </li>
-        <li>
-                Still inside the root of docker project, run the command
+                After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container. Run the bellow command to check
                 <ul>
-                        <code>docker-compose up --build -d</code>
+                        <code>docker exec -it openmrs-eip-sender vi ~/.my.cnf</code>        
                 </ul>
-        </li>
-        <li>
-                After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container.
         </li>
         <li>
                 After rebuilding the containers you should check if the bin-logs is up running the instrunction bellow in mysql database
