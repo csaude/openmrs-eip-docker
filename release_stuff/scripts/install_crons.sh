@@ -1,5 +1,5 @@
 #!/bin/sh
-# script for backup the debezium off-set file
+# script for install cron jobs. The cron jobs a picked up from $HOME_DIR/cron
 #
 
 # Set environment.
