@@ -1,5 +1,5 @@
 #!/bin/sh
-# script for backup the debezium off-set file
+# This script is run  after every upgrade of container. The script pickup and run scripts in after upgrade folder
 #
 # Set environment.
 HOME_DIR=/home/eip
