@@ -37,7 +37,7 @@ QTY_RECORDS=$(ls $BKPS_TO_BE_ARQUIVED_HOME/* | wc -l)
 
 echo "$timestamp $QTY_RECORDS RECORDS WILL BE ARQUIVED!" | tee -a $LOG_DIR/arquive.log
 
-if [ "$QTY_RECORDS" -gt 10 ]; then
+if [ "$QTY_RECORDS" -gt 99 ]; then
 	echo "$timestamp COMPRESSING $BKPS_TO_BE_ARQUIVED_HOME BEFORE ARQUIVE..." | tee -a $LOG_DIR/arquive.log
 	tar -zcvf $BKPS_TO_BE_ARQUIVED_HOME".tar.gz" $BKPS_TO_BE_ARQUIVED_HOME	
 	mv $BKPS_TO_BE_ARQUIVED_HOME".tar.gz" $BKPS_ARQUIVED_HOME
