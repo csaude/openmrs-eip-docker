@@ -9,9 +9,6 @@ AFTER_UPGRADE_LOG_DIR=$LOG_DIR/upgrade
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 INSTALL_INFO_DIR=$SHARED_DIR/install_info/after_upgrade
-RESET_DOCKER_CONTAINER_FILE=$AFTER_UPGRADE_SCRIPTS_HOME/reset_docker_container.sh
-RESET_DOCKER_CONTAINER_INSTALLED_FILE=$INSTALL_INFO_DIR/reset_docker_container.sh_installed
-
 
 cd $AFTER_UPGRADE_SCRIPTS_HOME
 
