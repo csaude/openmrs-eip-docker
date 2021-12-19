@@ -2,7 +2,8 @@
 
 set timeout -1
 
-set HOST_DIR "/home/eip/prg/docker/eip-docker-testing"
+set HOST_DIR "/home/eip"
+#set HOST_DIR "/home/eip/prg/docker/eip-docker-testing"
 set HOME_DIR "/home/eip"
 set SHARED_DIR "$HOME_DIR/shared"
 set LOG_DIR "$SHARED_DIR/logs"
