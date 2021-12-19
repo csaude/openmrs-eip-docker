@@ -109,7 +109,7 @@ To run the project for the first time hit the bellow command inside of the eip u
         
 Follow the logs using
 
-<code>docker exec -it openmrs-eip-sender tail -f /home/eip/logs/openmrs-eip.log</code>
+<code>docker exec -it openmrs-eip-sender tail -f /home/eip/shared/logs/eip/openmrs-eip.log</code>
         
 # Notes
 If you notice some issue installing the application create a daemon.json file in location /var/lib/docker and put bellow code
