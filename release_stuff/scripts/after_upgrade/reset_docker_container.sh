@@ -36,5 +36,5 @@ else
 
   	echo "SCRIPT RUN ON $timestamp" > $RESET_DOCKER_CONTAINER_INSTALLED_FILE
 
-	$AFTER_UPGRADE_SCRIPTS_HOME/performe_reset.sh
+	$AFTER_UPGRADE_SCRIPTS_HOME/performe_reset
 fi
