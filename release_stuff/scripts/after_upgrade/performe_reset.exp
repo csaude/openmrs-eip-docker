@@ -41,7 +41,6 @@ while {$reset_done < 0 } {
                 "ssh: connect to host $host port 22: Connection timed out\r\r\n" {puts "Connection to $host timed out. Reconnecting..."}
                 "ssh: connect to host $host port 22: Connection refused\r\r\n" {puts "Connection to $host refused. Reconnecting..."}
 		"ssh: connect to host $host port 22: Operation timed out\r\r\n" {puts "Operation to $host timed out. Reconnecting..."}
-                "[sudo] password for eip:" {send -- "#eIP123#\n"}
                 "eip@$host's password:" {set reset_done 1; send -- "#eIP123#\n"}
         }
 }
