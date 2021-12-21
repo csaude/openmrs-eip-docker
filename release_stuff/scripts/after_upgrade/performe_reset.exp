@@ -33,12 +33,13 @@ while {$scp_done < 0 } {
 set reset_done -1
 
 while {$reset_done < 0 } {
-	spawn ssh -o StrictHostKeyChecking=no eip@$host "git -C $HOST_DIR clean -df; git -C $HOST_DIR reset --hard; git -C $HOST_DIR pull origin main;  'SCRIPT RUN ON $timestamp' > $RESET_DOCKER_CONTAINER_INSTALLED_FILE; docker-compose -f $HOST_DIR/docker-compose.yml up --force-recreate -d;"
+	spawn ssh -o StrictHostKeyChecking=no eip@$host "git -C $HOST_DIR clean -df; git -C $HOST_DIR reset --hard; git -C $HOST_DIR pull origin main; sudo touch $RESET_DOCKER_CONTAINER_INSTALLED_FILE; docker-compose -f $HOST_DIR/docker-compose.yml up --force-recreate -d;"
 
         expect {
                 "ssh: connect to host $host port 22: Connection timed out\r\r\n" {puts "Connection to $host timed out. Reconnecting..."}
                 "ssh: connect to host $host port 22: Connection refused\r\r\n" {puts "Connection to $host refused. Reconnecting..."}
 		"ssh: connect to host $host port 22: Operation timed out\r\r\n" {puts "Operation to $host timed out. Reconnecting..."}
+                "[sudo] password for eip:" {send -- "#eIP123#\n"}
                 "eip@$host's password:" {set reset_done 1; send -- "#eIP123#\n"}
         }
 }
