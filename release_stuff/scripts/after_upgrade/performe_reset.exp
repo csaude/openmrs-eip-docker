@@ -4,12 +4,12 @@ set timeout -1
 
 #set HOST_DIR "/home/eip"
 set host "192.176.9.1"
-set HOST_DIR "/home/eip/prg/docker/eip-docker-testing"
+set HOST_DIR [lindex $argv 0]
 set HOME_DIR "/home/eip"
 set SHARED_DIR "$HOME_DIR/shared"
 set LOG_DIR "$SHARED_DIR/logs"
 set AFTER_UPGRADE_LOG_DIR "$LOG_DIR/upgrade"
-set RESET_DOCKER_CONTAINER_INSTALLED_FILE [index $argv 1]
+set RESET_DOCKER_CONTAINER_INSTALLED_FILE [lindex $argv 1]
 
 #set RESET_DOCKER_CONTAINER_INSTALLED_FILE "reset_docker_container_stable.sh_installed"
 #set RESET_DOCKER_CONTAINER_INSTALLED_FILE "$HOST_DIR/shared/install_info/after_upgrade/$RESET_DOCKER_CONTAINER_INSTALLED_FILE"

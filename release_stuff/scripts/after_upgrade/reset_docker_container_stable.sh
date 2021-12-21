@@ -1,17 +1,16 @@
 #!/bin/sh
 
-export HOME_DIR=/home/eip
-export SHARED_DIR=$HOME_DIR/shared
-export SCRIPTS_DIR=$HOME_DIR/scripts
-export LOG_DIR=$SHARED_DIR/logs
-export AFTER_UPGRADE_SCRIPTS_HOME=$HOME_DIR/scripts/after_upgrade
-export AFTER_UPGRADE_LOG_DIR=$LOG_DIR/upgrade
-export EIP_LOG_DIR=$LOG_DIR/eip
-export INSTALL_INFO_DIR=$SHARED_DIR/install_info/after_upgrade
-export RESET_DOCKER_CONTAINER_INSTALLED_FILE "reset_docker_container_stable.sh_installed"
-export RESET_DOCKER_CONTAINER_INSTALLED_FILE "$HOST_DIR/shared/install_info/after_upgrade/$RESET_DOCKER_CONTAINER_INSTALLED_FILE"
-
-
+export HOST_DIR="/home/eip/prg/docker/eip-docker-testing"
+export HOME_DIR="/home/eip"
+export SHARED_DIR="$HOME_DIR/shared"
+export SCRIPTS_DIR="$HOME_DIR/scripts"
+export LOG_DIR="$SHARED_DIR/logs"
+export AFTER_UPGRADE_SCRIPTS_HOME="$HOME_DIR/scripts/after_upgrade"
+export AFTER_UPGRADE_LOG_DIR="$LOG_DIR/upgrade"
+export EIP_LOG_DIR="$LOG_DIR/eip"
+export INSTALL_INFO_DIR="$SHARED_DIR/install_info/after_upgrade"
+export RESET_DOCKER_CONTAINER_INSTALLED_FILE="reset_docker_container_stable.sh_installed"
+export RESET_DOCKER_CONTAINER_INSTALLED_FILE="$HOST_DIR/shared/install_info/after_upgrade/$RESET_DOCKER_CONTAINER_INSTALLED_FILE"
 
 
 $SCRIPTS_DIR/apk_install.sh
@@ -38,5 +37,5 @@ else
 	cp -R $HOME_DIR/logs/* $EIP_LOG_DIR
 	cp -R $HOME_DIR/.debezium $SHARED_DIR/
 
-	$AFTER_UPGRADE_SCRIPTS_HOME/performe_reset.exp $RESET_DOCKER_CONTAINER_INSTALLED_FILE
+	$AFTER_UPGRADE_SCRIPTS_HOME/performe_reset.exp $HOST_DIR $RESET_DOCKER_CONTAINER_INSTALLED_FILE
 fi
