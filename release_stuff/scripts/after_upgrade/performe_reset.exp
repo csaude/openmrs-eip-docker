@@ -10,6 +10,7 @@ set SHARED_DIR "$HOME_DIR/shared"
 set LOG_DIR "$SHARED_DIR/logs"
 set AFTER_UPGRADE_LOG_DIR "$LOG_DIR/upgrade"
 set RESET_DOCKER_CONTAINER_INSTALLED_FILE [lindex $argv 1]
+set timestamp [exec `date +%Y-%m-%d_%H-%M-%S`]
 
 #set RESET_DOCKER_CONTAINER_INSTALLED_FILE "reset_docker_container_stable.sh_installed"
 #set RESET_DOCKER_CONTAINER_INSTALLED_FILE "$HOST_DIR/shared/install_info/after_upgrade/$RESET_DOCKER_CONTAINER_INSTALLED_FILE"
@@ -32,7 +33,7 @@ while {$scp_done < 0 } {
 set reset_done -1
 
 while {$reset_done < 0 } {
-	spawn ssh -o StrictHostKeyChecking=no eip@$host "git -C $HOST_DIR clean -df; git -C $HOST_DIR reset --hard; git -C $HOST_DIR pull origin main; docker-compose -f $HOST_DIR/docker-compose.yml up --force-recreate -d; echo "SCRIPT RUN ON $timestamp" > $RESET_DOCKER_CONTAINER_INSTALLED_FILE"
+	spawn ssh -o StrictHostKeyChecking=no eip@$host "git -C $HOST_DIR clean -df; git -C $HOST_DIR reset --hard; git -C $HOST_DIR pull origin main; docker-compose -f $HOST_DIR/docker-compose.yml up --force-recreate -d; echo 'SCRIPT RUN ON $timestamp' > $RESET_DOCKER_CONTAINER_INSTALLED_FILE"
 
         expect {
                 "ssh: connect to host $host port 22: Connection timed out\r\r\n" {puts "Connection to $host timed out. Reconnecting..."}
