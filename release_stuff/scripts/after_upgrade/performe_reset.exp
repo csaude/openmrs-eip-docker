@@ -20,6 +20,7 @@ while {$scp_done < 0 } {
 
 	expect {
 		"ssh: connect to host $host port 22: Connection timed out\r\r\n" {puts "Connection to $host timed out. Reconnecting..."}
+		"ssh: connect to host $host port 22: Operation timed out\r\r\n" {puts "Operation to $host timed out. Reconnecting..."}
 		"ssh: connect to host $host port 22: Connection refused\r\r\n" {puts "Connection to $host refused. Reconnecting..."}
 		"eip@$host's password:" {set scp_done 1; send -- "#eIP123#\n"}
 	}
