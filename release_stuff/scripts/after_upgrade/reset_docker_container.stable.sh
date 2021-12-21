@@ -12,7 +12,7 @@ export RESET_DOCKER_CONTAINER_FILE=$AFTER_UPGRADE_SCRIPTS_HOME/reset_docker_cont
 export RESET_DOCKER_CONTAINER_INSTALLED_FILE=$INSTALL_INFO_DIR/reset_docker_container.sh_installed
 
 
-./$SCRIPTS_DIR/apk_install.sh
+$SCRIPTS_DIR/apk_install.sh
 
 if [ -f "$RESET_DOCKER_CONTAINER_INSTALLED_FILE" ]; then
           echo "THE SCRIPT $RESET_DOCKER_CONTAINER_FILE WAS ALREDY RUN" | tee -a $AFTER_UPGRADE_LOG_DIR/reset_to_stock.log
