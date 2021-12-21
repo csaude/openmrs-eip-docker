@@ -3,7 +3,7 @@
 set timeout -1
 
 #set HOST_DIR "/home/eip"
-set host "192.176.9.1"
+set host "localhost"
 set HOST_DIR [lindex $argv 0]
 set HOME_DIR "/home/eip"
 set SHARED_DIR "$HOME_DIR/shared"
