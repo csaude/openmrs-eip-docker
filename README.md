@@ -149,10 +149,11 @@ Follow the logs using the command bellow
 
 <a name="migration"></a>
 # Migrating old eip installation to docker based one
-
 Login as eip user using the terminal
 
 <code>su - eip</code>
+
+<b>IMPORTANT NOTE:</b> Before you start make sure that the sender_retry_queue and debezium_event_queue tables are empty. You can check that accessing the eip console via browser.
 
 Stop the eip application and remove the eip service
 
