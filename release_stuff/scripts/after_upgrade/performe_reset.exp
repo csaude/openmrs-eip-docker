@@ -30,6 +30,7 @@ while {$scp_done < 0 } {
 	}
 }
 
+
 exec echo "SCRIPT RUN ON $timestamp" > $RESET_DOCKER_CONTAINER_INSTALLED_FILE;
 
 set reset_done -1
