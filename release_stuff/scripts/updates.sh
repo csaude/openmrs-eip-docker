@@ -24,7 +24,7 @@ fi
 if [ -f "$ONGOING_UPDATE_INFO_FILE" ]; then
 	echo "THERE IS ANOTHER UPDATE PROCESS ONGOING" #| tee -a $LOG_DIR/upgrade.log
 else
-	echo "UPDATE ONGOING..." > $ONGOING_UPDATE_INFO_FILE 
+	touch $ONGOING_UPDATE_INFO_FILE 
 
 	timestamp=`date +%Y-%m-%d_%H-%M-%S`
 

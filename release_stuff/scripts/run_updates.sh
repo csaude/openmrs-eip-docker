@@ -10,12 +10,16 @@ else
        echo "THE LOG DIR WAS CREATED" | tee -a $LOG_DIR/upgrade.log
 fi
 
+if [ -f "$LOG_DIR/upgrade.log" ]; then 
+	rm $LOG_DIR/upgrade.log
+fi
+
 cd $SCRIPTS_DIR
 
 # Start application.
 echo -n "INITIALIZING UPDATE CHECK"
 
-./updates.sh >> $LOG_DIR/upgrade.log 2>&1 &
+./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
 ~
 ~
 ~
