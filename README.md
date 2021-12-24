@@ -167,6 +167,14 @@ Now create a old-staff directory and put all old stuff there.
 
 <code>mv * old_staff</code>
 
+You must specifically move the .debezium folder to old_stuff
+
+<code>mv .debezium old_stuff/</code>
+
+Create the the folder "shared" under /home/eip and copy the .debezium folder to the newly created folder
+
+<code>cp -R old_stuff/.debezium shared/</code>
+
 Now Follow the [setup](#setup) instructions. Note that you will not need to create eip user!! 
 
 
