@@ -13,6 +13,10 @@ fi
 
 apk update
 
+
+echo "TRYING TO INSTALL MUTT" | tee -a $LOG_DIR/apk_install.log
+apk add mutt
+
 echo "TRYING TO INSTALL GIT" | tee -a $LOG_DIR/apk_install.log
 apk add git
 echo "GIT INSTALLED" | tee -a $LOG_DIR/apk_install.log

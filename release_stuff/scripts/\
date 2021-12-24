@@ -1,0 +1,41 @@
+#!/bin/sh
+# This scrip is intended send email with information related to upgrade process
+#
+
+#ENV
+#HOME_DIR="/home/eip"
+HOME_DIR="/home/eip/prg/docker/eip-docker-testing"
+RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
+RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
+SCRIPTS_DIR="$HOME_DIR/scripts"
+RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
+EPTSSYNC_SETUP_STUFF_DIR="$RELEASE_DIR/etc/eptssync"
+EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
+ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
+LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+
+
+EMAIL_CONTENT_FILE="$HOME_DIR/update_email_content"
+UPDATES_LOG_FILE="$LOG_DIR/upgrade.log"
+
+source $SCRIPTS_DIR/release_info.sh
+
+LOCAL_RELEASE_NAME=$RELEASE_NAME
+LOCAL_RELEASE_DATE=$RELEASE_DATE
+
+recipient  = "jorge.boane@fgh.org.mz" 
+sender  =  "jorge.boane@fgh.org.mz" 
+subject = "Subject: EIP REMOTO - ESTADO DE ACTUALIZACAO[$db_sync_senderId]" 
+content =  "Caros\r\r\n" 
+content = "$content Junto enviamos o report da ultima tentativa de actualizacao da aplicacao openmrs-eip.\r\r\n"  
+content = "$content\r\r\n" 
+content = "$content INFORMACAO DAS RELEASES\r\r\n" 
+content = "$content---------------------\r\r\n" 
+content = "$content LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE}REMOTE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE}.\r\r\n" 
+content = "$content--------------------\r\r\n" 
+content = "$content\r\r\n" 
+content = "$content Enviado automaticamente a partir do servidor $db_sync_senderId.\r\r\n" 
+
+echo "$content" | mutt -b $recipient -s "$subject" -a $UPDATES_LOG_FILE
+
+echo "EMAIL SENT!"
