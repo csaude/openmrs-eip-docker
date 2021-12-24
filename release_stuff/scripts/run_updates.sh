@@ -1,6 +1,7 @@
 # Set EIP environment.
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
+LOG_DIR="$HOME_DIR/shared/logs/upgrade"
 
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/upgrade.log

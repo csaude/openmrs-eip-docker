@@ -31,7 +31,6 @@ content="$content\r\r\n--------------------"
 content="$content\r\r\n" 
 content="$content\r\r\nEnviado automaticamente a partir do servidor $db_sync_senderId." 
 
-#echo $content | mutt -b $recipient -s "EIP" -a $UPDATES_LOG_FILE
 echo $content | mutt -s $subject -a $UPDATES_LOG_FILE -b jorge.boane@fgh.org.mz
 
 echo "EMAIL SENT!"
