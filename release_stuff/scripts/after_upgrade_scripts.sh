@@ -3,6 +3,7 @@
 #
 # Set environment.
 HOME_DIR=/home/eip
+SHARED_DIR=$HOME_DIR/shared
 LOG_DIR=$SHARED_DIR/logs
 AFTER_UPGRADE_SCRIPTS_HOME=$HOME_DIR/scripts/after_upgrade
 AFTER_UPGRADE_LOG_DIR=$LOG_DIR/upgrade
