@@ -86,27 +86,6 @@ else
         	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 	fi
 
-	EMAIL_CONTENT_FILE="/home/eip/update_email_content"
-
-        echo "To: jorge.boane@fgh.org.mz" >> $EMAIL_CONTENT_FILE
-        echo "From: jorge.boane@fgh.org.mz" >> $EMAIL_CONTENT_FILE
-        echo "Subject: EIP REMOTO - ESTADO DE ACTUALIZACAO[$db_sync_senderId]" >> $EMAIL_CONTENT_FILE
-	echo "Caros" >> $EMAIL_CONTENT_FILE
-       	echo "Junto enviamos o report da ultima tentativa de actualizacao da aplicacao openmrs-eip." >> $EMAIL_CONTENT_FILE 
-	echo "" >> $EMAIL_CONTENT_FILE
-	echo "INFORMACAO DAS RELEASES" >> $EMAIL_CONTENT_FILE
-	echo "---------------------" >> $EMAIL_CONTENT_FILE
-	echo "LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE}REMOTE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE}." >> $EMAIL_CONTENT_FILE
-	echo "--------------------" >> $EMAIL_CONTENT_FILE
-	echo "" >> $EMAIL_CONTENT_FILE
-	echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $EMAIL_CONTENT_FILE
-
-	sendmail -t -f  < $EMAIL_CONTENT_FILE
-
-	rm $EMAIL_CONTENT_FILE
-
-	echo "EMAIL SENT!"
-
 	rm $ONGOING_UPDATE_INFO_FILE
 	
 	if [ "$UPDATED" ]; then

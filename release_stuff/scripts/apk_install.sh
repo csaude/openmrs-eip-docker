@@ -13,6 +13,8 @@ fi
 
 apk update
 
+echo "TRYING TO INSTALL CURL" | tee -a $LOG_DIR/apk_install.log
+apk add curl
 
 echo "TRYING TO INSTALL MUTT" | tee -a $LOG_DIR/apk_install.log
 apk add mutt
