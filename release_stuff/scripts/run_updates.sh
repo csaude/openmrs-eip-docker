@@ -20,10 +20,3 @@ cd $SCRIPTS_DIR
 echo -n "INITIALIZING UPDATE CHECK"
 
 ./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
-~
-~
-~
-~
-~
-~
-
