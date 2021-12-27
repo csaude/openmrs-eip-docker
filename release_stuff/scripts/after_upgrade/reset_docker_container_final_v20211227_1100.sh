@@ -9,7 +9,7 @@ export AFTER_UPGRADE_SCRIPTS_HOME="$HOME_DIR/scripts/after_upgrade"
 export AFTER_UPGRADE_LOG_DIR="$LOG_DIR/upgrade"
 export EIP_LOG_DIR="$LOG_DIR/eip"
 export INSTALL_INFO_DIR="$SHARED_DIR/install_info/after_upgrade"
-export RESET_DOCKER_CONTAINER_INSTALLED_FILE="reset_docker_container_stable.sh_installed"
+export RESET_DOCKER_CONTAINER_INSTALLED_FILE="reset_docker_container_final_v20211227_1100.sh"
 export RESET_DOCKER_CONTAINER_INSTALLED_FILE="$INSTALL_INFO_DIR/$RESET_DOCKER_CONTAINER_INSTALLED_FILE"
 
 
