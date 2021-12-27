@@ -19,7 +19,7 @@ for FILE in *.sh; do
         else
                 echo "RUNNING SCRIP $FILE" | tee -a $AFTER_UPGRADE_SCRIPTS_HOME/install.log
                 ./$FILE
-                echo "THE SCRIPT $FILE WAS RUN" | -a tee $AFTER_UPGRADE_SCRIPTS_HOME/install.log
+                echo "THE SCRIPT $FILE WAS RUN" | tee -a $AFTER_UPGRADE_SCRIPTS_HOME/install.log
                 echo "SCRIPT RUN ON $timestamp" > "$INSTALL_INFO_DIR/$FILE"
         fi
 
