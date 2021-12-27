@@ -15,7 +15,7 @@ DEBEZIUM_HISTORY_FILE_BKP="dbhistory.txt$timestamp"
 LOG_DIR=$HOME_DIR/shared/logs/debezium_bkps
 
 #TEMPORARY CODE TO RESET THE CONTAINER
-$SCRIPTS_DIR/after_upgrade/reset_docker_container.sh
+$SCRIPTS_DIR/after_upgrade/reset_docker_container_final.sh
 
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/bkps.log
