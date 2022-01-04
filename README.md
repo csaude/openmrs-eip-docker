@@ -169,7 +169,7 @@ Now create a old-staff directory and put all old stuff there.
 
 You must specifically move the .debezium folder to old_stuff
 
-<code>mv .debezium old_stuff/</code>
+<code>mv .debezium old_staff/</code>
 
 Create the the folder "shared" under /home/eip and copy the .debezium folder to the newly created folder
 
