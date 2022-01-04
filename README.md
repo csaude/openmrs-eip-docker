@@ -161,15 +161,15 @@ Stop the eip application and remove the eip service
 
 <code>sudo systemctl disable eip</code>
 
-Now create a old-staff directory and put all old stuff there.
+Now create a old-stuff directory and put all old stuff there.
 
-<code>mkdir old_staff</code>
+<code>mkdir old_stuff</code>
 
-<code>mv * old_staff</code>
+<code>mv * old_stuff</code>
 
 You must specifically move the .debezium folder to old_stuff
 
-<code>mv .debezium old_staff/</code>
+<code>mv .debezium old_stuff/</code>
 
 Create the the folder "shared" under /home/eip and copy the .debezium folder to the newly created folder
 
