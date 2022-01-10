@@ -96,6 +96,8 @@ Edit the env in the file copied above putting the correct values for the env var
         spring_artemis_user=ACTIVE_MQ_USER
         spring_artemis_password=ACTIVE_MQ_PASSWORD
         origin_app_location_code=ORIGIN_APP_LOCATION_CODE
+        spring_artemis_host=ACTIVE_MQ_HOST
+        spring_artemis_port=ACTIVE_MQ_PORT
 </code>
 
             
