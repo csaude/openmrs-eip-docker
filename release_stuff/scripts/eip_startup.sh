@@ -13,9 +13,6 @@ export EIP_MODE=sender
 export HOME_DIR=/home/eip
 export SCRIPTS_DIR=$HOME_DIR/scripts
 
-#TEMPORARY CODE TO RESET THE CONTAINER
-$SCRIPTS_DIR/after_upgrade/reset_docker_container_final.sh
-
 cd $EIP_HOME
 
 # Start application.
@@ -24,12 +21,12 @@ echo -n "Preparing to start Eip Application: [$EIP_MODE]"
 sleep 20 
 echo -n "Starting Eip Application: [$EIP_MODE]"
 
-source scripts/setenv.sh
+#source scripts/setenv.sh
 
 cp application-sender-template.properties application-sender.properties
 
-sed -i "s/spring_artemis_host/$spring_artemis_host/g" application-sender.properties
-sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
+#sed -i "s/spring_artemis_host/$spring_artemis_host/g" application-sender.properties
+#sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
 java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar &
 echo -n "APPLICATION STARTED IN BACKGROUND."
