@@ -27,6 +27,8 @@
 
                 <toD uri="openmrs:extract?tableToSync=${exchangeProperty.event.tableName.toUpperCase()}&amp;uuid=${exchangeProperty.event.identifier}" />
 
+                <log loggingLevel="DEBUG" message="Loaded entity -> ${body}" />
+
                 <choice>
                     <when>
                         <simple>${body.size()} == 1</simple>
@@ -45,19 +47,35 @@
 
         <choice>
             <when>
-                <simple>${body} != null</simple>
+                <simple>${body} != null || ${exchangeProperty.event.operation} == 'r'</simple>
+                <when>
+                    <simple>${body} == null</simple>
+
+                    <log message="Entity not found for request with uuid: ${exchangeProperty.event.requestUuid}" />
+                    
+                    <setBody>
+                        <spel>#{new org.openmrs.eip.component.model.SyncModel()}</spel>
+                    </setBody>
+                    <script>
+                        <spel>
+                            #{body.setMetadata(new org.openmrs.eip.component.model.SyncMetadata())}
+                        </spel>
+                    </script>
+                </when>
+                
                 <script>
                     <spel>
                         #{body.metadata.setSourceIdentifier('{{db-sync.senderId}}')}
                         #{body.metadata.setDateSent(T(java.time.LocalDateTime).now())}
                         #{body.metadata.setOperation(getProperty('event').operation)}
+                        #{body.metadata.setRequestUuid(getProperty('event').requestUuid)}
                     </spel>
                 </script>
                 <setBody>
                     <method beanType="org.openmrs.eip.component.utils.JsonUtils" method="marshall(${body})" />
                 </setBody>
 
-                <log message="Sync data -> ${body}" />
+                <log loggingLevel="DEBUG" message="Sync payload -> ${body}" />
 
                 <when>
                     <simple>{{openmrs.eip.dbsync.encryption.enabled}} == true</simple>
@@ -68,9 +86,11 @@
                     <log message="Encrypted entity payload -> ${body}" loggingLevel="TRACE" />
                 </when>
                 
-                <log message="Pushing entity to sync destination: {{camel.output.endpoint}}" />
+                <log message="Sending entity to sync destination: {{camel.output.endpoint}}" />
 
                 <toD uri="{{camel.output.endpoint}}" />
+
+                <log message="Entity sent!" />
             </when>
             <otherwise>
                 <!-- TODO Log to a special failures log file or DB -->
