@@ -80,6 +80,11 @@ else
 	        echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
 	        echo "PERFORMING UPDATES..." #| tee -a $LOG_DIR/upgrade.log
 
+		rm -fr cron
+		rm -fr scripts
+		rm -fr etc
+		rm -fr routes
+
 	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
 	else
