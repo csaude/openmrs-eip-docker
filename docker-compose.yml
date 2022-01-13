@@ -10,7 +10,7 @@ services:
         working_dir: /home/eip
         volumes: 
             - ./install.sh:/home/eip/scripts/install.sh
-            - ./localtime:/etc/localtime  
+            - /etc/localtime:/etc/localtime  
             - ./:/home/openmrs-eip-docker/:ro
             - ./shared:/home/eip/shared
             - ./release_stuff/ssmpt.conf:/etc/ssmtp/ssmtp.conf
