@@ -80,10 +80,14 @@ else
 	        echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
 	        echo "PERFORMING UPDATES..." #| tee -a $LOG_DIR/upgrade.log
 
-		rm -fr cron
-		rm -fr scripts
-		rm -fr etc
-		rm -fr routes
+		echo "Removing $HOME_DIR/cron folder"
+		rm -fr $HOME_DIR/cron
+		echo "Removing $HOME_DIR/scripts folder"
+		rm -fr $HOME_DIR/scripts
+		echo "Removing $HOME_DIR/etc folder"
+		rm -fr $HOME_DIR/etc
+		echo "Removing $HOME_DIR/routes folder"
+		rm -fr $HOME_DIR/routes
 
 	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
