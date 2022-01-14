@@ -36,7 +36,7 @@ server-id=1000
         <li>
                 After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container. Run the bellow command to check
                 <ul>
-                        <code>docker exec -it openmrs-eip-sender vi ~/.my.cnf</code>        
+                        <code>docker exec -it refapp-db vi ~/.my.cnf</code>        
                 </ul>
         </li>
         <li>
