@@ -36,7 +36,7 @@ server-id=1000
         <li>
                 After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container. Run the bellow command to check
                 <ul>
-                        <code>docker exec -it openmrs-eip-sender vi ~/.my.cnf</code>        
+                        <code>docker exec -it refapp-db -c "cat ~/.my.cnf"</code>        
                 </ul>
         </li>
         <li>
@@ -52,6 +52,7 @@ server-id=1000
 
 
 ## Setup
+<a name="setup"></a>
 
 Create a eip user
 
@@ -105,6 +106,8 @@ Edit the env in the file copied above putting the correct values for the env var
  The SENDER_ID codes can be found [here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true). Use <code>Server_Code</code> column.
         
 ## Running the project
+<a name="running"></a>
+
 To run the project for the first time hit the bellow command inside of the eip user home directory (/home/eip)
         
         docker-compose up -d
@@ -133,15 +136,9 @@ Depending on your docker environment this file could be in /etc/docker/daemon.js
 
 This docker project is packed with the inconsistency check module (epts-sync). The rountine to check the inconsistences run in separeted docker service which is defined in [docker-compose-inconsistence-check.yml](docker-compose-inconsistence-check.yml) file.
 
-To run the inconsistence check you must define the following env variables under the "environment" session in the mentioned file.
+To run the inconsistence check, first follow the [setup](#setup) process.
 
-            - origin_app_location_code=SITE_NAME
-            - openmrs_db_host=OPENMRS_DB_HOST
-            - openmrs_db_port=OPENMRS_DB_PORT
-            - openmrs_db_name=OPENMRS_DB_NAME
-            - spring_openmrs_datasource_password=OPENMRS_PASSWORD
-
-Then hit the command
+Then hit the command:
 
 <code>docker-compose -f docker-compose-inconsistence-check.yml up -d</code>
 
