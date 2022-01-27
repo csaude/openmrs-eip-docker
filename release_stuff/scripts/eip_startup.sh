@@ -18,8 +18,15 @@ cd $EIP_HOME
 # Start application.
 echo -n "Preparing to start Eip Application: [$EIP_MODE]"
 
-sleep 20 
+sleep 20
 echo -n "Starting Eip Application: [$EIP_MODE]"
+
+if grep -q docker /proc/1/cgroup; then 
+   echo "ENV ALREADY SET"
+else
+   echo "SETTING ENV"
+   . $EIP_HOME/eip.env
+fi
 
 #source scripts/setenv.sh
 

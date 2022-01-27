@@ -17,15 +17,19 @@ fi
 
 cd $CRONS_HOME
 
-cp cron /etc/crontabs/root
+cat default > CRONTAB 
 
 for FILE in *.sh; do 
- 	echo "INSTALLING CRON ON $FILE" | tee -a $LOG_DIR/cron_install.log
-	./$FILE
-   	echo "CRON ON $FILE INSTALLED" | tee -a $LOG_DIR/cron_install.log
+	echo "INSTALLING CRON ON $FILE" | tee -a $LOG_DIR/cron_install.log
+	echo "" >> CRONTAB
+	cat ./$FILE >> CRONTAB
+	echo "CRON ON $FILE INSTALLED" | tee -a $LOG_DIR/cron_install.log
 	echo "Cron installed on $timestamp" > "$FILE"_installed
-
 done
+echo "" >> CRONTAB
 
-echo "AL CRONS WERE INSTALLED" | tee -a $LOG_DIR/cron_install.log
+crontab CRONTAB
 
+rm CRONTAB
+
+echo "ALL CRONS WERE INSTALLED" | tee -a $LOG_DIR/cron_install.log
