@@ -1,0 +1,14 @@
+[Unit]
+Description=Eip Application Service
+After=network.target
+[Service]
+Type=forking
+User=eip
+Group=root
+ExecStart=/home/eip/scripts/eip_startup.sh
+ExecStop=/home/eip/scripts/eip_stop
+UMask=0007
+RestartSec=10
+Restart=always
+[Install]
+WantedBy=multi-user.target
