@@ -55,8 +55,8 @@ then
 fi
 
 echo "STARTING EIP APPLICATION"
-$SCRIPTS_DIR/eip_startup.sh
 $SCRIPTS_DIR/install_crons.sh
+$SCRIPTS_DIR/eip_startup.sh
 #$SCRIPTS_DIR/updates.sh
 
 #crond -f -l 8
