@@ -16,3 +16,5 @@ eip.env
 .viminfo
 shared/
 .debezium/
+old_stuff/
+
