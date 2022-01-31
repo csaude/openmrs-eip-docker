@@ -54,7 +54,7 @@ then
    $SCRIPTS_DIR/apk_install.sh
 fi
 
-echo "STARING EIP APPLICATION"
+echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh
 $SCRIPTS_DIR/install_crons.sh
 #$SCRIPTS_DIR/updates.sh
