@@ -8,7 +8,7 @@
 	firstExport: true,
 	automaticStart: true, 
 	applicationCode: "eip",
-	observationDate: eptssync_observation_date,
+	observationDate: 1618178400000,
 
 	appsInfo:[
 
