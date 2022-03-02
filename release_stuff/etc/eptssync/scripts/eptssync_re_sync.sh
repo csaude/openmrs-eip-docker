@@ -17,6 +17,7 @@ CONFIG_FILE_ORIGINAL=$EPTSSYNC_HOME/conf/detect_changed_records.json
 cp $CONFIG_FILE_ORIGINAL $CONFIG_FILE
 
 #PREPARE THE CONFIG FILE
+sed -i "s/db_sync_senderId/$db_sync_senderId/g" $CONFIG_FILE
 sed -i "s/origin_app_location_code/$origin_app_location_code/g" $CONFIG_FILE
 sed -i "s/openmrs_db_host/$openmrs_db_host/g" $CONFIG_FILE
 sed -i "s/openmrs_db_port/$openmrs_db_port/g" $CONFIG_FILE
