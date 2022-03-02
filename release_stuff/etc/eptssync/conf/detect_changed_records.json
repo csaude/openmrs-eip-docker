@@ -1,10 +1,10 @@
 {
 	installationType: "neutral",
 	
-	syncRootDirectory: "/home/application/eptssync",
-	classPath: "/home/eptssync/eptssync-api-1.0-SNAPSHOT.jar",
+	syncRootDirectory: "/home/eip/application/eptssync",
+	classPath: "/home/eip/application/eptssync/eptssync-api-1.0-SNAPSHOT.jar",
 	
-	originAppLocationCode: "db_sync_senderId",
+	originAppLocationCode: "origin_app_location_code",
 	firstExport: true,
 	automaticStart: true, 
 	applicationCode: "eip",
