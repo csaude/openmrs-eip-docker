@@ -4,6 +4,10 @@
 HOME_DIR="/home/eip"
 LOG_DIR="$HOME_DIR/shared/logs/cron"
 
+if [ ! -d "$LOG_DIR" ]; then
+       mkdir -p $LOG_DIR
+fi
+
 if [ ! -f "$LOG_DIR/test_cron.log" ]; then
 	echo "Cron is working." > $LOG_DIR/test_cron.log
 fi
