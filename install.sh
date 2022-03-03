@@ -10,6 +10,7 @@ EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
+APK_CMD=$(which apk)
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         echo "INSTALLATION FINISHED"
@@ -42,20 +43,18 @@ else
 
         echo "ALL FILES WERE COPIED"
 
+        if [ ! -z $APK_CMD ]
+        then
+           echo "INSTALLING DEPENDENCIES USING APK"
+           $SCRIPTS_DIR/apk_install.sh
+        fi
+
+        echo "INSTALLING CRONS"
+        $SCRIPTS_DIR/install_crons.sh
+
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         echo "Installation finished at $timestamp" >> $INSTALL_FINISHED_REPORT_FILE
 fi
-
-APK_CMD=$(which apk)
-
-if [ ! -z $APK_CMD ]
-then
-   echo "INSTALLING DEPENDENCIES USING APK"
-   $SCRIPTS_DIR/apk_install.sh
-fi
-
-echo "INSTALLING CRONS"
-$SCRIPTS_DIR/install_crons.sh
 
 if [ ! -z $APK_CMD ]
 then
@@ -65,5 +64,4 @@ fi
 
 echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh
-#$SCRIPTS_DIR/updates.sh
 
