@@ -29,6 +29,10 @@ echo "TRYING TO INSTALL GIT" | tee -a $LOG_DIR/apt_install.log
 apt install -y git
 echo "GIT INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
+echo "INSTALLING GIT LFS" | tee -a $LOG_DIR/apt_install.log
+apt install -y git-lfs
+echo "GIT LFS INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
 echo "INSTALLING SSMPT" | tee -a $LOG_DIR/apt_install.log
 apt install -y ssmtp
 echo "SSMPT INSTALLED" | tee -a $LOG_DIR/apt_install.log

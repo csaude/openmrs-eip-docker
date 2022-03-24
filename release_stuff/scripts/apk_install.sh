@@ -23,6 +23,10 @@ echo "TRYING TO INSTALL GIT" | tee -a $LOG_DIR/apk_install.log
 apk add git
 echo "GIT INSTALLED" | tee -a $LOG_DIR/apk_install.log
 
+echo "TRYING TO INSTALL GIT LFS" | tee -a $LOG_DIR/apk_install.log
+apk add git-lfs
+echo "GIT LFS INSTALLED" | tee -a $LOG_DIR/apk_install.log
+
 echo "INSTALLING SSMPT" | tee -a $LOG_DIR/apk_install.log
 apk add ssmtp
 echo "SSMPT INSTALLED" | tee -a $LOG_DIR/apk_install.log
