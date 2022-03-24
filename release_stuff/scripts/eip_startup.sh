@@ -35,5 +35,11 @@ cp application-sender-template.properties application-sender.properties
 #sed -i "s/spring_artemis_host/$spring_artemis_host/g" application-sender.properties
 #sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
-java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
-echo -n "APPLICATION STARTED IN BACKGROUND."
+GIT_LFS=$(which git-lfs)
+if [ ! -z $GIT_LFS ] then
+   java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
+   echo -n "APPLICATION STARTED IN BACKGROUND."
+else
+   echo -n "GIT LFS WAS NOT FOUND. APPLICATION WILL START AUTOMATICALLY AFTER EXECUTING POST UPDATE SCRIPTS. NO ACTION NEEDED."
+fi
+
