@@ -35,11 +35,16 @@ cp application-sender-template.properties application-sender.properties
 #sed -i "s/spring_artemis_host/$spring_artemis_host/g" application-sender.properties
 #sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
+# This code will execute once, after the installation of the version with GIT LFS. 
+# Subsequential version installations will run normally
 GIT_LFS=$(which git-lfs)
-if [ ! -z $GIT_LFS ]
+if [ -z $GIT_LFS ]
 then
-   java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
-   echo -n "APPLICATION STARTED IN BACKGROUND."
-else
-   echo -n "GIT LFS WAS NOT FOUND. APPLICATION WILL START AUTOMATICALLY AFTER EXECUTING POST UPDATE SCRIPTS. NO ACTION NEEDED."
+   echo "GIT LFS IS NOT INSTALLED. INVOKING INSTALLATION SCRIPT"
+   $SCRIPTS_DIR/git_lfs_install_and_first_pull.sh
+   echo "GIT LFS INSTALLATION SCRIPT INVOCATION ENDED"
 fi
+
+echo "SUBMITTING APPLICATION START COMMAND: [$EIP_MODE]"
+java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
+echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
