@@ -19,7 +19,8 @@ EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 
 APK_CMD=$(which apk)
 
-if [ ! -z $APK_CMD ] then
+if [ ! -z $APK_CMD ]
+then
     echo "TRYING TO INSTALL GIT LFS USING APK" # | tee -a $LOG_DIR/upgrade.log
     apk add git-lfs
 else
