@@ -30,7 +30,7 @@ fi
 echo "GIT LFS INSTALLED" #| tee -a $LOG_DIR/upgrade.log
 
 echo "STARTING GIT LFS PULL"
-git -C $RELEASE_BASE_DIR git lfs pull
+git -C $RELEASE_BASE_DIR lfs pull
 echo "GIT LFS PULL WAS DONE"
 
 echo "COPYING FETCHED LARGE JAR FILES"
