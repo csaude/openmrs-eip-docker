@@ -16,10 +16,10 @@ export SCRIPTS_DIR=$HOME_DIR/scripts
 cd $EIP_HOME
 
 # Start application.
-echo -n "Preparing to start Eip Application: [$EIP_MODE]"
+echo "Preparing to start Eip Application: [$EIP_MODE]"
 
 sleep 20
-echo -n "Starting Eip Application: [$EIP_MODE]"
+echo "Starting Eip Application: [$EIP_MODE]"
 
 if grep -q docker /proc/1/cgroup; then 
    echo "ENV ALREADY SET"
@@ -45,6 +45,5 @@ then
    echo "GIT LFS INSTALLATION SCRIPT INVOCATION ENDED"
 fi
 
-echo "SUBMITTING APPLICATION START COMMAND: [$EIP_MODE]"
 java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
 echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
