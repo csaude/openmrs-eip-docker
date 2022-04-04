@@ -91,6 +91,9 @@ else
 
 	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
+		
+		wget -P $HOME_DIR $OPENMRS_EIP_APP_RELEASE_URL
+		wget -P $EPTSSYNC_HOME_DIR $EPRSSYNC_API_RELEASE_URL
 	else
         	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 	fi
