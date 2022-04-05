@@ -89,11 +89,15 @@ else
 		echo "Removing $HOME_DIR/routes folder"
 		rm -fr $HOME_DIR/routes
 
-	        cp -R $RELEASE_DIR/* $HOME_DIR/ 
+		echo "Copying recursively from $RELEASE_DIR to $HOME_DIR"
+		cp -R $RELEASE_DIR/* $HOME_DIR/
+		echo "Copying recursively from $EPTSSYNC_SETUP_STUFF_DIR to $EPTSSYNC_HOME_DIR"
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
 		
-		wget -O $HOME_DIR/"openmrs-eip-app-1.0-SNAPSHOT.jar" $OPENMRS_EIP_APP_RELEASE_URL
-		wget -O $EPTSSYNC_HOME_DIR/"eptssync-api-1.0-SNAPSHOT.jar" $EPTSSYNC_API_RELEASE_URL
+		echo "Downloading $OPENMRS_EIP_APP_RELEASE_URL to $HOME_DIR/openmrs-eip-app-1.0-SNAPSHOT.jar"
+		wget -O "$HOME_DIR/openmrs-eip-app-1.0-SNAPSHOT.jar" $OPENMRS_EIP_APP_RELEASE_URL
+		echo "Downloading $EPTSSYNC_API_RELEASE_URL to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
+		wget -O "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar" $EPTSSYNC_API_RELEASE_URL
 	else
         	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 	fi
