@@ -35,5 +35,11 @@ cp application-sender-template.properties application-sender.properties
 #sed -i "s/spring_artemis_host/$spring_artemis_host/g" application-sender.properties
 #sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
+# backward compatibility, v.2.0.0.2. Will be removed on next release (this code is present on update.sh for future updates)
+if [ ! -f "$HOME_DIR/openmrs-eip-app-1.0-SNAPSHOT.jar" ]
+then
+   $SCRIPTS_DIR/backward_compatibility_v.2.0.0.2.sh
+fi
+
 java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-1.0-SNAPSHOT.jar
 echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
