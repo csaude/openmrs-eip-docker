@@ -44,5 +44,5 @@ then
    touch "$V_2_0_0_2_INSTALLED"
 fi
 
-java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-1.0-SNAPSHOT.jar
+java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
 echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
