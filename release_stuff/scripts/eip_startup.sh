@@ -36,9 +36,12 @@ cp application-sender-template.properties application-sender.properties
 #sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
 # backward compatibility, v.2.0.0.2. Will be removed on next release (this code is present on update.sh for future updates)
-if [ ! -f "$HOME_DIR/openmrs-eip-app-1.0-SNAPSHOT.jar" ]
+UPGRADE_LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+V_2_0_0_2_INSTALLED="$UPGRADE_LOG_DIR/v_2_0_0_2_installed"
+if [ ! -f "$V_2_0_0_2_INSTALLED" ]
 then
    $SCRIPTS_DIR/backward_compatibility_v.2.0.0.2.sh
+   touch "$V_2_0_0_2_INSTALLED"
 fi
 
 java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-1.0-SNAPSHOT.jar

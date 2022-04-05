@@ -94,8 +94,8 @@ else
 		echo "Copying recursively from $EPTSSYNC_SETUP_STUFF_DIR to $EPTSSYNC_HOME_DIR"
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
 		
-		echo "Downloading $OPENMRS_EIP_APP_RELEASE_URL to $HOME_DIR/openmrs-eip-app-1.0-SNAPSHOT.jar"
-		wget -O "$HOME_DIR/openmrs-eip-app-1.0-SNAPSHOT.jar" $OPENMRS_EIP_APP_RELEASE_URL
+		echo "Downloading $OPENMRS_EIP_APP_RELEASE_URL to $HOME_DIR/openmrs-eip-app-sender.jar"
+		wget -O "$HOME_DIR/openmrs-eip-app-sender.jar" $OPENMRS_EIP_APP_RELEASE_URL
 		echo "Downloading $EPTSSYNC_API_RELEASE_URL to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
 		wget -O "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar" $EPTSSYNC_API_RELEASE_URL
 	else
