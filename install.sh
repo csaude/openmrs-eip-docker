@@ -41,6 +41,16 @@ else
         echo "COPPING EPTSTYC STUFF TO $EPTSSYNC_HOME_DIR"
         cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
 
+        echo "Downloading $OPENMRS_EIP_APP_RELEASE_URL to $HOME_DIR/openmrs-eip-app-sender.jar"
+        wget -O "$HOME_DIR/openmrs-eip-app-sender.jar" $OPENMRS_EIP_APP_RELEASE_URL
+        echo "Downloading $EPTSSYNC_API_RELEASE_URL to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
+        wget -O "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar" $EPTSSYNC_API_RELEASE_URL
+        
+        # flag for the version that uses github releases
+        UPGRADE_LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+        USING_GITHUB_RELEASES="$UPGRADE_LOG_DIR/using_github_releases"
+        mkdir -p "$UPGRADE_LOG_DIR" && touch "$USING_GITHUB_RELEASES"
+        
         echo "ALL FILES WERE COPIED"
 
         if [ ! -z $APK_CMD ]

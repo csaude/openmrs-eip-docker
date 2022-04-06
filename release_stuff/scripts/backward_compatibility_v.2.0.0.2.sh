@@ -1,5 +1,5 @@
 #!/bin/sh
-# backward compatibility, v.2.0.0.2. 
+# backward compatibility, v.2.0.1.0. 
 # This script will be removed on next release (this code is present on update.sh for future updates)
 #
 
