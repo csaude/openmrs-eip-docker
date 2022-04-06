@@ -40,7 +40,7 @@ UPGRADE_LOG_DIR="$HOME_DIR/shared/logs/upgrade"
 USING_GITHUB_RELEASES="$UPGRADE_LOG_DIR/using_github_releases"
 if [ ! -f "$USING_GITHUB_RELEASES" ]
 then
-   $SCRIPTS_DIR/backward_compatibility_v.2.0.0.2.sh
+   $SCRIPTS_DIR/backward_compatibility_v.2.0.1.0.sh
    mkdir -p "$UPGRADE_LOG_DIR" && touch "$USING_GITHUB_RELEASES"
    echo "Using GitHub Releases"
 fi
