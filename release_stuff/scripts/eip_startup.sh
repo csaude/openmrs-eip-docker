@@ -25,7 +25,7 @@ if grep -q docker /proc/1/cgroup; then
    echo "ENV ALREADY SET"
 else
    echo "SETTING ENV"
-   . $EIP_HOME/eip.env
+   export $(cat eip.env | xargs)
 fi
 
 #source scripts/setenv.sh
