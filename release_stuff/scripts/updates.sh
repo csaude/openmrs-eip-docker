@@ -70,6 +70,12 @@ else
 
 	if [[ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]]; then
 		UPDATED=true
+		
+		echo "Downloading $OPENMRS_EIP_APP_RELEASE_URL to $RELEASE_DIR/openmrs-eip-app-sender.jar"
+		wget -O "$RELEASE_DIR/openmrs-eip-app-sender.jar" $OPENMRS_EIP_APP_RELEASE_URL
+		echo "Downloading $EPTSSYNC_API_RELEASE_URL to $EPTSSYNC_SETUP_STUFF_DIR/eptssync-api-1.0-SNAPSHOT.jar"
+		wget -O "$EPTSSYNC_SETUP_STUFF_DIR/eptssync-api-1.0-SNAPSHOT.jar" $EPTSSYNC_API_RELEASE_URL
+		
 	        echo "STOPPING EIP APPLICATION.." #| tee -a $LOG_DIR/upgrade.log
         	$SCRIPTS_DIR/eip_stop.sh
         	echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
@@ -93,11 +99,7 @@ else
 		cp -R $RELEASE_DIR/* $HOME_DIR/
 		echo "Copying recursively from $EPTSSYNC_SETUP_STUFF_DIR to $EPTSSYNC_HOME_DIR"
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
-		
-		echo "Downloading $OPENMRS_EIP_APP_RELEASE_URL to $HOME_DIR/openmrs-eip-app-sender.jar"
-		wget -O "$HOME_DIR/openmrs-eip-app-sender.jar" $OPENMRS_EIP_APP_RELEASE_URL
-		echo "Downloading $EPTSSYNC_API_RELEASE_URL to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
-		wget -O "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar" $EPTSSYNC_API_RELEASE_URL
+
 	else
         	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 	fi
