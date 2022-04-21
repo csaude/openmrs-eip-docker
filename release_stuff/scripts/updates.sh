@@ -49,7 +49,7 @@ else
 	
 	git -C $RELEASE_BASE_DIR clean -df
 	git -C $RELEASE_BASE_DIR reset --hard
-	git -C $RELEASE_BASE_DIR pull origin main
+	git -C $RELEASE_BASE_DIR pull origin "EC-156"
 	
 	echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
 
