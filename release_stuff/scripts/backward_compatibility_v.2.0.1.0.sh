@@ -6,6 +6,7 @@
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
+SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 APK_CMD=$(which apk)
 
