@@ -36,7 +36,7 @@ cp application-sender-template.properties application-sender.properties
 #sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
 # backward compatibility, v.2.0.1.0. Will be removed on next release (this code is present on update.sh for future updates)
-source $SCRIPTS_DIR/release_info.sh
+. $SCRIPTS_DIR/release_info.sh
 RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/shared/releases/$RELEASE_NAME/download_completed"
 if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
 then

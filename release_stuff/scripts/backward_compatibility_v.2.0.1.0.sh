@@ -17,7 +17,7 @@ then
     apk add wget
 fi
 
-source $SCRIPTS_DIR/release_info.sh
+. $SCRIPTS_DIR/release_info.sh
 
 # Downloading release packages
 echo "Verifying $RELEASE_NAME packages download status"

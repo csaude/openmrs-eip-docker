@@ -12,7 +12,7 @@ LOG_DIR="$HOME_DIR/shared/logs/upgrade"
 EMAIL_CONTENT_FILE="$HOME_DIR/update_email_content"
 UPDATES_LOG_FILE="$LOG_DIR/upgrade.log"
 
-source $SCRIPTS_DIR/release_info.sh
+. $SCRIPTS_DIR/release_info.sh
 
 LOCAL_RELEASE_NAME=$RELEASE_NAME
 LOCAL_RELEASE_DATE=$RELEASE_DATE
