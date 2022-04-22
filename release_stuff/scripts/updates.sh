@@ -11,7 +11,8 @@ RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
 EPTSSYNC_SETUP_STUFF_DIR="$RELEASE_DIR/etc/eptssync"
 EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
-LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+SHARED_DIR="$HOME_DIR/shared"
+LOG_DIR="$SHARED_DIR/logs/upgrade"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 
 if [ -d "$LOG_DIR" ]; then
