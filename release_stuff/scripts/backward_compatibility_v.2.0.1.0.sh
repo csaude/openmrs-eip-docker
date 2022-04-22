@@ -10,7 +10,7 @@ SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 APK_CMD=$(which apk)
 
-# solving wget version compatibility between apline(apk) and debian
+# solving wget version compatibility between alpine(apk) and debian
 if [ ! -z $APK_CMD ]
 then
     echo "INSTALLING COMPATIBLE WGET PACKAGE USING APK"

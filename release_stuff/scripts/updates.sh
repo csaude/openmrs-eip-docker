@@ -85,7 +85,8 @@ else
         if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
         then
            echo "Error trying to download release packages: $REMOTE_RELEASE_NAME. See previous messages."
-           echo "Upgrade process failed"
+           echo "Update process failed"
+           rm $ONGOING_UPDATE_INFO_FILE
            exit 1
         fi
 		
