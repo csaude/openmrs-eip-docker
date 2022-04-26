@@ -24,7 +24,7 @@ else
         if [ ! -z $APK_CMD ]
         then
            echo "INSTALLING DEPENDENCIES USING APK"
-           $SCRIPTS_DIR/apk_install.sh
+           $SETUP_SCRIPTS_DIR/apk_install.sh
         fi
 
         cd $HOME_DIR
