@@ -68,10 +68,6 @@ Now login as eip user
 
 <a name="setup"></a>
 
-Install Git Large File Storage (LFS)
-
-<code>sudo apt install -y git-lfs</code>
-
 Init a git repository in /home/eip directory
 
 <code>git init</code>
