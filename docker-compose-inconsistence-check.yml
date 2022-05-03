@@ -11,3 +11,5 @@ services:
         volumes: 
             - ./release_stuff/etc/eptssync:/home/eptssync
             - ./logs:/home/eptssync/logs
+            - .release_stuff/scripts:/home/eptssync/scripts/eip:ro
+            - ./shared:/home/eptssync/shared
