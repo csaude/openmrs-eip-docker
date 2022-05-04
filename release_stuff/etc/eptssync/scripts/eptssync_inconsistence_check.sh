@@ -35,11 +35,12 @@ RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_com
 if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
 then
     echo "Error trying to download release packages: $RELEASE_NAME. See previous messages."
-    echo "Inconsistence startup process failed"
+    echo "EPTS startup process failed"
     exit 1
 fi
 
 # copying files
+EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
 echo "Copying $EPTSSYNC_PACKAGE_RELEASE_FILE_NAME to $EPTSSYNC_HOME/eptssync-api-1.0-SNAPSHOT.jar"
 cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME/eptssync-api-1.0-SNAPSHOT.jar"
 
@@ -55,7 +56,7 @@ sed -i "s/spring_openmrs_datasource_password/$spring_openmrs_datasource_password
 
 
 # Start application.
-echo -n "Starting EPTS Application"
+echo "Starting EPTS Application"
 cd $EPTSSYNC_HOME
 #java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" 
 java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" > $EPTSSYNC_HOME/logs/log.txt
