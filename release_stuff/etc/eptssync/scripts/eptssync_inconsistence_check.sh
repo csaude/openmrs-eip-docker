@@ -11,10 +11,11 @@
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 EPTSSYNC_HOME="/home/eptssync"
+EIP_HOME="/home/eip"
 CONFIG_FILE=$EPTSSYNC_HOME/conf/source_sync_config.tmp.json
 CONFIG_FILE_ORIGINAL=$EPTSSYNC_HOME/conf/source_sync_config.json
-EIP_SETUP_SCRIPTS_DIR="$EPTSSYNC_HOME/scripts/eip"
-SHARED_DIR="$HOME_DIR/shared"
+EIP_SETUP_SCRIPTS_DIR="$EIP_HOME/scripts"
+SHARED_DIR="$EIP_HOME/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 APK_CMD=$(which apk)
 
