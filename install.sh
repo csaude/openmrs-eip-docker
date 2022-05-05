@@ -10,6 +10,8 @@ EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
+SHARED_DIR="$HOME_DIR/shared"
+RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 APK_CMD=$(which apk)
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
@@ -18,15 +20,18 @@ else
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
         echo "STARTING EIP INSTALLATION PROCESS AT $timespamp"
+        
+        if [ ! -z $APK_CMD ]
+        then
+           echo "INSTALLING DEPENDENCIES USING APK"
+           $SETUP_SCRIPTS_DIR/apk_install.sh
+        fi
 
         cd $HOME_DIR
 
         . $SETUP_SCRIPTS_DIR/release_info.sh
 
-        REMOTE_RELEASE_NAME=$RELEASE_NAME
-        REMOTE_RELEASE_DATE=$RELEASE_DATE
-
-        echo "FOUND RELEASE {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE} "
+        echo "FOUND RELEASE {NAME: $RELEASE_NAME, DATE: $RELEASE_DATE} "
 
         echo "PERFORMING INSTALLATION STEPS..."
 
@@ -40,24 +45,31 @@ else
 
         echo "COPPING EPTSTYC STUFF TO $EPTSSYNC_HOME_DIR"
         cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
-
-        echo "Downloading $OPENMRS_EIP_APP_RELEASE_URL to $HOME_DIR/openmrs-eip-app-sender.jar"
-        wget -O "$HOME_DIR/openmrs-eip-app-sender.jar" $OPENMRS_EIP_APP_RELEASE_URL
-        echo "Downloading $EPTSSYNC_API_RELEASE_URL to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
-        wget -O "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar" $EPTSSYNC_API_RELEASE_URL
         
-        # flag for the version that uses github releases
-        UPGRADE_LOG_DIR="$HOME_DIR/shared/logs/upgrade"
-        USING_GITHUB_RELEASES="$UPGRADE_LOG_DIR/using_github_releases"
-        mkdir -p "$UPGRADE_LOG_DIR" && touch "$USING_GITHUB_RELEASES"
+        # Downloading release packages
+        echo "Verifying $RELEASE_NAME packages download status"
+        $SCRIPTS_DIR/download_release.sh "$RELEASES_PACKAGES_DIR" "$RELEASE_NAME" "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL"
+        
+        CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
+        
+        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
+        if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
+        then
+           echo "Error trying to download release packages: $RELEASE_NAME. See previous messages."
+           echo "Installation process failed"
+           exit 1
+        fi
+        
+        EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+        EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+
+        echo "Copying $EIP_PACKAGE_RELEASE_FILE_NAME to $HOME_DIR/openmrs-eip-app-sender.jar"
+        cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
+        
+        echo "Copying $EPTSSYNC_PACKAGE_RELEASE_FILE_NAME to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
+        cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
         
         echo "ALL FILES WERE COPIED"
-
-        if [ ! -z $APK_CMD ]
-        then
-           echo "INSTALLING DEPENDENCIES USING APK"
-           $SCRIPTS_DIR/apk_install.sh
-        fi
 
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
