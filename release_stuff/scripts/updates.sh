@@ -52,11 +52,8 @@ else
 	git -C $RELEASE_BASE_DIR clean -df
 	git -C $RELEASE_BASE_DIR reset --hard
 	git -C $RELEASE_BASE_DIR pull origin main
-	git -C $RELEASE_BASE_DIR checkout "EC-156"
-	git -C $RELEASE_BASE_DIR pull origin "EC-156"
 	
 	echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
-
 
 	. $SCRIPTS_DIR/release_info.sh
 
@@ -67,7 +64,6 @@ else
 
 	REMOTE_RELEASE_NAME=$RELEASE_NAME
 	REMOTE_RELEASE_DATE=$RELEASE_DATE
-
 
 	echo "LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE} " #| tee -a $LOG_DIR/upgrade.log
 	echo "REMOTE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE} " #| tee -a $LOG_DIR/upgrade.log
@@ -89,33 +85,33 @@ else
            rm $ONGOING_UPDATE_INFO_FILE
            exit 1
         fi
-		
-	        echo "STOPPING EIP APPLICATION.." #| tee -a $LOG_DIR/upgrade.log
-        	$SCRIPTS_DIR/eip_stop.sh
-        	echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
+	
+	echo "STOPPING EIP APPLICATION.." #| tee -a $LOG_DIR/upgrade.log
+	$SCRIPTS_DIR/eip_stop.sh
+	echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
 
-	        echo "UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
-	        echo "PERFORMING UPDATE STEPS..." #| tee -a $LOG_DIR/upgrade.log
+	echo "UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
+	echo "PERFORMING UPDATE STEPS..." #| tee -a $LOG_DIR/upgrade.log
 
-	        echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
-	        echo "PERFORMING UPDATES..." #| tee -a $LOG_DIR/upgrade.log
+	echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
+	echo "PERFORMING UPDATES..." #| tee -a $LOG_DIR/upgrade.log
 
-		echo "Removing $HOME_DIR/cron folder"
-		rm -fr $HOME_DIR/cron
-		echo "Removing $HOME_DIR/scripts folder"
-		rm -fr $HOME_DIR/scripts
-		echo "Removing $HOME_DIR/etc folder"
-		rm -fr $HOME_DIR/etc
-		echo "Removing $HOME_DIR/routes folder"
-		rm -fr $HOME_DIR/routes
+	echo "Removing $HOME_DIR/cron folder"
+	rm -fr $HOME_DIR/cron
+	echo "Removing $HOME_DIR/scripts folder"
+	rm -fr $HOME_DIR/scripts
+	echo "Removing $HOME_DIR/etc folder"
+	rm -fr $HOME_DIR/etc
+	echo "Removing $HOME_DIR/routes folder"
+	rm -fr $HOME_DIR/routes
 
-		echo "Copying recursively from $RELEASE_DIR to $HOME_DIR"
-		cp -R $RELEASE_DIR/* $HOME_DIR/
-		echo "Copying recursively from $EPTSSYNC_SETUP_STUFF_DIR to $EPTSSYNC_HOME_DIR"
-		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
-		
-		# copying release packages
-		EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+	echo "Copying recursively from $RELEASE_DIR to $HOME_DIR"
+	cp -R $RELEASE_DIR/* $HOME_DIR/
+	echo "Copying recursively from $EPTSSYNC_SETUP_STUFF_DIR to $EPTSSYNC_HOME_DIR"
+	cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
+
+	# copying release packages
+	EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
         EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
 
         echo "Copying $EIP_PACKAGE_RELEASE_FILE_NAME to $HOME_DIR/openmrs-eip-app-sender.jar"
@@ -143,5 +139,4 @@ else
                 echo "RUNNING STARTUP SCRIPTS!" #| tee -a $LOG_DIR/upgrade.log
                 $SCRIPTS_DIR/after_upgrade_scripts.sh
 	fi
-
 fi
