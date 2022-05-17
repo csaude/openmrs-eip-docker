@@ -5,6 +5,8 @@ RELEASE_NAME="$2"
 OPENMRS_EIP_APP_RELEASE_URL="$3"
 EPTSSYNC_API_RELEASE_URL="$4"
 
+APK_CMD=$(which apk)
+
 RELEASE_DIR="$RELEASES_ROOT_DIR/$RELEASE_NAME"
 
 mkdir -p "$RELEASE_DIR"
@@ -17,6 +19,17 @@ TIMEOUT_SECONDS=30
 
 if [ ! -f "$RELEASE_DOWNLOAD_COMPLETED" ]
 then
+    # validate WGET on APK distros
+    if [ ! -z $APK_CMD ]
+    then
+        wget --version > /dev/null 2>&1
+        if [ $? -ne 0 ]
+        then
+            echo "INSTALLING COMPATIBLE WGET PACKAGE USING APK"
+            apk add wget
+        fi
+    fi
+    
     echo "Starting download process for $RELEASE_NAME"
 
     for FILE_URL in "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL"

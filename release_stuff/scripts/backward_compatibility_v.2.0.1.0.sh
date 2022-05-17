@@ -8,14 +8,7 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
-APK_CMD=$(which apk)
 
-# solving wget version compatibility between alpine(apk) and debian
-if [ ! -z $APK_CMD ]
-then
-    echo "INSTALLING COMPATIBLE WGET PACKAGE USING APK"
-    apk add wget
-fi
 
 . $SCRIPTS_DIR/release_info.sh
 

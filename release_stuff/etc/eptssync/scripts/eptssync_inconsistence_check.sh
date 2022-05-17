@@ -18,13 +18,7 @@ CONFIG_FILE_ORIGINAL=$EPTSSYNC_HOME/conf/source_sync_config.json
 EIP_SETUP_SCRIPTS_DIR="$EIP_HOME/scripts"
 SHARED_DIR="$EIP_HOME/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
-APK_CMD=$(which apk)
-
-# Installing dependencies on APK distros and download release files if necessary
-if [ ! -z $APK_CMD ]
-then
-    apk add wget
-fi
+JAR_FILE_NAME="eptssync-api-1.0-SNAPSHOT.jar"
 
 . $EIP_SETUP_SCRIPTS_DIR/release_info.sh
 echo "Verifying $RELEASE_NAME packages download status"
@@ -42,8 +36,8 @@ fi
 
 # copying files
 EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
-echo "Copying $EPTSSYNC_PACKAGE_RELEASE_FILE_NAME to $EPTSSYNC_HOME/eptssync-api-1.0-SNAPSHOT.jar"
-cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME/eptssync-api-1.0-SNAPSHOT.jar"
+echo "Copying $EPTSSYNC_PACKAGE_RELEASE_FILE_NAME to $EPTSSYNC_HOME/$JAR_FILE_NAME"
+cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME/$JAR_FILE_NAME"
 
 cp $CONFIG_FILE_ORIGINAL $CONFIG_FILE
 
@@ -54,14 +48,6 @@ sed -i "s/openmrs_db_port/$openmrs_db_port/g" $CONFIG_FILE
 sed -i "s/openmrs_db_name/$openmrs_db_name/g" $CONFIG_FILE 
 sed -i "s/spring_openmrs_datasource_password/$spring_openmrs_datasource_password/g" $CONFIG_FILE 
 
-JAR_FILE_NAME="eptssync-api-1.0-SNAPSHOT.jar"
-if [ ! -f "$JAR_FILE_NAME" ]
-then
-   . $EIP_SCRIPTS_DIR/release_info.sh
-   echo "FOUND RELEASE {NAME: $RELEASE_NAME, DATE: $RELEASE_DATE} "
-   echo "Downloading $EPTSSYNC_API_RELEASE_URL to $EPTSSYNC_HOME/$JAR_FILE_NAME"
-   wget -O "$EPTSSYNC_HOME/$JAR_FILE_NAME" $EPTSSYNC_API_RELEASE_URL
-fi
 
 # Start application.
 echo "Starting EPTS Application"
