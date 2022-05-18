@@ -66,11 +66,15 @@ Now login as eip user
 
 <code>su - eip</code>
 
-<a name="setup"></a>
+<br/>
+
+<i>(For offline installation, [see here](#offline-installation))</i>
+
+<br/>
 
 Init a git repository in /home/eip directory
 
-<code>git init</code>
+<code>git init && git checkout -b main</code>
 
 Associate the project to related docker project in github
 
@@ -78,39 +82,36 @@ Associate the project to related docker project in github
 
 Pull the remote project into local directory
 
-<code>git pull origin main</code>
+<code>git pull --depth=1 origin main</code>
 
-Copy the [./eip.template.env](eip.template.env) file to ./eip.env using the command
+#### Copy the [./eip.template.env](eip.template.env) file to ./eip.env using the command
 
 <code>cp eip.template.env eip.env</code>
 
 Edit the env in the file copied above putting the correct values for the env variables 
 
-<code>
-        
-        db_sync_senderId=SENDER_ID
-        server_port=SERVER_PORT
-        openmrs_db_host=OPENMRS_DB_HOST
-        openmrs_db_port=OPENMRS_DB_PORT
-        openmrs_db_name=OPENMRS_DB_NAME
-        spring_openmrs_datasource_password=OPENMRS_DB_USER
-        spring_artemis_user=ACTIVE_MQ_USER
-        spring_artemis_password=ACTIVE_MQ_PASSWORD
-        origin_app_location_code=ORIGIN_APP_LOCATION_CODE
-        spring_artemis_host=ACTIVE_MQ_HOST
-        spring_artemis_port=ACTIVE_MQ_PORT
-</code>
+```
+db_sync_senderId=SENDER_ID
+server_port=SERVER_PORT
+openmrs_db_host=OPENMRS_DB_HOST
+openmrs_db_port=OPENMRS_DB_PORT
+openmrs_db_name=OPENMRS_DB_NAME
+spring_openmrs_datasource_password=OPENMRS_DB_USER
+spring_artemis_user=ACTIVE_MQ_USER
+spring_artemis_password=ACTIVE_MQ_PASSWORD
+origin_app_location_code=ORIGIN_APP_LOCATION_CODE
+spring_artemis_host=ACTIVE_MQ_HOST
+spring_artemis_port=ACTIVE_MQ_PORT
+```
 
-            
-
- The SENDER_ID codes can be found [here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true). Use <code>Server_Code</code> column.
+The SENDER_ID codes can be found [here](https://docs.google.com/spreadsheets/d/1RjOwLWiE_0KGI34tZE-YmIHsf9lY_Lj9/edit?usp=sharing&ouid=117402189670664436672&rtpof=true&sd=true). Use <code>Server_Code</code> column.
         
-## Running the project
+# Running the project
 <a name="running"></a>
 
 To run the project for the first time hit the bellow command inside of the eip user home directory (/home/eip)
         
-        docker-compose up -d
+<code>docker-compose up -d</code>
         
 Follow the container logs using
 
@@ -132,7 +133,6 @@ If you notice some issue installing the application create a daemon.json file in
 Depending on your docker environment this file could be in /etc/docker/daemon.json
 
 # Running inconsistence check
-<a name="inconsistence_check"></a>
 
 This docker project is packed with the inconsistency check module (epts-sync). The rountine to check the inconsistences run in separeted docker service which is defined in [docker-compose-inconsistence-check.yml](docker-compose-inconsistence-check.yml) file.
 
@@ -146,36 +146,137 @@ Follow the logs using the command bellow
 
 <code>docker exec -it epts-inconsistence-check tail -f /home/eptssync/logs/log.txt</code>
 
-<a name="migration"></a>
-# Migrating old eip installation to docker based one
-Login as eip user using the terminal
+# Offline installation
+For this procedure you need to have the eip_home.tar.gz file, which can be found in the [releases page](https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases).
 
-<code>su - eip</code>
+<ol>
+        <li>
+                Copy the eip_home.tar.gz file to /home/eip
+        </li>
+        <li>
+                Change working directory to /home/eip
+                <ul>
+                        <code>cd /home/eip</code>
+                </ul>
+        </li>
+        <li>
+                Extract
+                <ul>
+                        <code>tar -xf eip_home.tar.gz</code>
+                </ul>
+        </li>
+        <li>
+                Import local images to docker
+                <ul>
+                        <code>docker import docker_images/openmrs-eip-sender.tar openmrs-eip-sender:latest</code>
+                </ul>
+                <ul>
+                        <code>docker import docker_images/epts-inconsistence-check.tar epts-inconsistence-check:latest</code>
+                </ul>
+        </li>
+</ol>
 
-<b>IMPORTANT NOTE:</b> Before you start make sure that the sender_retry_queue and debezium_event_queue tables are empty. You can check that accessing the eip console via browser.
+Continue with the setup process [from here](#copy-the-eiptemplateenv-file-to-eipenv-using-the-command)
 
-Stop the eip application and remove the eip service
+# Steps to prepare offline installation archive
+First, proceed with a [fresh online installation](#installation) of the desired release, then create [EIP Sender](#running-the-project) and [Inconsistence check](#running-inconsistence-check) containers.
 
-<code>sudo systemctl stop eip</code>
-
-<code>sudo systemctl disable eip</code>
-
-Now create a old-stuff directory and put all old stuff there.
-
-<code>mkdir old_stuff</code>
-
-<code>mv * old_stuff</code>
-
-You must specifically move the .debezium folder to old_stuff
-
-<code>mv .debezium old_stuff/</code>
-
-Create the the folder "shared" under /home/eip and copy the .debezium folder to the newly created folder
-
-<code>cp -R old_stuff/.debezium shared/</code>
-
-Now Follow the [setup](#setup) instructions. Note that you will not need to create eip user!! 
-
-
-
-
+<ol>
+        <li>
+                Change working directory to <b>/home/eip</b>
+                <ul>
+                        <code>cd /home/eip</code>
+                </ul>
+        </li>
+        <li>
+                Start the EIP Sender container
+                <ul>
+                        <code>docker-compose up -d</code>
+                </ul>
+        </li>
+        <li>
+                Enter the EIP Sender container SH console
+                <ul>
+                        <code>docker exec -it openmrs-eip-sender sh</code>
+                </ul>
+                <ol>
+                        <li>
+                                Clean the project update temporary directory
+                                <ul>
+                                        <code>cd openmrs-eip-docker</code>
+                                </ul>
+                                <ul>
+                                        <code>git clean -df</code>
+                                </ul>
+                                <ul>
+                                        <code>rm -rf .bash_history .bash_logout .bashrc .cache .profile .sudo_as_admin_successful eip.env shared</code>
+                                </ul>
+                        </li>
+                        <li>
+                                Exit the container
+                                <ul>
+                                        <code>exit</code>
+                                </ul>
+                        </li>
+                </ol>
+        </li>
+        <li>
+                Stop the EIP Sender container
+                <ul>
+                        <code>docker-compose stop</code>
+                </ul>
+        </li>
+        <li>
+                Clean local EIP Home
+                <ul>
+<pre>
+sudo rm -rf logs release_stuff/etc/eptssync/conf/source_sync_config.tmp.json release_stuff/etc/eptssync/logs \
+release_stuff/etc/eptssync/process_status shared/logs/eip/* shared/.debezium
+</pre>
+                </ul>
+        </li>
+        <li>
+                Create dir for docker images
+                <ul>
+                        <code>mkdir docker_images</code>
+                </ul>
+        </li>
+        <li>
+                Export containers
+                <ol>
+                        <li>
+                                List containers and look at <b>COMMAND</b> column to identify <b>CONTAINER IDs</b> to export:
+                                <ul>
+                                        <code>docker container list -a</code>
+                                </ul>
+                        </li>
+                        <li>
+                                Export containers, replacing <b>EIP_SENDER_CONTAINER_ID</b> and <b>EPTS_INCONSISTENCE_CHECK_CONTAINER_ID</b> with the correct ones identified earlier:
+                                <ul>
+                                        <code>docker export EIP_SENDER_CONTAINER_ID > docker_images/openmrs-eip-sender.tar</code>
+                                </ul>
+                                <ul>
+                                        <code>docker export EPTS_INCONSISTENCE_CHECK_CONTAINER_ID > docker_images/epts-inconsistence-check.tar</code>
+                                </ul>
+                        </li>
+                </ol>
+        </li>
+        <li>
+                Change base image from docker compose yml files
+                <ul>
+                        <code>sed -i 's/openjdk:8-alpine/openmrs-eip-sender:latest/g' docker-compose.yml</code>
+                </ul>
+                <ul>
+                        <code>sed -i 's/openjdk:8-alpine/epts-inconsistence-check:latest/g' docker-compose-inconsistence-check.yml</code>
+                </ul>
+        </li>
+        <li>
+                Create archive with EIP Home content
+                <ul>
+                        <code>tar -czf eip_home.tar.gz --exclude='eip.env' --exclude='snap' *</code>
+                </ul>
+        </li>
+        <li>
+                Upload <b>eip_home.tar.gz</b> to the proper release as Asset
+        </li>
+</ol>
