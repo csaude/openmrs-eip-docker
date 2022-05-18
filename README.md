@@ -188,17 +188,20 @@ First, proceed with a [fresh online installation](#installation) of the desired 
                         <code>cd /home/eip</code>
                 </ul>
         </li>
+        <br/>
         <li>
                 Start the EIP Sender container
                 <ul>
                         <code>docker-compose up -d</code>
                 </ul>
         </li>
+        <br/>
         <li>
                 Enter the EIP Sender container SH console
                 <ul>
                         <code>docker exec -it openmrs-eip-sender sh</code>
                 </ul>
+                <br/>
                 <ol>
                         <li>
                                 Clean the project update temporary directory
@@ -212,6 +215,7 @@ First, proceed with a [fresh online installation](#installation) of the desired 
                                         <code>rm -rf .bash_history .bash_logout .bashrc .cache .profile .sudo_as_admin_successful eip.env shared</code>
                                 </ul>
                         </li>
+                        <br/>
                         <li>
                                 Exit the container
                                 <ul>
@@ -220,12 +224,14 @@ First, proceed with a [fresh online installation](#installation) of the desired 
                         </li>
                 </ol>
         </li>
+        <br/>
         <li>
                 Stop the EIP Sender container
                 <ul>
                         <code>docker-compose stop</code>
                 </ul>
         </li>
+        <br/>
         <li>
                 Clean local EIP Home
                 <ul>
@@ -241,26 +247,17 @@ release_stuff/etc/eptssync/process_status shared/logs/eip/* shared/.debezium
                         <code>mkdir docker_images</code>
                 </ul>
         </li>
+        <br/>
         <li>
                 Export containers
-                <ol>
-                        <li>
-                                List containers and look at <b>COMMAND</b> column to identify <b>CONTAINER IDs</b> to export:
-                                <ul>
-                                        <code>docker container list -a</code>
-                                </ul>
-                        </li>
-                        <li>
-                                Export containers, replacing <b>EIP_SENDER_CONTAINER_ID</b> and <b>EPTS_INCONSISTENCE_CHECK_CONTAINER_ID</b> with the correct ones identified earlier:
-                                <ul>
-                                        <code>docker export EIP_SENDER_CONTAINER_ID > docker_images/openmrs-eip-sender.tar</code>
-                                </ul>
-                                <ul>
-                                        <code>docker export EPTS_INCONSISTENCE_CHECK_CONTAINER_ID > docker_images/epts-inconsistence-check.tar</code>
-                                </ul>
-                        </li>
-                </ol>
+                <ul>
+                        <code>docker export $(docker ps -aqf "name=openmrs-eip-sender") > docker_images/openmrs-eip-sender.tar</code>
+                </ul>
+                <ul>
+                        <code>docker export $(docker ps -aqf "name=epts-inconsistence-check") > docker_images/epts-inconsistence-check.tar</code>
+                </ul>
         </li>
+        <br/>
         <li>
                 Change base image from docker compose yml files
                 <ul>
@@ -270,12 +267,14 @@ release_stuff/etc/eptssync/process_status shared/logs/eip/* shared/.debezium
                         <code>sed -i 's/openjdk:8-alpine/epts-inconsistence-check:latest/g' docker-compose-inconsistence-check.yml</code>
                 </ul>
         </li>
+        <br/>
         <li>
                 Create archive with EIP Home content
                 <ul>
                         <code>tar -czf eip_home.tar.gz --exclude='eip.env' --exclude='snap' *</code>
                 </ul>
         </li>
+        <br/>
         <li>
                 Upload <b>eip_home.tar.gz</b> to the proper release as Asset
         </li>
