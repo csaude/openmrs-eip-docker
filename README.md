@@ -236,8 +236,9 @@ First, proceed with a [fresh online installation](#installation) of the desired 
                 Clean local EIP Home
                 <ul>
 <pre>
-sudo rm -rf logs release_stuff/etc/eptssync/conf/source_sync_config.tmp.json release_stuff/etc/eptssync/logs \
-release_stuff/etc/eptssync/process_status release_stuff/etc/eptssync/*.jar shared/logs/eip/* shared/.debezium
+sudo rm -rf logs release_stuff/etc/eptssync/conf/source_sync_config.tmp.json \
+release_stuff/etc/eptssync/logs release_stuff/etc/eptssync/process_status \
+release_stuff/etc/eptssync/*.jar shared/logs/eip/* shared/.debezium
 </pre>
                 </ul>
         </li>
