@@ -9,6 +9,7 @@ services:
             - ./eip.env
         working_dir: /home/eptssync
         volumes: 
+            - /etc/timezone:/etc/timezone:ro
             - ./release_stuff/etc/eptssync:/home/eptssync
             - ./logs:/home/eptssync/logs
             - ./release_stuff/scripts:/home/eip/scripts:ro
