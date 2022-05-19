@@ -10,6 +10,7 @@ services:
         working_dir: /home/eip
         volumes: 
             - /etc/timezone:/etc/timezone:ro
+            - /etc/localtime:/etc/localtime:ro
             - ./install.sh:/home/eip/scripts/install.sh
             - ./:/home/openmrs-eip-docker/:ro
             - ./shared:/home/eip/shared
