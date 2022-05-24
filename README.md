@@ -178,8 +178,11 @@ Follow the logs using the command bellow
 
 <code>docker exec -it epts-inconsistence-check tail -f /home/eptssync/logs/log.txt</code>
 
+<br/>
+<br/>
 
-# Procedure for creating assets and publish a new release
+
+# Appendix A: Procedure for creating assets and publish a new release
 
 ## Prepare offline installation archive
 First, proceed with a [fresh online installation](#installation) of the desired release, then create [EIP Sender](#running-the-project) and [Inconsistence check](#running-inconsistence-check) containers.
