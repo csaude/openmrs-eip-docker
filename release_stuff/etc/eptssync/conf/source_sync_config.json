@@ -162,7 +162,8 @@
     }, {
       "defaultValueDueInconsistency" : 0,
       "tableName" : "obs",
-      "ignorable" : false
+      "ignorable" : false,
+      "setNullDueInconsistency": true
     }, {
       "defaultValueDueInconsistency" : 0,
       "tableName" : "encounter",
