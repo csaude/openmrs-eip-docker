@@ -132,20 +132,6 @@ If you notice some issue installing the application create a daemon.json file in
 
 Depending on your docker environment this file could be in /etc/docker/daemon.json
 
-# Running inconsistence check
-
-This docker project is packed with the inconsistency check module (epts-sync). The rountine to check the inconsistences run in separeted docker service which is defined in [docker-compose-inconsistence-check.yml](docker-compose-inconsistence-check.yml) file.
-
-To run the inconsistence check, first follow the [setup](#setup) process.
-
-Then hit the command:
-
-<code>docker-compose -f docker-compose-inconsistence-check.yml up -d</code>
-
-Follow the logs using the command bellow
-
-<code>docker exec -it epts-inconsistence-check tail -f /home/eptssync/logs/log.txt</code>
-
 # Offline installation
 For this procedure you need to have the eip_home.tar.gz file, which can be found in the [releases page](https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases).
 
@@ -178,7 +164,24 @@ For this procedure you need to have the eip_home.tar.gz file, which can be found
 
 Continue with the setup process [from here](#copy-the-eiptemplateenv-file-to-eipenv-using-the-command)
 
-# Steps to prepare offline installation archive
+# Running inconsistence check
+
+This docker project is packed with the inconsistency check module (epts-sync). The rountine to check the inconsistences run in separeted docker service which is defined in [docker-compose-inconsistence-check.yml](docker-compose-inconsistence-check.yml) file.
+
+To run the inconsistence check, first follow the [setup](#setup) process.
+
+Then hit the command:
+
+<code>docker-compose -f docker-compose-inconsistence-check.yml up -d</code>
+
+Follow the logs using the command bellow
+
+<code>docker exec -it epts-inconsistence-check tail -f /home/eptssync/logs/log.txt</code>
+
+
+# Procedure for creating assets and publish a new release
+
+## Prepare offline installation archive
 First, proceed with a [fresh online installation](#installation) of the desired release, then create [EIP Sender](#running-the-project) and [Inconsistence check](#running-inconsistence-check) containers.
 
 <ol>
@@ -277,6 +280,32 @@ release_stuff/etc/eptssync/*.jar shared/logs/eip/* shared/.debezium
         </li>
         <br/>
         <li>
-                Upload <b>eip_home.tar.gz</b> to the proper release as Asset
+                The file <b>eip_home.tar.gz</b> can now be uploaded as a release asset.
         </li>
 </ol>
+
+## Publish the release
+#### First create releases for each of the <i>related repositories</i> (where applicable, or use existing ones), ie., [OpenMRS EIP](https://github.com/FriendsInGlobalHealth/openmrs-eip/) and [EPTS Sync](https://github.com/FriendsInGlobalHealth/openmrs-module-eptssync):
+<ol>
+        <li>
+                Build the appropriate <b>jar file</b>
+        </li>
+        <br/>
+        <li>
+                Generate the hash file, replacing <code>[jar_file_name]</code> with the respective name:
+                <ul>
+                        <code>sha256sum [jar_file_name] > [jar_file_name].SHA256</code>
+                </ul>
+        </li>
+        <br/>
+        <li>
+                Create the release and attach the <b>jar</b> and <b>hash file</b> as Release Assets.
+        </li>
+</ol>
+
+#### Then create a release <i>in this repository</i>:
+1. Change the file [release_info.sh](release_stuff/scripts/release_info.sh), setting the <code>RELEASE_NAME</code>, <code>RELEASE_DATE</code> and <code>RELEASE_DESC</code> values.
+
+2. If this release also ships a new release of the related repositories ([OpenMRS EIP](https://github.com/FriendsInGlobalHealth/openmrs-eip/) / [EPTS Sync](https://github.com/FriendsInGlobalHealth/openmrs-module-eptssync)), change the urls in <code>OPENMRS_EIP_APP_RELEASE_URL</code> and/or <code>EPTSSYNC_API_RELEASE_URL</code>.
+
+3. Create the release and attach as Asset the offline installation archive created with [this procedure](#prepare-offline-installation-archive).
