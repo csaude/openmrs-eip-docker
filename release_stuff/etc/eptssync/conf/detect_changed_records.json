@@ -23,6 +23,7 @@
 		},
 		{
 			applicationCode: "eip",
+			processingMode: "single",
 			connInfo: {
 				dataBaseUserName:"root",
 				dataBaseUserPassword: "spring_openmrs_datasource_password",
