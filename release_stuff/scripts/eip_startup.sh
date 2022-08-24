@@ -50,6 +50,9 @@ then
    fi
 fi
 
-
-java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
-echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
+if grep -q docker /proc/1/cgroup; then
+        java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
+else
+        nohup java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar 2>&1 &
+	echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
+fi

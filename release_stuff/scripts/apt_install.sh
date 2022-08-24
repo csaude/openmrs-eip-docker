@@ -14,7 +14,7 @@ fi
 apt update
 
 echo "TRYING TO INSTALL JAVA" | tee -a $LOG_DIR/apt_install.log
-apt install openjdk-8-jdk-headless
+apt install -y openjdk-8-jdk-headless
 echo "JAVA INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
 echo "TRYING TO INSTALL CURL" | tee -a $LOG_DIR/apt_install.log
