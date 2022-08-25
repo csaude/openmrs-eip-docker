@@ -68,7 +68,7 @@ else
 	echo "LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE} " #| tee -a $LOG_DIR/upgrade.log
 	echo "REMOTE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE} " #| tee -a $LOG_DIR/upgrade.log
 
-	if [[ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]]; then
+	if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 		UPDATED=true
 		
 		echo "UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log

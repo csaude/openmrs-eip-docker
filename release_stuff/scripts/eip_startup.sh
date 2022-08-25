@@ -18,22 +18,15 @@ cd $EIP_HOME
 # Start application.
 echo "Preparing to start Eip Application: [$EIP_MODE]"
 
-sleep 20
+sleep 15 
 echo "Starting Eip Application: [$EIP_MODE]"
 
 if grep -q docker /proc/1/cgroup; then 
    echo "ENV ALREADY SET"
 else
    echo "SETTING ENV"
-   export $(cat eip.env | xargs)
+   export $(cat $HOME_DIR/eip.env | xargs)
 fi
-
-#source scripts/setenv.sh
-
-cp application-sender-template.properties application-sender.properties
-
-#sed -i "s/spring_artemis_host/$spring_artemis_host/g" application-sender.properties
-#sed -i "s/spring_artemis_port/$spring_artemis_port/g" application-sender.properties
 
 # backward compatibility, v.2.0.1.0. Will be removed on next release (this code is present on update.sh for future updates)
 . $SCRIPTS_DIR/release_info.sh

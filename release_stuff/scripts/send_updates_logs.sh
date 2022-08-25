@@ -17,6 +17,13 @@ UPDATES_LOG_FILE="$LOG_DIR/upgrade.log"
 LOCAL_RELEASE_NAME=$RELEASE_NAME
 LOCAL_RELEASE_DATE=$RELEASE_DATE
 
+if grep -q docker /proc/1/cgroup; then
+   echo "ENV ALREADY SET"
+else
+   echo "SETTING ENV"
+   export $(cat $HOME_DIR/eip.env | xargs)
+fi
+
 #recipient="jorge.boane@fgh.org.mz" 
 #sender="jorge.boane@fgh.org.mz" 
 #subject="EIP_REMOTO_ESTADO_DE_ACTUALIZACAO_$db_sync_senderId" 

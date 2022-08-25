@@ -3,6 +3,7 @@
 
 export HOME_DIR=/home/eip
 export LOG_DIR=$HOME_DIR/shared/logs/apt
+export SETUP_DIR=/home/openmrs-eip-docker
 
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/apt_install.log
@@ -42,3 +43,5 @@ apt install -y expect
 echo "EXPECT INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
+
+$SETUP_DIR/release_stuff/scripts/configure_ssmtp.sh
