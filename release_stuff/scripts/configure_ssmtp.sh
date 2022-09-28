@@ -8,8 +8,8 @@ timestamp=`date +%Y-%m-%d_%H-%M-%S`
 EIP_HOME="/home/eip"
 EIP_SCRIPTS_DIR="$EIP_HOME/scripts"
 
-ORIGINAL_SSMTP_CONFIG_FILE=$EIP_SCRIPTS_DIR/ssmtp.conf
-TEMP_SSMTP_CONFIG_FILE=$EIP_SCRIPTS_DIR/ssmtp.conf.tmp
+ORIGINAL_SSMTP_CONFIG_FILE=$EIP_HOME/ssmtp.conf
+TEMP_SSMTP_CONFIG_FILE=$EIP_HOME/ssmtp.conf.tmp
 
 OS_SMTP_CONFIG_FILE=/etc/ssmtp/ssmtp.conf
 
