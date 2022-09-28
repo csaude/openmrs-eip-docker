@@ -74,6 +74,9 @@ else
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
 
+	echo "CONFIGURING SSMTP"
+        $SCRIPTS_DIR/configure_ssmtp.sh
+
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         echo "Installation finished at $timestamp" >> $INSTALL_FINISHED_REPORT_FILE
 fi
