@@ -30,7 +30,7 @@ fi
 
 # backward compatibility, v.2.0.1.0. Will be removed on next release (this code is present on update.sh for future updates)
 . $SCRIPTS_DIR/release_info.sh
-RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/shared/releases/$RELEASE_NAME/download_completed"
+RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/download_completed"
 if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
 then
    $SCRIPTS_DIR/backward_compatibility_v.2.0.1.0.sh

@@ -52,7 +52,7 @@ else
         
         CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
         
-        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
+        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/download_completed"
         if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
         then
            echo "Error trying to download release packages: $RELEASE_NAME. See previous messages."
