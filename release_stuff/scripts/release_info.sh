@@ -1,4 +1,3 @@
-#!/bin/sh
 # EIP RELEASES INFO
 #
 
