@@ -31,10 +31,9 @@ checkIfTokenExistsInFile(){
 checIfupdateIsAllowedToCurrentSite(){
         filename="$RELEASE_SCRIPTS_DIR/sites_to_update.txt"
 
-        checkIfTockenExistsInFile $filename $db_sync_senderId
+        allowed=$(checkIfTockenExistsInFile $filename $db_sync_senderId)
 
-        return $?
-
+        echo $allowed
 }
 
 
