@@ -15,11 +15,42 @@ SHARED_DIR="$HOME_DIR/shared"
 LOG_DIR="$SHARED_DIR/logs/upgrade"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 
-updateAllowedToCurrentSite(){
+checkIfTokenExistsInFile(){
+        filename=$1
+        token=$2
 
-        for site_name in ${applay_updates_to[@]}; do
-                if [ "$site_name"  = "$db_sync_senderId" ]; then
+        while read line; do
+                if [ "$line"  = "$token" ]; then
                         return 1;
+                 fi
+
+        done < $filename
+}
+
+checIfupdateIsAllowedToCurrentSite(){
+        filename="$RELEASE_SCRIPTS_DIR/sites_to_update.txt"
+
+        checkIfTockenExistsInFile $filename $db_sync_senderId
+
+        return $?
+
+}
+
+
+getGitBranch(){
+        curr_dir=$(pwd)
+
+        branch_dir="/home/eip/git/branches"
+
+        cd $branch_dir
+
+        for FILE in *; do
+                checkIfTokenExistsInFile $FILE $db_sync_senderId
+                exists=$?
+
+                if [ "$exists" = 1 ]; then
+                        echo $FILE
+			return;
                 fi
         done
 }
@@ -60,7 +91,13 @@ else
 	
 	git -C $RELEASE_BASE_DIR clean -df
 	git -C $RELEASE_BASE_DIR reset --hard
-	git -C $RELEASE_BASE_DIR pull origin
+	git -C $RELEASE_BASE_DIR fetch
+
+	brach_name=$(getGitBranch)
+
+	git checkout $brach_name
+
+	git -C $RELEASE_BASE_DIR pull origin $brach_name
 	
 	echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
 
@@ -79,7 +116,7 @@ else
 
 	if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 
-		updateAllowedToCurrentSite
+		checIfupdateIsAllowedToCurrentSite
 
 		updateAllowed=$?
 
