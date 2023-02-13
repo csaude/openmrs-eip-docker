@@ -52,7 +52,7 @@ else
         
         CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
         
-        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
+        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/download_completed"
         if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
         then
            echo "Error trying to download release packages: $RELEASE_NAME. See previous messages."
@@ -73,6 +73,9 @@ else
 
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
+
+	echo "CONFIGURING SSMTP"
+        $SCRIPTS_DIR/configure_ssmtp.sh
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         echo "Installation finished at $timestamp" >> $INSTALL_FINISHED_REPORT_FILE
