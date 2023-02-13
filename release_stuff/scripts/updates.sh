@@ -25,6 +25,8 @@ checkIfTokenExistsInFile(){
                  fi
 
         done < $filename
+
+	return 0;
 }
 
 checIfupdateIsAllowedToCurrentSite(){
