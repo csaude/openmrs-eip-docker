@@ -24,23 +24,6 @@ else
    export $(cat $HOME_DIR/eip.env | xargs)
 fi
 
-#recipient="jorge.boane@fgh.org.mz" 
-#sender="jorge.boane@fgh.org.mz" 
-#subject="EIP_REMOTO_ESTADO_DE_ACTUALIZACAO_$db_sync_senderId" 
-#content="Caros" 
-#content="$content\r\r\nJunto enviamos o report da ultima tentativa de actualizacao da aplicacao openmrs-eip."  
-#content="$content\r\r\n" 
-#content="$content\r\r\nINFORMACAO DAS RELEASES" 
-#content="$content\r\r\n---------------------" 
-#content="$content\r\r\n CURRENT RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE}"
-#content="$content\r\r\n--------------------" 
-#content="$content\r\r\n" 
-#content="$content\r\r\nEnviado automaticamente a partir do servidor $db_sync_senderId." 
-
-#echo $content | mutt -s $subject -a $UPDATES_LOG_FILE -b jorge.boane@fgh.org.mz
-
-#echo "EMAIL SENT!"
-
 EMAIL_CONTENT_FILE="/home/eip/update_email_content"
 
 echo "To: jorge.boane@fgh.org.mz" >> $EMAIL_CONTENT_FILE

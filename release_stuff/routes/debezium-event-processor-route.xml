@@ -12,48 +12,33 @@
             <simple>${body.event}</simple>
         </setProperty>
         <setProperty name="is-subclass">
-            <spel>#{getProperty('event').tableName == 'test_order' || getProperty('event').tableName == 'drug_order' || getProperty('event').tableName == 'patient'}</spel>
+            <method beanType="org.openmrs.eip.component.utils.Utils" method="isSubclassTable(${exchangeProperty.event.tableName})" />
         </setProperty>
 
-        <setProperty name="route-retry-count-map">
-            <spel>#{new java.util.HashMap()}</spel>
-        </setProperty>
-        <split>
-            <simple>{{db-event.destinations}}</simple>
-            <script>
-                <spel>#{getProperty('route-retry-count-map').put(body.trim(), 0)}</spel>
-            </script>
-        </split>
-
-        <setProperty name="table-names">
+        <setProperty name="debezium-event-processor-tableNames">
             <!-- We need to look up failed events for rows in both the parent and subclass tables -->
             <method beanType="org.openmrs.eip.component.utils.Utils" method="getTablesInHierarchy(${exchangeProperty.event.tableName})" />
         </setProperty>
 
-        <toD uri="jpa:SenderRetryQueueItem?query=SELECT r from SenderRetryQueueItem r WHERE r.event.tableName IN (${exchangeProperty.table-names}) AND r.event.primaryKeyId='${exchangeProperty.event.primaryKeyId}'" />
+        <toD uri="jpa:SenderRetryQueueItem?query=SELECT r from SenderRetryQueueItem r WHERE r.event.tableName IN (${exchangeProperty.debezium-event-processor-tableNames}) AND r.event.primaryKeyId='${exchangeProperty.event.primaryKeyId}'" />
 
-        <split stopOnException="true">
-            <simple>${body}</simple>
-            <choice>
-                <when>
-                    <simple>${exchangeProperty.route-retry-count-map.containsKey(${body.route.trim()})} != true</simple>
-                    <throwException exceptionType="java.lang.Exception" message="No listener route found with name ${body.route.trim()}" />
-                </when>
-                <otherwise>
-                    <script>
-                        <spel>#{getProperty('route-retry-count-map').put(body.route, getProperty('route-retry-count-map').get(body.route.trim()) + 1)}</spel>
-                    </script>
-                </otherwise>
-            </choice>
-        </split>
-
-        <log message="Route and retryCount map -> ${exchangeProperty.route-retry-count-map}" loggingLevel="DEBUG" />
+        <when>
+            <simple>${body.size()} > 0</simple>
+            <throwException exceptionType="org.openmrs.eip.component.exception.EIPException" message="Cannot process the event because the entity has ${body.size()} event(s) in the retry queue" />
+        </when>
         
         <setBody>
             <simple>${exchangeProperty.event}</simple>
         </setBody>
 
         <to uri="direct:db-event-processor" />
+
+        <!-- Note that if an error was encountered the event is deleted in the error-handler-route instead -->
+        <log loggingLevel="DEBUG" message="Removing item with id: ${exchangeProperty.dbzmEvent.id} from the debezium event queue" />
+
+        <toD uri="jpa:DebeziumEvent?query=DELETE FROM DebeziumEvent WHERE id = ${exchangeProperty.dbzmEvent.id}" />
+
+        <log message="Removed item with id: ${exchangeProperty.dbzmEvent.id} from the debezium event queue" />
 
         <log message="End: route with id ${routeId}" loggingLevel="DEBUG" />
 
