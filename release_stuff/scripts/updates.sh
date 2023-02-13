@@ -39,7 +39,7 @@ checIfupdateIsAllowedToCurrentSite(){
 getGitBranch(){
         curr_dir=$(pwd)
 
-        branch_dir="/home/eip/git/branches"
+        branch_dir="$RELEASE_DIR/git/branches"
 
         cd $branch_dir
 
