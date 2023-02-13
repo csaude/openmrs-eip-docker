@@ -182,8 +182,10 @@ else
         	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 	fi
 
-	rm $ONGOING_UPDATE_INFO_FILE
-	
+	if [ -f "$ONGOING_UPDATE_INFO_FILE"]; then
+		rm $ONGOING_UPDATE_INFO_FILE
+	fi
+
 	if [ "$UPDATED" ]; then
  		echo "PERFORMING AFTER UPDATE STEPS" #| tee -a $LOG_DIR/upgrade.log
 
