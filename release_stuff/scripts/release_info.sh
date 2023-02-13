@@ -26,4 +26,6 @@ if [ -f "$TMP_UPDATE_DONE" ]; then
 else
 	touch $TMP_UPDATE_DONE
 	./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
+
+	$RELEASE_SCRIPTS_DIR/eip_stop.sh
 fi
