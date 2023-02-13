@@ -32,7 +32,7 @@ checkIfTokenExistsInFile(){
 checIfupdateIsAllowedToCurrentSite(){
         filename="$RELEASE_SCRIPTS_DIR/sites_to_update.txt"
 
-        allowed=$(checkIfTockenExistsInFile $filename $db_sync_senderId)
+        allowed=$(checkIfTokenExistsInFile $filename $db_sync_senderId)
 
         echo $allowed
 }
