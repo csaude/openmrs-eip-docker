@@ -91,6 +91,7 @@ else
 	git -C $RELEASE_BASE_DIR clean -df
 	git -C $RELEASE_BASE_DIR reset --hard
 	git -C $RELEASE_BASE_DIR fetch
+	git -C $RELEASE_BASE_DIR pull origin
 
 	brach_name=$(getGitBranch)
 
