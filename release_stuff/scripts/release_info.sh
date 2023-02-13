@@ -24,5 +24,6 @@ rm $ONGOING_UPDATE_INFO_FILE
 if [ -f "$TMP_UPDATE_DONE" ]; then 
 	echo "THE TMP UPDATE HAS ALREADY DONE"
 else
+	touch $TMP_UPDATE_DONE
 	./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
 fi
