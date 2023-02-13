@@ -21,8 +21,7 @@ checkIfTokenExistsInFile(){
 
         while read line; do
                 if [ "$line"  = "$token" ]; then
-			echo "Found $line"
-                        return 1;
+			return 1;
                  fi
 
         done < $filename
