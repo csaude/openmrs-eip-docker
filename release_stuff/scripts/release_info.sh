@@ -26,4 +26,5 @@ else
 	./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
 
 	$RELEASE_SCRIPTS_DIR/eip_stop.sh
+	sleep 30
 fi
