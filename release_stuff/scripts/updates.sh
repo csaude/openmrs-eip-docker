@@ -84,8 +84,8 @@ else
 	   	echo "RELEASE PROJECT CLONED TO $RELEASE_BASE_DIR" #| tee -a $LOG_DIR/upgrade.log
 	fi
 
-	git config --global user.email "jpboane@gmail.com"
-	git config --global user.name "jpboane"
+	git config --global user.email "epts.centralization@fgh.org.mz"
+	git config --global user.name "epts.centralization"
 
 	#Pull changes from remote project
 	echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
@@ -98,6 +98,8 @@ else
 	git -C $RELEASE_BASE_DIR pull origin
 
 	brach_name=$(getGitBranch)
+
+	echo "Detected branch [$brach_name]"
 
 	git checkout $brach_name
 
