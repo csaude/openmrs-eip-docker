@@ -30,7 +30,7 @@ checkIfTokenExistsInFile(){
 }
 
 checIfupdateIsAllowedToCurrentSite(){
-        filename="$RELEASE_SCRIPTS_DIR/sites_to_update.txt"
+        filename="$RELEASE_SCRIPTS_DIR/sites_to_update"
 
         checkIfTokenExistsInFile $filename $db_sync_senderId
 
