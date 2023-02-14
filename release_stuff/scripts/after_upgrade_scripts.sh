@@ -17,14 +17,12 @@ if [ ! -f "$INSTALL_INFO_DIR" ]; then
 	echo "RUN HISTORY DIR CREATED" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
 fi
 
-#cd $AFTER_UPGRADE_SCRIPTS_HOME
+cd $AFTER_UPGRADE_SCRIPTS_HOME
 
-cd /home/eip/scripts
-
-QTY_FILES=$(ls "after_upgrade"*.sh | wc -l)
+QTY_FILES=$(ls *.sh | wc -l)
 
 if [ "$QTY_FILES" -gt 0 ]; then
-	for FILE in "after_upgrade"*.sh; do
+	for FILE in *.sh; do
         	if [ -f "$INSTALL_INFO_DIR/$FILE" ]; then
                		echo "THE SCRIPT $FILE WAS ALREDY RUN" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
         	else
