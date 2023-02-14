@@ -21,6 +21,8 @@ cd $AFTER_UPGRADE_SCRIPTS_HOME
 
 QTY_FILES=$(ls *.sh | wc -l)
 
+chmod +x *.sh
+
 if [ "$QTY_FILES" -gt 0 ]; then
 	for FILE in *.sh; do
         	if [ -f "$INSTALL_INFO_DIR/$FILE" ]; then
