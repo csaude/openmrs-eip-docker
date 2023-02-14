@@ -27,7 +27,7 @@ if [ "$QTY_FILES" -gt 0 ]; then
                		echo "THE SCRIPT $FILE WAS ALREDY RUN" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
         	else
                 	echo "RUNNING SCRIP $FILE" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
-                	$FILE
+                	./$FILE
                 	echo "THE SCRIPT $FILE WAS RUN" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
                 	echo "SCRIPT RUN ON $timestamp" > "$INSTALL_INFO_DIR/$FILE"
         	fi
