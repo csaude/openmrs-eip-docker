@@ -15,6 +15,7 @@ OS_SMTP_CONFIG_FILE=/etc/ssmtp/ssmtp.conf
 
 cp $ORIGINAL_SSMTP_CONFIG_FILE $TEMP_SSMTP_CONFIG_FILE
 
+
 sed -i "s/dbsync_notification_email_recipients/$dbsync_notification_email_recipients/g" $TEMP_SSMTP_CONFIG_FILE
 sed -i "s/dbsync_notification_email_smtp_auth_user/$dbsync_notification_email_smtp_auth_user/g" $TEMP_SSMTP_CONFIG_FILE
 sed -i "s/dbsync_notification_email_smtp_user_pass/$dbsync_notification_email_smtp_user_pass/g" $TEMP_SSMTP_CONFIG_FILE

@@ -11,6 +11,10 @@ timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 INSTALL_INFO_DIR=$SHARED_DIR/install_info/after_upgrade
 
+if [! -f "$AFTER_UPGRADE_SCRIPTS_HOME" ]; then
+	echo "CREATING RUN HISTORY DIR" | tee -a $AFTER_UPGRADE_SCRIPTS_HOME/install.log
+fi
+
 cd $AFTER_UPGRADE_SCRIPTS_HOME
 
 QTY_FILES=$(ls $AFTER_UPGRADE_SCRIPTS_HOME/*.sh | wc -l)
