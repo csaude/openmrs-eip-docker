@@ -13,7 +13,7 @@ INSTALL_INFO_DIR=$SHARED_DIR/install_info/after_upgrade
 
 if [ ! -f "$AFTER_UPGRADE_SCRIPTS_HOME" ]; then
 	echo "CREATING RUN HISTORY DIR" | tee -a $AFTER_UPGRADE_SCRIPTS_HOME/install.log
-	mpdir -p $AFTER_UPGRADE_SCRIPTS_HOME
+	mkdir -p $AFTER_UPGRADE_SCRIPTS_HOME
 	echo "RUN HISTORY DIR CREATED" | tee -a $AFTER_UPGRADE_SCRIPTS_HOME/install.log
 fi
 
