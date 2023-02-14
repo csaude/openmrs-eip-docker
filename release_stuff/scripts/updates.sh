@@ -99,6 +99,15 @@ else
 
 	brach_name=$(getGitBranch)
 
+	if [ -z $brach_name ]; then
+		echo "The git branch name for site $db_sync_senderId was not found"
+		echo "Aborting upgrade process..."
+
+		rm $ONGOING_UPDATE_INFO_FILE
+
+		exit 1
+	fi
+
 	echo "Detected branch [$brach_name]"
 
 	git checkout $brach_name
