@@ -196,10 +196,11 @@ else
 		echo "RE-INSTALLING CRONS!" #| tee -a $LOG_DIR/upgrade.log
                 $SCRIPTS_DIR/install_crons.sh
 
-                echo "RESTARTING EIP APPLICATION!" #| tee -a $LOG_DIR/upgrade.log
-                $SCRIPTS_DIR/eip_startup.sh
-
                 echo "RUNNING STARTUP SCRIPTS!" #| tee -a $LOG_DIR/upgrade.log
                 $SCRIPTS_DIR/after_upgrade_scripts.sh
+
+		echo "RESTARTING EIP APPLICATION!" #| tee -a $LOG_DIR/upgrade.log
+                $SCRIPTS_DIR/eip_startup.sh
+
 	fi
 fi
