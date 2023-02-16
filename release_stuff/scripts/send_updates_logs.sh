@@ -26,7 +26,7 @@ fi
 
 EMAIL_CONTENT_FILE="/home/eip/update_email_content"
 
-echo "To: jorge.boane@fgh.org.mz" >> $EMAIL_CONTENT_FILE
+echo "To: jorge.boane@fgh.org.mz,daniel.chirinda@fgh.org.mz,jose.chambule@fgh.org.mz,fernando.mufume@fgh.org.mz" >> $EMAIL_CONTENT_FILE
 echo "From: jorge.boane@fgh.org.mz" >> $EMAIL_CONTENT_FILE
 echo "Subject: EIP REMOTO - ESTADO DE ACTUALIZACAO[$db_sync_senderId]" >> $EMAIL_CONTENT_FILE
 echo "Caros" >> $EMAIL_CONTENT_FILE
