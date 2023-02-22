@@ -25,7 +25,7 @@ else
         then
            echo "INSTALLING DEPENDENCIES USING APK"
            $SETUP_SCRIPTS_DIR/apk_install.sh
-	   $SETUP_SCRIPTS_DIR/scripts/configure_ssmtp.sh
+	   $SETUP_SCRIPTS_DIR/configure_ssmtp.sh
         fi
 
         cd $HOME_DIR
