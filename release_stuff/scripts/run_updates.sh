@@ -1,3 +1,4 @@
+#!/bin/sh
 # Set EIP environment.
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
@@ -10,8 +11,8 @@ else
        echo "THE LOG DIR WAS CREATED" | tee -a $LOG_DIR/upgrade.log
 fi
 
-if [ -f "$LOG_DIR/upgrade.log" ]; then 
-	rm $LOG_DIR/upgrade.log
+if [ -f "$LOG_DIR/upgrade.log" ]; then
+        rm $LOG_DIR/upgrade.log
 fi
 
 cd $SCRIPTS_DIR
