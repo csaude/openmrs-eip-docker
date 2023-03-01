@@ -18,8 +18,6 @@ cd $EIP_HOME
 # Start application.
 echo "Preparing to start Eip Application: [$EIP_MODE]"
 
-sleep 15 
-echo "Starting Eip Application: [$EIP_MODE]"
 
 if grep -q docker /proc/1/cgroup; then 
    echo "ENV ALREADY SET"
@@ -30,6 +28,9 @@ fi
 
 ./scripts/setenv.sh
 ./scripts/install_artemis_certificate.exp
+
+sleep 15 
+echo "Starting Eip Application: [$EIP_MODE]"
 
 if grep -q docker /proc/1/cgroup; then
         java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
