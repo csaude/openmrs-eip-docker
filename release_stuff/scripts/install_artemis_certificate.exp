@@ -1,0 +1,23 @@
+#!/usr/bin/expect -f
+
+set JAVA_HOME $JAVA_HOME 
+
+set timeout -1
+
+puts "GENERATING OPENCR CERT KEY"
+
+spawn echo "Q" | openssl s_client -connect $spring_artemis_host:$spring_artemis_port | openssl x509 > artemis.cert
+
+puts "ARTEMIS CERT KEY GENERATED"
+puts "REGISTERING ARTEMIS CERTIFICATE TO TRUSTED CERTIFICATES"
+
+spawn keytool -import -trustcacerts -file artemis.cert -alias artemis -keystore $JAVA_HOME/jre/lib/security/cacerts 
+
+	expect "Enter keystore password: "
+	send -- "changeit\n"
+	expect "Trust this certificate?*"
+	send -- "yes\n"
+
+puts "ARTEMIS CERTIFICATE ADDED TO TRUSTED CETIFICATE"
+
+expect eof

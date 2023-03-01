@@ -28,6 +28,9 @@ else
    export $(cat $HOME_DIR/eip.env | xargs)
 fi
 
+./setenv.sh
+./install_artemis_certificate.exp
+
 if grep -q docker /proc/1/cgroup; then
         java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
 else
