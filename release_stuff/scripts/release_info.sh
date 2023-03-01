@@ -16,15 +16,19 @@ export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/FriendsInGlobalHealth/ope
 export EPTSSYNC_API_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases/download/v3.0.1.0/eptssync-api-1.0-SNAPSHOT.jar"
 
 
+#IF THIS WAS NOT CALL FROM ANY UPDATE THEN SKIP TEMPORAY UPDATE
+if [ -f "$ONGOING_UPDATE_INFO_FILE" ]; then
+	if [ -f "$TMP_UPDATE_DONE" ]; then 
+		echo "THE TMP UPDATE HAS ALREADY DONE"
+	else
+		rm $ONGOING_UPDATE_INFO_FILE
+		cd $RELEASE_SCRIPTS_DIR
+		touch $TMP_UPDATE_DONE
+		./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
 
-if [ -f "$TMP_UPDATE_DONE" ]; then 
-	echo "THE TMP UPDATE HAS ALREADY DONE"
+		$RELEASE_SCRIPTS_DIR/eip_stop.sh
+		sleep 30
+	fi
 else
-	rm $ONGOING_UPDATE_INFO_FILE
-	cd $RELEASE_SCRIPTS_DIR
-	touch $TMP_UPDATE_DONE
-	./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
-
-	$RELEASE_SCRIPTS_DIR/eip_stop.sh
-	sleep 30
+	echo "INITIAL SETUP IGNORE TEMPORAY UPDATE ROUNTINE"
 fi
