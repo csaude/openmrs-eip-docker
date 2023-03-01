@@ -28,20 +28,8 @@ else
    export $(cat $HOME_DIR/eip.env | xargs)
 fi
 
-# backward compatibility, v.2.0.1.0. Will be removed on next release (this code is present on update.sh for future updates)
-. $SCRIPTS_DIR/release_info.sh
-RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/download_completed"
-if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
-then
-   $SCRIPTS_DIR/backward_compatibility_v.2.0.1.0.sh
-   
-   # verification
-   if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
-   then
-      echo "Startup process failed"
-      exit 1
-   fi
-fi
+./setenv.sh
+./install_artemis_certificate.exp
 
 if grep -q docker /proc/1/cgroup; then
         java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
