@@ -25,7 +25,6 @@ else
         then
            echo "INSTALLING DEPENDENCIES USING APK"
            $SETUP_SCRIPTS_DIR/apk_install.sh
-	   $SETUP_SCRIPTS_DIR/configure_ssmtp.sh
         fi
 
         cd $HOME_DIR
@@ -74,6 +73,11 @@ else
 
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
+
+	if [ ! -z $APK_CMD ]
+        then
+           $SETUP_SCRIPTS_DIR/configure_ssmtp.sh
+        fi
 
 	echo "CONFIGURING SSMTP"
 
