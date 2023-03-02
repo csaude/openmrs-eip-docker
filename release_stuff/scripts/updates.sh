@@ -30,7 +30,8 @@ checkIfTokenExistsInFile(){
 }
 
 checIfupdateIsAllowedToCurrentSite(){
-        filename="$RELEASE_SCRIPTS_DIR/sites_to_update"
+	branch_name=$(getGitBranch)
+        filename="$RELEASE_SCRIPTS_DIR/${branch_name}sites_to_update"
 
         checkIfTokenExistsInFile $filename $db_sync_senderId
 
@@ -97,9 +98,9 @@ else
 	git -C $RELEASE_BASE_DIR fetch
 	git -C $RELEASE_BASE_DIR pull origin
 
-	brach_name=$(getGitBranch)
+	branch_name=$(getGitBranch)
 
-	if [ -z $brach_name ]; then
+	if [ -z $branch_name ]; then
 		echo "The git branch name for site $db_sync_senderId was not found"
 		echo "Aborting upgrade process..."
 
@@ -108,11 +109,11 @@ else
 		exit 1
 	fi
 
-	echo "Detected branch [$brach_name]"
+	echo "Detected branch [$branch_name]"
 
-	git checkout $brach_name
+	git checkout $branch_name
 
-	git -C $RELEASE_BASE_DIR pull origin $brach_name
+	git -C $RELEASE_BASE_DIR pull origin $branch_name
 	
 	echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
 
