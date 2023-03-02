@@ -6,7 +6,7 @@ set JAVA_HOME $::env(JAVA_HOME)
 set timeout -1
 
 
-puts "REGISTERING ARTEMIS $cert_path CERTIFICATE TO TRUSTED CERTIFICATES"
+puts "REGISTERING $cert_path CERTIFICATE TO TRUSTED CERTIFICATES"
 
 spawn keytool -import -trustcacerts -file $cert_path -alias artemis -keystore $JAVA_HOME/jre/lib/security/cacerts 
 
@@ -15,6 +15,6 @@ spawn keytool -import -trustcacerts -file $cert_path -alias artemis -keystore $J
 	expect "Trust this certificate?*"
 	send -- "yes\n"
 
-puts "ARTEMIS CERTIFICATE ADDED TO TRUSTED CETIFICATE"
+puts "CERTIFICATE ADDED TO TRUSTED CETIFICATE"
 
 expect eof
