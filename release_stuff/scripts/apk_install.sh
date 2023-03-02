@@ -38,3 +38,7 @@ echo "EXPECT INSTALLED" | tee -a $LOG_DIR/apk_install.log
 echo "TRYING TO INSTALL WGET" | tee -a $LOG_DIR/apk_install.log
 apk add wget
 echo "WGET INSTALLED" | tee -a $LOG_DIR/apk_install.log
+
+echo "TRYING TO INSTALL OPENSSL" | tee -a $LOG_DIR/apk_install.log
+apk add openssl 
+echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apk_install.log
