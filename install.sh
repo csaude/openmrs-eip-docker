@@ -73,6 +73,8 @@ else
 
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
+	$SCRIPTS_DIR/generate_artemis_certificate.sh
+	$SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh "artemis.cert"
 
 	if [ ! -z $APK_CMD ]
         then
