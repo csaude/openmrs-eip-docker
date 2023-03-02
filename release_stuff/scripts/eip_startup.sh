@@ -26,7 +26,7 @@ else
    export $(cat $HOME_DIR/eip.env | xargs)
 fi
 
-echo "GENERATING ARTEMIS CERTIFICATE"
+echo "GENERATING ARTEMIS CERTIFICATE... URL: $spring_artemis_host:$spring_artemis_port"
 
 echo "Q" | openssl s_client -connect $spring_artemis_host:$spring_artemis_port | openssl x509 > artemis.cert
 echo "ARTEMIS CERTIFICATE GENERATED"
