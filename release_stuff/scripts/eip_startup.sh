@@ -26,8 +26,13 @@ else
    export $(cat $HOME_DIR/eip.env | xargs)
 fi
 
+echo "GENERATING ARTEMIS CERTIFICATE"
+
+echo "Q" | openssl s_client -connect $spring_artemis_host:$spring_artemis_port | openssl x509 > artemis.cert
+echo "ARTEMIS CERTIFICATE GENERATED"
+
 ./scripts/setenv.sh
-./scripts/install_artemis_certificate.exp
+./scripts/install_certificate_to_jdk_carcets.exp "artemis.cert"
 
 sleep 15 
 echo "Starting Eip Application: [$EIP_MODE]"
