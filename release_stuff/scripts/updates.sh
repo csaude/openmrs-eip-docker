@@ -31,7 +31,7 @@ checkIfTokenExistsInFile(){
 
 checIfupdateIsAllowedToCurrentSite(){
 	branch_name=$(getGitBranch)
-        filename="$RELEASE_SCRIPTS_DIR/${branch_name}sites_to_update"
+        filename="$RELEASE_SCRIPTS_DIR/${branch_name}_sites_to_update"
 
         checkIfTokenExistsInFile $filename $db_sync_senderId
 
