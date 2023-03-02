@@ -28,10 +28,12 @@ fi
 
 echo "GENERATING ARTEMIS CERTIFICATE... URL: $spring_artemis_host:$spring_artemis_port"
 
-echo "Q" | openssl s_client -connect $spring_artemis_host:$spring_artemis_port | openssl x509 > artemis.cert
 echo "ARTEMIS CERTIFICATE GENERATED"
 
 . scripts/setenv.sh
+
+echo "Q" | openssl s_client -connect $spring_artemis_host:$spring_artemis_port | openssl x509 > artemis.cert
+
 ./scripts/install_certificate_to_jdk_carcets.exp "artemis.cert"
 
 sleep 15 
