@@ -13,7 +13,12 @@ export EIP_MODE=sender
 export HOME_DIR=/home/eip
 export SCRIPTS_DIR=$HOME_DIR/scripts
 
+
+. $SCRIPTS_DIR/commons.sh
+
+
 cd $EIP_HOME
+
 
 # Start application.
 echo "Preparing to start Eip Application: [$EIP_MODE]"
@@ -26,7 +31,13 @@ else
    export $(cat $HOME_DIR/eip.env | xargs)
 fi
 
-. scripts/setenv.sh
+
+branch_name=$(getGitBranch)
+setenv_file="$SCRIPTS_DIR/${branch_name}_setenv.sh"
+
+echo "Using env from $setenv_file"
+
+. $setenv_file 
 
 
 sleep 15 
