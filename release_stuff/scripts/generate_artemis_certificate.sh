@@ -4,10 +4,20 @@
 
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
-EIP_HOME="/home/eip"
-EIP_SCRIPTS_DIR="$EIP_HOME/scripts"
+HOME_DIR="/home/eip"
+SCRIPTS_DIR="$HOME_DIR/scripts"
+RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
+RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
+GIT_BRANCHES_DIR="$RELEASE_DIR/git/branches"
 
-. $EIP_SCRIPTS_DIR/setenv.sh
+. $SCRIPTS_DIR/commons.sh
+
+branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+setenv_file="$SCRIPTS_DIR/${branch_name}_setenv.sh"
+
+echo "Using env from $setenv_file"
+
+. $setenv_file
 
 echo "GENERATING ARTEMIS CERTIFICATE... URL: $spring_artemis_host:$spring_artemis_port"
 

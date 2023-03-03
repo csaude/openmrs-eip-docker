@@ -32,6 +32,8 @@ else
                 echo "Aborting the installation process..."
 
                 exit 1
+	else
+		echo "Performing installation on site $db_sync_senderId based on branch $branch_name"
         fi
         
         if [ ! -z $APK_CMD ]
