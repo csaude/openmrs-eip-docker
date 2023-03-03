@@ -49,14 +49,6 @@ else
 	echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
 	echo "-------------------------------------------------------------" #| tee -a $LOG_DIR/upgrade.log
 
-	if [ -d "$RELEASE_BASE_DIR" ]; then
-	   echo "RELEASE PROJECT ALREADY CLONED!" #| tee -a $LOG_DIR/upgrade.log
-	else
-   		echo "CLONIG RELEASE PROJECT..." #| tee -a $LOG_DIR/upgrade.log
-	   	git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git $RELEASE_BASE_DIR
-	   	echo "RELEASE PROJECT CLONED TO $RELEASE_BASE_DIR" #| tee -a $LOG_DIR/upgrade.log
-	fi
-
 	git config --global user.email "epts.centralization@fgh.org.mz"
 	git config --global user.name "epts.centralization"
 
@@ -70,7 +62,7 @@ else
 	git -C $RELEASE_BASE_DIR fetch
 	git -C $RELEASE_BASE_DIR pull origin
 
-	branch_name=$(getGitBranch)
+	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
 
 	if [ -z $branch_name ]; then
 		echo "The git branch name for site $db_sync_senderId was not found"
