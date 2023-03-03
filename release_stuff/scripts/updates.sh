@@ -16,7 +16,7 @@ LOG_DIR="$SHARED_DIR/logs/upgrade"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 GIT_BRANCHES_DIR="$RELEASE_DIR/git/branches"
 
-. $SCRIPTS_DIR/commons.sh
+. $RELEASE_SCRIPTS_DIR/commons.sh
 
 checIfupdateIsAllowedToCurrentSite(){
 	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
