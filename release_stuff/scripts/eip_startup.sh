@@ -8,11 +8,14 @@
 # config:
 
 # Set EIP environment.
-export EIP_HOME=/home/eip
-export EIP_MODE=sender
-export HOME_DIR=/home/eip
-export SCRIPTS_DIR=$HOME_DIR/scripts
-
+EIP_HOME=/home/eip
+EIP_MODE=sender
+HOME_DIR=/home/eip
+SCRIPTS_DIR=$HOME_DIR/scripts
+HOME_DIR="/home/eip"
+RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
+RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
+GIT_BRANCHES_DIR="$RELEASE_DIR/git/branches"
 
 . $SCRIPTS_DIR/commons.sh
 
@@ -32,7 +35,7 @@ else
 fi
 
 
-branch_name=$(getGitBranch)
+branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
 setenv_file="$SCRIPTS_DIR/${branch_name}_setenv.sh"
 
 echo "Using env from $setenv_file"

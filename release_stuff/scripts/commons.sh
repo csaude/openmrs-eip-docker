@@ -20,9 +20,11 @@ checkIfTokenExistsInFile(){
 }
 
 getGitBranch(){
+	project_repository_path=$1
         curr_dir=$(pwd)
 
-        branch_dir="$RELEASE_DIR/git/branches"
+
+        branch_dir="$project_repository_path/git/branches"
 
         cd $branch_dir
 

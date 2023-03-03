@@ -12,7 +12,11 @@ SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+GIT_BRANCHES_DIR="$EIP_SETUP_STUFF_DIR/git/branches"
+
 APK_CMD=$(which apk)
+
+. $SETUP_SCRIPTS_DIR/commons.sh
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         echo "INSTALLATION FINISHED"
@@ -20,6 +24,15 @@ else
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
         echo "STARTING EIP INSTALLATION PROCESS AT $timespamp"
+
+ 	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+
+        if [ -z $branch_name ]; then
+                echo "The git branch name for site $db_sync_senderId was not found"
+                echo "Aborting the installation process..."
+
+                exit 1
+        fi
         
         if [ ! -z $APK_CMD ]
         then

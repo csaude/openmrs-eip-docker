@@ -14,23 +14,12 @@ ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 SHARED_DIR="$HOME_DIR/shared"
 LOG_DIR="$SHARED_DIR/logs/upgrade"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+GIT_BRANCHES_DIR="$RELEASE_DIR/git/branches"
 
-checkIfTokenExistsInFile(){
-        filename=$1
-        token=$2
-
-        while read line; do
-                if [ "$line"  = "$token" ]; then
-			return 1;
-                 fi
-
-        done < $filename
-
-	return 0;
-}
+. $SCRIPTS_DIR/commons.sh
 
 checIfupdateIsAllowedToCurrentSite(){
-	branch_name=$(getGitBranch)
+	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
         filename="$RELEASE_SCRIPTS_DIR/${branch_name}_sites_to_update"
 	
 	echo "Sites to update file name [$filename]"
@@ -40,25 +29,6 @@ checIfupdateIsAllowedToCurrentSite(){
         allowed=$?
 
 	return $allowed
-}
-
-
-getGitBranch(){
-        curr_dir=$(pwd)
-
-        branch_dir="$RELEASE_DIR/git/branches"
-
-        cd $branch_dir
-
-        for FILE in *; do
-                checkIfTokenExistsInFile $FILE $db_sync_senderId
-                exists=$?
-
-                if [ "$exists" = 1 ]; then
-                        echo $FILE
-			return;
-                fi
-        done
 }
 
 if [ -d "$LOG_DIR" ]; then
