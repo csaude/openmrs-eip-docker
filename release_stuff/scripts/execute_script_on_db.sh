@@ -6,7 +6,9 @@ DB_HOST=$1
 DB_HOST_PORT=$2
 DB_USER=$3
 DB_PASSWD=$4
-SCRIPT=$5
+DB_NAME=$5
+SCRIPT=$6
+
 APK_CMD=$(which apk)
 
 
@@ -18,4 +20,4 @@ else
 	exit 0
 fi
 
-nohup mysql -u $DB_USER -p $DB_PASSWD -P $DB_HOST_PORT -h $DB_HOST > $SCRIPT 2>&1 & 
+nohup mysql -u $DB_USER -p $DB_PASSWD -P $DB_HOST_PORT -h $DB_HOST $DB_NAME > $SCRIPT 2>&1 & 
