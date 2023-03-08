@@ -20,4 +20,4 @@ else
 	exit 0
 fi
 
-nohup mysql -u $DB_USER -p $DB_PASSWD -P $DB_HOST_PORT -h $DB_HOST $DB_NAME > $SCRIPT 2>&1 & 
+nohup mysql -u $DB_USER -p $DB_PASSWD -P $DB_HOST_PORT -h $DB_HOST $DB_NAME < $SCRIPT 2>&1 & 
