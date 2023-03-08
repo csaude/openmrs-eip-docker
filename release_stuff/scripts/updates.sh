@@ -14,48 +14,21 @@ ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 SHARED_DIR="$HOME_DIR/shared"
 LOG_DIR="$SHARED_DIR/logs/upgrade"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+GIT_BRANCHES_DIR="$RELEASE_DIR/git/branches"
 
-checkIfTokenExistsInFile(){
-        filename=$1
-        token=$2
-
-        while read line; do
-                if [ "$line"  = "$token" ]; then
-			return 1;
-                 fi
-
-        done < $filename
-
-	return 0;
-}
+. $RELEASE_SCRIPTS_DIR/commons.sh
 
 checIfupdateIsAllowedToCurrentSite(){
-        filename="$RELEASE_SCRIPTS_DIR/sites_to_update"
+	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+        filename="$RELEASE_SCRIPTS_DIR/${branch_name}_sites_to_update"
+	
+	echo "Sites to update file name [$filename]"
 
         checkIfTokenExistsInFile $filename $db_sync_senderId
 
         allowed=$?
 
 	return $allowed
-}
-
-
-getGitBranch(){
-        curr_dir=$(pwd)
-
-        branch_dir="$RELEASE_DIR/git/branches"
-
-        cd $branch_dir
-
-        for FILE in *; do
-                checkIfTokenExistsInFile $FILE $db_sync_senderId
-                exists=$?
-
-                if [ "$exists" = 1 ]; then
-                        echo $FILE
-			return;
-                fi
-        done
 }
 
 if [ -d "$LOG_DIR" ]; then
@@ -76,14 +49,6 @@ else
 	echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
 	echo "-------------------------------------------------------------" #| tee -a $LOG_DIR/upgrade.log
 
-	if [ -d "$RELEASE_BASE_DIR" ]; then
-	   echo "RELEASE PROJECT ALREADY CLONED!" #| tee -a $LOG_DIR/upgrade.log
-	else
-   		echo "CLONIG RELEASE PROJECT..." #| tee -a $LOG_DIR/upgrade.log
-	   	git clone https://github.com/FriendsInGlobalHealth/openmrs-eip-docker.git $RELEASE_BASE_DIR
-	   	echo "RELEASE PROJECT CLONED TO $RELEASE_BASE_DIR" #| tee -a $LOG_DIR/upgrade.log
-	fi
-
 	git config --global user.email "epts.centralization@fgh.org.mz"
 	git config --global user.name "epts.centralization"
 
@@ -97,9 +62,9 @@ else
 	git -C $RELEASE_BASE_DIR fetch
 	git -C $RELEASE_BASE_DIR pull origin
 
-	brach_name=$(getGitBranch)
+	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
 
-	if [ -z $brach_name ]; then
+	if [ -z $branch_name ]; then
 		echo "The git branch name for site $db_sync_senderId was not found"
 		echo "Aborting upgrade process..."
 
@@ -108,11 +73,11 @@ else
 		exit 1
 	fi
 
-	echo "Detected branch [$brach_name]"
+	echo "Detected branch [$branch_name]"
 
-	git checkout $brach_name
+	git checkout $branch_name
 
-	git -C $RELEASE_BASE_DIR pull origin $brach_name
+	git -C $RELEASE_BASE_DIR pull origin $branch_name
 	
 	echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
 

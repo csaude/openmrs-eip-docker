@@ -12,7 +12,11 @@ SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+GIT_BRANCHES_DIR="$EIP_SETUP_STUFF_DIR/git/branches"
+
 APK_CMD=$(which apk)
+
+. $SETUP_SCRIPTS_DIR/commons.sh
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         echo "INSTALLATION FINISHED"
@@ -20,6 +24,17 @@ else
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
         echo "STARTING EIP INSTALLATION PROCESS AT $timespamp"
+
+ 	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+
+        if [ -z $branch_name ]; then
+                echo "The git branch name for site $db_sync_senderId was not found"
+                echo "Aborting the installation process..."
+
+                exit 1
+	else
+		echo "Performing installation on site $db_sync_senderId based on branch $branch_name"
+        fi
         
         if [ ! -z $APK_CMD ]
         then
@@ -52,7 +67,7 @@ else
         
         CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
         
-        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/download_completed"
+        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
         if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
         then
            echo "Error trying to download release packages: $RELEASE_NAME. See previous messages."
@@ -73,9 +88,15 @@ else
 
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
+	$SCRIPTS_DIR/generate_artemis_certificate.sh
+	$SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh "artemis.cert"
+
+	if [ ! -z $APK_CMD ]
+        then
+           $SETUP_SCRIPTS_DIR/configure_ssmtp.sh
+        fi
 
 	echo "CONFIGURING SSMTP"
-        $SCRIPTS_DIR/configure_ssmtp.sh
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         echo "Installation finished at $timestamp" >> $INSTALL_FINISHED_REPORT_FILE
