@@ -5,6 +5,27 @@ HOME_DIR="/home/eip"
 RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
 
+getCurrDateTime(){
+	timestamp=`date +%Y-%m-%d_%H-%M-%S`
+
+	echo $timestamp
+}
+
+logToScreenAndFile(){
+	log_msg=$1
+	log_file=$2
+	LOG_DIR=${dirname "$log_file"}
+
+	if [ -d "$LOG_DIR" ]; then
+       		echo "THE LOG DIR EXISTS" | tee -a $log_file 
+	else
+       		mkdir -p $LOG_DIR
+       		echo "THE LOG DIR WAS CREATED" | tee -a $log_file 
+	fi
+
+	echo $log_msg | tee -a $log_file 
+}
+
 checkIfTokenExistsInFile(){
         filename=$1
         token=$2

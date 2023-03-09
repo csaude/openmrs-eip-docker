@@ -18,22 +18,13 @@ RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
 GIT_BRANCHES_DIR="$RELEASE_DIR/git/branches"
 
 . $SCRIPTS_DIR/commons.sh
-
+. $SCRIPTS_DIR/try_to_load_environment.sh
 
 cd $EIP_HOME
 
 
 # Start application.
 echo "Preparing to start Eip Application: [$EIP_MODE]"
-
-
-if grep -q docker /proc/1/cgroup; then 
-   echo "ENV ALREADY SET"
-else
-   echo "SETTING ENV"
-   export $(cat $HOME_DIR/eip.env | xargs)
-fi
-
 
 branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
 setenv_file="$SCRIPTS_DIR/${branch_name}_setenv.sh"
