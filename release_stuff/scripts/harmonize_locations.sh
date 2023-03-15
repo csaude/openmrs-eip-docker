@@ -1,7 +1,9 @@
 #!/bin/sh
 # This scripts execute a given script on a given db
 #
+
 HOME_DIR=/home/eip
+SCRIPTS_DIR=$HOME_DIR/scripts
 LOCATION_HARMONIZATION_DIR=$HOME_DIR/location_harmonization
 DB_HOST="172.17.0.1"
 DB_HOST_PORT="$openmrs_db_port"
@@ -18,12 +20,14 @@ HARMONIZATION_PROCESS_INFO=$LOCATION_HARMONIZATION_DIR/harmonization_process_inf
 
 echo "select * from location_harmonization.harmonization_execution_status;" > $CHECK_STATUS_SCRIPT
 
-$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $CHECK_STATUS_SCRIPT $HARMONIZATION_STATUS_FILE
+$SCRIPTS_DIR/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $CHECK_STATUS_SCRIPT $HARMONIZATION_STATUS_FILE
 
 if grep "finished" $HARMONIZATION_STATUS_FILE; then
         echo "The harmonization is finished"
 	
 	#TODO: SEND HARMONIZATION INFO TO EMAIL
+
+	$SCRIPTS_DIR/try_to_finalize_location_harmonization.sh
 
 	exit 0
 fi
