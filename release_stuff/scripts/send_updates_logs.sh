@@ -9,6 +9,7 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 LOG_DIR="$HOME_DIR/shared/logs/upgrade"
 EMAIL_CONTENT_FILE="$HOME_DIR/update_email_content"
 UPDATES_LOG_FILE="$LOG_DIR/upgrade.log"
+SEND_EMAIL_LOG="$LOG_DIR/send_email.log"
 
 . $SCRIPTS_DIR/try_to_load_environment.sh
 . $SCRIPTS_DIR/release_info.sh
@@ -33,4 +34,4 @@ echo "-----------------------------------------------------" >> $EMAIL_CONTENT_F
 cat $UPDATES_LOG_FILE >> $EMAIL_CONTENT_FILE
 echo "-----------------------------------------------------" >> $EMAIL_CONTENT_FILE
 
-$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "EIP REMOTO - ESTADO DE ACTUALIZACAO" $EMAIL_CONTENT_FILE
+$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "EIP REMOTO - ESTADO DE ACTUALIZACAO" $EMAIL_CONTENT_FILE $SEND_EMAIL_LOG
