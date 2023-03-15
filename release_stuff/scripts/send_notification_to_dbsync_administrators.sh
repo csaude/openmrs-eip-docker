@@ -9,6 +9,7 @@ LOG_DIR="$HOME_DIR/shared/logs/notification"
 
 MAIL_SUBJECT=$1
 PATH_TO_ATTACHMENT=$2
+PATH_TO_ERROR_LOG=$3
 
 FILE_NAME=$(basename "$PATH_TO_ATTACHMENT")
 EMAIL_CONTENT_FILE="$HOME_DIR/email_content"
@@ -27,8 +28,13 @@ echo "" >> $EMAIL_CONTENT_FILE
 echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $EMAIL_CONTENT_FILE
 
 
-sendmail -t -f  < $EMAIL_CONTENT_FILE
+sendmail -t -f  < $EMAIL_CONTENT_FILE 2> $PATH_TO_ERROR_LOG 
 
 rm $EMAIL_CONTENT_FILE
 
-echo "EMAIL SENT!"
+if [ ! -s $PATH_TO_ERROR_LOG ]; then
+	echo "Email cannot be sent due error"
+	cat $PATH_TO_ERROR_LOG
+else
+	echo "EMAIL SENT!"
+fi
