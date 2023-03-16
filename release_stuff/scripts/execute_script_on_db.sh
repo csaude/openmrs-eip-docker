@@ -15,7 +15,7 @@ APK_CMD=$(which apk)
 
 if [ ! -z $APK_CMD ];then
         echo "INSTALLING mysql-client"
-	apt add mysql-client
+	apk add mysql-client
 else
 	echo "PLEASE INSTALL mysql-client"	
 	exit 1 

@@ -16,9 +16,9 @@ RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 
 . $SCRIPTS_DIR/commons.sh
 
-timestamp=${getCurrDateTime}
+timestamp=$(getCurrDateTime)
 
-logToScreenAndFile "Trying to unlock liquibase at $timestamp" $LOG_FILE
+logToScreenAndFile "Trying to unlock liquibase at $timestamp" "$LOG_FILE"
 
 echo "select IF(LOCKED=true, 'true', 'false') LOCKED_STATUS from LIQUIBASECHANGELOGLOCK where id =1;" > $CHECK_STATUS_SCRIPT
 
