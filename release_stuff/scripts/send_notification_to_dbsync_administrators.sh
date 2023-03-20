@@ -18,7 +18,7 @@ LOG_FILE="$LOG_DIR/send_file_to_mail${FILE_NAME}.log"
 . $SCRIPTS_DIR/try_to_load_environment.sh
 
 echo "To: jorge.boane@fgh.org.mz,daniel.chirinda@fgh.org.mz,jose.chambule@fgh.org.mz,fernando.mufume@fgh.org.mz" >> $EMAIL_CONTENT_FILE
-echo "From: jorge.boane@fgh.org.mz" >> $EMAIL_CONTENT_FILE
+echo "From: epts.centralization@fgh.org.mz" >> $EMAIL_CONTENT_FILE
 echo "Subject: $MAIL_SUBJECT [$db_sync_senderId]" >> $EMAIL_CONTENT_FILE
 
 cat $PATH_TO_ATTACHMENT >> $EMAIL_CONTENT_FILE
