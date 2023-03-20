@@ -37,6 +37,6 @@ echo "-----------------------------------------------------" >> $EMAIL_CONTENT_F
 
 $SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $EMAIL_CONTENT_FILE $SEND_EMAIL_LOG
 
-if [ ! -s $SEND_EMAIL_LOG ]; then
+if [ -s $SEND_EMAIL_LOG ]; then
         $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $PATH_TO_ATTACHMENT
 fi
