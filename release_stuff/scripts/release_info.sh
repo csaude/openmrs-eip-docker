@@ -10,7 +10,7 @@ ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 TMP_UPDATE_DONE="$HOME_DIR/tmp_update_done_01"
 
 export RELEASE_NAME="EIP release 3.0.1.0"
-export RELEASE_DATE="2023-03-16 10:00:00"
+export RELEASE_DATE="2023-03-20 10:00:00"
 export RELEASE_DESC="New release with several improvments and new feactures"
 
 export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases/download/v4.0.0/openmrs-eip-app-1.2.jar"
