@@ -164,6 +164,8 @@ else
 		rm $ONGOING_UPDATE_INFO_FILE
 	fi
 
+	$SCRIPTS_DIR/schedule_update_notification.sh
+
 	if [ "$UPDATED" ]; then
  		echo "PERFORMING AFTER UPDATE STEPS" #| tee -a $LOG_DIR/upgrade.log
 
