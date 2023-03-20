@@ -15,10 +15,10 @@ APK_CMD=$(which apk)
 
 if [ ! -z $APK_CMD ];then
         echo "INSTALLING mysql-client"
-	apt add mysql-client
+	apk add mysql-client
 else
 	echo "PLEASE INSTALL mysql-client"	
 	exit 1 
 fi
 
-nohup mysql -u $DB_USER -p $DB_PASSWD -P $DB_HOST_PORT -h $DB_HOST $DB_NAME < $SCRIPT 2> /dev/null > $RESULT_FILE &
+nohup mysql -u $DB_USER --password=$DB_PASSWD -P $DB_HOST_PORT -h $DB_HOST $DB_NAME < $SCRIPT 2> /dev/null > $RESULT_FILE &

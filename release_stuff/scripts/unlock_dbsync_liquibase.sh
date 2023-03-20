@@ -16,9 +16,9 @@ RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 
 . $SCRIPTS_DIR/commons.sh
 
-timestamp=${getCurrDateTime}
+timestamp=$(getCurrDateTime)
 
-logToScreenAndFile "Trying to unlock liquibase at $timestamp" $LOG_FILE
+logToScreenAndFile "Trying to unlock liquibase at $timestamp" "$LOG_FILE"
 
 echo "select IF(LOCKED=true, 'true', 'false') LOCKED_STATUS from LIQUIBASECHANGELOGLOCK where id =1;" > $CHECK_STATUS_SCRIPT
 
@@ -27,10 +27,10 @@ $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PA
 if grep "false" $RESULT_SCRIPT; then
         echo "THE LIQUIBASE IS NOT LOCKED..."
 	
-	logToScreenAndFile "THE LIQUIBASE IS NOT LOCKED..." $LOG_FILE
+	logToScreenAndFile "THE LIQUIBASE IS NOT LOCKED..." "$LOG_FILE"
 else
-	logToScreenAndFile "THE LIQUIBASE IS LOCKED..." $LOG_FILE
-	logToScreenAndFile "EXECUTING UNLOCK QUERT..." $LOG_FILE
+	logToScreenAndFile "THE LIQUIBASE IS LOCKED..." "$LOG_FILE"
+	logToScreenAndFile "EXECUTING UNLOCK QUERT..." "$LOG_FILE"
 	
 	$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $LIQUIBASE_UNLOCK_SCRIPT $RESULT_SCRIPT
 

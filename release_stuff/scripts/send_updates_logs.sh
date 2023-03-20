@@ -16,6 +16,7 @@ SEND_EMAIL_LOG="$LOG_DIR/send_email.log"
 
 LOCAL_RELEASE_NAME=$RELEASE_NAME
 LOCAL_RELEASE_DATE=$RELEASE_DATE
+MAIL_SUBJECT="EIP REMOTO - ESTADO DE ACTUALIZACAO"
 
 echo "Caros" >> $EMAIL_CONTENT_FILE
 echo "Junto enviamos o report da ultima tentativa de actualizacao da aplicacao openmrs-eip." >> $EMAIL_CONTENT_FILE
@@ -34,4 +35,8 @@ echo "-----------------------------------------------------" >> $EMAIL_CONTENT_F
 cat $UPDATES_LOG_FILE >> $EMAIL_CONTENT_FILE
 echo "-----------------------------------------------------" >> $EMAIL_CONTENT_FILE
 
-$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "EIP REMOTO - ESTADO DE ACTUALIZACAO" $EMAIL_CONTENT_FILE $SEND_EMAIL_LOG
+$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $EMAIL_CONTENT_FILE $SEND_EMAIL_LOG
+
+if [ ! -s $SEND_EMAIL_LOG ]; then
+        $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $PATH_TO_ATTACHMENT
+fi
