@@ -7,7 +7,7 @@
 HOME_DIR=/home/eip
 SCRIPTS_DIR="$HOME_DIR/scripts"
 CRONS_DIR="$HOME_DIR/cron"
-LOCATION_HARMONIZATION_DIR=$HOME_DIR/shared/logs/location_harmonization
+LOCATION_HARMONIZATION_DIR=$HOME_DIR/shared/extras/location_harmonization
 HARMONIZATION_PROCESS_LOG=$LOCATION_HARMONIZATION_DIR/harmonization
 DB_HOST="172.17.0.1"
 DB_HOST_PORT="$openmrs_db_port"
@@ -37,14 +37,24 @@ $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PA
 if grep "finished" $HARMONIZATION_STATUS_FILE; then
 	HARMONIZATION_CURRENT_STATUS="FINIHED"
 	HARMONIZATION_CURRENT_STATUS_TEXT="foi executado com sucesso e encontra-se finalizado"
+
+	logToScreenAndFile  "LOCATION HARMONIZATION PROCESS FINALIZED!" $HARMONIZATION_PROCESS_LOG 
+
+	rm $HARMONIZATION_PROCESS_INFO
 fi
 
+ps aef | grep harmonize_locations > $HARMONIZATION_PROCESS_INFO
 
-ps aef | grep execute_script_on_db > $HARMONIZATION_PROCESS_INFO
+wcResult=$(wc $HARMONIZATION_PROCESS_INFO)
+linesCount=$(echo $wcResult | cut -d' ' -f1)
 
-if grep "execute_script_on_db" $HARMONIZATION_PROCESS_INFO; then
+if [ $linesCount -gt 1 ]; then
 	HARMONIZATION_CURRENT_STATUS="RUNNING"
 	HARMONIZATION_CURRENT_STATUS_TEXT="ainda esta em execucao"
+
+	logToScreenAndFile  "LOCATION HARMONIZATION PROCESS IS ONGOING!" $HARMONIZATION_PROCESS_LOG 
+
+	exit 0
 fi
 
 echo "select * from location_harmonization.location_execution_logs;" > $HARMONIZATION_EXECUTION_LOG
