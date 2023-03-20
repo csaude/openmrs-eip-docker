@@ -9,7 +9,7 @@ LOCATION_HARMONIZATION_DIR=$HOME_DIR/shared/extras/location_harmonization
 HARMONIZATION_SCRIPT="$HOME_DIR/etc/sql/harmonize_location_zambezia.sql"
 HARMONIZATION_CHECK_CRON=$HOME_DIR/cron/try_to_execute_location_harmonization
 HARMONIZATION_RESULT_FILE=$LOCATION_HARMONIZATION_DIR/harmonization_result
-HARMONIZATION_STATUS_FILE=$LOCATION_HARMONIZATION_DIR/harmozation_status
+HARMONIZATION_STATUS_FILE=$LOCATION_HARMONIZATION_DIR/harmonization_status
 HARMONIZATION_FINISHED=$LOCATION_HARMONIZATION_DIR/harmonization_finished
 CHECK_STATUS_SCRIPT=$LOCATION_HARMONIZATION_DIR/harmonization_check_status.sql
 HARMONIZATION_PROCESS_INFO=$LOCATION_HARMONIZATION_DIR/harmonization_process_info
@@ -71,6 +71,8 @@ if [ -s $HARMONIZATION_EMAIL_SENT_LOG ]; then
 
         $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE"
 fi
+
+sed -i "s/openmrs/$openmrs_db_name/g" $HARMONIZATION_SCRIPT
 
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $HARMONIZATION_SCRIPT $HARMONIZATION_RESULT_FILE
 

@@ -1,6 +1,9 @@
 create database if not exists location_harmonization;
 --   STORED PROCEDURE TO HARMONIZE LOCATION -------
 -- Criar tabela que tera location por harmonizar 
+
+drop table if exists location_harmonization.location_to_harmonize;
+
 CREATE TABLE if not exists location_harmonization.location_to_harmonize (
 	uuid_old_location varchar(255),
     uuid_actual_location varchar(255)
@@ -52,25 +55,28 @@ CREATE TABLE if not exists location_harmonization.harmonization_execution_status
 -- UPDATE HARMONIZED LOCATION
 DROP PROCEDURE IF EXISTS location_harmonization.update_harmonized_location;
 
---DELIMITER $$ 
+DELIMITER $$ 
 CREATE PROCEDURE location_harmonization.update_harmonized_location()
 BEGIN
 	
 	DECLARE done INT DEFAULT FALSE;
 	DECLARE uuid_old_location varchar(255);
-    DECLARE uuid_actual_location varchar(255);
-    DECLARE current_location_id int DEFAULT(0);
-    DECLARE old_location_id int DEFAULT(0);
-    
+	DECLARE uuid_actual_location varchar(255);
+	DECLARE current_location_id int DEFAULT(0);
+	DECLARE old_location_id int DEFAULT(0);
+	DECLARE harmonization_execution_status_recs int;
 	DECLARE location_cursor CURSOR FOR SELECT lo.uuid_old_location, lo.uuid_actual_location FROM location_harmonization.location_to_harmonize lo;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+	select count(*) into harmonization_execution_status_recs from location_harmonization.harmonization_execution_status;
 	
-    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
-
-	-- Log Harmonization execution status
-	insert into location_harmonization.harmonization_execution_status(type, status, start_date) values 
-	('harmonization', 'running', now());
-	-- Log Harmonization execution status
-
+	if harmonization_execution_status_recs = 0 then
+		-- Log Harmonization execution status
+		insert into location_harmonization.harmonization_execution_status(type, status, start_date) values 
+		('harmonization', 'running', now());
+		-- Log Harmonization execution status
+	end if;
+	
 	OPEN location_cursor;
     
 	   locations_cursor:
@@ -80,11 +86,18 @@ BEGIN
 			IF done THEN LEAVE locations_cursor;
 			END IF;
 
-				SET old_location_id = (Select l.location_id from openmrs.location l where l.uuid = uuid_old_location);
-            	SET current_location_id = (Select l.location_id from openmrs.location l where l.uuid = uuid_actual_location);
+			SET old_location_id = (Select l.location_id from OPENMRS_DATABASE_NAME.location l where l.uuid = uuid_old_location);
+			SET current_location_id = (Select l.location_id from OPENMRS_DATABASE_NAME.location l where l.uuid = uuid_actual_location);
  
-			IF (old_location_id IS NOT NULL) AND (current_location_id IS NOT NULL) THEN	
-            
+			IF  (current_location_id IS NULL) THEN
+				SELECT concat('The new location[', uuid_actual_location, '] cannot found in db. Inserting...') ' '; 
+				
+				INSERT INTO OPENMRS_DATABASE_NAME.location(name, creator, date_created, retired, uuid) values('Unkown', 1, now(), 0, uuid());
+			END IF;
+				
+			IF (old_location_id IS NULL) THEN
+				SELECT concat('The old location[', uuid_old_location, '] cannot found in db. Aborting...'); 
+		    ELSE
 				BEGIN
 					-- PERCORRER TODAS TABELAS QUE TEM REFERENCIA DE LOCATION 
 					DECLARE finished INT DEFAULT FALSE;							
@@ -95,8 +108,7 @@ BEGIN
 								DECLARE app_location_id varchar(255);
 								DECLARE uuid varchar(255);
 								DECLARE appointment_block_id INT DEFAULT(0);
-
-								DECLARE appointment_cursor CURSOR FOR SELECT app.appointment_block_id, app.location_id as app_location_id, app.uuid FROM openmrs.appointmentscheduling_appointment_block app where app.location_id=old_location_id;
+								DECLARE appointment_cursor CURSOR FOR SELECT app.appointment_block_id, app.location_id as app_location_id, app.uuid FROM OPENMRS_DATABASE_NAME.appointmentscheduling_appointment_block app where app.location_id=old_location_id;
 
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_app = TRUE;
 								
@@ -116,7 +128,7 @@ BEGIN
 
 												BEGIN
 												 -- Settar o novo location 
-												 update openmrs.appointmentscheduling_appointment_block set location_id=current_location_id where appointment_block_id = appointment_block_id;
+												 update OPENMRS_DATABASE_NAME.appointmentscheduling_appointment_block set location_id=current_location_id where appointment_block_id = appointment_block_id;
 
 												 -- Logar a alteracao
 												 insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('appointmentscheduling_appointment_block', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, appointment_block_id);
@@ -138,7 +150,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE provider_schedule_id INT DEFAULT(0);
 
-								DECLARE provider_cursor CURSOR FOR SELECT pro.provider_schedule_id, pro.location_id as prov_location_id, pro.uuid FROM openmrs.appointmentscheduling_provider_schedule pro where pro.location_id=old_location_id;
+								DECLARE provider_cursor CURSOR FOR SELECT pro.provider_schedule_id, pro.location_id as prov_location_id, pro.uuid FROM OPENMRS_DATABASE_NAME.appointmentscheduling_provider_schedule pro where pro.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_app = TRUE;
 
 								-- Log Execution
@@ -157,7 +169,7 @@ BEGIN
 
 												BEGIN
 												 -- Settar o novo location 
-												 update openmrs.appointmentscheduling_provider_schedule set location_id=current_location_id where provider_schedule_id = provider_schedule_id;
+												 update OPENMRS_DATABASE_NAME.appointmentscheduling_provider_schedule set location_id=current_location_id where provider_schedule_id = provider_schedule_id;
 
 												 -- Logar a alteracao
 												 insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('appointmentscheduling_provider_schedule', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, provider_schedule_id);
@@ -179,7 +191,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE encounter_id INT DEFAULT(0);
 
-								DECLARE encounter_cursor CURSOR FOR SELECT enc.encounter_id, enc.location_id as enc_location_id, enc.uuid FROM openmrs.encounter enc where enc.location_id=old_location_id;
+								DECLARE encounter_cursor CURSOR FOR SELECT enc.encounter_id, enc.location_id as enc_location_id, enc.uuid FROM OPENMRS_DATABASE_NAME.encounter enc where enc.location_id=old_location_id;
 
 							    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_enc = TRUE;
 
@@ -199,7 +211,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.encounter set location_id=current_location_id where encounter_id = encounter_id;
+													update OPENMRS_DATABASE_NAME.encounter set location_id=current_location_id where encounter_id = encounter_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('encounter', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, encounter_id);
@@ -222,7 +234,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE gaac_id INT DEFAULT(0);
 
-								DECLARE gac_cursor CURSOR FOR SELECT gc.gaac_id, gc.location_id as gac_location_id, gc.uuid FROM openmrs.gaac gc where gc.location_id=old_location_id;
+								DECLARE gac_cursor CURSOR FOR SELECT gc.gaac_id, gc.location_id as gac_location_id, gc.uuid FROM OPENMRS_DATABASE_NAME.gaac gc where gc.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_gac = TRUE;
 
 
@@ -242,7 +254,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.gaac set location_id=current_location_id where gaac_id = gaac_id;
+													update OPENMRS_DATABASE_NAME.gaac set location_id=current_location_id where gaac_id = gaac_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('gaac', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, gaac_id);
@@ -265,7 +277,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE family_id INT DEFAULT(0);
 
-								DECLARE gac_family_cursor CURSOR FOR SELECT gcf.family_id, gcf.location_id as gcf_location_id, gcf.uuid FROM openmrs.gaac_family gcf where gcf.location_id=old_location_id;
+								DECLARE gac_family_cursor CURSOR FOR SELECT gcf.family_id, gcf.location_id as gcf_location_id, gcf.uuid FROM OPENMRS_DATABASE_NAME.gaac_family gcf where gcf.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_gcf = TRUE;
 
 								-- Log Execution
@@ -284,7 +296,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.gaac_family set location_id=current_location_id where family_id = family_id;
+													update OPENMRS_DATABASE_NAME.gaac_family set location_id=current_location_id where family_id = family_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('gaac_family', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, family_id);
@@ -307,7 +319,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE parent_location_id INT DEFAULT(0);
 
-								DECLARE loc_cursor CURSOR FOR SELECT loc.location_id as parent_location_id, loc.location_id as loc_location_id, loc.uuid FROM openmrs.location loc where loc.parent_location=old_location_id;
+								DECLARE loc_cursor CURSOR FOR SELECT loc.location_id as parent_location_id, loc.location_id as loc_location_id, loc.uuid FROM OPENMRS_DATABASE_NAME.location loc where loc.parent_location=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_loc = TRUE;
 
 								-- Log Execution
@@ -326,7 +338,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.location set parent_location=current_location_id where location_id = parent_location_id;
+													update OPENMRS_DATABASE_NAME.location set parent_location=current_location_id where location_id = parent_location_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('location', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, parent_location_id);
@@ -349,7 +361,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE location_attribute_id INT DEFAULT(0);
 
-								DECLARE location_attribute_cursor CURSOR FOR SELECT att.location_attribute_id, att.location_id as att_location_id, att.uuid FROM openmrs.location_attribute att where att.location_id=old_location_id;
+								DECLARE location_attribute_cursor CURSOR FOR SELECT att.location_attribute_id, att.location_id as att_location_id, att.uuid FROM OPENMRS_DATABASE_NAME.location_attribute att where att.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_att = TRUE;	
 
 								-- Log Execution
@@ -368,7 +380,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.location_attribute set location_id=current_location_id where location_attribute_id = location_attribute_id;
+													update OPENMRS_DATABASE_NAME.location_attribute set location_id=current_location_id where location_attribute_id = location_attribute_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('location_attribute', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, location_attribute_id);
@@ -391,7 +403,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE error_id INT DEFAULT(0);
 
-								DECLARE muzima_error_data_cursor CURSOR FOR SELECT muz.id as error_id, muz.location as muzima_location_id,  muz.uuid FROM openmrs.muzima_error_data muz where muz.location=old_location_id;
+								DECLARE muzima_error_data_cursor CURSOR FOR SELECT muz.id as error_id, muz.location as muzima_location_id,  muz.uuid FROM OPENMRS_DATABASE_NAME.muzima_error_data muz where muz.location=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_muzima = TRUE;
 
 								-- Log Execution
@@ -410,7 +422,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.muzima_error_data set location=current_location_id where id = error_id;
+													update OPENMRS_DATABASE_NAME.muzima_error_data set location=current_location_id where id = error_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('muzima_error_data', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, error_id);
@@ -433,7 +445,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE queue_id INT DEFAULT(0);
 
-								DECLARE muzima_queue_data_cursor CURSOR FOR SELECT qu.id as queue_id, qu.location as muzima_queue_location_id, qu.uuid FROM openmrs.muzima_queue_data qu where qu.location=old_location_id;
+								DECLARE muzima_queue_data_cursor CURSOR FOR SELECT qu.id as queue_id, qu.location as muzima_queue_location_id, qu.uuid FROM OPENMRS_DATABASE_NAME.muzima_queue_data qu where qu.location=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_queue = TRUE;
 
 								-- Log Execution
@@ -452,7 +464,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.muzima_queue_data set location=current_location_id where id = queue_id;
+													update OPENMRS_DATABASE_NAME.muzima_queue_data set location=current_location_id where id = queue_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('muzima_queue_data', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, queue_id);
@@ -475,7 +487,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE obs_id INT DEFAULT(0);
 
-								DECLARE obs_cursor CURSOR FOR SELECT ob.obs_id, ob.location_id as obs_location_id, ob.uuid FROM openmrs.obs ob where ob.location_id=old_location_id;
+								DECLARE obs_cursor CURSOR FOR SELECT ob.obs_id, ob.location_id as obs_location_id, ob.uuid FROM OPENMRS_DATABASE_NAME.obs ob where ob.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_obs = TRUE;
 
 								-- Log Execution
@@ -494,7 +506,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.obs set location_id=current_location_id where obs_id = obs_id;
+													update OPENMRS_DATABASE_NAME.obs set location_id=current_location_id where obs_id = obs_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('obs', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, obs_id);
@@ -517,7 +529,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE patient_identifier_id INT DEFAULT(0);
 
-								DECLARE patient_identifier_cursor CURSOR FOR SELECT ide.patient_identifier_id, ide.location_id as patient_identifier_location_id, ide.uuid FROM openmrs.patient_identifier ide where ide.location_id=old_location_id;
+								DECLARE patient_identifier_cursor CURSOR FOR SELECT ide.patient_identifier_id, ide.location_id as patient_identifier_location_id, ide.uuid FROM OPENMRS_DATABASE_NAME.patient_identifier ide where ide.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_identifier = TRUE;
 
 
@@ -537,7 +549,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.patient_identifier set location_id=current_location_id where patient_identifier_id = patient_identifier_id;
+													update OPENMRS_DATABASE_NAME.patient_identifier set location_id=current_location_id where patient_identifier_id = patient_identifier_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('patient_identifier', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, patient_identifier_id);
@@ -561,7 +573,7 @@ BEGIN
 								DECLARE patient_program_id 	INT DEFAULT(0);
 								
 
-								DECLARE patient_program_cursor CURSOR FOR SELECT pro.patient_program_id, pro.location_id as patient_program_location_id, pro.uuid FROM openmrs.patient_program pro where pro.location_id=old_location_id;
+								DECLARE patient_program_cursor CURSOR FOR SELECT pro.patient_program_id, pro.location_id as patient_program_location_id, pro.uuid FROM OPENMRS_DATABASE_NAME.patient_program pro where pro.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_program = TRUE;	
 
 								-- Log Execution
@@ -580,7 +592,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.patient_program set location_id=current_location_id where patient_program_id = patient_program_id;
+													update OPENMRS_DATABASE_NAME.patient_program set location_id=current_location_id where patient_program_id = patient_program_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('patient_program', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, patient_program_id);
@@ -603,7 +615,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE visit_id Int DEFAULT(0);
 
-								DECLARE visit_cursor CURSOR FOR SELECT v.visit_id, v.location_id as visit_location_id, v.uuid FROM openmrs.visit v where v.location_id=old_location_id;
+								DECLARE visit_cursor CURSOR FOR SELECT v.visit_id, v.location_id as visit_location_id, v.uuid FROM OPENMRS_DATABASE_NAME.visit v where v.location_id=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_visit = TRUE;
 
 								-- Log Execution
@@ -622,7 +634,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.visit set location_id=current_location_id where visit_id = visit_id;
+													update OPENMRS_DATABASE_NAME.visit set location_id=current_location_id where visit_id = visit_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('visit', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, visit_id);
@@ -645,7 +657,7 @@ BEGIN
 								DECLARE uuid varchar(255);
 								DECLARE person_attribute_id INT DEFAULT(0);
 
-								DECLARE person_attribute_cursor CURSOR FOR SELECT peatt.person_attribute_id, peatt.uuid FROM openmrs.person_attribute peatt where peatt.person_attribute_type_id=7 and peatt.value=old_location_id;
+								DECLARE person_attribute_cursor CURSOR FOR SELECT peatt.person_attribute_id, peatt.uuid FROM OPENMRS_DATABASE_NAME.person_attribute peatt where peatt.person_attribute_type_id=7 and peatt.value=old_location_id;
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_person_attribute = TRUE;
 
 								-- Log Execution
@@ -664,7 +676,7 @@ BEGIN
 
 												BEGIN
 													-- Settar o novo location 
-													update openmrs.person_attribute set value=current_location_id where person_attribute_id = person_attribute_id;
+													update OPENMRS_DATABASE_NAME.person_attribute set value=current_location_id where person_attribute_id = person_attribute_id;
 
 													-- Logar a alteracao
 													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('person_attribute', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, person_attribute_id);
@@ -681,7 +693,7 @@ BEGIN
 						-- Percorrer person_attribute
 
 						-- Retire old location 
-						update openmrs.location set retired=1, 
+						update OPENMRS_DATABASE_NAME.location set retired=1, 
 											retired_by=1, 
 											date_retired=now(),
 											retire_reason='Location Harmonization'
