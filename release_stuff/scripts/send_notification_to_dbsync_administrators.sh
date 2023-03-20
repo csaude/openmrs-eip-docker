@@ -32,7 +32,7 @@ sendmail -t -f  < $EMAIL_CONTENT_FILE 2> $PATH_TO_ERROR_LOG
 
 rm $EMAIL_CONTENT_FILE
 
-if [ ! -s $PATH_TO_ERROR_LOG ]; then
+if [ -s $PATH_TO_ERROR_LOG ]; then
 	echo "Email cannot be sent due error"
 	cat $PATH_TO_ERROR_LOG
 else
