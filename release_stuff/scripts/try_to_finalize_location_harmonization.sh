@@ -74,7 +74,6 @@ if [ ! -s $HARMONIZATION_EMAIL_SENT_LOG ]; then
 	#EMAIL WAS SUCCESSIFULY SENT, PERFORME THE FINALIZATION
 	
 	rm $CRONS_DIR/try_to_execute_location_harmonization.sh
-	rm $CRONS_DIR/try_to_finalize_location_harmonization.sh
 
 	logToScreenAndFile  "RE-INSTALLING CRONS!" $HARMONIZATION_PROCESS_LOG 
 
