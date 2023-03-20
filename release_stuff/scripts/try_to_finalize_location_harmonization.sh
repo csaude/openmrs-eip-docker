@@ -68,7 +68,7 @@ echo "-----------------------------------------------------" >> $EMAIL_CONTENT_F
 
 MAIL_SUBJECT="EIP REMOTO - ESTADO DE HARMONIZACAO DE LOCAIS"
 
-$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $EMAIL_CONTENT_FILE $HARMONIZATION_EMAIL_SENT_LOG
+$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE" "$HARMONIZATION_EMAIL_SENT_LOG"
 
 if [ ! -s $HARMONIZATION_EMAIL_SENT_LOG]; then
 	#EMAIL WAS SUCCESSIFULY SENT, PERFORME THE FINALIZATION
@@ -84,5 +84,5 @@ if [ ! -s $HARMONIZATION_EMAIL_SENT_LOG]; then
 
 else
 	logToScreenAndFile  "THE LOCATION HARMONIZATION PROCESS IS FINISHED BUT CANNOT BE FINALIZED NOW BECAUSE THE EMAIL COULD NOT SENT YET!" $HARMONIZATION_PROCESS_LOG 
-        $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $EMAIL_CONTENT_FILE
+        $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE
 fi

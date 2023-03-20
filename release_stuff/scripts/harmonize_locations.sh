@@ -72,7 +72,7 @@ if [ -s $HARMONIZATION_EMAIL_SENT_LOG ]; then
         $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE"
 fi
 
-sed -i "s/openmrs/$openmrs_db_name/g" $HARMONIZATION_SCRIPT
+sed -i "s/OPENMRS_DATABASE_NAME/$openmrs_db_name/g" $HARMONIZATION_SCRIPT
 
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $HARMONIZATION_SCRIPT $HARMONIZATION_RESULT_FILE
 
