@@ -5,8 +5,8 @@
 HOME_DIR=/home/eip
 SCRIPTS_DIR=$HOME_DIR/scripts
 LOG_FILE=$HOME_DIR/shared/logs/extras/location_harmonization.log
-LOCATION_HARMONIZATION_DIR=$HOME_DIR/location_harmonization
-HARMONIZATION_SCRIPT="$HOME_DIR/etc/scripts/harmonize_location_zambezia.sql"
+LOCATION_HARMONIZATION_DIR=$HOME_DIR/shared/extras/location_harmonization
+HARMONIZATION_SCRIPT="$HOME_DIR/etc/sql/harmonize_location_zambezia.sql"
 HARMONIZATION_CHECK_CRON=$HOME_DIR/cron/try_to_execute_location_harmonization
 HARMONIZATION_RESULT_FILE=$LOCATION_HARMONIZATION_DIR/harmonization_result
 HARMONIZATION_STATUS_FILE=$LOCATION_HARMONIZATION_DIR/harmozation_status
@@ -24,6 +24,11 @@ DB_NAME="$openmrs_db_name"
 
 . $SCRIPTS_DIR/commons.sh
 
+
+if [ ! -d $LOCATION_HARMONIZATION_DIR ]; then
+	mkdir -p $LOCATION_HARMONIZATION_DIR
+fi
+
 echo "select * from location_harmonization.harmonization_execution_status;" > $CHECK_STATUS_SCRIPT
 
 $SCRIPTS_DIR/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $CHECK_STATUS_SCRIPT $HARMONIZATION_STATUS_FILE
@@ -39,11 +44,16 @@ fi
 
 ps aef | grep execute_script_on_db > $HARMONIZATION_PROCESS_INFO
 
-if grep "execute_script_on_db" $HARMONIZATION_PROCESS_INFO; then
+wcResult=$(wc $HARMONIZATION_PROCESS_INFO)
+linesCount=$(echo $wcResult | cut -d' ' -f1)
+
+if [ $linesCount -gt 1 ]; then
         logToScreenAndFile "There is another harmonozation process running" $LOG_FILE
 
-	exit 0
+        exit 0
 fi
+
+logToScreenAndFile  "STARTING THE LOCATION HAMONIZATION PROCESS!" $LOG_FILE
 
 echo "Caros" >> $EMAIL_CONTENT_FILE
 echo "Servimo-nos deste email para informar que o processo de harmonização no site: $db_sync_senderId foi iniciado com sucesso" >> $EMAIL_CONTENT_FILE
@@ -56,10 +66,10 @@ MAIL_SUBJECT="EIP REMOTO - ESTADO DE HARMONIZACAO DE LOCAIS"
 
 $SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $EMAIL_CONTENT_FILE $HARMONIZATION_EMAIL_SENT_LOG
 
-if [ -s $HARMONIZATION_EMAIL_SENT_LOG]; then
+if [ -s $HARMONIZATION_EMAIL_SENT_LOG ]; then
         logToScreenAndFile  "THE NOTIFICATION EMAIL FOR LOCATION HARMONIZATION STATUS COULD NOT SENT YET!" $LOG_FILE
 
-        $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh $MAIL_SUBJECT $EMAIL_CONTENT_FILE
+        $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE
 fi
 
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $HARMONIZATION_SCRIPT $HARMONIZATION_RESULT_FILE
