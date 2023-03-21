@@ -56,3 +56,15 @@ getGitBranch(){
 
         cd $curr_dir
 }
+
+isSSLCertificateAvaliable(){
+        serviceURL=$1
+
+	echo "Q" | openssl s_client -connect $serviceURL | openssl x509 > tmp.cert
+
+	if [ -s tmp.cert ]; then
+		return 1;
+	else
+		return 0;
+	fi
+}
