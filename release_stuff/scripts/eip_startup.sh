@@ -38,7 +38,7 @@ old_artemis_port=$spring_artemis_port
 
 isSSLCertificateAvaliable $spring_artemis_host:$spring_artemis_port
 
-sslAvaliable=$1
+sslAvaliable=$?
 
 if [ $sslAvaliable=0 ]; then
 	echo "Using non secure connection to artemis"
