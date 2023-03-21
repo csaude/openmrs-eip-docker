@@ -45,8 +45,10 @@ if [ $sslAvaliable=0 ]; then
 
 	export spring_artemis_host=$old_artemis_host
 	export spring_artemis_port=$old_artemis_port
+	export artemis_ssl_enabled=false
 else
 	echo "Using secure connection to artemis"
+	export artemis_ssl_enabled=true
 fi
 
 sleep 15 
