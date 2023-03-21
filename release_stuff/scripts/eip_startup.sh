@@ -22,7 +22,6 @@ GIT_BRANCHES_DIR="$RELEASE_DIR/git/branches"
 
 cd $EIP_HOME
 
-
 # Start application.
 echo "Preparing to start Eip Application: [$EIP_MODE]"
 
@@ -31,8 +30,24 @@ setenv_file="$SCRIPTS_DIR/${branch_name}_setenv.sh"
 
 echo "Using env from $setenv_file"
 
+
+old_artemis_host=$spring_artemis_host
+old_artemis_port=$spring_artemis_port
+
 . $setenv_file 
 
+isSSLCertificateAvaliable $spring_artemis_host:$spring_artemis_port
+
+sslAvaliable=$1
+
+if [ $sslAvaliable=0 ]; then
+	echo "Using non secure connection to artemis"
+
+	export spring_artemis_host=$old_artemis_host
+	export spring_artemis_port=$old_artemis_port
+else
+	echo "Using secure connection to artemis"
+fi
 
 sleep 15 
 echo "Starting Eip Application: [$EIP_MODE]"
