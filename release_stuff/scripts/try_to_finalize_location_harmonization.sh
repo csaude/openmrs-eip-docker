@@ -43,7 +43,7 @@ if grep "finished" $HARMONIZATION_STATUS_FILE; then
 	rm $HARMONIZATION_PROCESS_INFO
 fi
 
-ps aef | grep harmonize_locations > $HARMONIZATION_PROCESS_INFO
+ps -aef | grep harmonize_locations > $HARMONIZATION_PROCESS_INFO
 
 wcResult=$(wc $HARMONIZATION_PROCESS_INFO)
 linesCount=$(echo $wcResult | cut -d' ' -f1)
