@@ -42,7 +42,7 @@ if grep "finished" $HARMONIZATION_STATUS_FILE; then
 	exit 0
 fi
 
-ps -aef | grep \"$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $HARMONIZATION_SCRIPT $HARMONIZATION_RESULT_FILE\" > $HARMONIZATION_PROCESS_INFO
+ps -aef | grep execute_script_on_db.sh > $HARMONIZATION_PROCESS_INFO
 
 wcResult=$(wc $HARMONIZATION_PROCESS_INFO)
 linesCount=$(echo $wcResult | cut -d' ' -f1)

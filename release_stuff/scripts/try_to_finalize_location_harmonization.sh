@@ -41,20 +41,9 @@ if grep "finished" $HARMONIZATION_STATUS_FILE; then
 	logToScreenAndFile  "LOCATION HARMONIZATION PROCESS FINALIZED!" $HARMONIZATION_PROCESS_LOG 
 
 	rm $HARMONIZATION_PROCESS_INFO
-fi
-
-ps -aef | grep harmonize_locations > $HARMONIZATION_PROCESS_INFO
-
-wcResult=$(wc $HARMONIZATION_PROCESS_INFO)
-linesCount=$(echo $wcResult | cut -d' ' -f1)
-
-if [ $linesCount -gt 1 ]; then
-	HARMONIZATION_CURRENT_STATUS="RUNNING"
-	HARMONIZATION_CURRENT_STATUS_TEXT="ainda esta em execucao"
-
-	logToScreenAndFile  "LOCATION HARMONIZATION PROCESS IS ONGOING!" $HARMONIZATION_PROCESS_LOG 
-
-	exit 0
+else
+	logToScreenAndFile  "THE HARMONIZATION PROCESS IS NOT FINISHED!" $HARMONIZATION_PROCESS_LOG
+	exit 1 
 fi
 
 echo "select * from location_harmonization.location_execution_logs;" > $HARMONIZATION_EXECUTION_LOG
