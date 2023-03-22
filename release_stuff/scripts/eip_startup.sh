@@ -16,7 +16,7 @@ EIP_MODE=sender
 
 cd $HOME_DIR
 
-$SCRIPTS_DIR/performe_pre_startup_operations.sh
+. $SCRIPTS_DIR/performe_pre_startup_operations.sh
 
 # Start application.
 echo "Preparing to start Eip Application: [$EIP_MODE]"
