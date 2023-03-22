@@ -75,16 +75,20 @@ checkIfProcessIsRunning(){
 	#quantidade minima de linhas que indica que o processo esta a correr
 	defaultNumberOfLinesOnPsCommand=$2
 
+	if [ -z "$defaultNumberOfLinesOnPsCommand" ]; then
+		defaultNumberOfLinesOnPsCommand = 1;
+	fi
+
 	currTime=$(getCurrDateTime)
 
-	RUNNING_PROCESS="./running_process_check_$processName"
+	RUNNING_PROCESS="./running_process_check_${processName}_${currTime}"
 
 	ps -aef | grep \"$processName\" > $RUNNING_PROCESS
 
 	wcResult=$(wc $RUNNING_PROCESS)
 	linesCount=$(echo $wcResult | cut -d' ' -f1)
 
-	if [ $linesCount -gt $minQtyLines ]; then
+	if [ $linesCount -gt $defaultNumberOfLinesOnPsCommand ]; then
 		return 1;
 	else
 		return 0;
