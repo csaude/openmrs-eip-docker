@@ -70,7 +70,7 @@ fi
 
 echo "Detected branch [$branch_name]"
 
-git -C checkout $branch_name
+git -C $RELEASE_BASE_DIR checkout $branch_name
 
 git -C $RELEASE_BASE_DIR pull origin $branch_name
 	
