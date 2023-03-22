@@ -110,8 +110,8 @@ fi
 echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh
 
-echo "The dbsync app is stopped. The container will exit in 30mins"
-sleep 1800
+echo "The dbsync app is stopped. The container will exit in 2mins"
+sleep 120 
 
 
 
