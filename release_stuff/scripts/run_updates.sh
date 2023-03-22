@@ -25,7 +25,7 @@ echo -n "INITIALIZING UPDATE CHECK"
 
 
 
-checkIfProcessIsRunning "updates.sh" 2 
+checkIfProcessIsRunning "{updates.sh}" 
 running=$?
 
 if [ $running = 1 ]; then

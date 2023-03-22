@@ -83,7 +83,7 @@ checkIfProcessIsRunning(){
 
 	RUNNING_PROCESS="./running_process_check_${processName}_${currTime}"
 
-	ps -aef | grep \"$processName\" > $RUNNING_PROCESS
+	ps -aef | grep $processName > $RUNNING_PROCESS
 
 	wcResult=$(wc $RUNNING_PROCESS)
 	linesCount=$(echo $wcResult | cut -d' ' -f1)
