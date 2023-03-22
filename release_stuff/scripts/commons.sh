@@ -1,6 +1,19 @@
 #!/bin/sh
 # This script contains shared functions 
 #
+HOME_DIR="/home/eip"
+SCRIPTS_DIR="$HOME_DIR/scripts"
+
+isDockerInstallation(){
+	APK_CMD=$(which apk)
+
+	if [ -z $APK_CMD ]; then
+		return 0;
+	else
+		return 1;
+        fi
+
+}
 
 getCurrDateTime(){
 	timestamp=`date +%Y-%m-%d_%H-%M-%S`
@@ -60,11 +73,15 @@ getGitBranch(){
 isSSLCertificateAvaliable(){
         serviceURL=$1
 
-	echo "Q" | openssl s_client -connect $serviceURL | openssl x509 > tmp.cert
+	$SCRIPTS_DIR/generate_certificate.sh $serviceURL tmp.cert
 
 	if [ -s tmp.cert ]; then
+		rm tmp.cert
+
 		return 1;
 	else
+		rm tmp.cert
+
 		return 0;
 	fi
 }

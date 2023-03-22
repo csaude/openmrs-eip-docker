@@ -36,8 +36,7 @@ else
 		echo "Performing installation on site $db_sync_senderId based on branch $branch_name"
         fi
         
-        if [ ! -z $APK_CMD ]
-        then
+        if [ ! -z $APK_CMD ]; then
            echo "INSTALLING DEPENDENCIES USING APK"
            $SETUP_SCRIPTS_DIR/apk_install.sh
         fi
@@ -88,8 +87,6 @@ else
 
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
-	$SCRIPTS_DIR/generate_artemis_certificate.sh
-	$SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh "artemis.cert"
 
 	if [ ! -z $APK_CMD ]
         then
