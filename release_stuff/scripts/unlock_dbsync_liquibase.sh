@@ -23,17 +23,13 @@ timestamp=$(getCurrDateTime)
 
 logToScreenAndFile "Trying to unlock liquibase at $timestamp" "$LOG_FILE"
 
-echo "select IF(LOCKED=true, 'true', 'false') LOCKED_STATUS from LIQUIBASECHANGELOGLOCK where id =1;" > $CHECK_STATUS_SCRIPT
+echo "select IF(LOCKED=true, 'true', 'false') LOCKED_STATUS from LIQUIBASECHANGELOGLOCK where id =1 or LOCKED = true" > $CHECK_STATUS_SCRIPT
 
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $CHECK_STATUS_SCRIPT $RESULT_SCRIPT
 
-if grep "false" $RESULT_SCRIPT; then
-        echo "THE LIQUIBASE IS NOT LOCKED..."
-	
-	logToScreenAndFile "THE LIQUIBASE IS NOT LOCKED..." "$LOG_FILE"
-else
+if grep "true" $RESULT_SCRIPT; then
 	logToScreenAndFile "THE LIQUIBASE IS LOCKED..." "$LOG_FILE"
-	logToScreenAndFile "EXECUTING UNLOCK QUERT..." "$LOG_FILE"
+	logToScreenAndFile "EXECUTING UNLOCK QUERY..." "$LOG_FILE"
 	
 	$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $LIQUIBASE_UNLOCK_SCRIPT $RESULT_SCRIPT
 
@@ -54,5 +50,9 @@ else
 
         	$SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE"
 	fi
+else
+        echo "THE LIQUIBASE IS NOT LOCKED..."
+	
+	logToScreenAndFile "THE LIQUIBASE IS NOT LOCKED..." "$LOG_FILE"
 
 fi
