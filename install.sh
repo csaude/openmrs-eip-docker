@@ -17,6 +17,7 @@ GIT_BRANCHES_DIR="$EIP_SETUP_STUFF_DIR/git/branches"
 APK_CMD=$(which apk)
 
 . $SETUP_SCRIPTS_DIR/commons.sh
+chmod +x $SETUP_SCRIPTS_DIR/*.sh
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         echo "INSTALLATION FINISHED"
