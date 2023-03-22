@@ -20,7 +20,7 @@ export EPTSSYNC_API_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmr
 
 . $RELEASE_SCRIPTS_DIR/commons.sh
 
-checkIfProcessIsRunning "updates.sh" 2
+checkIfProcessIsRunning "{updates.sh}"
 running=$?
 
 #IF THIS WAS NOT CALL FROM ANY UPDATE THEN SKIP TEMPORAY UPDATE
