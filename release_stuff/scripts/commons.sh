@@ -88,6 +88,8 @@ checkIfProcessIsRunning(){
 	wcResult=$(wc $RUNNING_PROCESS)
 	linesCount=$(echo $wcResult | cut -d' ' -f1)
 
+	rm $RUNNING_PROCESS
+
 	if [ $linesCount -gt $defaultNumberOfLinesOnPsCommand ]; then
 		return 1;
 	else
