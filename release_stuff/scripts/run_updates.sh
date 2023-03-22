@@ -5,6 +5,8 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 LOG_DIR="$HOME_DIR/shared/logs/upgrade"
 ONGOING_UPGRADE="$HOME_DIR/ongoing_upgrade.tmp"
 
+. $SCRIPTS_DIR/commons.sh
+
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/upgrade.log
 else
@@ -22,12 +24,11 @@ cd $SCRIPTS_DIR
 echo -n "INITIALIZING UPDATE CHECK"
 
 
-ps -aef | grep updates.sh > $ONGOING_UPGRADE
 
-wcResult=$(wc $ONGOING_UPGRADE)
-linesCount=$(echo $wcResult | cut -d' ' -f1)
+checkIfProcessIsRunning "updates.sh" 2 
+running=$?
 
-if [ $linesCount -gt 1 ]; then
+if [ $running = 1 ]; then
         logToScreenAndFile "There is another upgrade process running. Aborting..." $LOG_FILE
 
 	exit 0
