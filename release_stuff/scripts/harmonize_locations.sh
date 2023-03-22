@@ -42,12 +42,10 @@ if grep "finished" $HARMONIZATION_STATUS_FILE; then
 	exit 0
 fi
 
-ps -aef | grep execute_script_on_db.sh > $HARMONIZATION_PROCESS_INFO
+checkIfProcessIsRunning "execute_script_on_db.sh"
+runningProcess=$?
 
-wcResult=$(wc $HARMONIZATION_PROCESS_INFO)
-linesCount=$(echo $wcResult | cut -d' ' -f1)
-
-if [ $linesCount -gt 1 ]; then
+if [ $runningProcess = 1 ]; then
         logToScreenAndFile "There is another harmonozation process running" $LOG_FILE
 
         exit 0
