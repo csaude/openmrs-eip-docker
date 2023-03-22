@@ -8,6 +8,7 @@ RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
 RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
 ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 TMP_UPDATE_DONE="$HOME_DIR/tmp_update_done_01"
+ONGOING_UPGRADE="$HOME_DIR/ongoing_update.tmp"
 
 export RELEASE_NAME="EIP release 3.0.1.0"
 export RELEASE_DATE="2023-03-20 10:00:00"
@@ -17,8 +18,13 @@ export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/FriendsInGlobalHealth/ope
 export EPTSSYNC_API_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases/download/v4.0.0/eptssync-api-1.0-SNAPSHOT.jar"
 
 
+ps -aef | grep updates.sh > $ONGOING_UPGRADE
+
+wcResult=$(wc $ONGOING_UPGRADE)
+linesCount=$(echo $wcResult | cut -d' ' -f1)
+
 #IF THIS WAS NOT CALL FROM ANY UPDATE THEN SKIP TEMPORAY UPDATE
-if [ -f "$ONGOING_UPDATE_INFO_FILE" ]; then
+if [ $linesCount -gt 1 ]; then
         if [ -f "$TMP_UPDATE_DONE" ]; then
                 echo "THE TMP UPDATE HAS ALREADY DONE"
         else

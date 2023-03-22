@@ -19,6 +19,6 @@ sed -i "s/dbsync_notification_email_recipients/$dbsync_notification_email_recipi
 sed -i "s/dbsync_notification_email_smtp_auth_user/$dbsync_notification_email_smtp_auth_user/g" $TEMP_SSMTP_CONFIG_FILE
 sed -i "s/dbsync_notification_email_smtp_user_pass/$dbsync_notification_email_smtp_user_pass/g" $TEMP_SSMTP_CONFIG_FILE
 sed -i "s/dbsync_notification_email_smtp_host_name/$dbsync_notification_email_smtp_host_name/g" $TEMP_SSMTP_CONFIG_FILE
-sed -i "s/dbsync_notification_email_smtp_host_port/587/g" $TEMP_SSMTP_CONFIG_FILE
+sed -i "s/dbsync_notification_email_smtp_host_port/$dbsync_notification_email_smtp_host_port/g" $TEMP_SSMTP_CONFIG_FILE
 sed -i "s/db_sync_senderId/$db_sync_senderId/g" $TEMP_SSMTP_CONFIG_FILE
 mv $TEMP_SSMTP_CONFIG_FILE $OS_SMTP_CONFIG_FILE
