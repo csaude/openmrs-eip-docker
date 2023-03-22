@@ -28,7 +28,7 @@ linesCount=$(echo $wcResult | cut -d' ' -f1)
 rm $RUNNING_PROCESS
 
 #IF THIS WAS NOT CALL FROM ANY UPDATE THEN SKIP TEMPORAY UPDATE
-if [ $linesCount = 1 ]; then
+if [ $linesCount -gt 1 ]; then
         if [ -f "$TMP_UPDATE_DONE" ]; then
                 echo "THE TMP UPDATE HAS ALREADY DONE"
         else
