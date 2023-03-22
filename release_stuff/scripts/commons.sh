@@ -76,7 +76,7 @@ checkIfProcessIsRunning(){
 	defaultNumberOfLinesOnPsCommand=$2
 
 	if [ -z "$defaultNumberOfLinesOnPsCommand" ]; then
-		defaultNumberOfLinesOnPsCommand = 1;
+		defaultNumberOfLinesOnPsCommand=1;
 	fi
 
 	currTime=$(getCurrDateTime)
