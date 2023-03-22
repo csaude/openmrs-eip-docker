@@ -18,16 +18,22 @@ export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/FriendsInGlobalHealth/ope
 export EPTSSYNC_API_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases/download/v4.0.0/eptssync-api-1.0-SNAPSHOT.jar"
 
 
-. $RELEASE_SCRIPTS_DIR/commons.sh
+RUNNING_PROCESS="./running_update.tmp"
 
-checkIfProcessIsRunning "{updates.sh}"
-running=$?
+ps -aef | grep updates.sh > $RUNNING_PROCESS
+
+wcResult=$(wc $RUNNING_PROCESS)
+linesCount=$(echo $wcResult | cut -d' ' -f1)
+
+rm $RUNNING_PROCESS
 
 #IF THIS WAS NOT CALL FROM ANY UPDATE THEN SKIP TEMPORAY UPDATE
-if [ $running = 0 ]; then
+if [ $linesCount -gt 1 ]; then
         if [ -f "$TMP_UPDATE_DONE" ]; then
                 echo "THE TMP UPDATE HAS ALREADY DONE"
         else
+		echo "PERFORMING TEMPORARY UPDATE..."
+
                 rm $ONGOING_UPDATE_INFO_FILE
                 cd $RELEASE_SCRIPTS_DIR
                 touch $TMP_UPDATE_DONE

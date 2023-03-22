@@ -9,7 +9,7 @@ AFTER_UPGRADE_SCRIPTS_HOME=$HOME_DIR/scripts/after_upgrade
 AFTER_UPGRADE_LOG_DIR=$LOG_DIR/upgrade
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
-INSTALL_INFO_DIR=$SHARED_DIR/install_info/after_upgrade
+INSTALL_INFO_DIR="$HOME_DIR/install_info/after_upgrade"
 
 if [ ! -f "$INSTALL_INFO_DIR" ]; then
 	echo "CREATING RUN HISTORY DIR" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log

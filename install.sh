@@ -59,6 +59,8 @@ else
 
         echo "COPPING EPTSTYC STUFF TO $EPTSSYNC_HOME_DIR"
         cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
+
+	chmod +x $SCRIPTS_DIR/*.sh
         
         # Downloading release packages
         echo "Verifying $RELEASE_NAME packages download status"
@@ -108,8 +110,8 @@ fi
 echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh
 
-echo "The dbsync app is stopped. The container will exit in 30mins"
-sleep 1800
+echo "The dbsync app is stopped. The container will exit in 2mins"
+sleep 120 
 
 
 

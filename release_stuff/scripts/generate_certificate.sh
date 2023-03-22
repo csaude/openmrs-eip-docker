@@ -6,8 +6,6 @@
 URL=$1
 PATH_TO_CERTIFICATE=$2
 
-. $SCRIPTS_DIR/commons.sh
-
 echo "GENERATING CERTIFICATE FOR URL: $URL"
 
 echo "Q" | openssl s_client -connect $URL | openssl x509 > $PATH_TO_CERTIFICATE
