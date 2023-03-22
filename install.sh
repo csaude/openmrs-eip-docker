@@ -17,7 +17,6 @@ GIT_BRANCHES_DIR="$EIP_SETUP_STUFF_DIR/git/branches"
 APK_CMD=$(which apk)
 
 . $SETUP_SCRIPTS_DIR/commons.sh
-chmod +x $SETUP_SCRIPTS_DIR/*.sh
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         echo "INSTALLATION FINISHED"
@@ -60,6 +59,8 @@ else
 
         echo "COPPING EPTSTYC STUFF TO $EPTSSYNC_HOME_DIR"
         cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
+
+	chmod +x $SCRIPTS_DIR/*.sh
         
         # Downloading release packages
         echo "Verifying $RELEASE_NAME packages download status"
