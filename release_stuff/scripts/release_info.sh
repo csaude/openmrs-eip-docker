@@ -20,7 +20,7 @@ export EPTSSYNC_API_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmr
 
 RUNNING_PROCESS="./running_update.tmp"
 
-ps -aef | grep update.sh > $RUNNING_PROCESS
+ps -aef | grep updates.sh > $RUNNING_PROCESS
 
 wcResult=$(wc $RUNNING_PROCESS)
 linesCount=$(echo $wcResult | cut -d' ' -f1)
@@ -32,6 +32,8 @@ if [ $linesCount -gt 1 ]; then
         if [ -f "$TMP_UPDATE_DONE" ]; then
                 echo "THE TMP UPDATE HAS ALREADY DONE"
         else
+		echo "PERFORMING TEMPORARY UPDATE..."
+
                 rm $ONGOING_UPDATE_INFO_FILE
                 cd $RELEASE_SCRIPTS_DIR
                 touch $TMP_UPDATE_DONE
