@@ -30,6 +30,8 @@ checIfupdateIsAllowedToCurrentSite(){
 	return $allowed
 }
 
+chmod +x $SCRIPTS_DIR/*.sh
+
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" #| tee -a $LOG_DIR/upgrade.log
 else
@@ -142,6 +144,9 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 
 		echo "Copying $EPTSSYNC_PACKAGE_RELEASE_FILE_NAME to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
 		cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
+
+		chmod +x $RELEASE_SCRIPTS_DIR/*.sh
+		chmod +x $SCRIPTS_DIR/*.sh
 
 		echo "ALL FILES WERE COPIED"
 	else
