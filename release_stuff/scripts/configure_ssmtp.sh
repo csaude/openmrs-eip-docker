@@ -3,10 +3,12 @@
 #
 
 # Set environment.
-timestamp=`date +%Y-%m-%d_%H-%M-%S`
+ORIGINAL_SSMTP_CONFIG_FILE=$1
 
-EIP_HOME="/home/eip"
-EIP_SCRIPTS_DIR="$EIP_HOME/scripts"
+. $EIP_SCRIPTS_DIR/commons.sh
+. $EIP_SCRIPTS_DIR/try_to_load_environment.sh
+
+echo "Configuring smtp..."
 
 ORIGINAL_SSMTP_CONFIG_FILE=$EIP_HOME/ssmtp.conf
 TEMP_SSMTP_CONFIG_FILE=$EIP_HOME/ssmtp.conf.tmp

@@ -9,5 +9,5 @@
 
 # Start application.
 echo -n "Stoping EIP Application"
-pkill -f openmrs-eip-app-sender.jar 
+kill -9 $(pgrep -f openmrs-eip-app-sender.jar)
 echo -n "EIP APP STOPPED"

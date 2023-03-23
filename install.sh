@@ -18,6 +18,9 @@ APK_CMD=$(which apk)
 
 . $SETUP_SCRIPTS_DIR/commons.sh
 
+isDockerInstallation
+isDocker=$?
+
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         echo "INSTALLATION FINISHED"
 else
@@ -90,19 +93,16 @@ else
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
 
-	if [ ! -z $APK_CMD ]
-        then
-           $SETUP_SCRIPTS_DIR/configure_ssmtp.sh
-        fi
 
-	echo "CONFIGURING SSMTP"
+	if [ $isDocker = 1 ]; then
+        	$SCRIPTS_DIR/configure_ssmtp.sh $EIP_HOME/ssmtp.conf
+	fi
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         echo "Installation finished at $timestamp" >> $INSTALL_FINISHED_REPORT_FILE
 fi
 
-if [ ! -z $APK_CMD ]
-then
+if [ $isDocker = 1 ]; then
    echo "STARTING CROND INSIDE APK BASED DISTRO"
    crond
 fi
@@ -110,9 +110,7 @@ fi
 echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh
 
-echo "The dbsync app is stopped. The container will exit in 2mins"
-sleep 120 
-
-
-
-
+if [ $isDocker = 1 ]; then
+	echo "The dbsync app is stopped. The container will exit in 2mins"
+	sleep 120 
+fi
