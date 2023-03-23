@@ -49,3 +49,16 @@ echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
 
 $SETUP_DIR/release_stuff/scripts/configure_ssmtp.sh
+
+if [ -z $JAVA_HOME ];then
+	echo "JAVA_HOME is not defined! Configuring it"
+	java_home=$(readlink -f $(which java))
+	tmp="\/jre\/bin\/java"
+
+	result=$(echo "$java_home" | sed "s/$tmp//g")
+
+	export JAVA_HOME=$result
+	sudo chmod 777 $JAVA_HOME/jre/lib/security/cacerts
+fi
+
+echo "CHANGING MOD OF JAVA carcets FILE ($JAVA_HOME/jre/lib/security/cacerts) " | tee -a $LOG_DIR/apt_install.log
