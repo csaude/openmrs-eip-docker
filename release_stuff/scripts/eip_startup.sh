@@ -35,6 +35,8 @@ URL="$spring_artemis_host:$spring_artemis_port"
 
 $SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
 
+
+
 if [ ! -s $PATH_TO_CERTIFICATE ]; then
         echo "Using non secure connection to artemis"
 
@@ -43,6 +45,14 @@ if [ ! -s $PATH_TO_CERTIFICATE ]; then
         export artemis_ssl_enabled=false
 else
         echo "Using secure connection to artemis"
+	
+	if [ -z $JAVA_HOME ];then
+		echo "JAVA_HOME is not defined! Configuring it"
+		java_home=$(readlink -f $(which java))
+		export JAVA_HOME=$java_home
+	fi
+
+	echo "Using JAVA_HOME =$JAVA_HOME"
 
         $SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh $PATH_TO_CERTIFICATE "artemis"
 
