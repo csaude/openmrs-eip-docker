@@ -15,5 +15,5 @@ isDockerInstallation
 isDocker=$?
 
 if [ $isDocker = 1 ];then
-	$EIP_SCRIPTS_DIR/configure_ssmtp.sh $EIP_HOME/ssmtp.conf
+	$EIP_SCRIPTS_DIR/configure_ssmtp.sh
 fi

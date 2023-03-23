@@ -95,7 +95,7 @@ else
 
 
 	if [ $isDocker = 1 ]; then
-        	$SCRIPTS_DIR/configure_ssmtp.sh $EIP_HOME/ssmtp.conf
+        	$SCRIPTS_DIR/configure_ssmtp.sh
 	fi
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`

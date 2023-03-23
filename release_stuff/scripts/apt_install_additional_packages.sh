@@ -16,7 +16,7 @@ logToScreenAndFile "OPENSSL INSTALLED" $LOG_DIR/apt_install.log
 
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
 
-$SETUP_SCRIPT_DIR/configure_ssmtp.sh $SETUP_DIR/release_stuff/ssmtp.conf |  tee -a $LOG_DIR/apt_install.log
+$SETUP_SCRIPT_DIR/configure_ssmtp.sh |  tee -a $LOG_DIR/apt_install.log
 
 if [ -z $JAVA_HOME ]; then
         logToScreenAndFile "JAVA_HOME is not defined! Configuring it"
