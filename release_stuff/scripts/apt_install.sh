@@ -48,7 +48,7 @@ echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
 
-$SETUP_DIR/release_stuff/scripts/configure_ssmtp.sh
+$SETUP_DIR/release_stuff/scripts/configure_ssmtp.sh $SETUP_DIR/release_stuff/ssmtp.conf |  tee -a $LOG_DIR/apt_install.log
 
 if [ -z $JAVA_HOME ];then
 	echo "JAVA_HOME is not defined! Configuring it"
