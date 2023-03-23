@@ -58,7 +58,7 @@ if [ -z $JAVA_HOME ];then
 	result=$(echo "$java_home" | sed "s/$tmp//g")
 
 	export JAVA_HOME=$result
-	sudo chmod 777 $JAVA_HOME/jre/lib/security/cacerts
 fi
 
 echo "CHANGING MOD OF JAVA carcets FILE ($JAVA_HOME/jre/lib/security/cacerts) " | tee -a $LOG_DIR/apt_install.log
+sudo chmod 777 $JAVA_HOME/jre/lib/security/cacerts
