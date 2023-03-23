@@ -4,6 +4,12 @@
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 
+getCurrentScriptLocation(){
+	SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[1]}" )" &> /dev/null && pwd )
+
+	echo "SCRIPT DIR: $SCRIPT_DIR"
+}
+
 isDockerInstallation(){
 	APK_CMD=$(which apk)
 
