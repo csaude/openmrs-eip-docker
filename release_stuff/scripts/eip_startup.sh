@@ -35,8 +35,6 @@ URL="$spring_artemis_host:$spring_artemis_port"
 
 $SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
 
-
-
 if [ ! -s $PATH_TO_CERTIFICATE ]; then
         echo "Using non secure connection to artemis"
 
@@ -65,7 +63,7 @@ fi
 
 echo "Preparing to start Eip Application: [$EIP_MODE]"
 
-sleep 15 
+sleep 7 
 
 echo "Starting Eip Application: [$EIP_MODE]"
 
