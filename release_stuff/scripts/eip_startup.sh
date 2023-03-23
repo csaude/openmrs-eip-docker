@@ -49,7 +49,11 @@ else
 	if [ -z $JAVA_HOME ];then
 		echo "JAVA_HOME is not defined! Configuring it"
 		java_home=$(readlink -f $(which java))
-		export JAVA_HOME=$java_home
+		tmp="\/jre\/bin\/java"
+
+		result=$(echo "$java_home" | sed "s/$tmp//g")
+
+		export JAVA_HOME=$result
 	fi
 
 	echo "Using JAVA_HOME =$JAVA_HOME"
