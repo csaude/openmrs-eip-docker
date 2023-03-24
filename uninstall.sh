@@ -3,6 +3,9 @@
 
 export HOME_DIR=/home/eip
 
+
+$HOME_DIR/scripts/eip_stop.sh
+
 echo "STARTING DBSYNC UNISTALLATION"
 
 echo "REMOVING $HOME_DIR/application-sender.properties"
