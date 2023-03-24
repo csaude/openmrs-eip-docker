@@ -1,14 +1,6 @@
 #!/bin/sh
 # This script contains shared functions 
 #
-HOME_DIR="/home/eip"
-SCRIPTS_DIR="$HOME_DIR/scripts"
-
-getCurrentScriptLocation(){
-	SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[1]}" )" &> /dev/null && pwd )
-
-	echo "SCRIPT DIR: $SCRIPT_DIR"
-}
 
 isDockerInstallation(){
 	APK_CMD=$(which apk)
@@ -78,8 +70,8 @@ getGitBranch(){
 
 isSSLCertificateAvaliable(){
         serviceURL=$1
-
-	$SCRIPTS_DIR/generate_certificate.sh $serviceURL tmp.cert
+	
+	/home/eip/scripts/generate_certificate.sh $serviceURL tmp.cert
 
 	if [ -s tmp.cert ]; then
 		rm tmp.cert
