@@ -3,14 +3,35 @@
 #
 
 # Set environment.
-ORIGINAL_SSMTP_CONFIG_FILE=$1
 
-. $EIP_SCRIPTS_DIR/commons.sh
-. $EIP_SCRIPTS_DIR/try_to_load_environment.sh
+EIP_HOME="/home/eip"
+
+#Discovery where this script was called from which is the current script_dir
+SCRIPTS_DIR=$(readlink -f "$0")
+SCRIPTS_DIR=$(dirname $SCRIPTS_DIR)
 
 echo "Configuring smtp..."
 
-ORIGINAL_SSMTP_CONFIG_FILE=$EIP_HOME/ssmtp.conf
+echo "EIP_SCRIPTS_DIR: $SCRIPTS_DIR"
+
+CUR_DIR=$(pwd)
+
+echo "CUR_DIR: $CUR_DIR"
+
+
+#Enter to script dir and the go to the parent folder which is setup stuff dir of eip home dir
+cd $SCRIPTS_DIR
+cd ../
+
+
+ORIGINAL_SSMTP_CONFIG_FILE=$(pwd)
+ORIGINAL_SSMTP_CONFIG_FILE="$ORIGINAL_SSMTP_CONFIG_FILE/ssmtp.conf"
+
+
+. $SCRIPTS_DIR/commons.sh
+. $SCRIPTS_DIR/try_to_load_environment.sh
+
+
 TEMP_SSMTP_CONFIG_FILE=$EIP_HOME/ssmtp.conf.tmp
 
 OS_SMTP_CONFIG_FILE=/etc/ssmtp/ssmtp.conf
@@ -23,4 +44,7 @@ sed -i "s/dbsync_notification_email_smtp_user_pass/$dbsync_notification_email_sm
 sed -i "s/dbsync_notification_email_smtp_host_name/$dbsync_notification_email_smtp_host_name/g" $TEMP_SSMTP_CONFIG_FILE
 sed -i "s/dbsync_notification_email_smtp_host_port/$dbsync_notification_email_smtp_host_port/g" $TEMP_SSMTP_CONFIG_FILE
 sed -i "s/db_sync_senderId/$db_sync_senderId/g" $TEMP_SSMTP_CONFIG_FILE
+
 mv $TEMP_SSMTP_CONFIG_FILE $OS_SMTP_CONFIG_FILE
+
+cd $CUR_DIR
