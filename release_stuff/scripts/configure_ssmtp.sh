@@ -28,8 +28,8 @@ ORIGINAL_SSMTP_CONFIG_FILE=$(pwd)
 ORIGINAL_SSMTP_CONFIG_FILE="$ORIGINAL_SSMTP_CONFIG_FILE/ssmtp.conf"
 
 
-. $EIP_SCRIPTS_DIR/commons.sh
-. $EIP_SCRIPTS_DIR/try_to_load_environment.sh
+. $SCRIPTS_DIR/commons.sh
+. $SCRIPTS_DIR/try_to_load_environment.sh
 
 
 TEMP_SSMTP_CONFIG_FILE=$EIP_HOME/ssmtp.conf.tmp
