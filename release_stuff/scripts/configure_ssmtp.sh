@@ -19,7 +19,10 @@ cd $EIP_SCRIPTS_DIR
 cd ../
 
 
-ORIGINAL_SSMTP_CONFIG_FILE=$(pwd)/ssmtp.conf
+ORIGINAL_SSMTP_CONFIG_FILE=$(pwd)
+ORIGINAL_SSMTP_CONFIG_FILE="$ORIGINAL_SSMTP_CONFIG_FILE/ssmtp.conf"
+
+
 
 . $EIP_SCRIPTS_DIR/commons.sh
 . $EIP_SCRIPTS_DIR/try_to_load_environment.sh
