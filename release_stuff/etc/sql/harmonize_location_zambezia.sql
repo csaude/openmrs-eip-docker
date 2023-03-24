@@ -26,17 +26,17 @@ value
 
 -- Criar tabela de logs de alteracao
 CREATE TABLE if not exists location_harmonization.location_harmonized_logs (
-	tablename varchar(255),
+	table_name varchar(255),
     current_location_id int(16),
     old_location_id int(16),
     uuid_actual_location varchar(255),
 	uuid_old_location varchar(255),
-    table_name_id int(16)
+    record_id int(16)
 );
 
 CREATE TABLE if not exists location_harmonization.location_execution_logs (
 	execution_id int(16) NOT NULL AUTO_INCREMENT,
-	tablename varchar(255),
+	table_name varchar(255),
     location_uuid varchar(255),
     start_date datetime DEFAULT NULL,
 	end_date datetime DEFAULT NULL,
@@ -116,7 +116,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_app = TRUE;
 								
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('appointmentscheduling_appointment_block', uuid_old_location, now());
 								-- Log Execution
 
@@ -134,13 +134,13 @@ BEGIN
 												 update OPENMRS_DATABASE_NAME.appointmentscheduling_appointment_block set location_id=current_location_id where appointment_block_id = appointmentBlockId;
 
 												 -- Logar a alteracao
-												 insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('appointmentscheduling_appointment_block', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, appointmentBlockId);
+												 insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('appointmentscheduling_appointment_block', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, appointmentBlockId);
 												
 												END;
 									END LOOP appointments_cursor;
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='appointmentscheduling_appointment_block' and location_uuid = uuid_old_location;
+								where table_name='appointmentscheduling_appointment_block' and location_uuid = uuid_old_location;
 								-- Log Execution	
 
 						END;
@@ -157,7 +157,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_app = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('appointmentscheduling_provider_schedule', uuid_old_location, now());
 								-- Log Execution	
 
@@ -175,13 +175,13 @@ BEGIN
 												 update OPENMRS_DATABASE_NAME.appointmentscheduling_provider_schedule set location_id=current_location_id where provider_schedule_id = providerScheduleId;
 
 												 -- Logar a alteracao
-												 insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('appointmentscheduling_provider_schedule', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, providerScheduleId);
+												 insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('appointmentscheduling_provider_schedule', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, providerScheduleId);
 												
 												END;
 									END LOOP providers_cursor;
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='appointmentscheduling_provider_schedule' and location_uuid = uuid_old_location;
+								where table_name='appointmentscheduling_provider_schedule' and location_uuid = uuid_old_location;
 								-- Log Execution	
 
 						END;
@@ -199,7 +199,7 @@ BEGIN
 							    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_enc = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('encounter', uuid_old_location, now());
 								-- Log Execution
 
@@ -217,14 +217,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.encounter set location_id=current_location_id where encounter_id = encounterId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('encounter', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, encounterId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('encounter', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, encounterId);
 
 												END;
 									END LOOP encounters_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='encounter' and location_uuid = uuid_old_location;
+								where table_name='encounter' and location_uuid = uuid_old_location;
 								-- Log Execution		
 
 						END;
@@ -242,7 +242,7 @@ BEGIN
 
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('gaac', uuid_old_location, now());
 								-- Log Execution
 	
@@ -260,14 +260,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.gaac set location_id=current_location_id where gaac_id = gaacId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('gaac', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, gaacId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('gaac', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, gaacId);
 
 												END;
 									END LOOP gacs_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='gaac' and location_uuid = uuid_old_location;
+								where table_name='gaac' and location_uuid = uuid_old_location;
 								-- Log Execution	
 
 						END;
@@ -284,7 +284,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_gcf = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('gaac_family', uuid_old_location, now());
 								-- Log Execution
 
@@ -302,14 +302,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.gaac_family set location_id=current_location_id where family_id = familyId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('gaac_family', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, familyId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('gaac_family', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, familyId);
 
 												END;
 									END LOOP gacs_family_cursor;
 								
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='gaac_family' and location_uuid = uuid_old_location;
+								where table_name='gaac_family' and location_uuid = uuid_old_location;
 								-- Log Execution	
 
 						END;
@@ -326,7 +326,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_loc = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('location', uuid_old_location, now());
 								-- Log Execution
 	
@@ -344,14 +344,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.location set parent_location=current_location_id where location_id = parentLocationId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('location', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, parentLocationId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('location', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, parentLocationId);
 
 												END;
 									END LOOP locs_cursor;
 								
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='location' and location_uuid = uuid_old_location;
+								where table_name='location' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -368,7 +368,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_att = TRUE;	
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('location_attribute', uuid_old_location, now());
 								-- Log Execution	
 
@@ -386,14 +386,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.location_attribute set location_id=current_location_id where location_attribute_id = locationAttributeId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('location_attribute', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, locationAttributeId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('location_attribute', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, locationAttributeId);
 
 												END;
 									END LOOP locations_attribute_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='location_attribute' and location_uuid = uuid_old_location;
+								where table_name='location_attribute' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -410,7 +410,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_muzima = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('muzima_error_data', uuid_old_location, now());
 								-- Log Execution
 
@@ -428,14 +428,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.muzima_error_data set location=current_location_id where id = errorId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('muzima_error_data', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, errorId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('muzima_error_data', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, errorId);
 
 												END;
 									END LOOP muzimas_error_data_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='muzima_error_data' and location_uuid = uuid_old_location;
+								where table_name='muzima_error_data' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -452,7 +452,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_queue = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('muzima_queue_data', uuid_old_location, now());
 								-- Log Execution
 
@@ -470,14 +470,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.muzima_queue_data set location=current_location_id where id = queueId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('muzima_queue_data', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, queueId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('muzima_queue_data', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, queueId);
 
 												END;
 									END LOOP muzimas_queue_data_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='muzima_queue_data' and location_uuid = uuid_old_location;
+								where table_name='muzima_queue_data' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -494,7 +494,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_obs = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('obs', uuid_old_location, now());
 								-- Log Execution
 
@@ -512,14 +512,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.obs set location_id=current_location_id where obs_id = obsId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('obs', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, obsId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('obs', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, obsId);
 
 												END;
 									END LOOP obss_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='obs' and location_uuid = uuid_old_location;
+								where table_name='obs' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -537,7 +537,7 @@ BEGIN
 
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('patient_identifier', uuid_old_location, now());
 								-- Log Execution
 
@@ -555,14 +555,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.patient_identifier set location_id=current_location_id where patient_identifier_id = patientIdentifierId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('patient_identifier', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, patientIdentifierId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('patient_identifier', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, patientIdentifierId);
 
 												END;
 									END LOOP patients_identifier_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='patient_identifier' and location_uuid = uuid_old_location;
+								where table_name='patient_identifier' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -580,7 +580,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_program = TRUE;	
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('patient_program', uuid_old_location, now());
 								-- Log Execution
 
@@ -598,14 +598,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.patient_program set location_id=current_location_id where patient_program_id = patientProgramId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('patient_program', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, patientProgramId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('patient_program', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, patientProgramId);
 													
 												END;
 									END LOOP patients_program_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='patient_program' and location_uuid = uuid_old_location;
+								where table_name='patient_program' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -622,7 +622,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_visit = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('visit', uuid_old_location, now());
 								-- Log Execution
 
@@ -640,14 +640,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.visit set location_id=current_location_id where visit_id = visitId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('visit', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, visitId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('visit', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, visitId);
 													
 												END;
 									END LOOP visits_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='visit' and location_uuid = uuid_old_location;
+								where table_name='visit' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
@@ -664,7 +664,7 @@ BEGIN
 								DECLARE CONTINUE HANDLER FOR NOT FOUND SET done_person_attribute = TRUE;
 
 								-- Log Execution
-								insert into location_harmonization.location_execution_logs(tablename, location_uuid, start_date) values
+								insert into location_harmonization.location_execution_logs(table_name, location_uuid, start_date) values
 								('person_attribute', uuid_old_location, now());
 								-- Log Execution
 
@@ -682,14 +682,14 @@ BEGIN
 													update OPENMRS_DATABASE_NAME.person_attribute set value=current_location_id where person_attribute_id = personAttributeId;
 
 													-- Logar a alteracao
-													insert into location_harmonization.location_harmonized_logs(tablename, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, table_name_id) values ('person_attribute', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, personAttributeId);
+													insert into location_harmonization.location_harmonized_logs(table_name, current_location_id, old_location_id, uuid_actual_location, uuid_old_location, record_id) values ('person_attribute', current_location_id , old_location_id, uuid_actual_location,uuid_old_location, personAttributeId);
 													
 												END;
 									END LOOP persons_attribute_cursor;
 
 								-- Log Execution
 								update location_harmonization.location_execution_logs set end_date=now()
-								where tablename='person_attribute' and location_uuid = uuid_old_location;
+								where table_name='person_attribute' and location_uuid = uuid_old_location;
 								-- Log Execution
 
 						END;
