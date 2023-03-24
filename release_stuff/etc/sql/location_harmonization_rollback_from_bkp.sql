@@ -5,6 +5,18 @@ cat openmrs_visit.sql | docker exec -i refapp-db /usr/bin/mysql -u root --passwo
 cat openmrs_obs.sql | docker exec -i refapp-db /usr/bin/mysql -u root --password=root tmp_openmrs_db
 cat openmrs_patient_program.sql | docker exec -i refapp-db /usr/bin/mysql -u root --password=root tmp_openmrs_db
 
+select location_id, count(*) from openmrs.encounter group by location_id;
+select location_id, count(*) from tmp_openmrs_db.encounter group by location_id;
+
+select location_id, count(*) from openmrs.visit group by location_id;
+select location_id, count(*) from tmp_openmrs_db.visit group by location_id;
+
+select location_id, count(*) from openmrs.obs group by location_id;
+select location_id, count(*) from tmp_openmrs_db.obs group by location_id;
+
+select location_id, count(*) from openmrs.patient_program group by location_id;
+select location_id, count(*) from tmp_openmrs_db.patient_program group by location_id;
+
 update openmrs.encounter set location_id = (select encounter_bkp.location_id from tmp_openmrs_db.encounter encounter_bkp where encounter.encounter_id = encounter_bkp.encounter_id) where exists (select * from tmp_openmrs_db.encounter inner_2 where encounter.encounter_id = inner_2.encounter_id); 
 
 update openmrs.encounter set location_id = 229 where location_id is null;
