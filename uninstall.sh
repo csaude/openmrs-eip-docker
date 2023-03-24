@@ -113,7 +113,7 @@ else
 fi
 
 echo "REMOVING $HOME_DIR/ssmtp.conf"
-if [ -f $$HOME_DIR/ssmtp.conf ]; then
+if [ -f $HOME_DIR/ssmtp.conf ]; then
 	rm -fr $HOME_DIR/ssmtp.conf
 	echo "REMOVED $HOME_DIR/ssmtp.conf"
 else
