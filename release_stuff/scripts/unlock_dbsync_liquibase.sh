@@ -3,7 +3,7 @@
 #
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-LOG_DIR="$HOME_DIR/logs/eip/unlock-liquibase"
+LOG_DIR="$HOME_DIR/shared/logs/eip/unlock-liquibase"
 LOG_FILE="$LOG_DIR/unlock-liquibase.log"
 DB_HOST="172.17.0.1"
 DB_HOST_PORT="$openmrs_db_port"
