@@ -4,7 +4,7 @@
 export HOME_DIR="/home/eip"
 export SETUP_DIR="/home/openmrs-eip-docker"
 
-$SETUP_DIR/scripts/eip_stop.sh
+$SETUP_DIR/release_stuff/scripts/eip_stop.sh
 
 echo "STARTING DBSYNC UNISTALLATION"
 

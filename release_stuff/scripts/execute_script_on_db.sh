@@ -12,7 +12,7 @@ RESULT_FILE=$7
 MYSQL_CMD=$(which mysql)
 
 
-if [ ! -z $MYSQL_CMD ]; then 
+if [ -z $MYSQL_CMD ]; then 
 	echo "Tryning to install mysql-client"
 
 	APK_CMD=$(which apk)
