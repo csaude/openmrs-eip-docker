@@ -61,4 +61,4 @@ if [ -z $JAVA_HOME ];then
 fi
 
 echo "CHANGING MOD OF JAVA carcets FILE ($JAVA_HOME/jre/lib/security/cacerts) " | tee -a $LOG_DIR/apt_install.log
-sudo chmod 777 $JAVA_HOME/jre/lib/security/cacerts
+chmod 777 $JAVA_HOME/jre/lib/security/cacerts
