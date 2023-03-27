@@ -115,6 +115,14 @@ else
 	echo "$HOME_DIR/scripts DOES NOT EXISTS"
 fi
 
+echo "REMOVING $HOME_DIR/install_info"
+if [ -d $HOME_DIR/install_info ]; then
+        rm -fr $HOME_DIR/install_info
+        echo "REMOVED $HOME_DIR/install_info"
+else
+        echo "$HOME_DIR/install_info DOES NOT EXISTS"
+fi
+
 echo "REMOVING $HOME_DIR/ssmtp.conf"
 if [ -f $HOME_DIR/ssmtp.conf ]; then
 	rm -fr $HOME_DIR/ssmtp.conf
@@ -123,4 +131,39 @@ else
 	echo "$HOME_DIR/ssmtp.conf DOES NOT EXISTS"
 fi
 
+echo "REMOVING $HOME_DIR/update_email_content"
+if [ -f $HOME_DIR/update_email_content ]; then
+        rm -fr $HOME_DIR/update_email_content
+        echo "REMOVED $HOME_DIR/update_email_content"
+else
+        echo "$HOME_DIR/update_email_content DOES NOT EXISTS"
+fi
+
+echo "REMOVING $HOME_DIR/tmp_update_done_01"
+if [ -f $HOME_DIR/tmp_update_done_01 ]; then
+        rm -fr $HOME_DIR/tmp_update_done_01
+        echo "REMOVED $HOME_DIR/tmp_update_done_01"
+else
+        echo "$HOME_DIR/tmp_update_done_01 DOES NOT EXISTS"
+fi
+
+echo "REMOVING $HOME_DIR/apt_install.log"
+if [ -f $HOME_DIR/apt_install.log ]; then
+        rm -fr $HOME_DIR/apt_install.log
+        echo "REMOVED $HOME_DIR/apt_install.log"
+else
+        echo "$HOME_DIR/apt_install.log DOES NOT EXISTS"
+fi
+
+echo "REMOVING $HOME_DIR/artemis.cert"
+if [ -f $HOME_DIR/artemis.cert ]; then
+        rm -fr $HOME_DIR/artemis.cert
+        echo "REMOVED $HOME_DIR/artemis.cert"
+else
+        echo "$HOME_DIR/artemis.cert DOES NOT EXISTS"
+fi
+
+
 echo "DBSYNC SUCCESSIFULY UNISTALLED"
+
+

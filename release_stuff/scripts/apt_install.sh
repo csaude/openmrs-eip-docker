@@ -1,9 +1,9 @@
 #!/bin/sh
 #This bash install all the necessary applications needed by the container
 
-export HOME_DIR=/home/eip
-export LOG_DIR=$HOME_DIR/shared/logs/apt
-export SETUP_DIR=/home/openmrs-eip-docker
+export HOME_DIR="/home/eip"
+export LOG_DIR="$HOME_DIR/shared/logs/apt"
+export SETUP_DIR="/home/openmrs-eip-docker"
 
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/apt_install.log
