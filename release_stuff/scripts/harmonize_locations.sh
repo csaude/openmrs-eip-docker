@@ -34,7 +34,7 @@ isDockerInstallation
 
 isDocker=$?
 
-if [ $isDocker = 0 ];
+if [ $isDocker = 0 ]; then
         DB_HOST=$openmrs_db_host
 fi
 
