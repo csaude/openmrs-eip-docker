@@ -46,6 +46,10 @@ echo "INSTALLING OPENSSL" | tee -a $LOG_DIR/apt_install.log
 apt install -y openssl 
 echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
+echo "INSTALLING MYSQL CLIENT" | tee -a $LOG_DIR/apt_install.log
+apt install -y mysql-client
+echo "MYSQL CLIENT INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
 
 $SETUP_DIR/release_stuff/scripts/configure_ssmtp.sh |  tee -a $LOG_DIR/apt_install.log
