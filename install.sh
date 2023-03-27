@@ -12,7 +12,14 @@ SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+GIT_BRANCHES_DIR="$EIP_SETUP_STUFF_DIR/git/branches"
+
 APK_CMD=$(which apk)
+
+. $SETUP_SCRIPTS_DIR/commons.sh
+
+isDockerInstallation
+isDocker=$?
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         echo "INSTALLATION FINISHED"
@@ -20,9 +27,19 @@ else
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
         echo "STARTING EIP INSTALLATION PROCESS AT $timespamp"
+
+ 	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+
+        if [ -z $branch_name ]; then
+                echo "The git branch name for site $db_sync_senderId was not found"
+                echo "Aborting the installation process..."
+
+                exit 1
+	else
+		echo "Performing installation on site $db_sync_senderId based on branch $branch_name"
+        fi
         
-        if [ ! -z $APK_CMD ]
-        then
+        if [ ! -z $APK_CMD ]; then
            echo "INSTALLING DEPENDENCIES USING APK"
            $SETUP_SCRIPTS_DIR/apk_install.sh
         fi
@@ -45,6 +62,8 @@ else
 
         echo "COPPING EPTSTYC STUFF TO $EPTSSYNC_HOME_DIR"
         cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
+
+	chmod +x $SCRIPTS_DIR/*.sh
         
         # Downloading release packages
         echo "Verifying $RELEASE_NAME packages download status"
@@ -52,7 +71,7 @@ else
         
         CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
         
-        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/download_completed"
+        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
         if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
         then
            echo "Error trying to download release packages: $RELEASE_NAME. See previous messages."
@@ -74,15 +93,16 @@ else
         echo "INSTALLING CRONS"
         $SCRIPTS_DIR/install_crons.sh
 
-	echo "CONFIGURING SSMTP"
-        $SCRIPTS_DIR/configure_ssmtp.sh
+
+	if [ $isDocker = 1 ]; then
+        	$SCRIPTS_DIR/configure_ssmtp.sh
+	fi
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         echo "Installation finished at $timestamp" >> $INSTALL_FINISHED_REPORT_FILE
 fi
 
-if [ ! -z $APK_CMD ]
-then
+if [ $isDocker = 1 ]; then
    echo "STARTING CROND INSIDE APK BASED DISTRO"
    crond
 fi
@@ -90,3 +110,7 @@ fi
 echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh
 
+if [ $isDocker = 1 ]; then
+	echo "The dbsync app is stopped. The container will exit in 2mins"
+	sleep 120 
+fi
