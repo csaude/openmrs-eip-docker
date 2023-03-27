@@ -9,5 +9,13 @@
 
 # Start application.
 echo -n "Stoping EIP Application"
-kill -9 $(pgrep -f openmrs-eip-app-sender.jar)
-echo -n "EIP APP STOPPED"
+
+
+running_process=$(pgrep -f openmrs-eip-app-sender.jar)
+
+if [ -z $running_process ]; then
+	echo "EIP Application is not running!"
+else
+	kill -9 $(pgrep -f openmrs-eip-app-sender.jar)
+	echo -n "EIP APP STOPPED"
+fi
