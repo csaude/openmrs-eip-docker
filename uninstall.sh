@@ -2,7 +2,7 @@
 #This bash install all the necessary applications needed by the container
 
 export HOME_DIR="/home/eip"
-export SETUP_DUR="/home/openmrs-eip-docker"
+export SETUP_DIR="/home/openmrs-eip-docker"
 
 $SETUP_DIR/scripts/eip_stop.sh
 
