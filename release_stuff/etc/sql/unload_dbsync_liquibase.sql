@@ -1,0 +1,1 @@
+update LIQUIBASECHANGELOGLOCK set LOCKED = false, LOCKGRANTED=null, LOCKEDBY=null where id =1;
