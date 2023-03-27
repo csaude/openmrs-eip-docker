@@ -21,6 +21,16 @@ EMAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
 
 timestamp=$(getCurrDateTime)
 
+isDockerInstallation
+
+isDocker=$?
+
+if [ $isDocker = 0 ];
+	DB_HOST=$openmrs_db_host
+fi
+
+logToScreenAndFile "USING DB_HOST $DB_HOST" "$LOG_FILE"
+
 logToScreenAndFile "Trying to unlock liquibase at $timestamp" "$LOG_FILE"
 
 echo "select IF(LOCKED=true, 'true', 'false') LOCKED_STATUS from LIQUIBASECHANGELOGLOCK where id =1 or LOCKED = true" > $CHECK_STATUS_SCRIPT
