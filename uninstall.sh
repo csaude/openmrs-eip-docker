@@ -1,10 +1,10 @@
 #!/bin/sh
 #This bash install all the necessary applications needed by the container
 
-export HOME_DIR=/home/eip
+export HOME_DIR="/home/eip"
+export SETUP_DUR="/home/openmrs-eip-docker"
 
-
-$HOME_DIR/scripts/eip_stop.sh
+$SETUP_DIR/scripts/eip_stop.sh
 
 echo "STARTING DBSYNC UNISTALLATION"
 
