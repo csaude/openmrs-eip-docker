@@ -163,6 +163,14 @@ else
         echo "$HOME_DIR/artemis.cert DOES NOT EXISTS"
 fi
 
+echo "REMOVING $HOME_DIR/liquibase_check_status.sql"
+if [ -f $HOME_DIR/liquibase_check_status.sql ]; then
+        rm -fr $HOME_DIR/liquibase_check_status.sql
+        echo "REMOVED $HOME_DIR/liquibase_check_status.sql"
+else
+        echo "$HOME_DIR/liquibase_check_status.sql DOES NOT EXISTS"
+fi
+
 
 echo "DBSYNC SUCCESSIFULY UNISTALLED"
 
