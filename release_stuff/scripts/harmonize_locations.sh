@@ -29,6 +29,17 @@ if [ ! -d $LOCATION_HARMONIZATION_DIR ]; then
 	mkdir -p $LOCATION_HARMONIZATION_DIR
 fi
 
+
+isDockerInstallation
+
+isDocker=$?
+
+if [ $isDocker = 0 ];
+        DB_HOST=$openmrs_db_host
+fi
+
+logToScreenAndFile "USING DB_HOST $DB_HOST" "$LOG_FILE"
+
 echo "select * from location_harmonization.harmonization_execution_status;" > $CHECK_STATUS_SCRIPT
 
 $SCRIPTS_DIR/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $CHECK_STATUS_SCRIPT $HARMONIZATION_STATUS_FILE
