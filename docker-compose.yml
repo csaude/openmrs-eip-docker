@@ -12,6 +12,6 @@ services:
             - /etc/timezone:/etc/timezone:ro
             - /etc/localtime:/etc/localtime:ro
             - ./install.sh:/home/eip/scripts/install.sh
-            - ./:/home/openmrs-eip-docker/:ro
+            - ./:/home/openmrs-eip-docker
             - ./shared:/home/eip/shared
         restart: unless-stopped
