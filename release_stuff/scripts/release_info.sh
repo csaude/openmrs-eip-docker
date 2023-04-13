@@ -10,8 +10,8 @@ ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 TMP_UPDATE_DONE="$HOME_DIR/tmp_update_done_01"
 ONGOING_UPGRADE="$HOME_DIR/ongoing_update.tmp"
 
-export RELEASE_NAME="EIP release 4.0.0"
-export RELEASE_DATE="2023-03-20 10:00:00"
+export RELEASE_NAME="EIP-Release-4.0.1"
+export RELEASE_DATE="2023-03-30 11:00:00"
 export RELEASE_DESC="New release with several improvments and new feactures"
 
 export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases/download/v4.0.0/openmrs-eip-app-1.2.jar"
@@ -20,7 +20,7 @@ export EPTSSYNC_API_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmr
 #export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases/download/v3.0.1.0/openmrs-eip-app-1.1.jar"
 #export EPTSSYNC_API_RELEASE_URL="https://github.com/FriendsInGlobalHealth/openmrs-eip-docker/releases/download/v3.0.1.0/eptssync-api-1.0-SNAPSHOT.jar"
 
-RUNNING_PROCESS="./running_update.tmp"
+RUNNING_PROCESS="./running_update_02.tmp"
 
 ps -aef | grep updates.sh > $RUNNING_PROCESS
 
