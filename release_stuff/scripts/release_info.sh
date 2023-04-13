@@ -10,7 +10,7 @@ ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 TMP_UPDATE_DONE="$HOME_DIR/tmp_update_done_01"
 ONGOING_UPGRADE="$HOME_DIR/ongoing_update.tmp"
 
-export RELEASE_NAME="EIP release 4.0.1"
+export RELEASE_NAME="EIP-Release-4.0.1"
 export RELEASE_DATE="2023-03-30 11:00:00"
 export RELEASE_DESC="New release with several improvments and new feactures"
 
