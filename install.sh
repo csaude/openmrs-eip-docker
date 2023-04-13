@@ -87,10 +87,10 @@ else
         EIP_PACKAGE_RELEASE_FILE_NAME=$(logToScreenAndFile "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
         EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(logToScreenAndFile "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
 
-        logToScreenAndFile "Copying $EIP_PACKAGE_RELEASE_FILE_NAME to $HOME_DIR" $LOG_FILE
+        logToScreenAndFile "Copying dbsync jar file" $LOG_FILE
         cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
         
-        logToScreenAndFile "Copying $EPTSSYNC_PACKAGE_RELEASE_FILE_NAME to $EPTSSYNC_HOME_DIR" $LOG_FILE
+        logToScreenAndFile "Copying eptssync jar file" $LOG_FILE
         cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
         
         logToScreenAndFile "ALL FILES WERE COPIED" $LOG_FILE

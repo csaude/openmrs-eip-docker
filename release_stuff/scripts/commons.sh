@@ -24,11 +24,8 @@ logToScreenAndFile(){
 	log_file=$2
 	LOG_DIR=$(dirname "$log_file")
 
-	if [ -d "$LOG_DIR" ]; then
-       		echo "THE LOG DIR EXISTS" | tee -a $log_file 
-	else
+	if [ ! -d "$LOG_DIR" ]; then
        		mkdir -p $LOG_DIR
-       		echo "THE LOG DIR WAS CREATED" | tee -a $log_file 
 	fi
 
 	echo $log_msg | tee -a $log_file 
