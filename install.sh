@@ -31,6 +31,11 @@ else
 
  	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
 
+        if [ ! -z $APK_CMD ]; then
+           logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
+           $SETUP_SCRIPTS_DIR/apk_install.sh
+        fi
+
         if [ -z $branch_name ]; then
                 logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
                 logToScreenAndFile "Aborting the installation process..." $LOG_FILE
@@ -45,11 +50,6 @@ else
 
         fi
         
-        if [ ! -z $APK_CMD ]; then
-           logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
-           $SETUP_SCRIPTS_DIR/apk_install.sh
-        fi
-
         cd $HOME_DIR
 
         . $SETUP_SCRIPTS_DIR/release_info.sh
