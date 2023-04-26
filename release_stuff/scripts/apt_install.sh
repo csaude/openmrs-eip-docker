@@ -46,9 +46,17 @@ echo "INSTALLING OPENSSL" | tee -a $LOG_DIR/apt_install.log
 apt install -y openssl 
 echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
-echo "INSTALLING MYSQL CLIENT" | tee -a $LOG_DIR/apt_install.log
-apt install -y mysql-client
-echo "MYSQL CLIENT INSTALLED" | tee -a $LOG_DIR/apt_install.log
+MYSQL_CLIENT=$(which mysql)
+
+if [ -z $MYSQL_CLIENT ];then
+
+	echo "INSTALLING MYSQL CLIENT" | tee -a $LOG_DIR/apt_install.log
+	apt install -y mysql-client
+	echo "MYSQL CLIENT INSTALLED" | tee -a $LOG_DIR/apt_install.log
+	
+	else
+		echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
+fi
 
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
 
