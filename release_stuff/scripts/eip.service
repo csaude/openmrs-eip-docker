@@ -9,6 +9,7 @@ ExecStart=/home/eip/scripts/eip_startup.sh
 ExecStop=/home/eip/scripts/eip_stop.sh
 UMask=0007
 RestartSec=10
+TimeoutStartSec=900
 Restart=always
 [Install]
 WantedBy=multi-user.target
