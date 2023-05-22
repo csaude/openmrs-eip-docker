@@ -18,6 +18,7 @@ LOG_FILE="$HOME_DIR/install.log"
 APK_CMD=$(which apk)
 
 . $SETUP_SCRIPTS_DIR/commons.sh
+. $SETUP_SCRIPTS_DIR/try_to_load_environment.sh
 
 isDockerInstallation
 isDocker=$?
