@@ -1,6 +1,10 @@
 #!/bin/sh
 # This script contains shared functions 
 #
+getScriptLocation(){
+        SCRIPT_LOCATION=$( cd -- "$( dirname -- "${BASH_SOURCE[1]}" )" &> /dev/null && pwd )
+        echo $SCRIPT_LOCATION
+}
 
 isDockerInstallation(){
 	APK_CMD=$(which apk)
