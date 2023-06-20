@@ -27,7 +27,7 @@ if [ "$internetAvaliable" = 1 ]; then
 
         echo "LAST UPDATE CHECK ON $currDateTime" > $LAST_UPDATE_CHECK_REPORT
 else
-        logToScreenAndFile "The updated check operation was executed successifuly" $SCHEDULE_LOG
+        logToScreenAndFile "The updated check operation was not successifuly executed" $SCHEDULE_LOG
 fi
 
 rm $RUN_UPDATE_CRON
