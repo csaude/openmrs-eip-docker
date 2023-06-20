@@ -2,6 +2,24 @@
 # This script contains shared functions 
 #
 
+isInternetConnectionAvaliable(){
+        host=google.com
+        if nc -zw1 $host 443 && echo | openssl s_client -connect $host:443 2>&1 | awk '
+                $1 == "SSL" && $2 == "handshake" { handshake = 1 }
+                handshake && $1 == "Verification:" { ok = $2; exit }
+                END { exit ok != "OK" }'
+        then
+                return 1;
+        else
+                return 0;
+        fi
+}
+
+getScriptLocation(){
+        SCRIPT_LOCATION=$( cd -- "$( dirname -- "${BASH_SOURCE[1]}" )" &> /dev/null && pwd )
+        echo $SCRIPT_LOCATION
+}
+
 isDockerInstallation(){
 	APK_CMD=$(which apk)
 
@@ -28,7 +46,9 @@ logToScreenAndFile(){
        		mkdir -p $LOG_DIR
 	fi
 
-	echo $log_msg | tee -a $log_file 
+	currTime=$(getCurrDateTime)
+
+	echo "$log_msg at $currTime" | tee -a $log_file 
 }
 
 checkIfTokenExistsInFile(){
@@ -44,6 +64,33 @@ checkIfTokenExistsInFile(){
 
 	return 0;
 }
+
+
+getFileAge(){
+        filename=$1
+        format=$2
+        now=$(date +%s)
+
+        modified=$(date -r "$filename" "+%s")
+        delta=$((now-modified))
+
+        if [ -z "$format" ]; then
+                echo $delta
+        elif [ "$format" = 's' ]; then
+                echo $delta
+        elif [ "$format" = 'm' ]; then
+                echo $((delta/60))
+        elif [ "$format" = 'h' ]; then
+                echo $((delta/3600))
+        elif [ "$format" = 'd' ]; then
+                echo $((delta/86400))
+        else
+                echo "Unsupported format! Use [s for seconds, m for minutes, h for hours and d for days]"
+
+                exit 1
+        fi
+}
+
 
 getGitBranch(){
         branch_dir=$1

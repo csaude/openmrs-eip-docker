@@ -18,6 +18,7 @@ LOG_FILE="$HOME_DIR/install.log"
 APK_CMD=$(which apk)
 
 . $SETUP_SCRIPTS_DIR/commons.sh
+. $SETUP_SCRIPTS_DIR/try_to_load_environment.sh
 
 isDockerInstallation
 isDocker=$?
@@ -84,8 +85,8 @@ else
            exit 1
         fi
         
-        EIP_PACKAGE_RELEASE_FILE_NAME=$(logToScreenAndFile "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
-        EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(logToScreenAndFile "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+        EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+        EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
 
         logToScreenAndFile "Copying dbsync jar file" $LOG_FILE
         cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
