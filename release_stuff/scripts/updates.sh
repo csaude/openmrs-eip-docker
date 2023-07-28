@@ -157,7 +157,7 @@ else
        	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 fi
 
-#$SCRIPTS_DIR/schedule_update_notification.sh
+$SCRIPTS_DIR/schedule_update_notification.sh
 
 if [ "$UPDATED" ]; then
 	echo "PERFORMING AFTER UPDATE STEPS" #| tee -a $LOG_DIR/upgrade.log
