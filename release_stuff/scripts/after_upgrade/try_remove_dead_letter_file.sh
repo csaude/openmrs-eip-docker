@@ -19,7 +19,7 @@ echo "TRY TO REMOVE RESCHEDULE FOLDER..." | tee -a $LOG_DIR/upgrade.log
 
 if [ -d "$RESCHEDULE_FOLDER" ]; then
         echo "THE RESCHEDULE FOLDER EXISTS... REMOVING IT..." | tee -a $LOG_DIR/upgrade.log
-	rm -fr /home/eip/shared/mail/reschedule
+	rm -fr $RESCHEDULE_FOLDER
         echo "RESCHEDULE FOLDER REMOVED!" | tee -a $LOG_DIR/upgrade.log
 else
        echo "THE RESCHEDULE FOLDER DOES NOT EXISTS" | tee -a $LOG_DIR/upgrade.log
