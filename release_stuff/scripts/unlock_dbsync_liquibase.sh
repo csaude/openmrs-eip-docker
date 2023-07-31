@@ -53,7 +53,7 @@ if grep "true" $RESULT_SCRIPT; then
 	echo "" >> $EMAIL_CONTENT_FILE
 	echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $EMAIL_CONTENT_FILE
 
-	$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE $PATH_TO_ERROR_LOG
+	#$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE $PATH_TO_ERROR_LOG
 
 	if [ -s $PATH_TO_ERROR_LOG ]; then
 		 logToScreenAndFile  "THE NOTIFICATION EMAIL STATUS COULD NOT SENT YET!" $LOG_FILE

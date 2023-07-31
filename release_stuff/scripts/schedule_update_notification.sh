@@ -36,6 +36,6 @@ echo "-----------------------------------------------------" >> $EMAIL_CONTENT_F
 cat $UPDATES_LOG_FILE >> $EMAIL_CONTENT_FILE
 echo "-----------------------------------------------------" >> $EMAIL_CONTENT_FILE
 
-$SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $UPDATES_LOG_FILE
+#$SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $UPDATES_LOG_FILE
 
 $SCRIPTS_DIR/performe_after_update_check_actions.sh
