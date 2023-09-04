@@ -12,7 +12,7 @@ $SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
 
 if [ ! -s $PATH_TO_CERTIFICATE ]; then
     echo "The certificate cannot be generated now... scheduling..."
-    $CRON_DIR/try_to_schedule_genarate_and_install_certificate.sh
+    $SCRIPTS_DIR/try_to_schedule_genarate_and_install_certificate.sh
     
 else
     if [ -z $JAVA_HOME ];then
