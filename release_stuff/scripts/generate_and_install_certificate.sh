@@ -3,7 +3,7 @@
 #
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-CRON_DIR="$SCRIPTS_DIR/cron"
+CRON_DIR="$HOME_DIR/release_stuff/cron"
 EIP_MODE=sender
 GIT_BRANCHES_DIR="$HOME_DIR/git/branches"
 PATH_TO_CERTIFICATE="$HOME_DIR/artemis.cert"
