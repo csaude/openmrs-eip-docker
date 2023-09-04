@@ -12,7 +12,7 @@ $SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
 
 if [ ! -s $PATH_TO_CERTIFICATE ]; then
     echo "The certificate cannot be generated now... scheduling..."
-    echo "*/5       *       *       *       *       $SCRIPTS_DIR/generate_and_install_certificate.sh" > ${GENERATE_AND_INSTALL_CERTIFICATE_CRON}
+    echo "*/5       *       *       *       *       $SCRIPTS_DIR/generate_and_install_certificate.sh" > ${GENERATE_AND_INSTALL_CERTIFICATE_CRON} >> "/$HOME_DIR/generate_and_install_certificate_cron.log" > 2>&1
 
     $SCRIPTS_DIR/install_crons.sh 
 else
