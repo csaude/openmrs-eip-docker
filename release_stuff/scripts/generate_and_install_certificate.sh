@@ -30,7 +30,7 @@ else
     $SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh $PATH_TO_CERTIFICATE "artemis"
 
 
-    if [-f $GENERATE_AND_INSTALL_CERTIFICATE_CRON]; then
+    if [ -f "$GENERATE_AND_INSTALL_CERTIFICATE_CRON" ]; then
 
         echo "Removing old ceritificate installation cron"
         rm $GENERATE_AND_INSTALL_CERTIFICATE_CRON
