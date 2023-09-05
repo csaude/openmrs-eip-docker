@@ -60,7 +60,7 @@ else
 			rm -fr $SITE_SETUP_BASE_DIR
 		fi
 
-		mkidr $SITE_SETUP_BASE_DIR
+		mkdir $SITE_SETUP_BASE_DIR
 
 		git -C $SITE_SETUP_BASE_DIR init
 		git -C $SITE_SETUP_BASE_DIR branch $branch_name
