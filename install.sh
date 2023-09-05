@@ -3,28 +3,38 @@
 #
 #ENV
 HOME_DIR="/home/eip"
-EIP_SETUP_BASE_DIR="/home/openmrs-eip-docker"
-EIP_SETUP_STUFF_DIR="$EIP_SETUP_BASE_DIR/release_stuff"
-EPTSSYNC_SETUP_STUFF_DIR="$EIP_SETUP_STUFF_DIR/etc/eptssync"
+
+########### STOCK ENVIRONMENT ###################
+SETUP_STOCK_DIR="/home/openmrs-eip-docker"
+SETUP_STOCK_SCRIPTS_DIR="$SETUP_STOCK_DIR/scripts"
+SETUP_STOCK_STUFF_DIR="$SETUP_STOCK_DIR/release_stuff"
+GIT_BRANCHES_DIR="$SETUP_STOCK_STUFF_DIR/git/branches"
+
+############ SITE ENVIRONMENT #######################
+SITE_SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
+SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
+SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
+
+EPTSSYNC_SETUP_STUFF_DIR="$SITE_STUFF_DIR/etc/eptssync"
 EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
+
+################# ENVIRONMENT #########################
 SCRIPTS_DIR="$HOME_DIR/scripts"
-SETUP_SCRIPTS_DIR="$EIP_SETUP_STUFF_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
-GIT_BRANCHES_DIR="$EIP_SETUP_STUFF_DIR/git/branches"
 LOG_FILE="$HOME_DIR/install.log"
 
 APK_CMD=$(which apk)
 
-. $SETUP_SCRIPTS_DIR/commons.sh
-. $SETUP_SCRIPTS_DIR/try_to_load_environment.sh
+. $SETUP_STOCK_SCRIPTS_DIR/commons.sh
+. $SETUP_STOCK_SCRIPTS_DIR/try_to_load_environment.sh
 
 isDockerInstallation
 isDocker=$?
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
-        logToScreenAndFile "INSTALLATION FINISHED"
+        logToScreenAndFile "INSTALLATION FINISHED" $LOG_FILE
 else
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
@@ -34,7 +44,7 @@ else
 
         if [ ! -z $APK_CMD ]; then
            logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
-           $SETUP_SCRIPTS_DIR/apk_install.sh
+           $SETUP_STOCK_SCRIPTS_DIR/apk_install.sh
         fi
 
         if [ -z $branch_name ]; then
@@ -45,18 +55,23 @@ else
 	else
 		logToScreenAndFile "Performing installation on site $db_sync_senderId based on branch $branch_name" $LOG_FILE
 
-		git -C $EIP_SETUP_BASE_DIR clean -df
-		git -C $EIP_SETUP_BASE_DIR reset --hard
-		git -C $EIP_SETUP_BASE_DIR branch $branch_name
-		git -C $EIP_SETUP_BASE_DIR checkout $branch_name
-		git -C $EIP_SETUP_BASE_DIR clean -df
-		git -C $EIP_SETUP_BASE_DIR reset --hard "origin/$branch_name"
-		git -C $EIP_SETUP_BASE_DIR pull --depth=1 origin $branch_name
+		if [ -d "$SITE_SETUP_BASE_DIR" ]; then
+			logToScreenAndFile "$SITE_SETUP_BASE_DIR dir exists from old installation! Removing it..." 
+			rm -fr $SITE_SETUP_BASE_DIR
+		fi
+
+		mkidr $SITE_SETUP_BASE_DIR
+
+		git -C $SITE_SETUP_BASE_DIR init
+		git -C $SITE_SETUP_BASE_DIR branch $branch_name
+		git -C $SITE_SETUP_BASE_DIR checkout $branch_name
+		git -C $SITE_SETUP_BASE_DIR remote add origin https://github.com/csaude/openmrs-eip-docker.git
+		git -C $SITE_SETUP_BASE_DIR pull --depth=1 origin $branch_name
         fi
         
         cd $HOME_DIR
 
-        . $SETUP_SCRIPTS_DIR/release_info.sh
+        . $SITE_SETUP_SCRIPTS_DIR/release_info.sh
 
         logToScreenAndFile "FOUND RELEASE {NAME: $RELEASE_NAME, DATE: $RELEASE_DATE} " $LOG_FILE
 
@@ -64,8 +79,7 @@ else
 
         logToScreenAndFile "COPPING EIP APP FILES" $LOG_FILE
 
-        cp -R $EIP_SETUP_STUFF_DIR/* $HOME_DIR/
-        cp -R $EIP_SETUP_BASE_DIR $HOME_DIR
+        cp -R $SITE_STUFF_DIR/* $HOME_DIR/
 
         logToScreenAndFile "CREATING EPTSSYNC HOME DIR" $LOG_FILE
         mkdir -p $EPTSSYNC_HOME_DIR
