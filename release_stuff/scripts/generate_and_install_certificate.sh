@@ -10,11 +10,14 @@ PATH_TO_CERTIFICATE="$HOME_DIR/artemis.cert"
 URL="$spring_artemis_host:$spring_artemis_port"
 $SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
 
+echo "Starting to generate and install Certificate"
+
 if [ ! -s $PATH_TO_CERTIFICATE ]; then
     echo "The certificate cannot be generated now... scheduling..."
-    echo "*/5       *       *       *       *       $SCRIPTS_DIR/generate_and_install_certificate.sh" > ${GENERATE_AND_INSTALL_CERTIFICATE_CRON} >> "/$HOME_DIR/generate_and_install_certificate_cron.log"
+    echo "*/5       *       *       *       *       $SCRIPTS_DIR/generate_and_install_certificate.sh" > ${GENERATE_AND_INSTALL_CERTIFICATE_CRON}
 
-    $SCRIPTS_DIR/install_crons.sh 
+    $SCRIPTS_DIR/install_crons.sh
+    echo "Cron installed successfully" 
 else
     if [ -z $JAVA_HOME ];then
         echo "JAVA_HOME is not defined! Configuring it"
@@ -32,6 +35,7 @@ else
         echo "Removing old ceritificate installation cron"
         rm $GENERATE_AND_INSTALL_CERTIFICATE_CRON
         $SCRIPTS_DIR/install_crons.sh
+        echo "Cron Removed"
 
     fi
 fi
