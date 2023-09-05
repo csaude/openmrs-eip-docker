@@ -6,8 +6,8 @@ HOME_DIR="/home/eip"
 
 ########### STOCK ENVIRONMENT ###################
 SETUP_STOCK_DIR="/home/openmrs-eip-docker"
-SETUP_STOCK_SCRIPTS_DIR="$SETUP_STOCK_DIR/scripts"
 SETUP_STOCK_STUFF_DIR="$SETUP_STOCK_DIR/release_stuff"
+SETUP_STOCK_SCRIPTS_DIR="$SETUP_STOCK_STUFF_DIR/scripts"
 GIT_BRANCHES_DIR="$SETUP_STOCK_STUFF_DIR/git/branches"
 
 ############ SITE ENVIRONMENT #######################
