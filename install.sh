@@ -62,7 +62,7 @@ else
 
 		mkdir $SITE_SETUP_BASE_DIR
 
-		git -C $SITE_SETUP_BASE_DIR init
+		git -C $SITE_SETUP_BASE_DIR init && git -C $SITE_SETUP_BASE_DIR checkout -b main
 		git -C $SITE_SETUP_BASE_DIR branch $branch_name
 		git -C $SITE_SETUP_BASE_DIR checkout $branch_name
 		git -C $SITE_SETUP_BASE_DIR remote add origin https://github.com/csaude/openmrs-eip-docker.git
