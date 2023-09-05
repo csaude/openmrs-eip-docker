@@ -47,8 +47,9 @@ else
 
 		git -C $EIP_SETUP_BASE_DIR clean -df
 		git -C $EIP_SETUP_BASE_DIR reset --hard
-		git -C $EIP_SETUP_BASE_DIR fetch $branch_name
+		git -C $EIP_SETUP_BASE_DIR branch $branch_name
 		git -C $EIP_SETUP_BASE_DIR checkout $branch_name
+		git -C $EIP_SETUP_BASE_DIR pull --depth=1 origin $branch_name
         fi
         
         cd $HOME_DIR
