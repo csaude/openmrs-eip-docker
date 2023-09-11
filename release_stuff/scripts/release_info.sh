@@ -12,10 +12,10 @@ ONGOING_UPGRADE="$HOME_DIR/ongoing_update.tmp"
 
 export RELEASE_NAME="EIP-Release-5.0.0"
 export RELEASE_DATE="2023-07-27 12:00:00"
-export RELEASE_DESC="Removed email notifications"
+export RELEASE_DESC="DBSYnc v1.4x compatibility"
 
-export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download/V5.0.0/openmrs-eip-app-1.3.0.jar"
-export EPTSSYNC_API_RELEASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download/V5.0.0/openmrs-eip-app-1.3.0.jar"
+export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download/V6.0.0/openmrs-eip-app-1.4.0.jar"
+export EPTSSYNC_API_RELEASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download/V6.0.0/eptssync-api-1.0-SNAPSHOT.jar"
 
 RUNNING_PROCESS="./running_update_02.tmp"
 
