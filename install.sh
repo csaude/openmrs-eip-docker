@@ -129,7 +129,9 @@ else
 	MAIL_CONTENT_FILE="$INSTALL_FINISHED_REPORT_FILE"
 	MAIL_ATTACHMENT="$LOG_FILE"
 
-	echo "Automaticaly sent from remote site: $db_sync_senderId" > $MAIL_CONTENT_FILE
+	echo "Dbsync Initial Setup report" > $MAIL_CONTENT_FILE
+	echo "_______________________________________________" >> $MAIL_CONTENT_FILE
+	echo "Automaticaly sent from remote site: $db_sync_senderId" >> $MAIL_CONTENT_FILE
 
 	$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"  
 fi
