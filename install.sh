@@ -28,7 +28,7 @@ LOG_FILE="$HOME_DIR/install.log"
 APK_CMD=$(which apk)
 
 . $SETUP_STOCK_SCRIPTS_DIR/commons.sh
-. $SETUP_STOCK_SCRIPTS_DIR/try_to_load_environment.sh
+. $SETUP_setenv.shsetenv.shSTOCK_SCRIPTS_DIR/try_to_load_environment.sh
 
 isDockerInstallation
 isDocker=$?
@@ -123,18 +123,16 @@ else
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE
 
+	
+
 	MAIL_SUBJECT="EIP REMOTO - SETUP INFO"
-	EMAIL_CONTENT_FILE="$LOG_FILE"
-        PATH_TO_ERROR_LOG="$HOME_DIR/tmp_error_setup_email_notification"
+	MAIL_RECIPIENTS="$administrators_emails"
+	MAIL_CONTENT_FILE=$INSTALL_FINISHED_REPORT_FILE
+	MAIL_ATTACHMENT="$LOG_FILE
 
-	#$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE $PATH_TO_ERROR_LOG
+	echo "Automaticaly sent from remote site: $db_sync_senderId" > $MAIL_CONTENT_FILE
 
-        if [ -s $PATH_TO_ERROR_LOG ]; then
-                 logToScreenAndFile  "THE NOTIFICATION EMAIL STATUS COULD NOT SENT YET!" $LOG_FILE
-
-                #$SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE"
-        fi
-
+	$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE $EMAIL_ATTACHMENT  
 fi
 
 if [ $isDocker = 1 ]; then

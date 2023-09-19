@@ -13,6 +13,7 @@ SEND_EMAIL_LOG="$LOG_DIR/send_email.log"
 LAST_UPDATE_CHECK_REPORT="$LOG_DIR/last_update_check_report"
 
 . $SCRIPTS_DIR/try_to_load_environment.sh
+. $SCRIPTS_DIR/setenv.sh
 . $SCRIPTS_DIR/release_info.sh
 
 LOCAL_RELEASE_NAME=$RELEASE_NAME
