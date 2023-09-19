@@ -19,6 +19,7 @@ EMAIL_ATTACHMENT="no-attachment.tmp"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
+. $SCRIPTS_DIR/setenv.sh
 
 timestamp=$(getCurrDateTime)
 

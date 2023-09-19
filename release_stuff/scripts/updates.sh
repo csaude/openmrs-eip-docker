@@ -157,6 +157,8 @@ else
        	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 fi
 
+. $SCRIPTS_DIR/setenv.sh
+
 $SCRIPTS_DIR/schedule_update_notification.sh
 
 if [ "$UPDATED" ]; then

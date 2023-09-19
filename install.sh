@@ -29,6 +29,7 @@ APK_CMD=$(which apk)
 
 . $SETUP_STOCK_SCRIPTS_DIR/commons.sh
 . $SETUP_STOCK_SCRIPTS_DIR/try_to_load_environment.sh
+. $SETUP_STOCK_SCRIPTS_DIR/setenv.sh
 
 isDockerInstallation
 isDocker=$?
@@ -122,8 +123,6 @@ else
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE
-
-	
 
 	MAIL_SUBJECT="EIP REMOTO - SETUP INFO"
 	MAIL_RECIPIENTS="$administrators_emails"
