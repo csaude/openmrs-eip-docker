@@ -21,8 +21,10 @@ elif grep "shutdown-route" $DBSYNC_CURR_LOG_FILE; then
 
 		MAIL_RECIPIENTS="$administrators_emails"
 		MAIL_SUBJECT="DB sync application at $db_sync_senderId site has shutdown"
-		MAIL_CONTENT_FILE="The Db sync application at $db_sync_senderId has stopped after encountering an error, please see attached log file"
+		MAIL_CONTENT_FILE="$HOME_DIR/eip_stop_notification_content.tmp"
 		MAIL_ATTACHMENT="$DBSYNC_CURR_LOG_FILE"
+
+		echo "The Db sync application at $db_sync_senderId has stopped after encountering an error, please see attached log file" > $MAIL_CONTENT_FILE
 
 		$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
         else
