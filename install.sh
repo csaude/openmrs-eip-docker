@@ -128,7 +128,7 @@ else
 	MAIL_SUBJECT="EIP REMOTO - SETUP INFO"
 	MAIL_RECIPIENTS="$administrators_emails"
 	MAIL_CONTENT_FILE=$INSTALL_FINISHED_REPORT_FILE
-	MAIL_ATTACHMENT="$LOG_FILE
+	MAIL_ATTACHMENT=$LOG_FILE
 
 	echo "Automaticaly sent from remote site: $db_sync_senderId" > $MAIL_CONTENT_FILE
 
