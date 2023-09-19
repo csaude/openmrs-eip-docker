@@ -24,9 +24,10 @@ HARMONIZATION_EMAIL_SENT_LOG=$LOCATION_HARMONIZATION_DIR/harmonization_email_sen
 HARMONIZATION_CURRENT_STATUS_TEXT="encontra-se num estado desconhecido"
 HARMONIZATION_CURRENT_STATUS="AKNOWN"
 
-EMAIL_CONTENT_FILE="$HOME_DIR/email_content_file"
+MAIL_CONTENT_FILE="$HOME_DIR/email_content_file"
 
 . $SCRIPTS_DIR/commons.sh
+. $SCRIPTS_DIR/setenv.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
 
 
@@ -51,36 +52,24 @@ echo "select * from location_harmonization.location_execution_logs;" > $HARMONIZ
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $CHECK_STATUS_SCRIPT $HARMONIZATION_EXECUTION_LOG
 
 
-echo "Caros" >> $EMAIL_CONTENT_FILE
-echo "Servimo-nos deste email para informar que o processo de harmonização no site: $db_sync_senderId $HARMONIZATION_CURRENT_STATUS_TEXT" >> $EMAIL_CONTENT_FILE
-echo "" >> $EMAIL_CONTENT_FILE
-echo "--------------------" >> $EMAIL_CONTENT_FILE
-echo "" >> $EMAIL_CONTENT_FILE
-echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $EMAIL_CONTENT_FILE
-echo "" >> $EMAIL_CONTENT_FILE
-echo "" >> $EMAIL_CONTENT_FILE
-echo "-----------------------------------------------------" >> $EMAIL_CONTENT_FILE
-echo "LOG" >> $EMAIL_CONTENT_FILE
-echo "-----------------------------------------------------" >> $EMAIL_CONTENT_FILE
-cat $HARMONIZATION_EXECUTION_LOG >> $EMAIL_CONTENT_FILE
-echo "-----------------------------------------------------" >> $EMAIL_CONTENT_FILE
+echo "Caros" >> $MAIL_CONTENT_FILE
+echo "Servimo-nos deste email para informar que o processo de harmonização no site: $db_sync_senderId $HARMONIZATION_CURRENT_STATUS_TEXT" >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "--------------------" >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $MAIL_CONTENT_FILE
 
+MAIL_RECIPIENTS="$administrators_emails"
 MAIL_SUBJECT="EIP REMOTO - ESTADO DE HARMONIZACAO DE LOCAIS"
+MAIL_ATTACHMENT="$HARMONIZATION_EXECUTION_LOG"
 
-$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE" "$HARMONIZATION_EMAIL_SENT_LOG"
-
-if [ ! -s $HARMONIZATION_EMAIL_SENT_LOG ]; then
-	#EMAIL WAS SUCCESSIFULY SENT, PERFORME THE FINALIZATION
+$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"  
 	
-	rm $CRONS_DIR/try_to_execute_location_harmonization.sh
+rm $CRONS_DIR/try_to_execute_location_harmonization.sh
 
-	logToScreenAndFile  "RE-INSTALLING CRONS!" $HARMONIZATION_PROCESS_LOG 
+logToScreenAndFile  "RE-INSTALLING CRONS!" $HARMONIZATION_PROCESS_LOG 
 
-       $SCRIPTS_DIR/install_crons.sh
+$SCRIPTS_DIR/install_crons.sh
 
-	logToScreenAndFile  "LOCATION HARMONIZATION PROCESS FINALIZED!" $HARMONIZATION_PROCESS_LOG 
-
-else
-	logToScreenAndFile  "THE LOCATION HARMONIZATION PROCESS IS FINISHED BUT CANNOT BE FINALIZED NOW BECAUSE THE EMAIL COULD NOT SENT YET!" $HARMONIZATION_PROCESS_LOG 
-        $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE
-fi
+logToScreenAndFile  "LOCATION HARMONIZATION PROCESS FINALIZED!" $HARMONIZATION_PROCESS_LOG 

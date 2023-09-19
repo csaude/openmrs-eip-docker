@@ -12,9 +12,8 @@ HARMONIZATION_RESULT_FILE=$LOCATION_HARMONIZATION_DIR/harmonization_result
 HARMONIZATION_STATUS_FILE=$LOCATION_HARMONIZATION_DIR/harmonization_status
 HARMONIZATION_FINISHED=$LOCATION_HARMONIZATION_DIR/harmonization_finished
 CHECK_STATUS_SCRIPT=$LOCATION_HARMONIZATION_DIR/harmonization_check_status.sql
-HARMONIZATION_PROCESS_INFO=$LOCATION_HARMONIZATION_DIR/harmonization_process.info
-HARMONIZATION_EMAIL_SENT_LOG=$LOCATION_HARMONIZATION_DIR/harmonization_email_sent.log
-EMAIL_CONTENT_FILE=$LOCATION_HARMONIZATION_DIR/mail_content
+MAIL_CONTENT_FILE=$LOCATION_HARMONIZATION_DIR/mail_content
+timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 DB_HOST="172.17.0.1"
 DB_HOST_PORT="$openmrs_db_port"
@@ -23,7 +22,7 @@ DB_PASSWD="$spring_openmrs_datasource_password"
 DB_NAME="$openmrs_db_name"
 
 . $SCRIPTS_DIR/commons.sh
-
+. $SCRIPTS_DIR/setenv.sh
 
 if [ ! -d $LOCATION_HARMONIZATION_DIR ]; then
 	mkdir -p $LOCATION_HARMONIZATION_DIR
@@ -64,26 +63,21 @@ fi
 
 logToScreenAndFile  "STARTING THE LOCATION HAMONIZATION PROCESS!" $LOG_FILE
 
-echo "Caros" >> $EMAIL_CONTENT_FILE
-echo "Servimo-nos deste email para informar que o processo de harmonização no site: $db_sync_senderId foi iniciado com sucesso" >> $EMAIL_CONTENT_FILE
-echo "" >> $EMAIL_CONTENT_FILE
-echo "--------------------" >> $EMAIL_CONTENT_FILE
-echo "" >> $EMAIL_CONTENT_FILE
-echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $EMAIL_CONTENT_FILE
+echo "Caros" >> $MAIL_CONTENT_FILE
+echo "Servimo-nos deste email para informar que o processo de harmonização no site: $db_sync_senderId foi iniciado com sucesso" >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "--------------------" >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $MAIL_CONTENT_FILE
 
+MAIL_RECIPIENTS="$administrators_emails"
 MAIL_SUBJECT="EIP REMOTO - ESTADO DE HARMONIZACAO DE LOCAIS"
+MAIL_ATTACHMENT="$LOCATION_HARMONIZATION_DIR/harmonization_process.info"
 
-$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE" "$HARMONIZATION_EMAIL_SENT_LOG"
+echo "Harmonization process started at $timestamp" > $MAIL_ATTACHMENT
 
-if [ -s $HARMONIZATION_EMAIL_SENT_LOG ]; then
-        logToScreenAndFile  "THE NOTIFICATION EMAIL FOR LOCATION HARMONIZATION STATUS COULD NOT SENT YET!" $LOG_FILE
-
-        $SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE"
-fi
+$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
 
 sed -i "s/OPENMRS_DATABASE_NAME/$openmrs_db_name/g" $HARMONIZATION_SCRIPT
 
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $HARMONIZATION_SCRIPT $HARMONIZATION_RESULT_FILE
-
-
-
