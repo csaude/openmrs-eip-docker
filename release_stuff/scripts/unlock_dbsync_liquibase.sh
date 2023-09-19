@@ -15,7 +15,7 @@ CHECK_STATUS_SCRIPT=$HOME_DIR/liquibase_check_status.sql
 RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 PATH_TO_ERROR_LOG="$HOME_DIR/tmp_unlock_liquibase"
 MAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
-EMAIL_ATTACHMENT="no-attachment.tmp"
+MAIL_ATTACHMENT="no-attachment.tmp"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
@@ -55,11 +55,11 @@ if grep "true" $RESULT_SCRIPT; then
 	echo "" >> $MAIL_CONTENT_FILE
 	echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $MAIL_CONTENT_FILE
 
-	echo "No content" > $EMAIL_ATTACHMENT
+	echo "No content" > $MAIL_ATTACHMENT
 
         MAIL_RECIPIENTS="$administrators_emails"
 
-       	$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE $EMAIL_ATTACHMENT
+       	$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
 else
         echo "THE LIQUIBASE IS NOT LOCKED..."
 	
