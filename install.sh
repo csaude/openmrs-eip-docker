@@ -1,5 +1,5 @@
 #!/bin/sh
-# This scrip is intended to check for updates for eip application and apply them when avaliable
+# This scrip is intended to performe dbsync initial setup env
 #
 #ENV
 HOME_DIR="/home/eip"
