@@ -15,7 +15,7 @@ CHECK_STATUS_SCRIPT=$HOME_DIR/liquibase_check_status.sql
 RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 PATH_TO_ERROR_LOG="$HOME_DIR/tmp_unlock_liquibase"
 MAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
-MAIL_ATTACHMENT="no-attachment.tmp"
+MAIL_ATTACHMENT="liquibase-unlock-info.tmp"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh

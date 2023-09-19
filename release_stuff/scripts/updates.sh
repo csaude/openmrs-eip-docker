@@ -52,10 +52,6 @@ git config --global user.name "epts.centralization"
 echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
 	
 echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
-	
-git -C $RELEASE_BASE_DIR clean -df
-git -C $RELEASE_BASE_DIR reset --hard
-git -C $RELEASE_BASE_DIR pull origin
 
 branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
 
@@ -68,10 +64,6 @@ if [ -z $branch_name ]; then
 fi
 
 echo "Detected branch [$branch_name]"
-
-git -C $RELEASE_BASE_DIR fetch  --depth=1 origin $branch_name
-
-git -C $RELEASE_BASE_DIR checkout $branch_name
 
 git -C $RELEASE_BASE_DIR pull origin $branch_name
 	
