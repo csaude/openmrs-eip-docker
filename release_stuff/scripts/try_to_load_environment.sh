@@ -3,7 +3,9 @@
 #
 HOME_DIR="/home/eip"
 ENV_FILE=$HOME_DIR/eip.env
+SCRIPTS_DIR="$HOME_DIR/scripts"
 
+. $SCRIPTS_DIR/setenv.sh
 
 if [ -f "$ENV_FILE" ]; then
    echo "ENV FILE FOUND."
