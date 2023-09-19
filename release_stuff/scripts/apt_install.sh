@@ -30,6 +30,10 @@ echo "INSTALLING EXPECT" | tee -a $LOG_DIR/apt_install.log
 apt install -y expect
 echo "EXPECT INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
+echo "INSTALLING OPENSSL" | tee -a $LOG_DIR/apt_install.log
+apt install -y openssl
+echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
 MYSQL_CLIENT=$(which mysql)
 
 if [ -z $MYSQL_CLIENT ];then
