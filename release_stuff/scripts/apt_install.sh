@@ -22,29 +22,13 @@ echo "TRYING TO INSTALL CURL" | tee -a $LOG_DIR/apt_install.log
 apt install -y curl
 echo "CURL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
-echo "TRYING TO INSTALL MUTT" | tee -a $LOG_DIR/apt_install.log
-apt install -y mutt
-echo "MUTT INSTALLED" | tee -a $LOG_DIR/apt_install.log
-
 echo "TRYING TO INSTALL GIT" | tee -a $LOG_DIR/apt_install.log
 apt install -y git
 echo "GIT INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
-echo "INSTALLING SSMPT" | tee -a $LOG_DIR/apt_install.log
-apt install -y ssmtp
-echo "SSMPT INSTALLED" | tee -a $LOG_DIR/apt_install.log
-
-echo "INSTALLING OPENSSH" | tee -a $LOG_DIR/apt_install.log
-apt install -y openssh-server
-echo "OPENSSH INSTALLED" | tee -a $LOG_DIR/apt_install.log
-
 echo "INSTALLING EXPECT" | tee -a $LOG_DIR/apt_install.log
 apt install -y expect
 echo "EXPECT INSTALLED" | tee -a $LOG_DIR/apt_install.log
-
-echo "INSTALLING OPENSSL" | tee -a $LOG_DIR/apt_install.log
-apt install -y openssl 
-echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
 MYSQL_CLIENT=$(which mysql)
 

@@ -16,20 +16,9 @@ apk update
 echo "TRYING TO INSTALL CURL" | tee -a $LOG_DIR/apk_install.log
 apk add curl
 
-echo "TRYING TO INSTALL MUTT" | tee -a $LOG_DIR/apk_install.log
-apk add mutt
-
 echo "TRYING TO INSTALL GIT" | tee -a $LOG_DIR/apk_install.log
 apk add git
 echo "GIT INSTALLED" | tee -a $LOG_DIR/apk_install.log
-
-echo "INSTALLING SSMPT" | tee -a $LOG_DIR/apk_install.log
-apk add ssmtp
-echo "SSMPT INSTALLED" | tee -a $LOG_DIR/apk_install.log
-
-echo "INSTALLING OPENSSH" | tee -a $LOG_DIR/apk_install.log
-apk add openssh
-echo "OPENSSH INSTALLED" | tee -a $LOG_DIR/apk_install.log
 
 echo "INSTALLING EXPECT" | tee -a $LOG_DIR/apk_install.log
 apk add expect
@@ -38,7 +27,3 @@ echo "EXPECT INSTALLED" | tee -a $LOG_DIR/apk_install.log
 echo "TRYING TO INSTALL WGET" | tee -a $LOG_DIR/apk_install.log
 apk add wget
 echo "WGET INSTALLED" | tee -a $LOG_DIR/apk_install.log
-
-echo "TRYING TO INSTALL OPENSSL" | tee -a $LOG_DIR/apk_install.log
-apk add openssl 
-echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apk_install.log
