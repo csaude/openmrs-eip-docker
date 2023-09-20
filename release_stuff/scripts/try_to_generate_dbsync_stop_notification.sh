@@ -16,7 +16,7 @@ echo "Checking if dbsync is topped due error"
 if [ ! -f "$DBSYNC_CURR_LOG_FILE" ]; then
 	echo "Dbsync log file does not exists! Cannot determine if application is shutdown!"
 elif grep "shutdown-route" $DBSYNC_CURR_LOG_FILE; then
-        if grep "error" $DBSYNC_CURR_LOG_FILE; then
+        if grep "An error occurred" $DBSYNC_CURR_LOG_FILE; then
                 echo "The shutdown signal was found on the log file. The notification content will be generated"
 
 		MAIL_RECIPIENTS="$administrators_emails"
