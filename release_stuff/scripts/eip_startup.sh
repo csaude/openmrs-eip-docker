@@ -61,6 +61,12 @@ else
         export artemis_ssl_enabled=true
 fi
 
+echo "Starting notification manager app"
+
+nohup java -jar -Dspring.profiles.active=publisher notifications-manager.jar 2>&1 &
+
+echo -n "NOTIFICATIONS MANAGER STARTED IN BACKGROUND"
+
 echo "Preparing to start Eip Application: [$EIP_MODE]"
 
 sleep 7 
