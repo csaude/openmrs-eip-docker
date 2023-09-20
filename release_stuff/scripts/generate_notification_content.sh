@@ -21,7 +21,9 @@ FILE_NAME=$(basename "$MAIL_ATTACHMENT")
 
 timestamp=$(getCurrDateTime)
 
-CURR_NOTIFICATION_FOLDER="${NOTIFICATION_HOME}/${FILE_NAME}_${timestamp}"
+FILE_NAME="${FILE_NAME}_${timestamp}"
+
+CURR_NOTIFICATION_FOLDER="${NOTIFICATION_HOME}/${FILE_NAME}"
 
 LOG_FILE="$LOG_DIR/notifications.log"
 
