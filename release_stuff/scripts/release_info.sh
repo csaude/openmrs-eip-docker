@@ -16,7 +16,7 @@ export RELEASE_DESC="DBSYnc v1.4x compatibility"
 
 export OPENMRS_EIP_APP_RELEASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download/V6.0.0/openmrs-eip-app-1.4.0.jar"
 export EPTSSYNC_API_RELEASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download/V6.0.0/eptssync-api-1.0.jar"
-export DBSYNC_NOTIFICATIONS_MANAGER="https://github.com/csaude/openmrs-eip-docker/releases/download/V6.0.0/notifications-manager-1.0.jar"
+export DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download/V6.0.0/notifications-manager-1.0.jar"
 
 RUNNING_PROCESS="./running_update_02.tmp"
 

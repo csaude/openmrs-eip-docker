@@ -131,6 +131,7 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 		# copying release packages
 		EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
 		EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+		DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(echo "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
 
 		echo "Copying $EIP_PACKAGE_RELEASE_FILE_NAME to $HOME_DIR/openmrs-eip-app-sender.jar"
 		cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
@@ -139,8 +140,8 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 		cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
 
 	   	logToScreenAndFile "Copying Dbsync notification Manager jar file" $LOG_FILE
-        	cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER" "$HOME_DIR/notifications-manager.jar"
-
+                cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME" "$HOME_DIR/notifications-manager.jar"
+		
 		chmod +x $RELEASE_SCRIPTS_DIR/*.sh
 		chmod +x $SCRIPTS_DIR/*.sh
 

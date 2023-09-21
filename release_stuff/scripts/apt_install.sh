@@ -48,8 +48,6 @@ fi
 
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
 
-$SETUP_DIR/release_stuff/scripts/configure_ssmtp.sh |  tee -a $LOG_DIR/apt_install.log
-
 if [ -z $JAVA_HOME ];then
 	echo "JAVA_HOME is not defined! Configuring it"
 	java_home=$(readlink -f $(which java))

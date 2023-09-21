@@ -90,7 +90,7 @@ else
         
         # Downloading release packages
         logToScreenAndFile "Verifying $RELEASE_NAME packages download status" $LOG_FILE
-        $SCRIPTS_DIR/download_release.sh "$RELEASES_PACKAGES_DIR" "$RELEASE_NAME" "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL" "$DBSYNC_NOTIFICATIONS_MANAGER"
+        $SCRIPTS_DIR/download_release.sh "$RELEASES_PACKAGES_DIR" "$RELEASE_NAME" "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL" "DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL"
         
         CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
         
@@ -104,6 +104,7 @@ else
         
         EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
         EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+        DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(echo "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
 
         logToScreenAndFile "Copying dbsync jar file" $LOG_FILE
         cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
@@ -112,17 +113,12 @@ else
         cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
         
         logToScreenAndFile "Copying Dbsync notification Manager jar file" $LOG_FILE
-        cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER" "$HOME_DIR/notifications-manager.jar"
+        cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME" "$HOME_DIR/notifications-manager.jar"
 
         logToScreenAndFile "ALL FILES WERE COPIED" $LOG_FILE
 
         logToScreenAndFile "INSTALLING CRONS" $LOG_FILE
         $SCRIPTS_DIR/install_crons.sh
-
-
-	if [ $isDocker = 1 ]; then
-        	$SCRIPTS_DIR/configure_ssmtp.sh
-	fi
 
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE
