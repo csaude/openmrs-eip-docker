@@ -2,7 +2,7 @@
 # Set EIP environment.
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+LOG_DIR="$HOME_DIR/logs/upgrade"
 ONGOING_UPGRADE="$HOME_DIR/ongoing_upgrade.tmp"
 
 . $SCRIPTS_DIR/commons.sh

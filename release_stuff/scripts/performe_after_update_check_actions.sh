@@ -3,7 +3,7 @@
 # ENV
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+LOG_DIR="$HOME_DIR/logs/upgrade"
 CRONS_DIR="$HOME_DIR/cron"
 SCHEDULE_LOG="$LOG_DIR/schedule.log"
 LAST_UPDATE_CHECK_REPORT="$LOG_DIR/last_update_check_report"

@@ -6,7 +6,7 @@
 HOME_DIR="/home/eip"
 #HOME_DIR="/home/eip/prg/docker/eip-docker-testing"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+LOG_DIR="$HOME_DIR/logs/upgrade"
 MAIL_CONTENT_FILE="$HOME_DIR/update_email_content"
 UPDATES_LOG_FILE="$LOG_DIR/upgrade.log"
 SEND_EMAIL_LOG="$LOG_DIR/send_email.log"
