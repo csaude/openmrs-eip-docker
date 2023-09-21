@@ -5,9 +5,9 @@
 #ENV
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-LOG_DIR="$HOME_DIR/shared/logs/notification"
+LOG_DIR="$HOME_DIR/logs/notification"
 CRONS_DIR="$HOME_DIR/cron"
-NOTIFICATION_HOME="$HOME_DIR/shared/notifications"
+NOTIFICATION_HOME="$HOME_DIR/notifications"
 
 MAIL_RECIPIENTS=$1
 MAIL_SUBJECT=$2
