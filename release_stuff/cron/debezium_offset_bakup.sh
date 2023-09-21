@@ -1,1 +1,0 @@
-0       */2       *       *       *       /home/eip/scripts/debezium_offset_bkp.sh
