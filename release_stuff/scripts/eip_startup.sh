@@ -13,6 +13,7 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 EIP_MODE=sender
 GIT_BRANCHES_DIR="$HOME_DIR/git/branches"
 PATH_TO_CERTIFICATE="$HOME_DIR/artemis.cert"
+DEFAULT_SET_ENV_FILE="$SCRIPTS_DIR/setenv.sh"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
@@ -29,6 +30,7 @@ echo "Using env from $setenv_file"
 old_artemis_host=$spring_artemis_host
 old_artemis_port=$spring_artemis_port
 
+. $DEFAULT_SET_ENV_FILE
 . $setenv_file
 
 URL="$spring_artemis_host:$spring_artemis_port"
