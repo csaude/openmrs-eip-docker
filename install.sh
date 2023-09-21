@@ -90,7 +90,7 @@ else
         
         # Downloading release packages
         logToScreenAndFile "Verifying $RELEASE_NAME packages download status" $LOG_FILE
-        $SCRIPTS_DIR/download_release.sh "$RELEASES_PACKAGES_DIR" "$RELEASE_NAME" "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL"
+        $SCRIPTS_DIR/download_release.sh "$RELEASES_PACKAGES_DIR" "$RELEASE_NAME" "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL" "$DBSYNC_NOTIFICATIONS_MANAGER"
         
         CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
         
@@ -111,6 +111,9 @@ else
         logToScreenAndFile "Copying eptssync jar file" $LOG_FILE
         cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
         
+        logToScreenAndFile "Copying Dbsync notification Manager jar file" $LOG_FILE
+        cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER" "$HOME_DIR/notifications-manager.jar"
+
         logToScreenAndFile "ALL FILES WERE COPIED" $LOG_FILE
 
         logToScreenAndFile "INSTALLING CRONS" $LOG_FILE
