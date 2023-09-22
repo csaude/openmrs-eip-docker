@@ -47,6 +47,10 @@ if [ $NOTIFIER -eq 1 ]; then
 			echo "The Db sync application at $db_sync_senderId has stopped after encountering an error, please see attached log file" > $MAIL_CONTENT_FILE
 
 			$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
+
+			currDateTime=$(getCurrDateTime)
+
+			echo "Last notification sent at $currDateTime" > $LAST_SHUTDOWN_NOTIFICATION_REPORT
         	else
                 	logToScreenAndFile "The application was shutdown but gracefuly! No notification content will be generated" $NOTIFICATIONS_LOG
 
