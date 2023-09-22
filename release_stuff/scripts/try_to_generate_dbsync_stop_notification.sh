@@ -10,10 +10,15 @@ NOTIFICATIONS_LOG="$LOG_DIR/shutdown_notifications.log"
 DBSYNC_CURR_LOG_FILE="$LOG_DIR/openmrs-eip.log"
 LAST_SHUTDOWN_NOTIFICATION_REPORT="$LOG_DIR/last_shutdown_notification_report"
 NOTIFIER=0
-NOTIFICATION_PERIOD=16
+NOTIFICATION_PERIOD=7
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/setenv.sh
+
+MAIL_RECIPIENTS="$administrators_emails"
+MAIL_SUBJECT="DB sync application at $db_sync_senderId site has shutdown"
+MAIL_CONTENT_FILE="$HOME_DIR/eip_stop_notification_content.tmp"
+MAIL_ATTACHMENT="$HOME_DIR/eip_stop_notification_log_file.log"
 
 if [ ! -f "$LAST_SHUTDOWN_NOTIFICATION_REPORT" ]; then
         NOTIFIER=1
@@ -39,12 +44,9 @@ if [ $NOTIFIER -eq 1 ]; then
         	if grep "An error occurred" $DBSYNC_CURR_LOG_FILE; then
                 	logToScreenAndFile "The shutdown signal was found on the log file. The notification content will be generated" $NOTIFICATIONS_LOG
 
-			MAIL_RECIPIENTS="$administrators_emails"
-			MAIL_SUBJECT="DB sync application at $db_sync_senderId site has shutdown"
-			MAIL_CONTENT_FILE="$HOME_DIR/eip_stop_notification_content.tmp"
-			MAIL_ATTACHMENT="$DBSYNC_CURR_LOG_FILE"
-
 			echo "The Db sync application at $db_sync_senderId has stopped after encountering an error, please see attached log file" > $MAIL_CONTENT_FILE
+
+			cat $DBSYNC_CURR_LOG_FILE > $MAIL_ATTACHMENT
 
 			$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
         	else

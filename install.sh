@@ -25,11 +25,18 @@ SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 LOG_FILE="$HOME_DIR/install.log"
 
+
+
 APK_CMD=$(which apk)
 
 . $SETUP_STOCK_SCRIPTS_DIR/commons.sh
 . $SETUP_STOCK_SCRIPTS_DIR/try_to_load_environment.sh
 . $SETUP_STOCK_SCRIPTS_DIR/setenv.sh
+
+MAIL_SUBJECT="EIP REMOTO - SETUP INFO"
+MAIL_RECIPIENTS="$administrators_emails"
+MAIL_CONTENT_FILE="$HOME_DIR/setup_notification_content"
+MAIL_ATTACHMENT="$HOME_DIR/setup_notification_log"
 
 isDockerInstallation
 isDocker=$?
@@ -123,10 +130,8 @@ else
         timestamp=`date +%Y-%m-%d_%H-%M-%S`
         logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE
 
-	MAIL_SUBJECT="EIP REMOTO - SETUP INFO"
-	MAIL_RECIPIENTS="$administrators_emails"
-	MAIL_CONTENT_FILE="$INSTALL_FINISHED_REPORT_FILE"
-	MAIL_ATTACHMENT="$LOG_FILE"
+ 	cat $INSTALL_FINISHED_REPORT_FILE > $MAIL_CONTENT_FILE
+	cat $LOG_FILE > $MAIL_ATTACHMENT
 
 	echo "Dbsync Initial Setup report" > $MAIL_CONTENT_FILE
 	echo "" >> $MAIL_CONTENT_FILE
