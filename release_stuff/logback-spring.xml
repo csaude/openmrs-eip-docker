@@ -8,7 +8,7 @@
     <property name="LOGS_FILE_NAME" value="openmrs-eip" />
     <property name="LOGS_FILE_NAME_EXT" value="log" />
     <property name="LOGS_FILE" value="${LOGS_DIR}${file.separator}${LOGS_FILE_NAME}.${LOGS_FILE_NAME_EXT}" />
-    <property name="LOGS_MAX_FILE_SIZE" value="10MB" />
+    <property name="LOGS_MAX_FILE_SIZE" value="2MB" />
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS_FILE}</file>
