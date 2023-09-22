@@ -17,8 +17,8 @@ NOTIFICATION_PERIOD=7
 
 MAIL_RECIPIENTS="$administrators_emails"
 MAIL_SUBJECT="DB sync application at $db_sync_senderId site has shutdown"
-MAIL_CONTENT_FILE=$DBSYNC_CURR_LOG_FILE
-MAIL_ATTACHMENT="$HOME_DIR/eip_stop_notification_log_file.log"
+MAIL_CONTENT_FILE="$HOME_DIR/dbsync_stop_notification_content"
+MAIL_ATTACHMENT=$DBSYNC_CURR_LOG_FILE
 
 if [ ! -f "$LAST_SHUTDOWN_NOTIFICATION_REPORT" ]; then
         NOTIFIER=1
