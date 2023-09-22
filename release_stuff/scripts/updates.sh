@@ -144,7 +144,6 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 	   	logToScreenAndFile "Copying Dbsync notification Manager jar file" $LOG_FILE
                 cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME" "$HOME_DIR/notifications-manager.jar"
 		
-		chmod +x $RELEASE_SCRIPTS_DIR/*.sh
 		chmod +x $SCRIPTS_DIR/*.sh
 
 		echo "ALL FILES WERE COPIED"
