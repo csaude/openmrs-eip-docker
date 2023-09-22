@@ -30,5 +30,8 @@ else
         logToScreenAndFile "The updated check operation was not successifuly executed" $SCHEDULE_LOG
 fi
 
-rm $RUN_UPDATE_CRON
+if [ -f "$RUN_UPDATE_CRON" ]; then
+	rm $RUN_UPDATE_CRON
+fi
+
 $SCRIPTS_DIR/install_crons.sh
