@@ -7,7 +7,6 @@ HOME_DIR="/home/eip"
 #HOME_DIR="/home/eip/prg/docker/eip-docker-testing"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 LOG_DIR="$HOME_DIR/logs/upgrade"
-MAIL_CONTENT_FILE="$HOME_DIR/update_email_content"
 UPDATES_LOG_FILE="$LOG_DIR/upgrade.log"
 SEND_EMAIL_LOG="$LOG_DIR/send_email.log"
 LAST_UPDATE_CHECK_REPORT="$LOG_DIR/last_update_check_report"
@@ -15,6 +14,11 @@ LAST_UPDATE_CHECK_REPORT="$LOG_DIR/last_update_check_report"
 . $SCRIPTS_DIR/try_to_load_environment.sh
 . $SCRIPTS_DIR/setenv.sh
 . $SCRIPTS_DIR/release_info.sh
+
+MAIL_SUBJECT="EIP REMOTO - ESTADO DE ACTUALIZACAO"
+MAIL_RECIPIENTS="$administrators_emails"
+MAIL_CONTENT_FILE="$HOME_DIR/update_notification_content"
+MAIL_ATTACHMENT="$HOME_DIR/update_notification_log_file.log"
 
 LOCAL_RELEASE_NAME=$RELEASE_NAME
 LOCAL_RELEASE_DATE=$RELEASE_DATE
@@ -33,10 +37,7 @@ echo "" >> $MAIL_CONTENT_FILE
 echo "-----------------------------------------------------" >> $MAIL_CONTENT_FILE
 echo "LOG: See Attachment"
 
-MAIL_SUBJECT="EIP REMOTO - ESTADO DE ACTUALIZACAO"
-MAIL_RECIPIENTS="$administrators_emails"
-MAIL_ATTACHMENT="$UPDATES_LOG_FILE"
-
+cat $UPDATES_LOG_FILE > $MAIL_ATTACHMENT 
 
 $SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
 
