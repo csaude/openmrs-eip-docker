@@ -7,7 +7,7 @@ RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
 RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
 ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
-TMP_UPDATE_DONE="$HOME_DIR/tmp_update_done_01"
+TMP_UPDATE_DONE="$HOME_DIR/tmp_update_done_02"
 ONGOING_UPGRADE="$HOME_DIR/ongoing_update.tmp"
 
 export RELEASE_NAME="EIP-Release-6.0.0"
@@ -37,6 +37,9 @@ if [ $linesCount -gt 1 ]; then
                 rm $ONGOING_UPDATE_INFO_FILE
                 cd $RELEASE_SCRIPTS_DIR
                 touch $TMP_UPDATE_DONE
+		
+		pkill -f run_updates.sh 
+
                 ./updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
 
                 $RELEASE_SCRIPTS_DIR/eip_stop.sh
