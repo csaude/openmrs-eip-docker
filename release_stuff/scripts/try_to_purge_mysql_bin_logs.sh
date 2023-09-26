@@ -22,15 +22,15 @@ PURGE_PERIOD=5
 
 if [ ! -f "$LAST_PURGE_REPORT" ]; then
         PURGE=1
-        logToScreenAndFile "Last purge report was not found! The purge will be done now..." $NOTIFICATIONS_LOG
+        logToScreenAndFile "Last purge report was not found! The purge will be done now..." $PURGE_LOG
 else
         lastPurgeOn=$(getFileAge $LAST_PURGE_REPORT 'm')
 
         if [ $lastPurgeOn -ge $PURGE_PERIOD ]; then
                 PURGE=1
-                logToScreenAndFile "Last purge was done $lastPurgeOn days ago! The purge will be done now..." $NOTIFICATIONS_LOG
+                logToScreenAndFile "Last purge was done $lastPurgeOn days ago! The purge will be done now..." $PURGE_LOG
         else
-                logToScreenAndFile "Last purge was donw $lastPurgeOn days ago! The purge will be posponed!" $NOTIFICATIONS_LOG
+                logToScreenAndFile "Last purge was donw $lastPurgeOn days ago! The purge will be posponed!" $PURGE_LOG
         fi
 fi
 
