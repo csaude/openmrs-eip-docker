@@ -10,7 +10,7 @@ NOTIFICATIONS_LOG="$LOG_DIR/shutdown_notifications.log"
 DBSYNC_CURR_LOG_FILE="$LOG_DIR/openmrs-eip.log"
 LAST_SHUTDOWN_NOTIFICATION_REPORT="$LOG_DIR/last_shutdown_notification_report"
 NOTIFIER=0
-NOTIFICATION_PERIOD=7
+NOTIFICATION_PERIOD=11
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/setenv.sh
@@ -24,7 +24,7 @@ if [ ! -f "$LAST_SHUTDOWN_NOTIFICATION_REPORT" ]; then
         NOTIFIER=1
         logToScreenAndFile "Last shutdown notification report was not found! The notification will be tried now..." $NOTIFICATIONS_LOG
 else
-        lastShutdownNotificationOn=$(getFileAge $LAST_SHUTDOWN_NOTIFICATION_REPORT 'm')
+        lastShutdownNotificationOn=$(getFileAge $LAST_SHUTDOWN_NOTIFICATION_REPORT 'h')
 
         if [ $lastShutdownNotificationOn -ge $NOTIFICATION_PERIOD ]; then
                 NOTIFIER=1

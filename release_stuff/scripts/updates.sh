@@ -39,8 +39,7 @@ else
        echo "THE LOG DIR WAS CREATED" #| tee -a $LOG_DIR/upgrade.log
 fi
 
-
-timestamp=`date +%Y-%m-%d_%H-%M-%S`
+timestamp=$(getCurrDateTime)
 
 echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
 echo "-------------------------------------------------------------" #| tee -a $LOG_DIR/upgrade.log
@@ -131,9 +130,9 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
 
 		# copying release packages
-		EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
-		EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
-		DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(echo "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+		EIP_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$OPENMRS_EIP_APP_RELEASE_URL")
+       		EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$EPTSSYNC_API_RELEASE_URL")
+        	DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(getFileName "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL")
 
 		echo "Copying $EIP_PACKAGE_RELEASE_FILE_NAME to $HOME_DIR/openmrs-eip-app-sender.jar"
 		cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"

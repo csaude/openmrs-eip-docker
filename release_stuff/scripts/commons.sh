@@ -157,3 +157,13 @@ checkIfProcessIsRunning(){
 
 }
 
+getFileName(){
+	PATH_TO_FILE=$1
+
+	FILE_NAME=$(basename "$PATH_TO_FILE")
+
+	echo $FILE_NAME
+}
+
+
+

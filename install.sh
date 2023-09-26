@@ -45,7 +45,7 @@ isDocker=$?
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         logToScreenAndFile "INSTALLATION FINISHED" $LOG_FILE
 else
-        timestamp=`date +%Y-%m-%d_%H-%M-%S`
+        timestamp=$(getCurrDateTime)
 
         logToScreenAndFile "STARTING EIP INSTALLATION PROCESS AT $timespamp" $LOG_FILE
 
@@ -110,9 +110,9 @@ else
            exit 1
         fi
         
-        EIP_PACKAGE_RELEASE_FILE_NAME=$(echo "$OPENMRS_EIP_APP_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
-        EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(echo "$EPTSSYNC_API_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
-        DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(echo "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL" | rev | cut -d'/' -f 1 | rev)
+	EIP_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$OPENMRS_EIP_APP_RELEASE_URL")
+	EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$EPTSSYNC_API_RELEASE_URL")
+	DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(getFileName "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL")
 
         logToScreenAndFile "Copying dbsync jar file" $LOG_FILE
         cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
@@ -128,7 +128,7 @@ else
         logToScreenAndFile "INSTALLING CRONS" $LOG_FILE
         $SCRIPTS_DIR/install_crons.sh
 
-        timestamp=`date +%Y-%m-%d_%H-%M-%S`
+	timestamp=$(getCurrDateTime)
         logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE
 
  	cat $INSTALL_FINISHED_REPORT_FILE > $MAIL_CONTENT_FILE
