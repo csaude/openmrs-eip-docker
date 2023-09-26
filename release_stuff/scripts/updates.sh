@@ -66,7 +66,7 @@ echo "Detected branch [$branch_name]"
 
 git -C $RELEASE_BASE_DIR clean -df
 git -C $RELEASE_BASE_DIR reset --hard
-git -C $RELEASE_BASE_DIR pull origin $branch_name
+git -C $RELEASE_BASE_DIR pull --depth=1 origin $branch_name
 
 echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
 

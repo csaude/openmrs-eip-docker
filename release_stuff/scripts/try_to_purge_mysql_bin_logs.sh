@@ -18,7 +18,7 @@ PURGE=0
 PURGE_PERIOD=5
 
 
-. $HOME_DIR/scripts/common.sh
+. $HOME_DIR/scripts/commons.sh
 
 if [ ! -f "$LAST_PURGE_REPORT" ]; then
         PURGE=1
