@@ -16,6 +16,8 @@ EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 
 ###########################EIP ENV#####################
 SCRIPTS_DIR="$HOME_DIR/scripts"
+SHARED_DIR="$HOME_DIR/shared"
+RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"  
 
 . $SITE_SETUP_SCRIPTS_DIR/commons.sh
 . $SITE_SETUP_SCRIPTS_DIR/try_to_load_environment.sh

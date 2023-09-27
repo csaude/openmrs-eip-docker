@@ -21,8 +21,6 @@ EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 ################# ENVIRONMENT #########################
 SCRIPTS_DIR="$HOME_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
-SHARED_DIR="$HOME_DIR/shared"
-RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 LOG_DIR="$HOME_DIR/logs/install"
 LOG_FILE="$LOG_DIR/install.log"
 
