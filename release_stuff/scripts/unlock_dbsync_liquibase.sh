@@ -3,7 +3,7 @@
 #
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-LOG_DIR="$HOME_DIR/shared/logs/eip/unlock-liquibase"
+LOG_DIR="$HOME_DIR/logs/eip/unlock-liquibase"
 LOG_FILE="$LOG_DIR/unlock-liquibase.log"
 DB_HOST="172.17.0.1"
 DB_HOST_PORT="$openmrs_db_port"
@@ -14,10 +14,12 @@ LIQUIBASE_UNLOCK_SCRIPT=$HOME_DIR/etc/sql/unload_dbsync_liquibase.sql
 CHECK_STATUS_SCRIPT=$HOME_DIR/liquibase_check_status.sql
 RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 PATH_TO_ERROR_LOG="$HOME_DIR/tmp_unlock_liquibase"
-EMAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
+MAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
+MAIL_ATTACHMENT="liquibase-unlock-info.tmp"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
+. $SCRIPTS_DIR/setenv.sh
 
 timestamp=$(getCurrDateTime)
 
@@ -47,19 +49,17 @@ if grep "true" $RESULT_SCRIPT; then
 
 	MAIL_SUBJECT="EIP REMOTO - LIQUIBASE LOCK INFO"
 
-	echo "Caros" >> $EMAIL_CONTENT_FILE
-	echo "Servimo-nos deste para informar que o liquibase do dbsync no site $db_sync_senderId encontrava-se LOCKED e foi UNLOCKED com sucesso." >> $EMAIL_CONTENT_FILE
-	echo "" >> $EMAIL_CONTENT_FILE
-	echo "" >> $EMAIL_CONTENT_FILE
-	echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $EMAIL_CONTENT_FILE
+	echo "Caros" >> $MAIL_CONTENT_FILE
+	echo "Servimo-nos deste para informar que o liquibase do dbsync no site $db_sync_senderId encontrava-se LOCKED e foi UNLOCKED com sucesso." >> $MAIL_CONTENT_FILE
+	echo "" >> $MAIL_CONTENT_FILE
+	echo "" >> $MAIL_CONTENT_FILE
+	echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $MAIL_CONTENT_FILE
 
-	#$SCRIPTS_DIR/send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" $EMAIL_CONTENT_FILE $PATH_TO_ERROR_LOG
+	echo "No content" > $MAIL_ATTACHMENT
 
-	if [ -s $PATH_TO_ERROR_LOG ]; then
-		 logToScreenAndFile  "THE NOTIFICATION EMAIL STATUS COULD NOT SENT YET!" $LOG_FILE
+        MAIL_RECIPIENTS="$administrators_emails"
 
-        	$SCRIPTS_DIR/schedule_send_notification_to_dbsync_administrators.sh "$MAIL_SUBJECT" "$EMAIL_CONTENT_FILE"
-	fi
+       	$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
 else
         echo "THE LIQUIBASE IS NOT LOCKED..."
 	
