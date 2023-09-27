@@ -3,7 +3,7 @@
 # To do the test, just delete the above file and wait ~5min
 # If a new file is created, cron is up and running.
 HOME_DIR="/home/eip"
-LOG_DIR="$HOME_DIR/shared/logs/cron"
+LOG_DIR="$HOME_DIR/logs/cron"
 
 if [ ! -d "$LOG_DIR" ]; then
        mkdir -p $LOG_DIR
