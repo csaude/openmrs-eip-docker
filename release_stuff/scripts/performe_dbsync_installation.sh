@@ -35,7 +35,9 @@ fi
 if [ -d "$HOME_DIR/scripts" ]; then
 	echo "Removing $HOME_DIR/scripts folder"
 
-	rm -v  $HOME_DIR/scripts/!("$HOME_DIR/scripts/install.sh")
+	#rm -v  $HOME_DIR/scripts/!("$HOME_DIR/scripts/install.sh")
+
+	rm -fr $HOME_DIR/scripts/*
 
 fi
 
