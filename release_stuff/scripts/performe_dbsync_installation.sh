@@ -11,6 +11,8 @@ SITE_SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
 SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
 
+EPTSSYNC_SETUP_STUFF_DIR="$SITE_STUFF_DIR/etc/eptssync"
+EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 
 . $SITE_SETUP_SCRIPTS_DIR/commons.sh
 . $SITE_SETUP_SCRIPTS_DIR/try_to_load_environment.sh
@@ -32,7 +34,9 @@ fi
 
 if [ -d "$HOME_DIR/scripts" ]; then
 	echo "Removing $HOME_DIR/scripts folder"
-        rm -fr $HOME_DIR/scripts
+
+	rm -v  $HOME_DIR/scripts/!("$HOME_DIR/scripts/install.sh")
+
 fi
 
 if [ -d "$HOME_DIR/etc" ]; then
