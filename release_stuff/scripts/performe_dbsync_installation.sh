@@ -14,6 +14,9 @@ SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
 EPTSSYNC_SETUP_STUFF_DIR="$SITE_STUFF_DIR/etc/eptssync"
 EPTSSYNC_HOME_DIR="$HOME_DIR/application/eptssync"
 
+###########################EIP ENV#####################
+SCRIPTS_DIR="$HOME_DIR/scripts"
+
 . $SITE_SETUP_SCRIPTS_DIR/commons.sh
 . $SITE_SETUP_SCRIPTS_DIR/try_to_load_environment.sh
 . $SITE_SETUP_SCRIPTS_DIR/setenv.sh
