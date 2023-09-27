@@ -128,6 +128,13 @@ isSSLCertificateAvaliable(){
 	fi
 }
 
+killProcess(){
+	process_name=$1
+
+        pkill -f $process_name
+}
+
+
 checkIfProcessIsRunning(){
 	processName=$1
 
@@ -156,4 +163,14 @@ checkIfProcessIsRunning(){
 	fi
 
 }
+
+getFileName(){
+	PATH_TO_FILE=$1
+
+	FILE_NAME=$(basename "$PATH_TO_FILE")
+
+	echo $FILE_NAME
+}
+
+
 

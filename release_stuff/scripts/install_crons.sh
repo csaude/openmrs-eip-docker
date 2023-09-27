@@ -6,7 +6,7 @@
 HOME_DIR=/home/eip
 CRONS_HOME=$HOME_DIR/cron
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
-LOG_DIR=$HOME_DIR/shared/logs/cron
+LOG_DIR=$HOME_DIR/logs/cron
 
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/cron_install.log
