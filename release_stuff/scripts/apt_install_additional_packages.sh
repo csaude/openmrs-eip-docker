@@ -2,7 +2,7 @@
 #This bash install all the necessary applications needed by the container
 
 export HOME_DIR="/home/eip"
-export LOG_DIR="$HOME_DIR/shared/logs/apt"
+export LOG_DIR="$HOME_DIR/logs/apt"
 export SETUP_DIR="$HOME_DIR/openmrs-eip-docker"
 export SETUP_SCRIPT_DIR="$SETUP_DIR/release_stuff/scripts"
 

@@ -8,7 +8,7 @@
         </setProperty>
 
         <loop doWhile="true">
-            <spel>#{!getProperty('sender-request-processor-endLoop') &amp;&amp; !T(org.openmrs.eip.app.AppUtils).isAppContextStopping()}</spel>
+            <spel>#{!getProperty('sender-request-processor-endLoop') &amp;&amp; !T(org.openmrs.eip.app.AppUtils).isShuttingDown()}</spel>
 
             <log message="Fetching next 1000 sync requests" loggingLevel="DEBUG" />
 
@@ -56,7 +56,7 @@
                         </choice>
 
                         <setProperty name="debeziumEvent">
-                            <spel>#{new org.openmrs.eip.app.management.entity.DebeziumEvent()}</spel>
+                            <spel>#{new org.openmrs.eip.app.management.entity.sender.DebeziumEvent()}</spel>
                         </setProperty>
                         <script>
                             <spel>
