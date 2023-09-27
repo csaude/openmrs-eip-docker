@@ -10,7 +10,7 @@ ONGOING_UPDATE_INFO_FILE="$HOME_DIR/ongoing_update_info"
 TMP_UPDATE_DONE="$HOME_DIR/tmp_update_done_03"
 ONGOING_UPGRADE="$HOME_DIR/ongoing_update.tmp"
 
-. $SCRIPTS_DIR/commons.sh
+. $RELEASE_SCRIPTS_DIR/commons.sh
 
 checkIfProcessIsRunning "{updates.sh}"
 running=$?
