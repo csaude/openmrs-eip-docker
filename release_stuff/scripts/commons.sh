@@ -128,6 +128,13 @@ isSSLCertificateAvaliable(){
 	fi
 }
 
+killProcess(){
+	process_name=$1
+
+        pkill -f $process_name
+}
+
+
 checkIfProcessIsRunning(){
 	processName=$1
 

@@ -30,45 +30,8 @@ checIfupdateIsAllowedToCurrentSite(){
 	return $allowed
 }
 
-chmod +x $SCRIPTS_DIR/*.sh
+$SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh
 
-if [ -d "$LOG_DIR" ]; then
-       echo "THE LOG DIR EXISTS" #| tee -a $LOG_DIR/upgrade.log
-else
-       mkdir -p $LOG_DIR
-       echo "THE LOG DIR WAS CREATED" #| tee -a $LOG_DIR/upgrade.log
-fi
-
-timestamp=$(getCurrDateTime)
-
-echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
-echo "-------------------------------------------------------------" #| tee -a $LOG_DIR/upgrade.log
-
-git config --global user.email "epts.centralization@fgh.org.mz"
-git config --global user.name "epts.centralization"
-
-#Pull changes from remote project
-echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
-	
-echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
-
-branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
-
-if [ -z $branch_name ]; then
-	echo "The git branch name for site $db_sync_senderId was not found"
-	echo "Aborting upgrade process..."
-
-
-	exit 1
-fi
-
-echo "Detected branch [$branch_name]"
-
-git -C $RELEASE_BASE_DIR clean -df
-git -C $RELEASE_BASE_DIR reset --hard
-git -C $RELEASE_BASE_DIR pull origin $branch_name
-
-echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
 
 . $SCRIPTS_DIR/release_info.sh
 
@@ -84,68 +47,20 @@ echo "LOCAL RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE} 
 echo "REMOTE RELEASE INFO {NAME: $REMOTE_RELEASE_NAME, DATE: $REMOTE_RELEASE_DATE} " #| tee -a $LOG_DIR/upgrade.log
 
 if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
-
 	checIfupdateIsAllowedToCurrentSite
 
 	updateAllowed=$?
 
-	if [ "$updateAllowed" = 1 ]; then
+	if [ $updateAllowed -eq 1 ]; then
 		UPDATED=true
 		
 		echo "UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 		echo "PERFORMING UPDATE STEPS..." #| tee -a $LOG_DIR/upgrade.log
 
-		# Downloading release packages
-		echo "Verifying $REMOTE_RELEASE_NAME packages download status"
-		$RELEASE_SCRIPTS_DIR/download_release.sh "$RELEASES_PACKAGES_DIR" "$REMOTE_RELEASE_NAME" "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL" "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL"
+		$RELEASE_SCRIPTS_DIR/eip_stop.sh
+		$RELEASE_SCRIPTS_DIR/performe_dbsync_installation.sh
 
-		CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$REMOTE_RELEASE_NAME"
-
-		RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
-		if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
-		   echo "Error trying to download release packages: $REMOTE_RELEASE_NAME. See previous messages."
-		   echo "Update process failed"
-		   exit 1
-		fi
-
-		echo "STOPPING EIP APPLICATION.." #| tee -a $LOG_DIR/upgrade.log
-		$SCRIPTS_DIR/eip_stop.sh
-		echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
-		
-		echo "EIP APLICATION STOPPED!" #| tee -a $LOG_DIR/upgrade.log
-		echo "PERFORMING UPDATES..." #| tee -a $LOG_DIR/upgrade.log
-
-		echo "Removing $HOME_DIR/cron folder"
-		rm -fr $HOME_DIR/cron
-		echo "Removing $HOME_DIR/scripts folder"
-		rm -fr $HOME_DIR/scripts
-		echo "Removing $HOME_DIR/etc folder"
-		rm -fr $HOME_DIR/etc
-		echo "Removing $HOME_DIR/routes folder"
-		rm -fr $HOME_DIR/routes
-
-		echo "Copying recursively from $RELEASE_DIR to $HOME_DIR"
-		cp -R $RELEASE_DIR/* $HOME_DIR/
-		echo "Copying recursively from $EPTSSYNC_SETUP_STUFF_DIR to $EPTSSYNC_HOME_DIR"
-		cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
-
-		# copying release packages
-		EIP_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$OPENMRS_EIP_APP_RELEASE_URL")
-       		EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$EPTSSYNC_API_RELEASE_URL")
-        	DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(getFileName "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL")
-
-		echo "Copying $EIP_PACKAGE_RELEASE_FILE_NAME to $HOME_DIR/openmrs-eip-app-sender.jar"
-		cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
-
-		echo "Copying $EPTSSYNC_PACKAGE_RELEASE_FILE_NAME to $EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
-		cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
-
-	   	logToScreenAndFile "Copying Dbsync notification Manager jar file" $LOG_FILE
-                cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME" "$HOME_DIR/notifications-manager.jar"
-		
-		chmod +x $SCRIPTS_DIR/*.sh
-
-		echo "ALL FILES WERE COPIED"
+		echo "UPDATE DONE!"
 	else
 		echo "Updates found but not allowed for $db_sync_senderId" 
 	fi

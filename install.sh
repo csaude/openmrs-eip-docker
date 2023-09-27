@@ -56,77 +56,9 @@ else
            $SETUP_STOCK_SCRIPTS_DIR/apk_install.sh
         fi
 
-        if [ -z $branch_name ]; then
-                logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
-                logToScreenAndFile "Aborting the installation process..." $LOG_FILE
-
-                exit 1
-	else
-		logToScreenAndFile "Performing installation on site $db_sync_senderId based on branch $branch_name" $LOG_FILE
-
-		if [ -d "$SITE_SETUP_BASE_DIR" ]; then
-			logToScreenAndFile "$SITE_SETUP_BASE_DIR dir exists from old installation! Removing it..." 
-			rm -fr $SITE_SETUP_BASE_DIR
-		fi
-
-		mkdir $SITE_SETUP_BASE_DIR
-
-		git -C $SITE_SETUP_BASE_DIR init && git -C $SITE_SETUP_BASE_DIR checkout -b $branch_name
-		git -C $SITE_SETUP_BASE_DIR remote add origin https://github.com/csaude/openmrs-eip-docker.git
-		git -C $SITE_SETUP_BASE_DIR pull --depth=1 origin $branch_name
-        fi
+	. $SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh 2>&1 | tee -a $LOG_FILE
         
-        cd $HOME_DIR
-
-        . $SITE_SETUP_SCRIPTS_DIR/release_info.sh
-
-        logToScreenAndFile "FOUND RELEASE {NAME: $RELEASE_NAME, DATE: $RELEASE_DATE} " $LOG_FILE
-
-        logToScreenAndFile "PERFORMING INSTALLATION STEPS..." $LOG_FILE
-
-        logToScreenAndFile "COPPING EIP APP FILES" $LOG_FILE
-
-        cp -R $SITE_STUFF_DIR/* $HOME_DIR/
-
-        logToScreenAndFile "CREATING EPTSSYNC HOME DIR" $LOG_FILE
-        mkdir -p $EPTSSYNC_HOME_DIR
-
-        logToScreenAndFile "COPPING EPTSTYC STUFF TO $EPTSSYNC_HOME_DIR" $LOG_FILE
-        cp -R $EPTSSYNC_SETUP_STUFF_DIR/* $EPTSSYNC_HOME_DIR
-
-	chmod +x $SCRIPTS_DIR/*.sh
-        
-        # Downloading release packages
-        logToScreenAndFile "Verifying $RELEASE_NAME packages download status" $LOG_FILE
-        $SCRIPTS_DIR/download_release.sh "$RELEASES_PACKAGES_DIR" "$RELEASE_NAME" "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTSSYNC_API_RELEASE_URL" "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL"
-        
-        CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
-        
-        RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
-        if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]
-        then
-           logToScreenAndFile "Error trying to download release packages: $RELEASE_NAME. See previous messages." $LOG_FILE
-           logToScreenAndFile "Installation process failed" $LOG_FILE
-           exit 1
-        fi
-        
-	EIP_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$OPENMRS_EIP_APP_RELEASE_URL")
-	EPTSSYNC_PACKAGE_RELEASE_FILE_NAME=$(getFileName "$EPTSSYNC_API_RELEASE_URL")
-	DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME=$(getFileName "$DBSYNC_NOTIFICATIONS_MANAGER_RELEASE_URL")
-
-        logToScreenAndFile "Copying dbsync jar file" $LOG_FILE
-        cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
-        
-        logToScreenAndFile "Copying eptssync jar file" $LOG_FILE
-        cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0-SNAPSHOT.jar"
-        
-        logToScreenAndFile "Copying Dbsync notification Manager jar file" $LOG_FILE
-        cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME" "$HOME_DIR/notifications-manager.jar"
-
-        logToScreenAndFile "ALL FILES WERE COPIED" $LOG_FILE
-
-        logToScreenAndFile "INSTALLING CRONS" $LOG_FILE
-        $SCRIPTS_DIR/install_crons.sh
+	$SITE_SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh
 
 	timestamp=$(getCurrDateTime)
         logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE
