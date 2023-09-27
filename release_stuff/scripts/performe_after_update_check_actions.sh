@@ -3,7 +3,7 @@
 # ENV
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
-LOG_DIR="$HOME_DIR/shared/logs/upgrade"
+LOG_DIR="$HOME_DIR/logs/upgrade"
 CRONS_DIR="$HOME_DIR/cron"
 SCHEDULE_LOG="$LOG_DIR/schedule.log"
 LAST_UPDATE_CHECK_REPORT="$LOG_DIR/last_update_check_report"
@@ -30,5 +30,8 @@ else
         logToScreenAndFile "The updated check operation was not successifuly executed" $SCHEDULE_LOG
 fi
 
-rm $RUN_UPDATE_CRON
+if [ -f "$RUN_UPDATE_CRON" ]; then
+	rm $RUN_UPDATE_CRON
+fi
+
 $SCRIPTS_DIR/install_crons.sh

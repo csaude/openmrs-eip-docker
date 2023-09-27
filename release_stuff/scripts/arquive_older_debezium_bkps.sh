@@ -7,7 +7,7 @@ HOME_DIR=/home/eip
 BKPS_HOME=$HOME_DIR/shared/bkps
 BKPS_ARQUIVED_HOME=$BKPS_HOME/arquived
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
-LOG_DIR=$HOME_DIR/shared/logs/debezium_bkps
+LOG_DIR=$HOME_DIR/logs/debezium_bkps
 
 if [ -d "$LOG_DIR" ]; then
        echo "THE LOG DIR EXISTS" | tee -a $LOG_DIR/arquive.log
