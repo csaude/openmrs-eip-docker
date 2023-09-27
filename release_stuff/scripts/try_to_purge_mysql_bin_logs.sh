@@ -43,11 +43,17 @@ if [ $PURGE -eq 1 ]; then
 	#Split the binlog data using (") and take the 16th position wich is binlog name
 	binlog_name=$(echo "$data" | cut -d '"' -f 16)
 
-	echo "PURGE BINARY LOGS TO '$binlog_name';" > $DB_SCRIPT
+	SQL="PURGE BINARY LOGS TO '$binlog_name';"
+
+	logToScreenAndFile "$SQL" $PURGE_LOG
+
+	echo $SQL > $DB_SCRIPT
 
 	$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $DB_SCRIPT $RESULT_SCRIPT
 
 	currDateTime=$(getCurrDateTime)
 
 	echo "Last purge at $currDateTime" > $LAST_PURGE_REPORT
+
+	RESULT=$(cat $RESULT_SCRIPT)
 fi
