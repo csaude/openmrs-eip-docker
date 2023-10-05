@@ -8,7 +8,7 @@
 # config:
 
 # Set EPTSSYNC environment.
-observationDate=$1
+observationDateInput=$1
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 EPTSSYNC_HOME=/home/application/eptssync
 EPTSSYNC_HOME=/home/eip/application/eptssync
@@ -23,19 +23,25 @@ EIP_SCRIPTS_DIR="/home/eip/scripts"
 . $EIP_SCRIPTS_DIR/commons.sh
 
 dateSuggestionMsg="Please provide a date in format 'yyyy-mm-dd'"
+i
 
-if [ -z $observationDate ]; then
-	echo "The observation date is not specified. $dateSuggestionMsg"
-	exit 1
+if [ -z $observationDateInput ]; then
+        echo "The observation date is not specified. $dateSuggestionMsg"
+        exit 1
+elif  [ "$(date -d "$observationDateInput" +%Y-%m-%d 2> /dev/null)" = "$observationDateInput" ]; then
+        observationDate=$(date -d "$observationDateInput" +%s%3N);
+
+        lgth=$(expr length $observationDate)
+
+        if [ $lgth -eq 10 ]; then
+                observationDate="${observationDate}000"
+        fi
+
+        echo "Using observation Start Date ${observationDateInput} - ${observationDate}"
+else
+        echo "The provided Observation Start Date [$observationDateInput]  is Invalid. $dateSuggestionMsg"
+        exit 1;
 fi
-
-if date -d "$observationDate" &> /dev/null; then
-        echo "The provided Observation Start Date is Invalid. $dateSuggestionMsg"
-	exit 1;
-fi
-
-observationDate=$(date -d "$DATE" +%s%3N);
-
 
 cp $CONFIG_FILE_ORIGINAL $CONFIG_FILE
 
