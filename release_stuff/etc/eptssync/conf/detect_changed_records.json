@@ -160,12 +160,7 @@
 				tableName: "obs",
 				parents: [{tableName: "person"}, {tableName: "location"}, {tableName: "orders"}, {tableName: "obs", setNullDueInconsistency: true}, {tableName: "encounter"}, {tableName: "users", defaultValueDueInconsistency: 1}, {tableName: "visit"}],
 				observationDateFields: ["date_voided"]
-			},
+			}
 			
-			{
-				tableName: "note",
-				parents: [{tableName: "encounter"}, {tableName: "patient"}, {tableName: "note"}, {tableName: "users", defaultValueDueInconsistency: 1}],
-				observationDateFields: ["date_changed"]
-			}			
 	]
 }
