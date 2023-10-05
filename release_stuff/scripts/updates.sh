@@ -30,9 +30,6 @@ checIfupdateIsAllowedToCurrentSite(){
 	return $allowed
 }
 
-$SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh
-
-
 . $SCRIPTS_DIR/release_info.sh
 
 LOCAL_RELEASE_NAME=$RELEASE_NAME
@@ -58,6 +55,9 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 		echo "PERFORMING UPDATE STEPS..." #| tee -a $LOG_DIR/upgrade.log
 
 		$RELEASE_SCRIPTS_DIR/eip_stop.sh
+
+		$RELEASE_SCRIPTS_DIR/before_upgrade_scripts.sh
+
 		$RELEASE_SCRIPTS_DIR/performe_dbsync_installation.sh
 
 		echo "UPDATE DONE!"
