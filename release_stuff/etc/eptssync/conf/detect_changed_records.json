@@ -157,12 +157,6 @@
 			},
 			
 			{
-				tableName: "orders",
-				parents: [{tableName: "encounter"}, {tableName: "provider"}, {tableName: "orders"}, {tableName: "patient"}, {tableName: "users", defaultValueDueInconsistency: 1}],
-				observationDateFields: ["date_changed", "date_voided"]
-			},
-			
-			{
 				tableName: "obs",
 				parents: [{tableName: "person"}, {tableName: "location"}, {tableName: "orders"}, {tableName: "obs", setNullDueInconsistency: true}, {tableName: "encounter"}, {tableName: "users", defaultValueDueInconsistency: 1}, {tableName: "visit"}],
 				observationDateFields: ["date_voided"]
