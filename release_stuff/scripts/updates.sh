@@ -30,9 +30,6 @@ checIfupdateIsAllowedToCurrentSite(){
 	return $allowed
 }
 
-$SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh
-
-
 . $SCRIPTS_DIR/release_info.sh
 
 LOCAL_RELEASE_NAME=$RELEASE_NAME
