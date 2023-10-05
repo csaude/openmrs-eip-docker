@@ -23,7 +23,6 @@ EIP_SCRIPTS_DIR="/home/eip/scripts"
 . $EIP_SCRIPTS_DIR/commons.sh
 
 dateSuggestionMsg="Please provide a date in format 'yyyy-mm-dd'"
-i
 
 if [ -z $observationDateInput ]; then
         echo "The observation date is not specified. $dateSuggestionMsg"
@@ -62,7 +61,7 @@ fi
 # Start application.
 echo -n "Starting EPTS Application"
 cd $EPTSSYNC_HOME
-nohup java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE
+nohup java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE &
 echo -n "APPLICATION STARTED IN BACKGROUND."
 
 isDockerInstallation
