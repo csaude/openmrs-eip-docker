@@ -9,6 +9,8 @@ SITE_SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
 SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
 
+. $SCRIPTS_DIR/commons.sh
+
 timestamp=$(getCurrDateTime)
 
 echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
