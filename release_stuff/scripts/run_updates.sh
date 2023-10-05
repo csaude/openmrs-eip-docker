@@ -6,6 +6,7 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
 RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
+GIT_BRANCHES_DIR="$HOME_DIR/git/branches"
 
 LOG_DIR="$HOME_DIR/logs/upgrade"
 ONGOING_UPGRADE="$HOME_DIR/ongoing_upgrade.tmp"
@@ -27,6 +28,6 @@ if [ $running -eq 1 ]; then
 	exit 0
 fi
 
-. $SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
+. $SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$GIT_BRANCHES_DIR" 2>&1 | tee -a $LOG_DIR/upgrade.log
 
 $RELEASE_SCRIPTS_DIR/updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
