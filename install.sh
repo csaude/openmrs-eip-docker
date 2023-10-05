@@ -54,7 +54,7 @@ else
            $SETUP_STOCK_SCRIPTS_DIR/apk_install.sh
         fi
 
-	. $SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh 2>&1 | tee -a $LOG_FILE
+	. $SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh $SETUP_STOCK_SCRIPTS_DIR/commons.sh 2>&1 | tee -a $LOG_FILE
         
 	$SITE_SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh
 

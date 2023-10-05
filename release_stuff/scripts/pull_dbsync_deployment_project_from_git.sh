@@ -3,13 +3,14 @@
 #
 
 HOME_DIR="/home/eip"
-SCRIPTS_DIR="$HOME_DIR/scripts"
+
+commonFunctionsFile=$1
 
 SITE_SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
 SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
 
-. $SCRIPTS_DIR/commons.sh
+. $commonFunctionsFile
 
 timestamp=$(getCurrDateTime)
 

@@ -27,6 +27,6 @@ if [ $running -eq 1 ]; then
 	exit 0
 fi
 
-. $SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
+. $SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SCRIPTS_DIR/commons.sh" 2>&1 | tee -a $LOG_DIR/upgrade.log
 
 $RELEASE_SCRIPTS_DIR/updates.sh 2>&1 | tee -a $LOG_DIR/upgrade.log
