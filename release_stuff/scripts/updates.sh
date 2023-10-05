@@ -55,6 +55,9 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 		echo "PERFORMING UPDATE STEPS..." #| tee -a $LOG_DIR/upgrade.log
 
 		$RELEASE_SCRIPTS_DIR/eip_stop.sh
+
+		$RELEASE_SCRIPTS_DIR/before_upgrade_scripts.sh
+
 		$RELEASE_SCRIPTS_DIR/performe_dbsync_installation.sh
 
 		echo "UPDATE DONE!"
