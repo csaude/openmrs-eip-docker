@@ -1,0 +1,38 @@
+# Startup script for EPTS SYNC Sender Application
+#
+# chkconfig: - 85 15
+# description: EPTS SYNC Application
+# processname:eptssync
+# pidfile:
+# config:
+
+# Set EPTSSYNC environment.
+observationDate=$1
+timestamp=`date +%Y-%m-%d_%H-%M-%S`
+EPTSSYNC_HOME=/home/application/eptssync
+EPTSSYNC_HOME=/home/eip/application/eptssync
+CONFIG_FILE=$EPTSSYNC_HOME/conf/detect_changed_records.tmp.json
+CONFIG_FILE_ORIGINAL=$EPTSSYNC_HOME/conf/detect_changed_records.json
+LOG_DIR="$EPTSSYNC_HOME/logs"
+LOG_FILE="$LOG_DIR/logs_$timestamp.txt"
+EIP_SCRIPTS_DIR="/home/eip/scripts"
+
+
+
+. $EIP_SCRIPTS_DIR/commons.sh
+
+dateSuggestionMsg="Please provide a date in format 'yyyy-mm-dd'"
+
+
+echo "Using observationDate: $observationDate"
+
+if date -d "$observationDate" &> /dev/null; then
+        echo "The provided Observation [$observationDate] Start Date is Invalid. $dateSuggestionMsg"
+        exit 1;
+fi
+
+observationDate=$(date -d "$DATE" +%s%3N);
+
+echo $observationDate
+~
+
