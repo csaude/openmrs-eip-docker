@@ -60,7 +60,17 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 
 		$RELEASE_SCRIPTS_DIR/performe_dbsync_installation.sh
 
-		echo "UPDATE DONE!"
+		SHARED_DIR="$HOME_DIR/shared"
+		RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+        	CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$REMOTE_RELEASE_NAME"
+        	RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
+
+        	if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
+			UPDATED=""
+		else
+			echo "UPDATE DONE!"
+        	fi
+
 	else
 		echo "Updates found but not allowed for $db_sync_senderId" 
 	fi
