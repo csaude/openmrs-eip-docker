@@ -3,7 +3,7 @@
 	modelType: "OPENMRS",
 	
 	syncRootDirectory: "/home/eip/application/eptssync",
-	classPath: "/home/eip/application/eptssync/eptssync-api-1.0-SNAPSHOT.jar",
+	classPath: "/home/eip/application/eptssync/eptssync-api-1.0.jar",
 	
 	originAppLocationCode: "origin_app_location_code",
 	firstExport: false,
@@ -39,7 +39,7 @@
 		 {
 				operationType: "NEW_RECORDS_DETECTOR",
 				maxRecordPerProcessing: 1000,
-				maxSupportedEngines: 10,
+				maxSupportedEngines: 2,
 				minRecordsPerEngine: 1000,
 				disabled: false,
 				processingMode: "sequencial",
@@ -47,7 +47,7 @@
 				child: {
 						operationType: "CHANGED_RECORDS_DETECTOR",
 						maxRecordPerProcessing: 1000,
-						maxSupportedEngines: 10,
+						maxSupportedEngines: 2,
 						minRecordsPerEngine: 1000,
 						disabled: false,
 						processingMode: "sequencial"
