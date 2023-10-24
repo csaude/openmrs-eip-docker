@@ -23,7 +23,9 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 LOG_DIR="$HOME_DIR/logs/install"
 LOG_FILE="$LOG_DIR/install.log"
-
+################ RELEASE ###############################
+SHARED_DIR="$HOME_DIR/shared"
+RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 
 
 APK_CMD=$(which apk)
@@ -57,6 +59,17 @@ else
 	. $SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$GIT_BRANCHES_DIR" 2>&1 | tee -a $LOG_FILE
         
 	$SITE_SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh
+
+
+	. $SCRIPTS_DIR/release_info.sh
+	
+	CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
+	RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
+
+	if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
+        	exit 1
+	fi
+
 
 	timestamp=$(getCurrDateTime)
         logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE

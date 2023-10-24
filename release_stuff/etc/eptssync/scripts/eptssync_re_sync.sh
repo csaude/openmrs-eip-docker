@@ -61,7 +61,7 @@ fi
 # Start application.
 echo -n "Starting EPTS Application"
 cd $EPTSSYNC_HOME
-nohup java -jar eptssync-api-1.0-SNAPSHOT.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE &
+nohup java -jar eptssync-api-1.0.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE &
 echo -n "APPLICATION STARTED IN BACKGROUND."
 
 isDockerInstallation
