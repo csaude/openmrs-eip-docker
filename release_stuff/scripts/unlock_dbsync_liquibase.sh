@@ -14,8 +14,6 @@ LIQUIBASE_UNLOCK_SCRIPT=$HOME_DIR/etc/sql/unload_dbsync_liquibase.sql
 CHECK_STATUS_SCRIPT=$HOME_DIR/liquibase_check_status.sql
 RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 PATH_TO_ERROR_LOG="$HOME_DIR/tmp_unlock_liquibase"
-MAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
-MAIL_ATTACHMENT="liquibase-unlock-info.tmp"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
@@ -46,20 +44,6 @@ if grep "true" $RESULT_SCRIPT; then
 	$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $LIQUIBASE_UNLOCK_SCRIPT $RESULT_SCRIPT
 
 	logToScreenAndFile "LIQUIBASE UNLOCKED!" $LOG_FILE
-
-	MAIL_SUBJECT="EIP REMOTO - LIQUIBASE LOCK INFO"
-
-	echo "Caros" >> $MAIL_CONTENT_FILE
-	echo "Servimo-nos deste para informar que o liquibase do dbsync no site $db_sync_senderId encontrava-se LOCKED e foi UNLOCKED com sucesso." >> $MAIL_CONTENT_FILE
-	echo "" >> $MAIL_CONTENT_FILE
-	echo "" >> $MAIL_CONTENT_FILE
-	echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $MAIL_CONTENT_FILE
-
-	echo "No content" > $MAIL_ATTACHMENT
-
-        MAIL_RECIPIENTS="$administrators_emails"
-
-       	$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
 else
         echo "THE LIQUIBASE IS NOT LOCKED..."
 	

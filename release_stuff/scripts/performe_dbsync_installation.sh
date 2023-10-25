@@ -95,9 +95,6 @@ cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/op
 logToScreenAndFile "Copying eptssync jar file" $LOG_FILE
 cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTSSYNC_PACKAGE_RELEASE_FILE_NAME" "$EPTSSYNC_HOME_DIR/eptssync-api-1.0.jar"
 
-logToScreenAndFile "Copying Dbsync notification Manager jar file" $LOG_FILE
-cp "$CURRENT_RELEASES_PACKAGES_DIR/$DBSYNC_NOTIFICATIONS_MANAGER_FILE_NAME" "$HOME_DIR/notifications-manager.jar"
-
 logToScreenAndFile "ALL FILES WERE COPIED" $LOG_FILE
 
 logToScreenAndFile "INSTALLING CRONS" $LOG_FILE
