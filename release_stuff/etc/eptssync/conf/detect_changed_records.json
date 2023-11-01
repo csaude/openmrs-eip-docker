@@ -1,66 +1,56 @@
 {
 	processType: "DB_RE_SYNC",
+	modelType: "OPENMRS",
 	
 	syncRootDirectory: "/home/eip/application/eptssync",
-	classPath: "/home/eip/application/eptssync/eptssync-api-1.0-SNAPSHOT.jar",
+	classPath: "/home/eip/application/eptssync/eptssync-api-1.0.jar",
 	
 	originAppLocationCode: "origin_app_location_code",
-	firstExport: true,
+	firstExport: false,
 	automaticStart: true, 
-	applicationCode: "eip",
-	observationDate: 1618178400000,
+	resumable: true,
+	observationDate: observation_date,
 
 	appsInfo:[
 
 		{
 			applicationCode: "main",
-			pojoPackageName: "destination",
+			pojoPackageName: "openmrs._default",
 			connInfo: {
 				dataBaseUserName: "root",
 				dataBaseUserPassword: "spring_openmrs_datasource_password",
 				connectionURI: "jdbc:mysql://openmrs_db_host:openmrs_db_port/openmrs_db_name?autoReconnect=true&useSSL=false",
-				driveClassName: "com.mysql.jdbc.Driver"
+				driveClassName: "com.mysql.cj.jdbc.Driver"
 			}
 		},
 		{
 			applicationCode: "eip",
-			pojoPackageName: "generic_src",
 			processingMode: "single",
 			connInfo: {
 				dataBaseUserName:"root",
 				dataBaseUserPassword: "spring_openmrs_datasource_password",
 				connectionURI: "jdbc:mysql://openmrs_db_host:openmrs_db_port/openmrs_eip_sender_mgt_db_sync_senderId?autoReconnect=true&useSSL=false",
-				driveClassName: "com.mysql.jdbc.Driver"
+				driveClassName: "com.mysql.cj.jdbc.Driver"
 			}
 		}
 	],
 	
 	operations: [
 		 {
-			operationType: "DATABASE_PREPARATION",
-			maxRecordPerProcessing: 1,
-			maxSupportedEngines: 1,
-			minRecordsPerEngine: 1,
-			disabled: false,
-			processingMode: "parallel",
+				operationType: "NEW_RECORDS_DETECTOR",
+				maxRecordPerProcessing: 1000,
+				maxSupportedEngines: 2,
+				minRecordsPerEngine: 1000,
+				disabled: false,
+				processingMode: "sequencial",
 
-			child: {
-					operationType: "NEW_RECORDS_DETECTOR",
-					maxRecordPerProcessing: 1000,
-					maxSupportedEngines: 10,
-					minRecordsPerEngine: 1000,
-					disabled: false,
-					processingMode: "sequencial",
-
-					child: {
-							operationType: "CHANGED_RECORDS_DETECTOR",
-							maxRecordPerProcessing: 1000,
-							maxSupportedEngines: 10,
-							minRecordsPerEngine: 1000,
-							disabled: false,
-							processingMode: "sequencial"
-					}
-
+				child: {
+						operationType: "CHANGED_RECORDS_DETECTOR",
+						maxRecordPerProcessing: 1000,
+						maxSupportedEngines: 2,
+						minRecordsPerEngine: 1000,
+						disabled: false,
+						processingMode: "sequencial"
 			}
 		}
 
@@ -167,21 +157,10 @@
 			},
 			
 			{
-				tableName: "orders",
-				parents: [{tableName: "encounter"}, {tableName: "provider"}, {tableName: "orders"}, {tableName: "patient"}, {tableName: "users", defaultValueDueInconsistency: 1}],
-				observationDateFields: ["date_changed", "date_voided"]
-			},
-			
-			{
 				tableName: "obs",
 				parents: [{tableName: "person"}, {tableName: "location"}, {tableName: "orders"}, {tableName: "obs", setNullDueInconsistency: true}, {tableName: "encounter"}, {tableName: "users", defaultValueDueInconsistency: 1}, {tableName: "visit"}],
 				observationDateFields: ["date_voided"]
-			},
+			}
 			
-			{
-				tableName: "note",
-				parents: [{tableName: "encounter"}, {tableName: "patient"}, {tableName: "note"}, {tableName: "users", defaultValueDueInconsistency: 1}],
-				observationDateFields: ["date_changed"]
-			}			
 	]
 }
