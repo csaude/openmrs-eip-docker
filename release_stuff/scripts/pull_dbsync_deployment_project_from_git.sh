@@ -7,9 +7,16 @@ HOME_DIR="/home/eip"
 SITE_SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
 SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
-GIT_BRANCHES_DIR=$1
+
+CURR_INSTALLATION_RELEASE_STUFF_DIR=$1
+
+GIT_BRANCHES_DIR="$CURR_INSTALLATION_RELEASE_STUFF_DIR/git/branches"
 
 timestamp=$(getCurrDateTime)
+
+. $CURR_INSTALLATION_RELEASE_STUFF_DIR/commons.sh
+. $CURR_INSTALLATION_RELEASE_STUFF_DIR/try_to_load_environment.sh
+. $CURR_INSTALLATION_RELEASE_STUFF_DIR/setenv.sh
 
 echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
 echo "-------------------------------------------------------------" #| tee -a $LOG_DIR/upgrade.log
@@ -22,7 +29,7 @@ echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
 
 echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
 
-branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+branch_name=$(getGitBranch "$GIT_BRANCHES_DIR")
 
 if [ -z $branch_name ]; then
 	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
