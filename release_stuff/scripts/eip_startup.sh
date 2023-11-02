@@ -63,6 +63,12 @@ else
         export artemis_ssl_enabled=true
 fi
 
+echo "Starting notification manager app"
+
+nohup java -jar -Dspring.profiles.active=publisher notifications-manager.jar 2>&1 &
+
+echo -n "NOTIFICATIONS MANAGER STARTED IN BACKGROUND"
+
 echo "Preparing to start Eip Application: [$EIP_MODE]"
 
 sleep 7 
@@ -76,6 +82,8 @@ if [ $isDockerInstall = 1 ]; then
 	echo "RUNNING EIP IN DOCKER CONTAINER..."
 
         java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
+
+	$SCRIPTS_DIR/try_to_generate_dbsync_stop_notification.sh
 else
         nohup java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar 2>&1 &
 	echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
