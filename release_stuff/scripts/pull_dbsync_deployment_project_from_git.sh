@@ -14,9 +14,9 @@ GIT_BRANCHES_DIR="$CURR_INSTALLATION_RELEASE_STUFF_DIR/git/branches"
 
 timestamp=$(getCurrDateTime)
 
-. $CURR_INSTALLATION_RELEASE_STUFF_DIR/commons.sh
-. $CURR_INSTALLATION_RELEASE_STUFF_DIR/try_to_load_environment.sh
-. $CURR_INSTALLATION_RELEASE_STUFF_DIR/setenv.sh
+. $CURR_INSTALLATION_RELEASE_STUFF_DIR/scripts/commons.sh
+. $CURR_INSTALLATION_RELEASE_STUFF_DIR/scripts/try_to_load_environment.sh
+. $CURR_INSTALLATION_RELEASE_STUFF_DIR/scripts/setenv.sh
 
 echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
 echo "-------------------------------------------------------------" #| tee -a $LOG_DIR/upgrade.log
