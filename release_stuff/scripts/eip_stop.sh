@@ -19,3 +19,5 @@ else
 	kill -9 $(pgrep -f openmrs-eip-app-sender.jar)
 	echo -n "EIP APP STOPPED"
 fi
+
+kill -9 $(pgrep -f notifications-manager.jar)
