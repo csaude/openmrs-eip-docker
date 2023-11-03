@@ -49,14 +49,22 @@ else
 
         logToScreenAndFile "STARTING EIP INSTALLATION PROCESS AT $timespamp" $LOG_FILE
 
- 	branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+ 	branch_name=$(getGitBranch "$GIT_BRANCHES_DIR")
+
+	if [ -z $branch_name ]; then
+        	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
+        	logToScreenAndFile "Aborting the installation process..." $LOG_FILE
+
+        	exit 1
+	fi
+
 
         if [ ! -z $APK_CMD ]; then
            logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
            $SETUP_STOCK_SCRIPTS_DIR/apk_install.sh
         fi
 
-	. $SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$GIT_BRANCHES_DIR" 2>&1 | tee -a $LOG_FILE
+	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
         
 	$SITE_SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh
 
