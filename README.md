@@ -137,7 +137,7 @@ docker logs --follow openmrs-eip-sender
 And the eip logs using
 
 ```
-docker exec -it openmrs-eip-sender tail -f /home/eip/shared/logs/eip/openmrs-eip.log
+docker exec -it openmrs-eip-sender tail -f /home/eip/logs/eip/openmrs-eip.log
 ```
         
 # Notes
