@@ -114,6 +114,7 @@ spring_artemis_password=ACTIVE_MQ_PASSWORD
 origin_app_location_code=ORIGIN_APP_LOCATION_CODE
 spring_artemis_host=ACTIVE_MQ_HOST
 spring_artemis_port=ACTIVE_MQ_PORT
+artemis_ssl_enabled=true
 ```
 
 The SENDER_ID codes will be provided by the central team.
