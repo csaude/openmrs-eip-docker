@@ -7,17 +7,15 @@
 # pidfile:
 # config:
 
-# Set EPTSSYNC environment.
+# Set EPTS_ETL environment.
 observationDateInput=$1
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
-EPTSSYNC_HOME=/home/application/eptssync
-EPTSSYNC_HOME=/home/eip/application/eptssync
-CONFIG_FILE=$EPTSSYNC_HOME/conf/detect_changed_records.tmp.json
-CONFIG_FILE_ORIGINAL=$EPTSSYNC_HOME/conf/detect_changed_records.json
-LOG_DIR="$EPTSSYNC_HOME/logs"
+EIP_HOME=/home/eip
+CONFIG_FILE=$EIP_HOME/conf/detect_changed_records.tmp.json
+CONFIG_FILE_ORIGINAL=$EIP_HOME/conf/detect_changed_records.json
+LOG_DIR="$EIP_HOME/logs"
 LOG_FILE="$LOG_DIR/logs_$timestamp.txt"
-EIP_SCRIPTS_DIR="/home/eip/scripts"
-
+EIP_SCRIPTS_DIR="$EIP_HOME/scripts"
 
 
 . $EIP_SCRIPTS_DIR/commons.sh
@@ -60,8 +58,8 @@ fi
 
 # Start application.
 echo -n "Starting EPTS Application"
-cd $EPTSSYNC_HOME
-nohup java -jar eptssync-api-1.0.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE &
+cd $EIP_HOME
+nohup java -jar epts-etl-api-1.0.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE &
 echo -n "APPLICATION STARTED IN BACKGROUND."
 
 isDockerInstallation

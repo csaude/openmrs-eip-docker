@@ -65,9 +65,9 @@ fi
 
 echo "Starting notification manager app"
 
-nohup java -jar -Dspring.profiles.active=publisher notifications-manager.jar 2>&1 &
+nohup java -jar -Dspring.profiles.active=remote centralization-features-manager-1.0.jar 2>&1 &
 
-echo -n "NOTIFICATIONS MANAGER STARTED IN BACKGROUND"
+echo -n "CENTRALIZATION MANAGER STARTED IN BACKGROUND"
 
 echo "Preparing to start Eip Application: [$EIP_MODE]"
 
