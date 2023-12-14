@@ -7,7 +7,7 @@
     <property name="LOGS_DIR" value="${eip.base.dir}${file.separator}logs${file.separator}eip" />
     
     <property name="DBSYNC_LOGS_FILE_NAME" value="openmrs-eip" />
-    <property name="CENTRALIZATION_FEATURES_LOGS_FILE_NAME" value="openmrs-eip" />
+    <property name="CENTRALIZATION_FEATURES_LOGS_FILE_NAME" value="centralization-features" />
     
     <property name="LOGS_FILE_NAME_EXT" value="log" />
     
