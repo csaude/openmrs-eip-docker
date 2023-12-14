@@ -5,22 +5,41 @@
 
     <property name="LOGS_PATTERN" value="%-5level %date [%thread] %logger{8}:%line %msg%n" />
     <property name="LOGS_DIR" value="${eip.base.dir}${file.separator}logs${file.separator}eip" />
-    <property name="LOGS_FILE_NAME" value="openmrs-eip" />
+    
+    <property name="DBSYNC_LOGS_FILE_NAME" value="openmrs-eip" />
+    <property name="CENTRALIZATION_FEATURES_LOGS_FILE_NAME" value="openmrs-eip" />
+    
     <property name="LOGS_FILE_NAME_EXT" value="log" />
-    <property name="LOGS_FILE" value="${LOGS_DIR}${file.separator}${LOGS_FILE_NAME}.${LOGS_FILE_NAME_EXT}" />
-    <property name="LOGS_MAX_FILE_SIZE" value="2MB" />
+    
+    <property name="DBSYNC_LOGS_FILE" value="${LOGS_DIR}${file.separator}${DBSYNC_LOGS_FILE_NAME}.${LOGS_FILE_NAME_EXT}" />
+    <property name="CENTRALIZATION_FEATURES_LOGS_FILE" value="${LOGS_DIR}${file.separator}${CENTRALIZATION_FEATURES_LOGS_FILE_NAME}.${LOGS_FILE_NAME_EXT}" />
+    
+    <property name="LOGS_MAX_FILE_SIZE" value="5MB" />
 
-    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS_FILE}</file>
+    <appender name="dbsync" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${DBSYNC_LOGS_FILE}</file>
         <encoder>
             <pattern>${LOGS_PATTERN}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- Rollover daily and when the file reaches configured max size, default is 10MB -->
-            <fileNamePattern>${LOGS_DIR}${file.separator}%d{yyyy-MM}${file.separator}%d{dd}${file.separator}${LOGS_FILE_NAME}_%i.${LOGS_FILE_NAME_EXT}.gz</fileNamePattern>
+            <fileNamePattern>${LOGS_DIR}${file.separator}%d{yyyy-MM}${file.separator}%d{dd}${file.separator}${DBSYNC_LOGS_FILE}_%i.${LOGS_FILE_NAME_EXT}.gz</fileNamePattern>
             <maxFileSize>${LOGS_MAX_FILE_SIZE}</maxFileSize>
         </rollingPolicy>
     </appender>
+
+    <appender name="centralization-features" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${CENTRALIZATION_FEATURES_LOGS_FILE}</file>
+        <encoder>
+            <pattern>${LOGS_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Rollover daily and when the file reaches configured max size, default is 10MB -->
+            <fileNamePattern>${LOGS_DIR}${file.separator}%d{yyyy-MM}${file.separator}%d{dd}${file.separator}${CENTRALIZATION_FEATURES_LOGS_FILE}_%i.${LOGS_FILE_NAME_EXT}.gz</fileNamePattern>
+            <maxFileSize>${LOGS_MAX_FILE_SIZE}</maxFileSize>
+        </rollingPolicy>
+    </appender>
+
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -28,9 +47,16 @@
         </encoder>
     </appender>
 
+     <Loggers>
+        <Logger name="org.openmrs.eip" level="info">
+            <AppenderRef ref="dbsync" />
+            <AppenderRef ref="console" />
+        </Logger>
 
-    <root level="info">
-        <appender-ref ref="file" />
-        <appender-ref ref="console" />
-    </root>
+        <Logger name="org.mz.csaude.dbsyncfeatures" level="info">
+            <AppenderRef ref="centralization-features" />
+            <AppenderRef ref="console" />
+        </Logger>
+    </Loggers>
+ 
 </configuration>
