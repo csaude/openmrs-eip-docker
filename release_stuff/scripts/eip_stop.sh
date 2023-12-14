@@ -20,4 +20,4 @@ else
 	echo -n "EIP APP STOPPED"
 fi
 
-kill -9 $(pgrep -f notifications-manager.jar)
+kill -9 $(pgrep -f centralization-features-manager.jar)
