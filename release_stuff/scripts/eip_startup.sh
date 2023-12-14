@@ -65,7 +65,7 @@ fi
 
 echo "Starting centralization features manager app"
 
-nohup java -jar -Dspring.profiles.active=remote -Dlogging.config=classpath:logback-spring-c-features.xml centralization-features-manager.jar 2>&1 &
+nohup java -jar -Dspring.profiles.active=remote -Dlogging.config=file:"logback-spring-c-features.xml" centralization-features-manager.jar 2>&1 &
 
 echo -n "CENTRALIZATION MANAGER STARTED IN BACKGROUND"
 
