@@ -79,10 +79,10 @@ logToScreenAndFile "Copying dbsync jar file" $LOG_FILE
 cp "$CURRENT_RELEASES_PACKAGES_DIR/$EIP_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/openmrs-eip-app-sender.jar"
 
 logToScreenAndFile "Copying epts-etl jar file" $LOG_FILE
-cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTS_ETL_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/epts-etl-api-1.0.jar"
+cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTS_ETL_PACKAGE_RELEASE_FILE_NAME" "$HOME_DIR/epts-etl-api.jar"
 
 logToScreenAndFile "Copying Centralization Manager jar file" $LOG_FILE
-cp "$CURRENT_RELEASES_PACKAGES_DIR/$CENTRALIZATION_FEATURES_RELEASE_FILE_NAME" "$HOME_DIR/centralization-features-manager-1.0.jar"
+cp "$CURRENT_RELEASES_PACKAGES_DIR/$CENTRALIZATION_FEATURES_RELEASE_FILE_NAME" "$HOME_DIR/centralization-features-manager.jar"
 
 logToScreenAndFile "ALL FILES WERE COPIED" $LOG_FILE
 

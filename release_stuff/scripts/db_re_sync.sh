@@ -59,7 +59,7 @@ fi
 # Start application.
 echo -n "Starting EPTS Application"
 cd $EIP_HOME
-nohup java -jar epts-etl-api-1.0.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE &
+nohup java -jar epts-etl-api.jar "$CONFIG_FILE" 2>&1 > $LOG_FILE &
 echo -n "APPLICATION STARTED IN BACKGROUND."
 
 isDockerInstallation

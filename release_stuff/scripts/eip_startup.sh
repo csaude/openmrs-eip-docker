@@ -63,9 +63,9 @@ else
         export artemis_ssl_enabled=true
 fi
 
-echo "Starting notification manager app"
+echo "Starting centralization features manager app"
 
-nohup java -jar -Dspring.profiles.active=remote centralization-features-manager-1.0.jar 2>&1 &
+nohup java -jar -Dspring.profiles.active=remote centralization-features-manager.jar 2>&1 &
 
 echo -n "CENTRALIZATION MANAGER STARTED IN BACKGROUND"
 
