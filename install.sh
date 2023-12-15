@@ -34,7 +34,7 @@ APK_CMD=$(which apk)
 . $SETUP_STOCK_SCRIPTS_DIR/try_to_load_environment.sh
 . $SETUP_STOCK_SCRIPTS_DIR/setenv.sh
 
-MAIL_SUBJECT="EIP REMOTO - SETUP INFO"
+MAIL_SUBJECT="EIP REMOTO - INITIAL SETUP INFO[${db_sync_senderId}]"
 MAIL_RECIPIENTS="$administrators_emails"
 MAIL_CONTENT_FILE="$HOME_DIR/setup_notification_content"
 MAIL_ATTACHMENT="$HOME_DIR/setup_notification_log"
