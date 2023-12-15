@@ -34,7 +34,7 @@ old_artemis_port=$spring_artemis_port
 . $setenv_file
 
 
-if [ "$artemis_ssl_enabled" eq 'true' ]; then
+if [ "$artemis_ssl_enabled" = "true" ]; then
 	echo "Artemis server is configured for SSL. The application will force secure connection to artemis."
 	URL="$spring_artemis_host:$spring_artemis_port"
 
