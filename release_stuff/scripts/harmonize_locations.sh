@@ -71,7 +71,7 @@ echo "" >> $MAIL_CONTENT_FILE
 echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $MAIL_CONTENT_FILE
 
 MAIL_RECIPIENTS="$administrators_emails"
-MAIL_SUBJECT="EIP REMOTO - ESTADO DE HARMONIZACAO DE LOCAIS"
+MAIL_SUBJECT="EIP REMOTO - ESTADO DE HARMONIZACAO DE LOCAIS[${db_sync_senderId}]"
 MAIL_ATTACHMENT="$LOCATION_HARMONIZATION_DIR/harmonization_process.info"
 
 echo "Harmonization process started at $timestamp" > $MAIL_ATTACHMENT
