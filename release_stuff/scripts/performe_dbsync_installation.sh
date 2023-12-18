@@ -15,7 +15,7 @@ SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
-$CONFIG_FILE="$HOME_DIR/dbsync-users.properties"
+CONFIG_FILE="$HOME_DIR/dbsync-users.properties"
 
 . $SITE_SETUP_SCRIPTS_DIR/commons.sh
 . $SITE_SETUP_SCRIPTS_DIR/try_to_load_environment.sh
