@@ -14,7 +14,8 @@ SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
 ###########################EIP ENV#####################
 SCRIPTS_DIR="$HOME_DIR/scripts"
 SHARED_DIR="$HOME_DIR/shared"
-RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"  
+RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+$CONFIG_FILE="$HOME_DIR/dbsync-users.properties"
 
 . $SITE_SETUP_SCRIPTS_DIR/commons.sh
 . $SITE_SETUP_SCRIPTS_DIR/try_to_load_environment.sh
@@ -56,6 +57,10 @@ fi
 cp -R $SITE_STUFF_DIR/* $HOME_DIR/
 
 chmod +x $SCRIPTS_DIR/*.sh
+
+sed -i "s/eip_user/$eip_user/g" $CONFIG_FILE
+sed -i "s/eip_pass/$eip_pass/g" $CONFIG_FILE
+
 
 # Downloading release packages
 logToScreenAndFile "Verifying $RELEASE_NAME packages download status" $LOG_FILE
