@@ -53,19 +53,16 @@ BEGIN
 	DECLARE done INT;
 	DECLARE uuid_old_location varchar(255);
 	DECLARE uuid_actual_location varchar(255);
-	DECLARE current_location_id INT;
 	DECLARE old_location_id INT;
 	DECLARE harmonization_execution_status_recs INT;
    	DECLARE log_msg varchar(500);
 	DECLARE oldChangedBy INT;
 	DECLARE oldDateChanged datetime;
-
-	SET done = 0;
-	SET current_location_id = 0;
-	SET old_location_id = 0;
-
 	DECLARE location_cursor CURSOR FOR SELECT lo.uuid_old_location, lo.uuid_actual_location FROM location_harmonization.location_to_harmonize lo;
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+
+	SET done = 0;
+	SET old_location_id = 0;
 
 	select count(*) into harmonization_execution_status_recs from location_harmonization.harmonization_execution_status;
 	
@@ -103,7 +100,7 @@ BEGIN
 
 						-- DO THE UPDATE
 						update 	OPENMRS_DATABASE_NAME.location 
-						set 	uuid=uuid_actual_location 
+						set 	uuid=uuid_actual_location, 
 							changed_by=1, 
 							date_changed = now()
 						where location_id = old_location_id;
@@ -112,7 +109,7 @@ BEGIN
 						values (uuid_actual_location,uuid_old_location, oldChangedBy, oldDateChanged);
 
 
-						SET log_msg = concat('Location[', uuid_old_location, '] was updated to [', uuid_actual_location, '] ...'); 
+						SET log_msg = concat('Location[', uuid_old_location, '] was updated to [', uuid_actual_location, ']'); 
 						
 						insert into location_harmonization.location_execution_logs(table_name, location_uuid, log_text, start_date, end_date) values('location', uuid_old_location, log_msg, now(), now());
 
