@@ -28,7 +28,7 @@ CREATE TABLE if not exists location_harmonization.location_execution_logs (
 	execution_id int(16) NOT NULL AUTO_INCREMENT,
 	table_name varchar(255),
     	location_uuid varchar(255),
-    	logi_text varchar(500),
+    	log_text varchar(500),
     	start_date datetime DEFAULT NULL,
 	end_date datetime DEFAULT NULL,
 	PRIMARY KEY (execution_id)
