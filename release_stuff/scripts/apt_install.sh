@@ -47,6 +47,7 @@ if [ -z $MYSQL_CLIENT ];then
 fi
 
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"
+chown -R eip "$HOME_DIR/logs" && chgrp -R eip "$HOME_DIR/logs"
 
 if [ -z $JAVA_HOME ];then
 	echo "JAVA_HOME is not defined! Configuring it"
