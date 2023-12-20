@@ -60,7 +60,17 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 
 		$RELEASE_SCRIPTS_DIR/performe_dbsync_installation.sh
 
-		echo "UPDATE DONE!"
+		SHARED_DIR="$HOME_DIR/shared"
+		RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
+        	CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$REMOTE_RELEASE_NAME"
+        	RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
+
+        	if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
+			UPDATED=""
+		else
+			echo "UPDATE DONE!"
+        	fi
+
 	else
 		echo "Updates found but not allowed for $db_sync_senderId" 
 	fi
@@ -68,7 +78,31 @@ else
        	echo "NO UPDATES FOUND..." #| tee -a $LOG_DIR/upgrade.log
 fi
 
-$SCRIPTS_DIR/schedule_update_notification.sh
+MAIL_SUBJECT="EIP REMOTO - ESTADO DE ACTUALIZACAO"
+MAIL_RECIPIENTS="$administrators_emails"
+MAIL_CONTENT_FILE="$HOME_DIR/update_notification_content"
+MAIL_ATTACHMENT="$HOME_DIR/update_notification_log_file.log"
+
+
+echo "Caros" >> $MAIL_CONTENT_FILE
+echo "Junto enviamos o report da ultima tentativa de actualizacao da aplicacao openmrs-eip." >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "INFORMACAO DAS RELEASES" >> $MAIL_CONTENT_FILE
+echo "---------------------" >> $MAIL_CONTENT_FILE
+echo "CURRENT RELEASE INFO {NAME: $LOCAL_RELEASE_NAME, DATE: $LOCAL_RELEASE_DATE}" >> $MAIL_CONTENT_FILE
+echo "--------------------" >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "Enviado automaticamente a partir do servidor $db_sync_senderId." >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "" >> $MAIL_CONTENT_FILE
+echo "-----------------------------------------------------" >> $MAIL_CONTENT_FILE
+echo "LOG: See Attachment"
+
+cat $UPDATES_LOG_FILE > $MAIL_ATTACHMENT
+
+$SCRIPTS_DIR/generate_notification_content.sh "$MAIL_RECIPIENTS" "$MAIL_SUBJECT" "$MAIL_CONTENT_FILE" "$MAIL_ATTACHMENT"
+
+$SCRIPTS_DIR/performe_after_update_check_actions.sh
 
 if [ "$UPDATED" ]; then
 	echo "PERFORMING AFTER UPDATE STEPS" #| tee -a $LOG_DIR/upgrade.log

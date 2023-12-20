@@ -33,19 +33,12 @@ old_artemis_port=$spring_artemis_port
 . $DEFAULT_SET_ENV_FILE
 . $setenv_file
 
-URL="$spring_artemis_host:$spring_artemis_port"
+if [ "$artemis_ssl_enabled" = "true" ]; then
+	echo "Artemis server is configured for SSL. The application will force secure connection to artemis."
+	URL="$spring_artemis_host:$spring_artemis_port"
 
-$SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
+	$SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
 
-if [ ! -s $PATH_TO_CERTIFICATE ]; then
-        echo "Using non secure connection to artemis"
-
-        export spring_artemis_host=$old_artemis_host
-        export spring_artemis_port=$old_artemis_port
-        export artemis_ssl_enabled=false
-else
-        echo "Using secure connection to artemis"
-	
 	if [ -z $JAVA_HOME ];then
 		echo "JAVA_HOME is not defined! Configuring it"
 		java_home=$(readlink -f $(which java))
@@ -59,21 +52,21 @@ else
 	echo "Using JAVA_HOME =$JAVA_HOME"
 
         $SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh $PATH_TO_CERTIFICATE "artemis"
-
-        export artemis_ssl_enabled=true
+else
+        echo "Artemis server is not configured for SSL. The application will connect to the artemis throught non secure connection!"
 fi
 
-echo "Starting notification manager app"
-
-nohup java -jar -Dspring.profiles.active=publisher notifications-manager.jar 2>&1 &
-
-echo -n "NOTIFICATIONS MANAGER STARTED IN BACKGROUND"
-
-echo "Preparing to start Eip Application: [$EIP_MODE]"
+echo "Preparing to start Eip Application AND the centralization Manager application"
 
 sleep 7 
 
-echo "Starting Eip Application: [$EIP_MODE]"
+echo "Starting centralization features manager app..."
+
+nohup java -jar -Dspring.profiles.active=remote -Dlogging.config=file:"logback-spring-c-features.xml" centralization-features-manager.jar 2>&1 &
+
+echo -n "CENTRALIZATION MANAGER STARTED IN BACKGROUND"
+
+echo "Starting Eip Application..."
 
 isDockerInstallation
 isDockerInstall=$?
