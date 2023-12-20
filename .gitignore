@@ -18,3 +18,4 @@ shared/
 .debezium/
 old_stuff/
 
+do_git_jobs.sh
