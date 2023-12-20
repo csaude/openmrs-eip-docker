@@ -114,6 +114,9 @@ spring_artemis_password=ACTIVE_MQ_PASSWORD
 origin_app_location_code=ORIGIN_APP_LOCATION_CODE
 spring_artemis_host=ACTIVE_MQ_HOST
 spring_artemis_port=ACTIVE_MQ_PORT
+dbsync_notification_email_recipients=NOTIFICATION_EMAL_RECIPIENTS
+eip_user=DBSYNC_CONSOLE_USER_NAME
+eip_pass=DBSYNC_CONSOLE_USER_PASSWORD
 ```
 
 The SENDER_ID codes will be provided by the central team.
@@ -137,7 +140,7 @@ docker logs --follow openmrs-eip-sender
 And the eip logs using
 
 ```
-docker exec -it openmrs-eip-sender tail -f /home/eip/shared/logs/eip/openmrs-eip.log
+docker exec -it openmrs-eip-sender tail -f /home/eip/logs/eip/openmrs-eip.log
 ```
         
 # Notes
@@ -258,7 +261,7 @@ If for any reason the OpenMRS server in a remote site need to be re-installed, a
 If for some reason the dbsync management database (mgt-db) is lost. You will have to perform a [fresh installation](#installation) without a starting mgt-db. And after the installation you must run the re-sync process using the estimated last sync date; this date will be provided by the central team.
 The re-sync processes will be run using the command bellow
 ```
-docker exec -i openmrs-eip-sender /home/eip/etc/eptssync/scripts/eptssync_re_sync.sh 'LAST_KNOWN_SYNC_DATE'
+docker exec -i openmrs-eip-sender /home/eip/scripts/db_re_sync.sh 'LAST_KNOWN_SYNC_DATE'
 ```
 
 Note that the date must be in format 'YYYY-MM-DD'.

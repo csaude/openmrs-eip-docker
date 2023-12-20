@@ -12,11 +12,11 @@ CURR_INSTALLATION_RELEASE_STUFF_DIR=$1
 
 GIT_BRANCHES_DIR="$CURR_INSTALLATION_RELEASE_STUFF_DIR/git/branches"
 
-timestamp=$(getCurrDateTime)
-
 . $CURR_INSTALLATION_RELEASE_STUFF_DIR/scripts/commons.sh
 . $CURR_INSTALLATION_RELEASE_STUFF_DIR/scripts/try_to_load_environment.sh
 . $CURR_INSTALLATION_RELEASE_STUFF_DIR/scripts/setenv.sh
+
+timestamp=$(getCurrDateTime)
 
 echo "CHECKING FOR UPDATES AT $timestamp" #| tee -a $LOG_DIR/upgrade.log
 echo "-------------------------------------------------------------" #| tee -a $LOG_DIR/upgrade.log
