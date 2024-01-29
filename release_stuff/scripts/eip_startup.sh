@@ -52,7 +52,7 @@ if [ "$artemis_ssl_enabled" = "true" ]; then
 	echo "Using JAVA_HOME =$JAVA_HOME"
 
 	if [ ! -s $PATH_TO_CERTIFICATE ]; then
-
+		echo "coping certificate to java cacerts"
 		$SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh $PATH_TO_CERTIFICATE "artemis"
 	fi
   
