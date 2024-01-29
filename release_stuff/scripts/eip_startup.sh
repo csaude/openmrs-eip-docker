@@ -51,8 +51,7 @@ if [ "$artemis_ssl_enabled" = "true" ]; then
 
 	echo "Using JAVA_HOME =$JAVA_HOME"
 	$SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh $PATH_TO_CERTIFICATE "artemis"
-	fi
-  
+	  
 else
         echo "Artemis server is not configured for SSL. The application will connect to the artemis throught non secure connection!"
 fi
