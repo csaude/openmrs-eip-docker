@@ -37,8 +37,7 @@ if [ "$artemis_ssl_enabled" = "true" ]; then
 	echo "Artemis server is configured for SSL. The application will force secure connection to artemis."
 	URL="$spring_artemis_host:$spring_artemis_port"
 
-	$SCRIPTS_DIR/generate_and_install_certificate.sh
-	  
+	$SCRIPTS_DIR/generate_and_install_certificate.sh	  
 else
         echo "Artemis server is not configured for SSL. The application will connect to the artemis throught non secure connection!"
 fi
