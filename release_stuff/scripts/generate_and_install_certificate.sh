@@ -23,9 +23,9 @@ fi
 echo "Using JAVA_HOME =$JAVA_HOME"
 
 echo "Verifying if exists valid certificate with alias $CERTIFICATE_ALIAS"
-ALIAS_EXISTS=$(keytool -list -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -alias "$CERTIFICATE_ALIAS" 2>/dev/null | grep -c "$CERTIFICATE_ALIAS")
+ALIAS_EXISTS=$(keytool -list -keystore $JAVA_HOME/jre/lib/security/cacerts -storepass changeit -alias "$CERTIFICATE_ALIAS" 2>/dev/null | grep -c "does not exist")
 
-if [ "$ALIAS_EXISTS" -gt 0 ]; then
+if [ ! "$ALIAS_EXISTS" -gt 0 ]; then
         echo "Certificate with alias $CERTIFICATE_ALIAS already exists in the keystore."
 
 else
