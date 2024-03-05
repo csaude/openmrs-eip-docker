@@ -12,14 +12,15 @@ URL="$spring_artemis_host:$spring_artemis_port"
 CERTIFICATE_ALIAS="artemis"
 
 echo "Starting to generate and install Certificate"
+JAVA_HOME="$HOME_DIR/jdk/jdk-17.0.10"
 
-if [ -z $JAVA_HOME ];then
-    echo "JAVA_HOME is not defined! Configuring it"
-    java_home=$(readlink -f $(which java))
-    tmp="\/jre\/bin\/java"
-    result=$(echo "$java_home" | sed "s/$tmp//g")
-    export JAVA_HOME=$result
-fi
+# if [ -z $JAVA_HOME ];then
+#     echo "JAVA_HOME is not defined! Configuring it"
+#     java_home=$(readlink -f $(which java))
+#     tmp="\/jre\/bin\/java"
+#     result=$(echo "$java_home" | sed "s/$tmp//g")
+#     export JAVA_HOME=$result
+# fi
 echo "Using JAVA_HOME =$JAVA_HOME"
 
 echo "Verifying if exists valid certificate with alias $CERTIFICATE_ALIAS"

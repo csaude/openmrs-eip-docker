@@ -89,6 +89,9 @@ cp "$CURRENT_RELEASES_PACKAGES_DIR/$EPTS_ETL_PACKAGE_RELEASE_FILE_NAME" "$HOME_D
 logToScreenAndFile "Copying Centralization Manager jar file" $LOG_FILE
 cp "$CURRENT_RELEASES_PACKAGES_DIR/$CENTRALIZATION_FEATURES_RELEASE_FILE_NAME" "$HOME_DIR/centralization-features-manager.jar"
 
+logToScreenAndFile "Copying extracted JDK file to $HOME_DIR/jdk" $LOG_FILE
+mkdir -p "$HOME_DIR/jdk/" && tar -xzvf "$CURRENT_RELEASES_PACKAGES_DIR/$OPEN_JDK_V17" -C "$HOME_DIR/jdk/"
+
 logToScreenAndFile "ALL FILES WERE COPIED" $LOG_FILE
 
 logToScreenAndFile "INSTALLING CRONS" $LOG_FILE
