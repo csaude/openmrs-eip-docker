@@ -51,12 +51,13 @@ chown -R eip "$HOME_DIR/logs" && chgrp -R eip "$HOME_DIR/logs"
 
 if [ -z $JAVA_HOME ];then
 	echo "JAVA_HOME is not defined! Configuring it"
-	java_home=$(readlink -f $(which java))
-	tmp="\/jre\/bin\/java"
+	 JAVA_HOME="$HOME_DIR/jdk/jdk-17.0.10"
+	# java_home=$(readlink -f $(which java))
+	# tmp="\/jre\/bin\/java"
 
-	result=$(echo "$java_home" | sed "s/$tmp//g")
+	# result=$(echo "$java_home" | sed "s/$tmp//g")
 
-	export JAVA_HOME=$result
+	# export JAVA_HOME=$result
 fi
 
 echo "CHANGING MOD OF JAVA carcets FILE ($JAVA_HOME/jre/lib/security/cacerts) " | tee -a $LOG_DIR/apt_install.log

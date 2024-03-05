@@ -20,12 +20,13 @@ $SETUP_SCRIPT_DIR/configure_ssmtp.sh |  tee -a $LOG_DIR/apt_install.log
 
 if [ -z $JAVA_HOME ]; then
         logToScreenAndFile "JAVA_HOME is not defined! Configuring it"
-        java_home=$(readlink -f $(which java))
-        tmp="\/jre\/bin\/java"
+         JAVA_HOME="$HOME_DIR/jdk/jdk-17.0.10"
+        # java_home=$(readlink -f $(which java))
+        # tmp="\/jre\/bin\/java"
 
-        result=$(echo "$java_home" | sed "s/$tmp//g")
+        # result=$(echo "$java_home" | sed "s/$tmp//g")
 
-        export JAVA_HOME=$result
+        # export JAVA_HOME=$result
 fi
 
 logToScreenAndFile "CHANGING MOD OF JAVA carcets FILE ($JAVA_HOME/jre/lib/security/cacerts) " $LOG_DIR/apt_install.log
