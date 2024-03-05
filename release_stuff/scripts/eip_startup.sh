@@ -14,6 +14,7 @@ EIP_MODE=sender
 GIT_BRANCHES_DIR="$HOME_DIR/git/branches"
 PATH_TO_CERTIFICATE="$HOME_DIR/artemis.cert"
 DEFAULT_SET_ENV_FILE="$SCRIPTS_DIR/setenv.sh"
+LAST_JAVA_HOME="$HOME_DIR/jdk/jdk-17.0.10"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
