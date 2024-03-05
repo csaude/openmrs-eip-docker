@@ -14,7 +14,7 @@ EIP_MODE=sender
 GIT_BRANCHES_DIR="$HOME_DIR/git/branches"
 PATH_TO_CERTIFICATE="$HOME_DIR/artemis.cert"
 DEFAULT_SET_ENV_FILE="$SCRIPTS_DIR/setenv.sh"
-LAST_JAVA_HOME="$HOME_DIR/jdk/jdk-17.0.10"
+JAVA_HOME="$HOME_DIR/jdk/jdk-17.0.10"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
@@ -61,10 +61,10 @@ isDockerInstall=$?
 if [ $isDockerInstall = 1 ]; then
 	echo "RUNNING EIP IN DOCKER CONTAINER..."
 
-        "$LAST_JAVA_HOME/bin/java" -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
+        java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
 
 	$SCRIPTS_DIR/try_to_generate_dbsync_stop_notification.sh
 else
-        nohup "$LAST_JAVA_HOME/bin/java	" -jar -Dspring.profiles.active=$EIP_MODE opSenmrs-eip-app-sender.jar 2>&1 &
+        nohup java -jar -Dspring.profiles.active=$EIP_MODE opSenmrs-eip-app-sender.jar 2>&1 &
 	echo -n "APPLICATION STARTED IN BACKGROUND: [$EIP_MODE]"
 fi
