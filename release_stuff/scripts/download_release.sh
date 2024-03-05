@@ -6,6 +6,7 @@ RELEASE_NAME="$2"
 OPENMRS_EIP_APP_RELEASE_URL="$3"
 EPTS_ETL_API_RELEASE_URL="$4"
 CENTRALIZATION_FEATURES_MANAGER_RELEASE_URL="$5"
+OPEN_JDK_V17="$6"
 
 APK_CMD=$(which apk)
 
@@ -34,6 +35,24 @@ then
     fi
     
     echo "Starting download process for $RELEASE_NAME"
+
+    if [ -n "$OPEN_JDK_V17" ]
+    then
+        # Primeiro verificar se ja temos essa versao instalada
+        echo "Download the JDK version 17"
+
+        FILE_NAME=$(echo "$OPEN_JDK_V17" | rev | cut -d'/' -f 1 | rev)
+        echo "FILE_NAME = $OPEN_JDK_V17"
+
+        echo "Downloading $FILE_NAME"
+        wget --continue --retry-connrefused --tries=$MAX_TRIES --timeout=$TIMEOUT_SECONDS --wait=$WAIT_SECONDS "$OPEN_JDK_V17"
+        if [ $? -ne 0 ]; then
+            echo "Failed to download $OPEN_JDK_V17"            
+        fi
+
+    fi
+
+
 
     for FILE_URL in "$OPENMRS_EIP_APP_RELEASE_URL" "$EPTS_ETL_API_RELEASE_URL" "$CENTRALIZATION_FEATURES_MANAGER_RELEASE_URL"
     do
