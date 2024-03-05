@@ -3,7 +3,7 @@
 set cert_path [lindex $argv 0];
 set CERTIFICATE_NAME [lindex $argv 1];
 
-set JAVA_HOME $::env(JAVA_HOME) 
+#set JAVA_HOME $::env(JAVA_HOME) 
 
 set timeout -1
 
