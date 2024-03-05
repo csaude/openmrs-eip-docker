@@ -61,7 +61,7 @@ isDockerInstall=$?
 if [ $isDockerInstall = 1 ]; then
 	echo "RUNNING EIP IN DOCKER CONTAINER..."
 
-        java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
+        $LAST_JAVA_HOME/bin/java java -jar -Dspring.profiles.active=$EIP_MODE openmrs-eip-app-sender.jar
 
 	$SCRIPTS_DIR/try_to_generate_dbsync_stop_notification.sh
 else
