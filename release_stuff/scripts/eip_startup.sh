@@ -37,7 +37,21 @@ if [ "$artemis_ssl_enabled" = "true" ]; then
 	echo "Artemis server is configured for SSL. The application will force secure connection to artemis."
 	URL="$spring_artemis_host:$spring_artemis_port"
 
-	$SCRIPTS_DIR/generate_and_install_certificate.sh	  
+	$SCRIPTS_DIR/generate_certificate.sh $URL $PATH_TO_CERTIFICATE
+
+	if [ -z $JAVA_HOME ];then
+		echo "JAVA_HOME is not defined! Configuring it"
+		java_home=$(readlink -f $(which java))
+		tmp="\/jre\/bin\/java"
+
+		result=$(echo "$java_home" | sed "s/$tmp//g")
+
+		export JAVA_HOME=$result
+	fi
+
+	echo "Using JAVA_HOME =$JAVA_HOME"
+
+        $SCRIPTS_DIR/install_certificate_to_jdk_carcets.sh $PATH_TO_CERTIFICATE "artemis"
 else
         echo "Artemis server is not configured for SSL. The application will connect to the artemis throught non secure connection!"
 fi
