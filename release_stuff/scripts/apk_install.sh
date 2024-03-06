@@ -31,3 +31,7 @@ echo "WGET INSTALLED" | tee -a $LOG_DIR/apk_install.log
 echo "TRYING TO INSTALL OPENSSL" | tee -a $LOG_DIR/apk_install.log
 apk add openssl
 echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apk_install.log
+
+echo "INSTALLING OPENSSH" | tee -a $LOG_DIR/apk_install.log
+apt add openssh
+echo "OPENSSH INSTALLED" | tee -a $LOG_DIR/apk_install.log
