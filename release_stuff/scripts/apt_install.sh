@@ -34,6 +34,14 @@ echo "INSTALLING OPENSSL" | tee -a $LOG_DIR/apt_install.log
 apt install -y openssl
 echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
+echo "INSTALLING OPENSSH" | tee -a $LOG_DIR/apt_install.log
+apt install -y openssh
+echo "OPENSSH INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
+echo "INSTALLING OPENSSHPASS" | tee -a $LOG_DIR/apt_install.log
+apt install -y sshpass
+echo "OPENSSHPASS INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
 MYSQL_CLIENT=$(which mysql)
 
 if [ -z $MYSQL_CLIENT ];then

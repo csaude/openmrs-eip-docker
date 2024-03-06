@@ -35,3 +35,7 @@ echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apk_install.log
 echo "INSTALLING OPENSSH" | tee -a $LOG_DIR/apk_install.log
 apk add openssh
 echo "OPENSSH INSTALLED" | tee -a $LOG_DIR/apk_install.log
+
+echo "INSTALLING SSHPASS" | tee -a $LOG_DIR/apk_install.log
+apk add sshpass
+echo "SSHPASS INSTALLED" | tee -a $LOG_DIR/apk_install.log
