@@ -10,9 +10,9 @@ set timeout -1
 
 puts "REGISTERING $cert_path CERTIFICATE TO TRUSTED CERTIFICATES"
 
-spawn keytool -delete -trustcacerts -alias $CERTIFICATE_NAME -storepass changeit -keystore $JAVA_HOME/jre/lib/security/cacerts
+spawn keytool -delete -trustcacerts -alias $CERTIFICATE_NAME -storepass changeit -keystore $JAVA_HOME/lib/security/cacerts
 
-spawn keytool -import -trustcacerts -file $cert_path -alias artemis -keystore $JAVA_HOME/jre/lib/security/cacerts 
+spawn keytool -import -trustcacerts -file $cert_path -alias artemis -keystore $JAVA_HOME/lib/security/cacerts 
 
 	expect "Enter keystore password: "
 	send -- "changeit\n"
