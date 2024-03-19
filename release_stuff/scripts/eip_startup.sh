@@ -40,6 +40,8 @@ if [ "$artemis_ssl_enabled" = "true" ]; then
 	$SCRIPTS_DIR/generate_and_install_certificate.sh	  
 else
         echo "Artemis server is not configured for SSL. The application will connect to the artemis throught non secure connection!"
+		spring_artemis_host=$old_artemis_host
+		spring_artemis_port=$old_artemis_port
 fi
 
 echo "Preparing to start Eip Application AND the centralization Manager application"
