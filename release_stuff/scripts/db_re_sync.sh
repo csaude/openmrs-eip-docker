@@ -8,11 +8,12 @@
 # config:
 
 # Set EPTS_ETL environment.
-observationDateInput=$1
+startDateInput=$1
+CONFIG_FILE_ORIGINAL=$2
+
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 EIP_HOME=/home/eip
 CONFIG_FILE=$EIP_HOME/conf/detect_changed_records.tmp.json
-CONFIG_FILE_ORIGINAL=$EIP_HOME/conf/detect_changed_records.json
 LOG_DIR="$EIP_HOME/logs"
 LOG_FILE="$LOG_DIR/logs_$timestamp.txt"
 EIP_SCRIPTS_DIR="$EIP_HOME/scripts"
@@ -22,23 +23,31 @@ EIP_SCRIPTS_DIR="$EIP_HOME/scripts"
 
 dateSuggestionMsg="Please provide a date in format 'yyyy-mm-dd'"
 
-if [ -z $observationDateInput ]; then
-        echo "The observation date is not specified. $dateSuggestionMsg"
-        exit 1
-elif  [ "$(date -d "$observationDateInput" +%Y-%m-%d 2> /dev/null)" = "$observationDateInput" ]; then
-        observationDate=$(date -d "$observationDateInput" +%s%3N);
+if [ -z "$CONFIG_FILE_ORIGINAL" ]; then
+	echo "No conf file were specified. The default file will be used"
+	CONFIG_FILE_ORIGINAL="$EIP_HOME/conf/detect_changed_records.json"
+fi
 
-        lgth=$(expr length $observationDate)
+
+if [ -z $startDateInput ]; then
+        echo "The start date is not specified. $dateSuggestionMsg"
+        exit 1
+elif  [ "$(date -d "$startDateInput" +%Y-%m-%d 2> /dev/null)" = "$startDateInput" ]; then
+        startDate=$(date -d $startDateInput" +%s%3N);
+
+        lgth=$(expr length $startDate)
 
         if [ $lgth -eq 10 ]; then
-                observationDate="${observationDate}000"
+                startDate="${startDate}000"
         fi
 
-        echo "Using observation Start Date ${observationDateInput} - ${observationDate}"
+        echo "Using Start Date ${startDateInput} - ${startDate}"
 else
-        echo "The provided Observation Start Date [$observationDateInput]  is Invalid. $dateSuggestionMsg"
+        echo "The provided Start Date [$startDateInput]  is Invalid. $dateSuggestionMsg"
         exit 1;
 fi
+
+echo "Using conf file $CONFIG_FILE_ORIGINAL"
 
 cp $CONFIG_FILE_ORIGINAL $CONFIG_FILE
 
@@ -48,7 +57,7 @@ sed -i "s/origin_app_location_code/$origin_app_location_code/g" $CONFIG_FILE
 sed -i "s/openmrs_db_host/$openmrs_db_host/g" $CONFIG_FILE
 sed -i "s/openmrs_db_port/$openmrs_db_port/g" $CONFIG_FILE
 sed -i "s/openmrs_db_name/$openmrs_db_name/g" $CONFIG_FILE
-sed -i "s/observation_date/$observationDate/g" $CONFIG_FILE
+sed -i "s/start_date/$startDate/g" $CONFIG_FILE
 sed -i "s/spring_openmrs_datasource_password/$spring_openmrs_datasource_password/g" $CONFIG_FILE
 
 if [ ! -d $LOG_DIR ]; then

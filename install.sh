@@ -99,6 +99,8 @@ if [ $isDocker = 1 ]; then
    crond
 fi
 
+$SCRIPTS_DIR/after_upgrade_scripts.sh
+
 echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh
 
