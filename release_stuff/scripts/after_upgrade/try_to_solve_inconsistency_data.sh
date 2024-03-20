@@ -4,4 +4,4 @@
 HOME_DIR="/home/eip"
 SCRIPTS_DIR="$HOME_DIR/scripts"
 
-$SCRIPTS_DIR/try_to_update_date_sent_and_event_date.sh.sh
+$SCRIPTS_DIR/try_to_update_date_sent_and_event_date.sh
