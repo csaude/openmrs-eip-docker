@@ -18,27 +18,6 @@
                 <simple>${body.size()} == 1</simple>
                 <log loggingLevel="DEBUG" message="Fetched ${body.size()} sender sync message(s) matching message uuid ${exchangeProperty.syncResponse.messageUuid}" />
 
-                <choice>
-                    <when>
-                        <simple>${body.eventDate} == null</simple>
-                        <script>
-                            <spel>
-                                #{body.setEventDate(new java.util.Date())}
-                            </spel>
-                        </script>
-                    </when>
-                </choice>
-                <choice>
-                    <when>
-                        <simple>${body.dateSent} == null</simple>
-                        <script>
-                            <spel>
-                                #{body.setDateSent(new java.util.Date())}
-                            </spel>
-                        </script>
-                    </when>
-                </choice>
-
                 <bean ref="senderService" method="archiveSyncMessage(${body[0]}, ${exchangeProperty.syncResponse.dateReceivedByReceiver})" />
             </when>
             <otherwise>
