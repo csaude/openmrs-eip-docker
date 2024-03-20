@@ -63,8 +63,12 @@ else
            logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
            $SETUP_STOCK_SCRIPTS_DIR/apk_install.sh
         fi
+	
+        logToScreenAndFile "Copying setup stuff" $LOG_FILE
 
-	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
+	cp -R $SETUP_STOCK_DIR $HOME_DIR/
+
+        logToScreenAndFile "Setup stuff copied!" $LOG_FILE
         
 	$SITE_SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh
 
