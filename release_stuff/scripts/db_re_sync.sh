@@ -33,15 +33,10 @@ if [ -z $startDateInput ]; then
         echo "The start date is not specified. $dateSuggestionMsg"
         exit 1
 elif  [ "$(date -d "$startDateInput" +%Y-%m-%d 2> /dev/null)" = "$startDateInput" ]; then
-        startDate=$(date -d $startDateInput" +%s%3N);
 
-        lgth=$(expr length $startDate)
+        startDate=$startDateInput
 
-        if [ $lgth -eq 10 ]; then
-                startDate="${startDate}000"
-        fi
-
-        echo "Using Start Date ${startDateInput} - ${startDate}"
+        echo "Using Start Date ${startDate}"
 else
         echo "The provided Start Date [$startDateInput]  is Invalid. $dateSuggestionMsg"
         exit 1;
