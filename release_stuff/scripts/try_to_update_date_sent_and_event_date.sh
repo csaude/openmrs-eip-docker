@@ -6,8 +6,8 @@ DB_HOST_PORT="$openmrs_db_port"
 DB_USER="root"
 DB_PASSWD="$spring_openmrs_datasource_password"
 DB_NAME="openmrs_eip_sender_mgt_${db_sync_senderId}"
-UPDATE_DATE_SENT_SCRIPT=$HOME_DIR/etc/sql/upadate_date_sent.sql
-UPDATE_EVENT_DATE_SCRIPT=$HOME_DIR/etc/sql/upadate_event_date.sql
+UPDATE_DATE_SENT_SCRIPT=$HOME_DIR/etc/sql/update_date_sent.sql
+UPDATE_EVENT_DATE_SCRIPT=$HOME_DIR/etc/sql/update_event_date.sql
 
 . $HOME_DIR/scripts/commons.sh
 
