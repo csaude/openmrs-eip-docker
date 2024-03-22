@@ -61,9 +61,10 @@ else
 	fi
 
 	if [ ! -f "$UPGRADE_LOG_DIR" ]; then
-        	echo "CREATING RUN HISTORY DIR" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+        	echo "CREATING RUN HISTORY DIR" | tee -a $LOG_FILE
         	mkdir -p $UPGRADE_LOG_DIR
-        	echo "RUN HISTORY DIR CREATED" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+		touch $UPGRADE_LOG_DIR/install.log
+        	echo "RUN HISTORY DIR CREATED" | tee -a $LOG_FILE
 	fi
 
         if [ ! -z $APK_CMD ]; then
