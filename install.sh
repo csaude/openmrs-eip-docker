@@ -66,7 +66,7 @@ else
 	
         logToScreenAndFile "Copying setup stuff" $LOG_FILE
 
-	cp -R $SETUP_STOCK_DIR $HOME_DIR/
+	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
 
         logToScreenAndFile "Setup stuff copied!" $LOG_FILE
         
