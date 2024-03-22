@@ -23,6 +23,8 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 LOG_DIR="$HOME_DIR/logs/install"
 LOG_FILE="$LOG_DIR/install.log"
+UPGRADE_LOG_DIR="$LOG_DIR/upgrade"
+
 ################ RELEASE ###############################
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
@@ -58,6 +60,11 @@ else
         	exit 1
 	fi
 
+	if [ ! -f "$UPGRADE_LOG_DIR" ]; then
+        	echo "CREATING RUN HISTORY DIR" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+        	mkdir -p $UPGRADE_LOG_DIR
+        	echo "RUN HISTORY DIR CREATED" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+	fi
 
         if [ ! -z $APK_CMD ]; then
            logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
