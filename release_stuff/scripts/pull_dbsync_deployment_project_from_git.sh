@@ -3,7 +3,6 @@
 #
 
 HOME_DIR="/home/eip"
-SETUP_STOCK_DIR="/home/openmrs-eip-docker"
 SITE_SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
 SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
@@ -29,7 +28,9 @@ echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
 
 echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
 
-current_branch=$(git -C $SETUP_STOCK_DIR branch --show-current)
+git config --global --add safe.directory $CURR_INSTALLATION_RELEASE_STUFF_DIR
+
+current_branch=$(git -C $CURR_INSTALLATION_RELEASE_STUFF_DIR branch --show-current)
 
 if [ -z $branch_name ]; then
 	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
