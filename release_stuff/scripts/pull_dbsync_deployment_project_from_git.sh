@@ -3,7 +3,6 @@
 #
 
 HOME_DIR="/home/eip"
-
 SITE_SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
 SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
@@ -29,7 +28,7 @@ echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
 
 echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
 
-branch_name=$(getGitBranch "$GIT_BRANCHES_DIR")
+branch_name=$curr_git_branch
 
 if [ -z $branch_name ]; then
 	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
@@ -37,6 +36,7 @@ if [ -z $branch_name ]; then
 
         exit 1
 else
+
         logToScreenAndFile "Performing instalation/upgrade preparation on site $db_sync_senderId based on branch $branch_name" $LOG_FILE
 
         if [ -d "$SITE_SETUP_BASE_DIR" ]; then

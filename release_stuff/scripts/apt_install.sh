@@ -34,6 +34,14 @@ echo "INSTALLING OPENSSL" | tee -a $LOG_DIR/apt_install.log
 apt install -y openssl
 echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
+echo "INSTALLING OPENSSH" | tee -a $LOG_DIR/apt_install.log
+apt install -y openssh
+echo "OPENSSH INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
+echo "INSTALLING OPENSSHPASS" | tee -a $LOG_DIR/apt_install.log
+apt install -y sshpass
+echo "OPENSSHPASS INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
 MYSQL_CLIENT=$(which mysql)
 
 if [ -z $MYSQL_CLIENT ];then
@@ -52,12 +60,12 @@ chown -R eip "$HOME_DIR/logs" && chgrp -R eip "$HOME_DIR/logs"
 if [ -z $JAVA_HOME ];then
 	echo "JAVA_HOME is not defined! Configuring it"
 	java_home=$(readlink -f $(which java))
-	tmp="\/jre\/bin\/java"
+	tmp="\/bin\/java"
 
 	result=$(echo "$java_home" | sed "s/$tmp//g")
 
 	export JAVA_HOME=$result
 fi
 
-echo "CHANGING MOD OF JAVA carcets FILE ($JAVA_HOME/jre/lib/security/cacerts) " | tee -a $LOG_DIR/apt_install.log
-chmod 777 $JAVA_HOME/jre/lib/security/cacerts
+echo "CHANGING MOD OF JAVA carcets FILE ($JAVA_HOME/lib/security/cacerts) " | tee -a $LOG_DIR/apt_install.log
+chmod 777 $JAVA_HOME/lib/security/cacerts

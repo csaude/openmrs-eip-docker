@@ -40,6 +40,8 @@ if [ "$artemis_ssl_enabled" = "true" ]; then
 	$SCRIPTS_DIR/generate_and_install_certificate.sh	  
 else
         echo "Artemis server is not configured for SSL. The application will connect to the artemis throught non secure connection!"
+		spring_artemis_host=$old_artemis_host
+		spring_artemis_port=$old_artemis_port
 fi
 
 echo "Preparing to start Eip Application AND the centralization Manager application"
@@ -48,7 +50,7 @@ sleep 7
 
 echo "Starting centralization features manager app..."
 
-nohup java -jar -Dspring.profiles.active=remote -Dlogging.config=file:"logback-spring-c-features.xml" centralization-features-manager.jar 2>&1 &
+nohup java -jar -Dspring.profiles.active=remote -Dlogging.config=file:"logback-spring-c-features.xml" -Dcamel.springboot.routes-include-pattern=file:"/home/eip/features-routes/*.xml" centralization-features-manager.jar 2>&1 &
 
 echo -n "CENTRALIZATION MANAGER STARTED IN BACKGROUND"
 

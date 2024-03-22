@@ -23,6 +23,8 @@ SCRIPTS_DIR="$HOME_DIR/scripts"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 LOG_DIR="$HOME_DIR/logs/install"
 LOG_FILE="$LOG_DIR/install.log"
+UPGRADE_LOG_DIR="$LOG_DIR/upgrade"
+
 ################ RELEASE ###############################
 SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
@@ -58,16 +60,20 @@ else
         	exit 1
 	fi
 
+	if [ ! -f "$UPGRADE_LOG_DIR" ]; then
+        	echo "CREATING RUN HISTORY DIR" | tee -a $LOG_FILE
+        	mkdir -p $UPGRADE_LOG_DIR
+		touch $UPGRADE_LOG_DIR/install.log
+        	echo "RUN HISTORY DIR CREATED" | tee -a $LOG_FILE
+	fi
 
         if [ ! -z $APK_CMD ]; then
            logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
            $SETUP_STOCK_SCRIPTS_DIR/apk_install.sh
         fi
-
+	
 	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
-        
 	$SITE_SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh
-
 
 	. $SCRIPTS_DIR/release_info.sh
 	
@@ -98,6 +104,8 @@ if [ $isDocker = 1 ]; then
    echo "STARTING CROND INSIDE APK BASED DISTRO"
    crond
 fi
+
+$SCRIPTS_DIR/after_upgrade_scripts.sh
 
 echo "STARTING EIP APPLICATION"
 $SCRIPTS_DIR/eip_startup.sh

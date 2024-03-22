@@ -1,10 +1,12 @@
 version: '3.2'
 services:
     openmrs-eip-sender:
-        image: openjdk:8-alpine 
+        image: openjdk:17-alpine
         command: /home/eip/scripts/install.sh
         container_name: openmrs-eip-sender
         network_mode: host
+        environment:
+            - curr_git_branch=main
         env_file:
             - ./eip.env
         working_dir: /home/eip

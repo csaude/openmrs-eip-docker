@@ -10,11 +10,24 @@ timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 INSTALL_INFO_DIR="$HOME_DIR/install_info/after_upgrade"
 
+if [ ! -f "$AFTER_UPGRADE_LOG_DIR" ]; then
+	echo "CREATING RUN HISTORY DIR"
+	mkdir -p $AFTER_UPGRADE_LOG_DIR
+	echo "RUN HISTORY DIR CREATED"
+fi
+
+if [ ! -f "$LOG_DIR" ]; then
+	echo "CREATING RUN HISTORY DIR" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+	mkdir -p $LOG_DIR
+	echo "RUN HISTORY DIR CREATED" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+fi
+
 if [ ! -f "$INSTALL_INFO_DIR" ]; then
 	echo "CREATING RUN HISTORY DIR" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
 	mkdir -p $INSTALL_INFO_DIR
 	echo "RUN HISTORY DIR CREATED" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
 fi
+
 
 cd $AFTER_UPGRADE_SCRIPTS_HOME
 
