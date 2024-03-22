@@ -28,9 +28,7 @@ echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
 
 echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
 
-git config --global --add safe.directory $CURR_INSTALLATION_RELEASE_STUFF_DIR
-
-current_branch=$(git -C $CURR_INSTALLATION_RELEASE_STUFF_DIR branch --show-current)
+current_branch=$curr_git_branch
 
 if [ -z $branch_name ]; then
 	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
