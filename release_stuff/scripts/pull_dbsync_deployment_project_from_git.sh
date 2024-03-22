@@ -28,7 +28,7 @@ echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
 
 echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
 
-current_branch=$curr_git_branch
+branch_name=$curr_git_branch
 
 if [ -z $branch_name ]; then
 	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
