@@ -6,7 +6,7 @@ services:
         container_name: openmrs-eip-sender
         network_mode: host
         environment:
-            - curr_git_branch=develop
+            - curr_git_branch=main
         env_file:
             - ./eip.env
         working_dir: /home/eip
