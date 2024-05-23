@@ -11,7 +11,7 @@ If you are using openmrs instance based on [this docker project](https://github.
 
 Export the folder of OpenMRS installation
 ```
-OPENMRS_PATH=/FOLDER/OPENMRS
+OPENMRS_PATH=/OPENMRS/FOLDER
 ```
 Or set the default
 
