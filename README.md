@@ -9,16 +9,26 @@ To have the eip application run, the mysql bin-logs must be active in the remote
 
 If you are using openmrs instance based on [this docker project](https://github.com/FriendsInGlobalHealth/openmrs-docker-2x) follow the steps bellow:
 
+Export the folder of OpenMRS installation
+```
+OPENMRS_PATH=/OPENMRS/FOLDER
+```
+Or set the default
+
+```
+OPENMRS_PATH=/opt/openmrs/appdata/openmrs-docker-2x
+```
+
 Stop the openmrs instance containers using the command
 
 ```
-docker-compose -f /opt/openmrs/appdata/openmrs-docker-2x/docker-compose.yml stop
+docker-compose -f $OPENMRS_PATH/docker-compose.yml stop
 ```
 
-Edit the file "/opt/openmrs/appdata/openmrs-docker-2x/mysql/mysql.cnf" adding 3 lines bellow under [mysqld] group: 
+Edit the file "$OPENMRS_PATH/mysql/mysql.cnf" adding 3 lines bellow under [mysqld] group: 
 
 ``` 
-vi /opt/openmrs/appdata/openmrs-docker-2x/mysql/mysql.cnf
+vi $OPENMRS_PATH/mysql/mysql.cnf
 ```
 
 ```
@@ -29,12 +39,12 @@ server-id=1000
 
 Rebuild the conteiners using the command
 ```
-docker-compose -f /opt/openmrs/appdata/openmrs-docker-2x/docker-compose.yml up --build -d
+docker-compose -f $OPENMRS_PATH/docker-compose.yml up --build -d
 ```
 
 After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container. Run the bellow command to check
 ``` 
-docker exec -it refapp-db -c "cat ~/.my.cnf"
+docker exec -it refapp-db cat /root/.my.cnf
 ```
                 
 After rebuilding the containers you should check if the bin-logs is up running the instrunction bellow in mysql database
