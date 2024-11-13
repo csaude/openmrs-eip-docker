@@ -20,6 +20,7 @@ RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 PATH_TO_ERROR_LOG="$HOME_DIR/tmp_unlock_liquibase"
 MAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
 MAIL_ATTACHMENT="liquibase-unlock-info.tmp"
+INSTALL_INFO_DIR="$HOME_DIR/install_info/after_upgrade"
 AFTER_UPGRADE_ERROR_SCRIPT_INFO="$INSTALL_INFO_DIR/error_script_info.txt"
 
 . $SCRIPTS_DIR/commons.sh
