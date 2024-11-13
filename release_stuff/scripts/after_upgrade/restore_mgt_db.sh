@@ -20,6 +20,7 @@ RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
 PATH_TO_ERROR_LOG="$HOME_DIR/tmp_unlock_liquibase"
 MAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
 MAIL_ATTACHMENT="liquibase-unlock-info.tmp"
+AFTER_UPGRADE_ERROR_SCRIPT_INFO="$INSTALL_INFO_DIR/error_script_info.txt"
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
@@ -41,7 +42,12 @@ logToScreenAndFile "Starting dbsync-mgt restoure at $timestamp" "$LOG_FILE"
 
 
 if [ ! -f "$DBSYNC_MGT_DB_SCRIPT" ]; then
-	logToScreenAndFile "The mgt db dump $DBSYNC_MGT_DB_SCRIPT cannot be found" "$LOG_FILE"
+	msg = "The mgt db dump $DBSYNC_MGT_DB_SCRIPT cannot be found"
+
+	logToScreenAndFile "$msg" "$LOG_FILE"
+
+	echo "SCRIPT: $(basename "$0")" >> $AFTER_UPGRADE_ERROR_SCRIPT_INFO
+	echo "ERROR: $msg" >> $AFTER_UPGRADE_ERROR_SCRIPT_INFO
 	exit 1
 fi
 
