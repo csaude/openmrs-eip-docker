@@ -23,6 +23,13 @@ cd $HOME_DIR
 echo "Performing startup operations"
 
 branch_name=$(getGitBranch $GIT_BRANCHES_DIR)
+
+if [ -z "$branch_name" ]; then
+  echo "The branch of site $db_sync_senderId cannot be determined"
+  exit 1
+fi
+
+
 setenv_file="$SCRIPTS_DIR/${branch_name}_setenv.sh"
 
 echo "Using env from $setenv_file"
