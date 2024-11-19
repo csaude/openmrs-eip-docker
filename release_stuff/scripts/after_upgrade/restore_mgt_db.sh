@@ -43,7 +43,7 @@ logToScreenAndFile "Starting dbsync-mgt restoure at $timestamp" "$LOG_FILE"
 
 
 if [ ! -f "$DBSYNC_MGT_DB_SCRIPT" ]; then
-	msg = "The mgt db dump $DBSYNC_MGT_DB_SCRIPT cannot be found"
+	msg="The mgt db dump $DBSYNC_MGT_DB_SCRIPT cannot be found"
 
 	logToScreenAndFile "$msg" "$LOG_FILE"
 
