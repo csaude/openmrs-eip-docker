@@ -4,7 +4,7 @@
 #ENV
 HOME_DIR="/home/eip"
 SETUP_STOCK_DIR="/home/openmrs-eip-docker"
-SETUP_STOCK_STUFF_DIR="$SETUP_STOCK_DIR"
+SETUP_STOCK_STUFF_DIR="$SETUP_STOCK_DIR/release_stuff"
 SETUP_STOCK_SCRIPTS_DIR="$SETUP_STOCK_STUFF_DIR/scripts"
 GIT_BRANCHES_DIR="$SETUP_STOCK_STUFF_DIR/git/branches"
 INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
@@ -12,6 +12,13 @@ LOG_DIR="$HOME_DIR/logs/install"
 LOG_FILE="$LOG_DIR/install.log"
 UPGRADE_LOG_DIR="$LOG_DIR/upgrade"
 APK_CMD=$(which apk)
+
+
+SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
+STUFF_DIR="$SETUP_BASE_DIR/release_stuff"
+SETUP_SCRIPTS_DIR="$STUFF_DIR/scripts"
+
+SCRIPTS_DIR="$HOME_DIR/scripts"
 
 . $SETUP_STOCK_SCRIPTS_DIR/commons.sh
 . $SETUP_STOCK_SCRIPTS_DIR/try_to_load_environment.sh
@@ -45,7 +52,10 @@ else
         fi
 	
 	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
-	$SITE_SETUP_SCRIPTS_DIR/performe_initial_installation.sh
+
+	chmod +x $SETUP_SCRIPTS_DIR/*.sh
+
+	$SETUP_SCRIPTS_DIR/performe_initial_installation.sh
 fi
 
 $SCRIPTS_DIR/startup.sh
