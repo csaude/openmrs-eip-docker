@@ -8,6 +8,7 @@ SITE_STUFF_DIR="$SITE_SETUP_BASE_DIR/release_stuff"
 SITE_SETUP_SCRIPTS_DIR="$SITE_STUFF_DIR/scripts"
 
 CURR_INSTALLATION_RELEASE_STUFF_DIR=$1
+SETUP_GIT_TAG_INFO="$CURR_INSTALLATION_RELEASE_STUFF_DIR/../setup_git_tag_info.sh"
 
 GIT_BRANCHES_DIR="$CURR_INSTALLATION_RELEASE_STUFF_DIR/git/branches"
 
@@ -44,11 +45,18 @@ else
                 rm -fr $SITE_SETUP_BASE_DIR
         fi
 
+
+        chmod +x $SETUP_GIT_TAG_INFO
+
+	#Load SETUP_GIT_TAG FROM SETUP_GIT_TAG_INFO
+	. $SETUP_GIT_TAG_INFO
+	SETUP_GIT_TAG=$setup_git_tag
+
         mkdir $SITE_SETUP_BASE_DIR
 
-        git -C $SITE_SETUP_BASE_DIR init && git -C $SITE_SETUP_BASE_DIR checkout -b $branch_name
+        git -C $SITE_SETUP_BASE_DIR init && git -C $SITE_SETUP_BASE_DIR checkout -b $SETUP_GIT_TAG
         git -C $SITE_SETUP_BASE_DIR remote add origin https://github.com/csaude/openmrs-eip-docker.git
-        git -C $SITE_SETUP_BASE_DIR pull --depth=1 origin $branch_name
+        git -C $SITE_SETUP_BASE_DIR pull --depth=1 origin $SETUP_GIT_TAG
 fi
 
 echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
