@@ -11,8 +11,6 @@ INSTALL_FINISHED_REPORT_FILE="$HOME_DIR/install_finished_report_file"
 LOG_DIR="$HOME_DIR/logs/install"
 LOG_FILE="$LOG_DIR/install.log"
 UPGRADE_LOG_DIR="$LOG_DIR/upgrade"
-APK_CMD=$(which apk)
-
 
 SETUP_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 STUFF_DIR="$SETUP_BASE_DIR/release_stuff"
@@ -46,10 +44,8 @@ else
         	echo "RUN HISTORY DIR CREATED" | tee -a $LOG_FILE
 	fi
 
-        if [ ! -z $APK_CMD ]; then
-           logToScreenAndFile "INSTALLING DEPENDENCIES USING APK" $LOG_FILE
-           $SETUP_STOCK_SCRIPTS_DIR/apk_install.sh
-        fi
+        logToScreenAndFile "INSTALLING DEPENDENCIES" $LOG_FILE
+        $SETUP_STOCK_SCRIPTS_DIR/apt_install.sh
 	
 	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
 
