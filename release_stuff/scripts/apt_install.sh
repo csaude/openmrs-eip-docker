@@ -70,6 +70,11 @@ if [ -z $MYSQL_CLIENT ];then
 	DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.29-1_all.deb
 
 	apt update
+        wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+
+        DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.29-1_all.deb
+
+        apt update
 
 	echo "INSTALLING MYSQL CLIENT" | tee -a $LOG_DIR/apt_install.log
 	apt install -y mysql-client
