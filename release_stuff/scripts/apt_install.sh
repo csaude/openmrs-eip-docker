@@ -14,9 +14,16 @@ fi
 
 apt update
 
+JAVA=$(which java)
+
 echo "TRYING TO INSTALL JAVA" | tee -a $LOG_DIR/apt_install.log
-apt install -y openjdk-8-jdk-headless
-echo "JAVA INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
+if [ -z $JAVA ];then
+	apt install -y openjdk-17-jdk-headless
+	echo "JAVA INSTALLED" | tee -a $LOG_DIR/apt_install.log
+else
+	echo "JAVA WAS ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
+fi
 
 echo "TRYING TO INSTALL CURL" | tee -a $LOG_DIR/apt_install.log
 apt install -y curl
@@ -34,24 +41,31 @@ echo "INSTALLING OPENSSL" | tee -a $LOG_DIR/apt_install.log
 apt install -y openssl
 echo "OPENSSL INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
-echo "INSTALLING OPENSSH" | tee -a $LOG_DIR/apt_install.log
-apt install -y openssh
-echo "OPENSSH INSTALLED" | tee -a $LOG_DIR/apt_install.log
-
 echo "INSTALLING OPENSSHPASS" | tee -a $LOG_DIR/apt_install.log
 apt install -y sshpass
 echo "OPENSSHPASS INSTALLED" | tee -a $LOG_DIR/apt_install.log
 
+echo "INSTALLING VIM" | tee -a $LOG_DIR/apt_install.log
+apt install -y vim
+echo "VIM INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
+echo "INSTALLING CRON" | tee -a $LOG_DIR/apt_install.log
+apt install -y cron
+echo "CRON INSTALLED" | tee -a $LOG_DIR/apt_install.log
+
 MYSQL_CLIENT=$(which mysql)
 
 if [ -z $MYSQL_CLIENT ];then
+	apt install -y lsb-release
+	apt install -y gnupg
+	apt update
 
 	echo "INSTALLING MYSQL CLIENT" | tee -a $LOG_DIR/apt_install.log
 	apt install -y mysql-client
 	echo "MYSQL CLIENT INSTALLED" | tee -a $LOG_DIR/apt_install.log
 	
-	else
-		echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
+else
+	echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
 fi
 
 chown -R eip "$HOME_DIR/shared" && chgrp -R eip "$HOME_DIR/shared"

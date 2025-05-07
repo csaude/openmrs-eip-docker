@@ -21,14 +21,11 @@ getScriptLocation(){
 }
 
 isDockerInstallation(){
-	APK_CMD=$(which apk)
-
-	if [ -z $APK_CMD ]; then
-		return 0;
+	if [ -f /.dockerenv ]; then
+    		return 1;
 	else
-		return 1;
-        fi
-
+    		return 0;
+	fi
 }
 
 getCurrDateTime(){

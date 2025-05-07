@@ -12,7 +12,6 @@ UPGRADE_LOG_DIR="$LOG_DIR/upgrade"
 AFTER_UPGRADE_SCRIPTS_HOME=$HOME_DIR/scripts/after_upgrade
 INSTALL_INFO_DIR="$HOME_DIR/install_info/after_upgrade"
 AFTER_UPGRADE_ERROR_SCRIPT_INFO="$INSTALL_INFO_DIR/error_script_info.txt"
-APK_CMD=$(which apk)
 
 . $SCRIPTS_DIR/commons.sh
 . $SCRIPTS_DIR/try_to_load_environment.sh
@@ -28,7 +27,7 @@ isDocker=$?
 
 if [ $isDocker = 1 ]; then
    echo "STARTING CROND INSIDE APK BASED DISTRO"
-   crond
+   cron
 fi
 
 if [ ! -f "$INSTALL_INFO_DIR" ]; then
