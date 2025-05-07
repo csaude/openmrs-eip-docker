@@ -11,6 +11,7 @@ DB_USER="root"
 DB_PASSWD="$spring_openmrs_datasource_password"
 DB_NAME="openmrs_eip_sender_mgt_${db_sync_senderId}"
 CREATE_DB_SCRIPT="$HOME_DIR/shared/bkps/create_mgt_db.sql"
+DROP_DB_SCRIPT="$HOME_DIR/shared/bkps/drop_mgt_db.sql"
 DBSYNC_MGT_DB_SCRIPT="$HOME_DIR/shared/bkps/dbsync-mgt-db.sql"
 OPENMRS_DB_NAME="$openmrs_db_name"
 MYSQL_DB_NAME="mysql"
@@ -52,7 +53,11 @@ if [ ! -f "$DBSYNC_MGT_DB_SCRIPT" ]; then
 	exit 1
 fi
 
+echo "DROP DATABASE IF EXISTS \`$DB_NAME\`;" > $DROP_DB_SCRIPT
+
 echo "CREATE DATABASE \`$DB_NAME\` /*!40100 DEFAULT CHARACTER SET utf32 */;" > $CREATE_DB_SCRIPT
+
+$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $MYSQL_DB_NAME $DROP_DB_SCRIPT $RESULT_SCRIPT
 
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $MYSQL_DB_NAME $CREATE_DB_SCRIPT $RESULT_SCRIPT
 	
