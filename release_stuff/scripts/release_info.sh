@@ -20,10 +20,10 @@ MYSQL_VERSION=$(determineMysqlVersion "$DB_HOST" "$DB_HOST_PORT" "$DB_USER" "$DB
 MAJOR_MYSQL_VERSION=$(echo "$MYSQL_VERSION" | cut -c1)
 
 
-if [ $MAJOR_MYSQL_VERSION = "5" ]; then
+if [ "$MAJOR_MYSQL_VERSION" = "5" ]; then
 	echo "Detected Platform 2.3.x based on Mysql Version($MYSQL_VERSION)"
 	DBSYNC_VERSION="1.6.9"
-elif [ $MAJOR_MYSQL_VERSION = "8" ]; then
+elif [ "$MAJOR_MYSQL_VERSION" = "8" ]; then
 	echo "Detected Platform 2.6.x based on Mysql Version($MYSQL_VERSION)"
 	DBSYNC_VERSION="1.9.0"
 else
