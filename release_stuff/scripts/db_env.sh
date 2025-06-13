@@ -1,0 +1,5 @@
+DB_HOST="172.17.0.1"
+DB_HOST_PORT="$openmrs_db_port"
+DB_USER="root"
+DB_PASSWD="$spring_openmrs_datasource_password"
+DB_NAME="openmrs_eip_sender_mgt_${db_sync_senderId}"

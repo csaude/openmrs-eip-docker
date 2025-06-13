@@ -1,12 +1,9 @@
-version: '3.2'
 services:
     dbsync-remote:
         image: bitnami/java:17-debian-11
         command: /home/eip/install.sh
         container_name: dbsync-remote
         network_mode: host
-        environment:
-            - curr_git_branch=main
         env_file:
             - ./eip.env
         working_dir: /home/eip
