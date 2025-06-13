@@ -6,29 +6,28 @@ HOME_DIR="/home/eip"
 RELEASE_BASE_DIR="$HOME_DIR/openmrs-eip-docker"
 RELEASE_DIR="$RELEASE_BASE_DIR/release_stuff"
 RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
-DB_HOST="172.17.0.1"
-DB_HOST_PORT="$openmrs_db_port"
-DB_USER="root"
-DB_PASSWD="$spring_openmrs_datasource_password"
-
 
 export RELEASE_VERSION_TAG="V11.0.0"
 export RELEASE_NAME="EIP-Release-$RELEASE_VERSION_TAG"
 export RELEASE_DATE="2025-06-20 12:00:00"
 export RELEASE_DESC="DBSync v1.9x/v1.6x, upgrade of OpenMRS to a new release and accommodation with DBSync"
 
-. $SITE_SETUP_SCRIPTS_DIR/db_env.sh
+. $RELEASE_SCRIPTS_DIR/db_env.sh
 . $RELEASE_SCRIPTS_DIR/commons.sh
 
 MYSQL_VERSION=$(determineMysqlVersion "$DB_HOST" "$DB_HOST_PORT" "$DB_USER" "$DB_PASSWD")
 
+MAJOR_MYSQL_VERSION=$(echo "$MYSQL_VERSION" | cut -c1)
 
-if [[ $MYSQL_VERSION == 5* ]]; then
-	DBSYNC_VERSION='1.6.9'
-elif [[ $MYSQL_VERSION == 8* ]]; then
-	DBSYNC_VERSION='1.9.0'
+
+if [ $MAJOR_MYSQL_VERSION = "5" ]; then
+	echo "Detected Platform 2.3.x based on Mysql Version($MYSQL_VERSION)"
+	DBSYNC_VERSION="1.6.9"
+elif [ $MAJOR_MYSQL_VERSION = "8"]]; then
+	echo "Detected Platform 2.6.x based on Mysql Version($MYSQL_VERSION)"
+	DBSYNC_VERSION="1.9.0"
 else
-        echo "Unsuported mysql version"
+	echo "Unsuported mysql version($MYSQL_VERSION)"
         exit 1;
 fi
 
