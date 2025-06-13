@@ -9,6 +9,7 @@ AFTER_UPGRADE_LOG_DIR=$LOG_DIR/upgrade
 timestamp=`date +%Y-%m-%d_%H-%M-%S`
 
 INSTALL_INFO_DIR="$HOME_DIR/install_info/after_upgrade"
+AFTER_UPGRADE_ERROR_SCRIPT_INFO="$INSTALL_INFO_DIR/error_script_info.txt"
 
 if [ ! -f "$AFTER_UPGRADE_LOG_DIR" ]; then
 	echo "CREATING RUN HISTORY DIR"
@@ -42,6 +43,14 @@ if [ "$QTY_FILES" -gt 0 ]; then
         	else
                 	echo "RUNNING SCRIP $FILE" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
                 	./$FILE
+
+			if [ -f "$AFTER_UPGRADE_ERROR_SCRIPT_INFO" ]; then
+        			echo "ERROR FOUND RUNNING AFTER UPGRADE SCRIPT $FILE" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+        			echo "ABORTING FROM HERE" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
+
+				exit 1
+			fi
+
                 	echo "THE SCRIPT $FILE WAS RUN" | tee -a $AFTER_UPGRADE_LOG_DIR/install.log
                 	echo "SCRIPT RUN ON $timestamp" > "$INSTALL_INFO_DIR/$FILE"
         	fi
