@@ -54,7 +54,6 @@ determineMysqlVersion(){
 	DB_HOST_PORT=$2
 	DB_USER=$3
 	DB_PASSWD=$4
-	DB_NAME=$5
 
 	mysql -h "$DB_HOST" -P "$DB_HOST_PORT" -u "$DB_USER" -p"$DB_PASSWD" -e "SELECT VERSION();" 2>/dev/null | tail -n1
 }

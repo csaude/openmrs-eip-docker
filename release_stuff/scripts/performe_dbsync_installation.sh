@@ -20,21 +20,10 @@ CONFIG_FILE="$HOME_DIR/dbsync-users.properties"
 . $SITE_SETUP_SCRIPTS_DIR/commons.sh
 . $SITE_SETUP_SCRIPTS_DIR/try_to_load_environment.sh
 . $SITE_SETUP_SCRIPTS_DIR/setenv.sh
-. $SITE_SETUP_SCRIPTS_DIR/db_env.sh
-
-MYSQL_VERSION=$(determineMysqlVersion "$DB_HOST" "$DB_HOST_PORT" "$DB_USER" "$DB_PASSWD")
 
 echo "USING MYSQL VERSION $MYSQL_VERSION"
 
-if [[ $MYSQL_VERSION == 5* ]]; then
-	. $SITE_SETUP_SCRIPTS_DIR/release_info.mysql.5.6.sh
-elif [[ $MYSQL_VERSION == 8* ]]; then
-	. $SITE_SETUP_SCRIPTS_DIR/release_info.mysql.8.4.sh
-else
-	echo "Unsuported mysql version"
-	exit 1;
-fi
-
+. $SITE_SETUP_SCRIPTS_DIR/release_info.sh
 
 logToScreenAndFile "FOUND RELEASE {NAME: $RELEASE_NAME, DATE: $RELEASE_DATE} " $LOG_FILE
 
