@@ -43,7 +43,7 @@ isDocker=$?
 $SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh "$ERROR_FILE"
 
 
-if [ ! -f "$ERROR_FILE" ]; then
+if [ -f "$ERROR_FILE" ]; then
 	logToScreenAndFile "Aborting from performe_initial_installation.sh at $timestamp" "$LOG_FILE"
      	exit 1
 fi

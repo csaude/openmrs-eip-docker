@@ -83,7 +83,7 @@ RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_com
 
 if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
 	logToScreenAndFile "Error trying to download release packages: $RELEASE_NAME. See previous messages." $LOG_FILE
-	logToScreenAndFile "Installation process failed" $LOG_FILE
+	logToScreenAndFile "Installation process failed in performe_dbsync_installation.sh" $LOG_FILE
 	echo "Installation process failed" > $ERROR_FILE
 	exit 1
 fi

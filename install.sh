@@ -38,7 +38,7 @@ else
 
 	if [ -z $branch_name ]; then
         	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
-        	logToScreenAndFile "Aborting the installation process..." $LOG_FILE
+        	logToScreenAndFile "Aborting the installation process on install.sh" $LOG_FILE
 
         	exit 1
 	fi
@@ -59,12 +59,12 @@ else
 
 	$SETUP_SCRIPTS_DIR/performe_initial_installation.sh "$ERROR_FILE"
 
-	if [ ! -f "$ERROR_FILE" ]; then
+	if [ -f "$ERROR_FILE" ]; then
         	exit 1
 	fi
 
 fi
 
-if [ -f "$ERROR_FILE" ];then
+if [ ! -f "$ERROR_FILE" ];then
 	$SCRIPTS_DIR/startup.sh
 fi
