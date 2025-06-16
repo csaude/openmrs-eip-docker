@@ -65,4 +65,6 @@ else
 
 fi
 
-$SCRIPTS_DIR/startup.sh
+if [ -f "$ERROR_FILE" ];then
+	$SCRIPTS_DIR/startup.sh
+fi
