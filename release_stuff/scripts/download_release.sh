@@ -15,7 +15,8 @@ RELEASE_DIR="$RELEASES_ROOT_DIR/$RELEASE_NAME"
 mkdir -p "$RELEASE_DIR"
 cd "$RELEASE_DIR"
 
-RELEASE_DOWNLOAD_COMPLETED="${HOME_DIR}/release-info/${RELEASE_NAME}/download_completed"
+RELEASE_DOWNLOAD_COMPLETED_DIR="${HOME_DIR}/release-info/${RELEASE_NAME}"
+RELEASE_DOWNLOAD_COMPLETED="${RELEASE_DOWNLOAD_COMPLETED_DIR}/download_completed"
 
 MAX_TRIES=3
 WAIT_SECONDS=10
@@ -77,8 +78,13 @@ then
         
         printf "\n"
     done
-   
+  	
+    if [ ! -f "$RELEASE_DOWNLOAD_COMPLETED_DIR" ];then
+    	mkdir -p $RELEASE_DOWNLOAD_COMPLETED_DIR
+    fi
+
     touch "$RELEASE_DOWNLOAD_COMPLETED"
+
     echo "Release $RELEASE_NAME successfully downloaded"
 else
     echo "Release $RELEASE_NAME already downloaded"
