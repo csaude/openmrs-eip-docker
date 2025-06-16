@@ -17,6 +17,15 @@ SHARED_DIR="$HOME_DIR/shared"
 RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
 CONFIG_FILE="$HOME_DIR/dbsync-users.properties"
 
+###################PARAMS###########################
+ERROR_FILE=$1
+
+if [ -f "$ERROR_FILE" ];then
+	logToScreenAndFile "Removing old Installation error file on performe_dbsync_installation.sh" $LOG_FILE
+
+	rm $ERROR_FILE
+fi
+
 . $SITE_SETUP_SCRIPTS_DIR/commons.sh
 . $SITE_SETUP_SCRIPTS_DIR/try_to_load_environment.sh
 . $SITE_SETUP_SCRIPTS_DIR/setenv.sh
@@ -75,6 +84,7 @@ RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_com
 if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
 	logToScreenAndFile "Error trying to download release packages: $RELEASE_NAME. See previous messages." $LOG_FILE
         logToScreenAndFile "Installation process failed" $LOG_FILE
+	echo "Installation process failed" > $ERROR_FILE
         exit 1
 fi
 
