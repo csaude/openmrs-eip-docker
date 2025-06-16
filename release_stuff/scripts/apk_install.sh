@@ -13,7 +13,7 @@ else
 fi
 
 
-if [ -f "$PACKAGE_INSTALLED" ];then
+if [ ! -f "$PACKAGE_INSTALLED" ];then
 	apk update
 
 	echo "TRYING TO INSTALL CURL" | tee -a $LOG_DIR/apk_install.log
