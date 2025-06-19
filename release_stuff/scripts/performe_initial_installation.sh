@@ -32,20 +32,26 @@ MAIL_RECIPIENTS="$administrators_emails"
 MAIL_CONTENT_FILE="$HOME_DIR/setup_notification_content"
 MAIL_ATTACHMENT="$HOME_DIR/setup_notification_log"
 
+
+##########################PARAMS=========================
+ERROR_FILE=$1
+
+
 isDockerInstallation
 isDocker=$?
 
-$SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh
+$SETUP_SCRIPTS_DIR/performe_dbsync_installation.sh "$ERROR_FILE"
+
+
+if [ -f "$ERROR_FILE" ]; then
+	logToScreenAndFile "Aborting from performe_initial_installation.sh at $timestamp" "$LOG_FILE"
+     	exit 1
+fi
 
 . $SCRIPTS_DIR/release_info.sh
 	
 CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$RELEASE_NAME"
 RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
-
-if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
-     	exit 1
-fi
-
 
 timestamp=$(getCurrDateTime)
 logToScreenAndFile "Installation finished at $timestamp" $INSTALL_FINISHED_REPORT_FILE

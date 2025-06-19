@@ -5,8 +5,6 @@ services:
         command: /home/eip/install.sh
         container_name: dbsync-remote
         network_mode: host
-        environment:
-            - curr_git_branch=main
         env_file:
             - ./eip.env
         working_dir: /home/eip
