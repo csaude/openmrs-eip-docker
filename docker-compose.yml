@@ -1,19 +1,17 @@
 version: '3.2'
 services:
-    openmrs-eip-sender:
-        image: openjdk:17-alpine
-        command: /home/eip/scripts/install.sh
-        container_name: openmrs-eip-sender
+    dbsync-remote:
+        image: bitnami/java:17-debian-11
+        command: /home/eip/install.sh
+        container_name: dbsync-remote
         network_mode: host
-        environment:
-            - curr_git_branch=main
         env_file:
             - ./eip.env
         working_dir: /home/eip
         volumes: 
             - /etc/timezone:/etc/timezone:ro
             - /etc/localtime:/etc/localtime:ro
-            - ./install.sh:/home/eip/scripts/install.sh
+            - ./install.sh:/home/eip/install.sh
             - ./:/home/openmrs-eip-docker
             - ./shared:/home/eip/shared
         restart: unless-stopped

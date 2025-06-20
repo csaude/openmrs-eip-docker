@@ -10,9 +10,11 @@ DB_HOST_PORT="$openmrs_db_port"
 DB_USER="root"
 DB_PASSWD="$spring_openmrs_datasource_password"
 DB_NAME="openmrs_eip_sender_mgt_${db_sync_senderId}"
+FEATURE_DB_NAME="centralization_features_mgt_db"
 LIQUIBASE_UNLOCK_SCRIPT=$HOME_DIR/etc/sql/unload_dbsync_liquibase.sql
 CHECK_STATUS_SCRIPT=$HOME_DIR/liquibase_check_status.sql
 RESULT_SCRIPT=$HOME_DIR/liquibase_check_status.result
+RESULT_SCRIPT_FEATURES=$HOME_DIR/liquibase_check_status_features.result
 PATH_TO_ERROR_LOG="$HOME_DIR/tmp_unlock_liquibase"
 MAIL_CONTENT_FILE="$HOME_DIR/tmp_unlock_liquibase_email_content_file"
 MAIL_ATTACHMENT="liquibase-unlock-info.tmp"
@@ -38,6 +40,19 @@ logToScreenAndFile "Trying to unlock liquibase at $timestamp" "$LOG_FILE"
 echo "select IF(LOCKED=true, 'true', 'false') LOCKED_STATUS from LIQUIBASECHANGELOGLOCK where id =1 or LOCKED = true" > $CHECK_STATUS_SCRIPT
 
 $HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $DB_NAME $CHECK_STATUS_SCRIPT $RESULT_SCRIPT
+$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $FEATURE_DB_NAME $CHECK_STATUS_SCRIPT $RESULT_SCRIPT_FEATURES
+
+
+if grep "true" $RESULT_SCRIPT_FEATURES; then
+	logToScreenAndFile "THE LIQUIBASE for ${FEATURE_DB_NAME} IS LOCKED..." "$LOG_FILE"
+	logToScreenAndFile "EXECUTING UNLOCK QUERY..." "$LOG_FILE"
+
+	$HOME_DIR/scripts/execute_script_on_db.sh $DB_HOST $DB_HOST_PORT $DB_USER $DB_PASSWD $FEATURE_DB_NAME $LIQUIBASE_UNLOCK_SCRIPT $RESULT_SCRIPT_FEATURES
+	
+	logToScreenAndFile "LIQUIBASE UNLOCKED!" $LOG_FILE
+
+
+fi
 
 if grep "true" $RESULT_SCRIPT; then
 	logToScreenAndFile "THE LIQUIBASE IS LOCKED..." "$LOG_FILE"

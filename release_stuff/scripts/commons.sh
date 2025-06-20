@@ -21,14 +21,11 @@ getScriptLocation(){
 }
 
 isDockerInstallation(){
-	APK_CMD=$(which apk)
-
-	if [ -z $APK_CMD ]; then
-		return 0;
+	if [ -f /.dockerenv ]; then
+    		return 1;
 	else
-		return 1;
-        fi
-
+    		return 0;
+	fi
 }
 
 getCurrDateTime(){
@@ -49,6 +46,16 @@ logToScreenAndFile(){
 	currTime=$(getCurrDateTime)
 
 	echo "$log_msg at $currTime" | tee -a $log_file 
+}
+
+
+determineMysqlVersion(){
+	DB_HOST=$1
+	DB_HOST_PORT=$2
+	DB_USER=$3
+	DB_PASSWD=$4
+
+	mysql -h "$DB_HOST" -P "$DB_HOST_PORT" -u "$DB_USER" -p"$DB_PASSWD" -e "SELECT VERSION();" 2>/dev/null | tail -n1
 }
 
 checkIfTokenExistsInFile(){
