@@ -1,7 +1,7 @@
 version: '3.2'
 services:
     dbsync-remote:
-        image: bitnami/java:17-debian-11
+        image: hub.csaude.org.mz/base/java:17-debian-11
         command: /home/eip/install.sh
         container_name: dbsync-remote
         network_mode: host
