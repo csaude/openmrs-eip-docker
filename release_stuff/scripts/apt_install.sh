@@ -64,7 +64,7 @@ if [ ! -f "$PACKAGE_INSTALLED" ];then
         echo "Installing MySQL client with official 2025+ method..." | tee -a $LOG_DIR/apt_install.log
 		wget -q https://repo.mysql.com/mysql-apt-config_0.8.32-1_all.deb
 		dpkg -i mysql-apt-config_0.8.32-1_all.deb >/dev/null 2>&1 || true
-		rm mysql-apt-config_0.8.32-1_all.deb
+		# rm mysql-apt-config_0.8.32-1_all.deb
 		apt update
 		apt install -y mysql-community-client
 		echo "MySQL client installed: $(mysql --version)" | tee -a $LOG_DIR/apt_install.log
