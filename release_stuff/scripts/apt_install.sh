@@ -61,55 +61,13 @@ if [ ! -f "$PACKAGE_INSTALLED" ];then
 
 	if [ -z $MYSQL_CLIENT ];then
 		
-        echo "INSTALLING MYSQL COMMUNITY CLIENT" | tee -a $LOG_DIR/apt_install.log
-        
-        # Install prerequisites
-        echo "Installing MySQL prerequisites..." | tee -a $LOG_DIR/apt_install.log
-        apt install -y wget gnupg lsb-release
-
-        # FIX: Download the NEW MySQL GPG key (updated for 2024)
-        echo "Downloading and adding MySQL GPG key..." | tee -a $LOG_DIR/apt_install.log
-        
-        # Remove old key if exists
-        rm -f /usr/share/keyrings/mysql.gpg
-        rm -f /etc/apt/trusted.gpg.d/mysql.gpg
-        
-        # Download NEW MySQL GPG key (2024 version)
-        wget -q -O - https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 | gpg --dearmor > /usr/share/keyrings/mysql.gpg
-        
-        # Alternative: Try the 2022 key if 2023 fails
-        if [ ! -s /usr/share/keyrings/mysql.gpg ]; then
-            echo "Trying alternative MySQL GPG key..." | tee -a $LOG_DIR/apt_install.log
-            wget -q -O - https://repo.mysql.com/RPM-GPG-KEY-mysql-2022 | gpg --dearmor > /usr/share/keyrings/mysql.gpg
-        fi
-
-        # Set correct permissions for the key
-        chmod 644 /usr/share/keyrings/mysql.gpg
-
-        # Add MySQL repository
-        echo "Adding MySQL repository..." | tee -a $LOG_DIR/apt_install.log
-        echo "deb [signed-by=/usr/share/keyrings/mysql.gpg] http://repo.mysql.com/apt/debian/ bullseye mysql-8.0" > /etc/apt/sources.list.d/mysql.list
-
-        # Update package list with new repository
-        echo "Updating package list with MySQL repository..." | tee -a $LOG_DIR/apt_install.log
-        apt update
-
-        # Install MySQL Community Client
-        echo "Installing MySQL Community Client..." | tee -a $LOG_DIR/apt_install.log
-        apt install -y mysql-community-client
-
-        # Clean up
-        rm -rf /var/lib/apt/lists/*
-
-        echo "MySQL Community Client installed successfully!" | tee -a $LOG_DIR/apt_install.log
-        
-        # Verify installation
-        MYSQL_VERIFIED=$(which mysql)
-        if [ -n "$MYSQL_VERIFIED" ]; then
-            echo "MySQL client verified: $MYSQL_VERIFIED" | tee -a $LOG_DIR/apt_install.log
-        else
-            echo "WARNING: MySQL installation may have failed" | tee -a $LOG_DIR/apt_install.log
-        fi
+        echo "Installing MySQL client with official 2025+ method..." | tee -a $LOG_DIR/apt_install.log
+		wget -q https://repo.mysql.com/mysql-apt-config_0.8.32-1_all.deb
+		dpkg -i mysql-apt-config_0.8.32-1_all.deb >/dev/null 2>&1 || true
+		rm mysql-apt-config_0.8.32-1_all.deb
+		apt update
+		apt install -y mysql-community-client
+		echo "MySQL client installed: $(mysql --version)" | tee -a $LOG_DIR/apt_install.log
 	
 	else
 		echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
