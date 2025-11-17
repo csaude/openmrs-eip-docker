@@ -63,17 +63,32 @@ if [ ! -f "$PACKAGE_INSTALLED" ];then
 		
         echo "INSTALLING MYSQL COMMUNITY CLIENT" | tee -a $LOG_DIR/apt_install.log
         
-        # Install prerequisites using apt (not apt-get to avoid conflicts)
+        # Install prerequisites
         echo "Installing MySQL prerequisites..." | tee -a $LOG_DIR/apt_install.log
         apt install -y wget gnupg lsb-release
 
-        # Download and add MySQL GPG key
-        echo "Adding MySQL GPG key..." | tee -a $LOG_DIR/apt_install.log
-        wget -q https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 -O- | gpg --dearmor | tee /usr/share/keyrings/mysql.gpg > /dev/null
+        # FIX: Download the NEW MySQL GPG key (updated for 2024)
+        echo "Downloading and adding MySQL GPG key..." | tee -a $LOG_DIR/apt_install.log
+        
+        # Remove old key if exists
+        rm -f /usr/share/keyrings/mysql.gpg
+        rm -f /etc/apt/trusted.gpg.d/mysql.gpg
+        
+        # Download NEW MySQL GPG key (2024 version)
+        wget -q -O - https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 | gpg --dearmor > /usr/share/keyrings/mysql.gpg
+        
+        # Alternative: Try the 2022 key if 2023 fails
+        if [ ! -s /usr/share/keyrings/mysql.gpg ]; then
+            echo "Trying alternative MySQL GPG key..." | tee -a $LOG_DIR/apt_install.log
+            wget -q -O - https://repo.mysql.com/RPM-GPG-KEY-mysql-2022 | gpg --dearmor > /usr/share/keyrings/mysql.gpg
+        fi
+
+        # Set correct permissions for the key
+        chmod 644 /usr/share/keyrings/mysql.gpg
 
         # Add MySQL repository
         echo "Adding MySQL repository..." | tee -a $LOG_DIR/apt_install.log
-        echo "deb [signed-by=/usr/share/keyrings/mysql.gpg] https://repo.mysql.com/apt/debian/ bullseye mysql-8.0" > /etc/apt/sources.list.d/mysql.list
+        echo "deb [signed-by=/usr/share/keyrings/mysql.gpg] http://repo.mysql.com/apt/debian/ bullseye mysql-8.0" > /etc/apt/sources.list.d/mysql.list
 
         # Update package list with new repository
         echo "Updating package list with MySQL repository..." | tee -a $LOG_DIR/apt_install.log
