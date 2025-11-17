@@ -61,34 +61,40 @@ if [ ! -f "$PACKAGE_INSTALLED" ];then
 
 	if [ -z $MYSQL_CLIENT ];then
 		
-		echo "Installing MySQL Community Client on Debian 11..."
+        echo "INSTALLING MYSQL COMMUNITY CLIENT" | tee -a $LOG_DIR/apt_install.log
+        
+        # Install prerequisites using apt (not apt-get to avoid conflicts)
+        echo "Installing MySQL prerequisites..." | tee -a $LOG_DIR/apt_install.log
+        apt install -y wget gnupg lsb-release
 
-		# Update package list
-		apt-get update
+        # Download and add MySQL GPG key
+        echo "Adding MySQL GPG key..." | tee -a $LOG_DIR/apt_install.log
+        wget -q https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 -O- | gpg --dearmor | tee /usr/share/keyrings/mysql.gpg > /dev/null
 
-		# Install prerequisites
-		apt-get install -y wget gnupg lsb-release
+        # Add MySQL repository
+        echo "Adding MySQL repository..." | tee -a $LOG_DIR/apt_install.log
+        echo "deb [signed-by=/usr/share/keyrings/mysql.gpg] https://repo.mysql.com/apt/debian/ bullseye mysql-8.0" > /etc/apt/sources.list.d/mysql.list
 
-		# Download and add MySQL GPG key
-		wget -q https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 -O- \
-		| gpg --dearmor \
-		| tee /usr/share/keyrings/mysql.gpg > /dev/null
+        # Update package list with new repository
+        echo "Updating package list with MySQL repository..." | tee -a $LOG_DIR/apt_install.log
+        apt update
 
-		# Add MySQL repository
-		echo "deb [signed-by=/usr/share/keyrings/mysql.gpg] https://repo.mysql.com/apt/debian/ bullseye mysql-8.0" \
-		> /etc/apt/sources.list.d/mysql.list
+        # Install MySQL Community Client
+        echo "Installing MySQL Community Client..." | tee -a $LOG_DIR/apt_install.log
+        apt install -y mysql-community-client
 
-		# Update package list with new repository
-		apt-get update
+        # Clean up
+        rm -rf /var/lib/apt/lists/*
 
-		# Install MySQL Community Client
-		apt-get install -y mysql-community-client
-
-		# Clean up
-		rm -rf /var/lib/apt/lists/*
-
-		echo "MySQL Community Client installed successfully!"
-		echo "You can now use the 'mysql' command."
+        echo "MySQL Community Client installed successfully!" | tee -a $LOG_DIR/apt_install.log
+        
+        # Verify installation
+        MYSQL_VERIFIED=$(which mysql)
+        if [ -n "$MYSQL_VERIFIED" ]; then
+            echo "MySQL client verified: $MYSQL_VERIFIED" | tee -a $LOG_DIR/apt_install.log
+        else
+            echo "WARNING: MySQL installation may have failed" | tee -a $LOG_DIR/apt_install.log
+        fi
 	
 	else
 		echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
