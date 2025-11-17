@@ -60,29 +60,35 @@ if [ ! -f "$PACKAGE_INSTALLED" ];then
 	MYSQL_CLIENT=$(which mysql)
 
 	if [ -z $MYSQL_CLIENT ];then
-		apt install -y lsb-release
-		apt install -y gnupg
-		apt update
-		wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+		
+		echo "Installing MySQL Community Client on Debian 11..."
 
-    	    	DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.29-1_all.deb
+		# Update package list
+		apt-get update
 
-     	   	apt update
+		# Install prerequisites
+		apt-get install -y wget gnupg lsb-release
 
-		wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+		# Download and add MySQL GPG key
+		wget -q https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 -O- \
+		| gpg --dearmor \
+		| tee /usr/share/keyrings/mysql.gpg > /dev/null
 
-		DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.29-1_all.deb
+		# Add MySQL repository
+		echo "deb [signed-by=/usr/share/keyrings/mysql.gpg] https://repo.mysql.com/apt/debian/ bullseye mysql-8.0" \
+		> /etc/apt/sources.list.d/mysql.list
 
-		apt update
-       		wget https://dev.mysql.com/get/mysql-apt-config_0.8.29-1_all.deb
+		# Update package list with new repository
+		apt-get update
 
-       		DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_0.8.29-1_all.deb
+		# Install MySQL Community Client
+		apt-get install -y mysql-community-client
 
-       		apt update
+		# Clean up
+		rm -rf /var/lib/apt/lists/*
 
-		echo "INSTALLING MYSQL CLIENT" | tee -a $LOG_DIR/apt_install.log
-		apt install -y mysql-client
-		echo "MYSQL CLIENT INSTALLED" | tee -a $LOG_DIR/apt_install.log
+		echo "MySQL Community Client installed successfully!"
+		echo "You can now use the 'mysql' command."
 	
 	else
 		echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
