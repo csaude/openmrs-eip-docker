@@ -61,35 +61,8 @@ if [ ! -f "$PACKAGE_INSTALLED" ];then
 
 	if [ -z $MYSQL_CLIENT ];then
 		
-		echo "Installing MySQL Community Client with official 2025 method..." | tee -a $LOG_DIR/apt_install.log
-
-		# Step 1: Install prerequisites
 		apt update
-		apt install -y wget gnupg lsb-release ca-certificates
-
-		# Step 2: Download OFFICIAL MySQL APT config package (includes new key)
-		wget https://dev.mysql.com/get/mysql-apt-config_0.8.32-1_all.deb
-
-		# Step 3: Install the config package (adds repo + new GPG key automatically)
-		dpkg -i mysql-apt-config_0.8.32-1_all.deb
-
-		# Step 4: Clean up
-		rm mysql-apt-config_0.8.32-1_all.deb
-
-		# Step 5: Update and install client
-		apt update
-		apt install -y mysql-community-client
-
-		# Step 6: Verify
-		if which mysql >/dev/null 2>&1; then
-			echo "MySQL Client installed: $(mysql --version)" | tee -a $LOG_DIR/apt_install.log
-		else
-			echo "ERROR: MySQL installation failed" | tee -a $LOG_DIR/apt_install.log
-			exit 1
-		fi
-
-		# Clean apt cache
-		apt clean
+		apt install -y mysql-client
 	
 	else
 		echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
