@@ -18,8 +18,14 @@ SETUP_SCRIPTS_DIR="$STUFF_DIR/scripts"
 
 SCRIPTS_DIR="$HOME_DIR/scripts"
 
+ERROR_FILE="$HOME_DIR/install_error_file"
+
 . $SETUP_STOCK_SCRIPTS_DIR/commons.sh
 . $SETUP_STOCK_SCRIPTS_DIR/try_to_load_environment.sh
+
+if [ -f "$ERROR_FILE" ];then
+	logToScreenAndFile "REMOVING OLD ERROR INSTALLATION FILE $timespamp" $LOG_FILE
+fi
 
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         logToScreenAndFile "INSTALLATION FINISHED" $LOG_FILE
@@ -32,7 +38,7 @@ else
 
 	if [ -z $branch_name ]; then
         	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
-        	logToScreenAndFile "Aborting the installation process..." $LOG_FILE
+        	logToScreenAndFile "Aborting the installation process on install.sh" $LOG_FILE
 
         	exit 1
 	fi
@@ -51,7 +57,14 @@ else
 
 	chmod +x $SETUP_SCRIPTS_DIR/*.sh
 
-	$SETUP_SCRIPTS_DIR/performe_initial_installation.sh
+	$SETUP_SCRIPTS_DIR/performe_initial_installation.sh "$ERROR_FILE"
+
+	if [ -f "$ERROR_FILE" ]; then
+        	exit 1
+	fi
+
 fi
 
-$SCRIPTS_DIR/startup.sh
+if [ ! -f "$ERROR_FILE" ];then
+	$SCRIPTS_DIR/startup.sh
+fi

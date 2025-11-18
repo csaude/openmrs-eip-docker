@@ -24,39 +24,23 @@ echo "-------------------------------------------------------------" #| tee -a $
 git config --global user.email "epts.centralization@fgh.org.mz"
 git config --global user.name "epts.centralization"
 
-#Pull changes from remote project
-echo "LOOKING FOR EIP PROJECT UPDATES" #| tee -a $LOG_DIR/upgrade.log
+chmod +x $SETUP_GIT_TAG_INFO
 
-echo "PULLING EIP PROJECT FROM DOCKER" #| tee -a $LOG_DIR/upgrade.log
+#Load SETUP_GIT_TAG FROM SETUP_GIT_TAG_INFO
+. $SETUP_GIT_TAG_INFO
+SETUP_GIT_TAG=$setup_git_tag
 
-branch_name=$curr_git_branch
+logToScreenAndFile "Performing instalation/upgrade preparation on site $db_sync_senderId based on branch $SETUP_GIT_TAG" $LOG_FILE
 
-if [ -z $branch_name ]; then
-	logToScreenAndFile "The git branch name for site $db_sync_senderId was not found" $LOG_FILE
-        logToScreenAndFile "Aborting the installation process..." $LOG_FILE
-
-        exit 1
-else
-
-        logToScreenAndFile "Performing instalation/upgrade preparation on site $db_sync_senderId based on branch $branch_name" $LOG_FILE
-
-        if [ -d "$SITE_SETUP_BASE_DIR" ]; then
-		#ALWAYS REMOVE THE EXISTING SITE SETUP DIR TO PREVENT GIT ERRORS
-                rm -fr $SITE_SETUP_BASE_DIR
-        fi
-
-
-        chmod +x $SETUP_GIT_TAG_INFO
-
-	#Load SETUP_GIT_TAG FROM SETUP_GIT_TAG_INFO
-	. $SETUP_GIT_TAG_INFO
-	SETUP_GIT_TAG=$setup_git_tag
-
-        mkdir $SITE_SETUP_BASE_DIR
-
-        git -C $SITE_SETUP_BASE_DIR init && git -C $SITE_SETUP_BASE_DIR checkout -b $SETUP_GIT_TAG
-        git -C $SITE_SETUP_BASE_DIR remote add origin https://github.com/csaude/openmrs-eip-docker.git
-        git -C $SITE_SETUP_BASE_DIR pull --depth=1 origin $SETUP_GIT_TAG
+if [ -d "$SITE_SETUP_BASE_DIR" ]; then
+	#ALWAYS REMOVE THE EXISTING SITE SETUP DIR TO PREVENT GIT ERRORS
+        rm -fr $SITE_SETUP_BASE_DIR
 fi
 
-echo "EIP PROJECT PULLED FROM GIT REPOSITORY" #| tee -a $LOG_DIR/upgrade.log
+mkdir $SITE_SETUP_BASE_DIR
+
+git -C $SITE_SETUP_BASE_DIR init && git -C $SITE_SETUP_BASE_DIR checkout -b $SETUP_GIT_TAG
+git -C $SITE_SETUP_BASE_DIR remote add origin https://github.com/csaude/openmrs-eip-docker.git
+git -C $SITE_SETUP_BASE_DIR pull --depth=1 origin $SETUP_GIT_TAG
+
+logToScreenAndFile "EIP PROJECT PULLED FROM GIT REPOSITORY" $LOG_FILE 

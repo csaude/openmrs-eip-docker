@@ -231,7 +231,7 @@ docker export $(docker ps -aqf "name=openmrs-eip-sender") > docker_images/openmr
 Change base image from docker compose yml files
 
 ```
-sed -i 's/openjdk:8-alpine/openmrs-eip-sender:latest/g' docker-compose.yml
+sed -i 's/openjdk:17-alpine/openmrs-eip-sender:latest/g' docker-compose.yml
 ```
 
 Create archive with EIP Home content
