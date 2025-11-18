@@ -61,7 +61,12 @@ if [ ! -f "$PACKAGE_INSTALLED" ];then
 
 	if [ -z $MYSQL_CLIENT ];then
 		apt update
-		apt install -y mariadb-client		
+		
+		echo "INSTALLING MYSQL CLIENT" | tee -a $LOG_DIR/apt_install.log
+		
+		apt install -y mariadb-client	
+		
+		echo "MYSQL CLIENT INSTALLED" | tee -a $LOG_DIR/apt_install.log	
 	
 	else
 		echo "MYSQL CLIENT ALREADY INSTALLED" | tee -a $LOG_DIR/apt_install.log
