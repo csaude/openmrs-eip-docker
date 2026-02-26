@@ -182,7 +182,7 @@ tar -xf eip_home.tar.gz
 ```
 Import local images to docker
 ```
-docker import docker_images/openmrs-eip-sender.tar openmrs-eip-sender:latest
+docker load -i docker_images/dbsync-remote.tar
 ```
 
 Continue with the setup process [from here](#copy-the-eiptemplateenv-file-to-eipenv-using-the-command)
@@ -222,16 +222,22 @@ Create dir for docker images
 mkdir docker_images
 ```
 
+Tag the image
+
+```
+docker tag hub.csaude.org.mz/base/java:17-debian-11 dbsync-remote:latest
+
+```
 Export container
 
 ```
-docker export $(docker ps -aqf "name=openmrs-eip-sender") > docker_images/openmrs-eip-sender.tar
+docker save -o docker_images/dbsync-remote.tar dbsync-remote:latest
 ```
 
 Change base image from docker compose yml files
 
 ```
-sed -i 's/openjdk:17-alpine/openmrs-eip-sender:latest/g' docker-compose.yml
+sed -i 's|hub.csaude.org.mz/base/java:17-debian-11|dbsync-remote:latest|g' docker-compose.yml
 ```
 
 Create archive with EIP Home content
