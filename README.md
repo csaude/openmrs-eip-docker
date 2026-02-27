@@ -11,7 +11,7 @@ By default, binlogs are enabled by the OpenMRS project, so make sure they are tu
 
 Export the installation folder.
 ```
-APPS_PATH=/OPENMRS/FOLDER
+APPS_PATH=/APP/FOLDER
 ```
 Or set the default
 
