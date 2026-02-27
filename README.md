@@ -1,5 +1,5 @@
 # Introduction
-This project hold the necessary stuffs for eip application installation using a docker container. The eip application run in a container called openmrs-eip-sender. The container has the ability to pickup updates for eip application. The new releases (routes, jar, scripts, etc) must be put in [release_stuff](./release_stuff) directory. The release update mechanism check the information in [release_info.sh](./release_stuff/scripts/release_info.sh) script. So, every time there is a new release the information in this script must be updated so that the remote computer can see the new releases. The eip container share the VOLUME with the host matchine in folder ./shared. This folder hold important things such as logs, debezium offset file, backups, etc. The container is shipped with backup mecanism which performe backups of eip mgt database and debezium offset files. The backup are persisted in shared folder under ./shared/bkps.
+This project hold the necessary stuffs for eip application installation using a docker container. The eip application run in a container called dbsync-remote. The container has the ability to pickup updates for eip application. The new releases (routes, jar, scripts, etc) must be put in [release_stuff](./release_stuff) directory. The release update mechanism check the information in [release_info.sh](./release_stuff/scripts/release_info.sh) script. So, every time there is a new release the information in this script must be updated so that the remote computer can see the new releases. The eip container share the VOLUME with the host matchine in folder ./shared. This folder hold important things such as logs, debezium offset file, backups, etc. The container is shipped with backup mecanism which performe backups of eip mgt database and debezium offset files. The backup are persisted in shared folder under ./shared/bkps.
 
 If you wish to send some maintenance commands to the remote sites, you can always ship the new releases with scripts included in [after_ugrade](release_stuff/scripts/after_upgrade/) folder. These scripts will be picked-up after the apgrade and run in the container. Scripts in this directory will be run once within the container.  
 
@@ -7,75 +7,37 @@ If you wish to send some maintenance commands to the remote sites, you can alway
 ## Prerequisites
 To have the eip application run, the mysql bin-logs must be active in the remote openmrs database.
 
-If you are using openmrs instance based on [this docker project](https://github.com/FriendsInGlobalHealth/openmrs-docker-2x) follow the steps bellow:
-
-Export the folder of OpenMRS installation
-```
-OPENMRS_PATH=/OPENMRS/FOLDER
-```
-Or set the default
-
-```
-OPENMRS_PATH=/opt/openmrs/appdata/openmrs-docker-2x
-```
-
-Stop the openmrs instance containers using the command
-
-```
-docker-compose -f $OPENMRS_PATH/docker-compose.yml stop
-```
-
-Edit the file "$OPENMRS_PATH/mysql/mysql.cnf" adding 3 lines bellow under [mysqld] group: 
-
-``` 
-vi $OPENMRS_PATH/mysql/mysql.cnf
-```
-
-```
-log-bin=mysql-bin.log
-binlog_format=row
-server-id=1000
-```     
-
-Rebuild the conteiners using the command
-```
-docker-compose -f $OPENMRS_PATH/docker-compose.yml up --build -d
-```
-
-After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container. Run the bellow command to check
-``` 
-docker exec -it refapp-db cat /root/.my.cnf
-```
-                
-After rebuilding the containers you should check if the bin-logs is up running the instrunction bellow in mysql database
-```
-docker exec -i refapp-db mysql -u DB_USER_NAME -pDB_USER_PASSWORD -e "show variables like '%log_bin%'";
-```
-
-The result should be as shown in the image
-
-![bin_log](etc/bin-logs.png)
+By default, binlogs are enabled by the OpenMRS project, so make sure they are turned on.
 
 
 ## Setup
 <a name="setup"></a>
 
-Create a eip user
+Export the installation folder.
+```
+APPS_PATH=/APP/FOLDER
+```
+Or set the default
 
 ```
-sudo useradd -m -d /home/eip -s /bin/bash -G sudo,docker eip
+APPS_PATH=/opt/openmrs/appdata/
 ```
 
-Define a password for eip user
+Go to installation folder
 
 ```
-sudo passwd eip
+cd $APPS_PATH
 ```
 
-Now login as eip user
+Create dbsync directory
 
 ```
-su - eip
+mkdir dbsync
+```
+Move to dbsync directory
+
+```
+cd dbsync
 ```
 
 <br/>
@@ -84,7 +46,7 @@ su - eip
 
 <br/>
 
-Init a git repository in /home/eip directory
+_Init a git repository in $APPS_PATH/dbsync directory_
 
 ```
 git init && git checkout -b main
@@ -144,13 +106,13 @@ docker-compose up -d
 Follow the container logs using
 
 ```
-docker logs --follow openmrs-eip-sender
+docker logs --follow dbsync-remote
 ```
 
 And the eip logs using
 
 ```
-docker exec -it openmrs-eip-sender tail -f /home/eip/logs/eip/openmrs-eip.log
+docker exec -it dbsync-remote tail -f /home/eip/logs/eip/openmrs-eip.log
 ```
         
 # Notes
@@ -173,7 +135,7 @@ Copy the eip_home.tar.gz file to /home/eip
                 
 Change working directory to /home/eip
 ```
-cd /home/eip
+cd $APPS_PATH/dbsync
 ```
 Extract
 
@@ -182,7 +144,7 @@ tar -xf eip_home.tar.gz
 ```
 Import local images to docker
 ```
-docker import docker_images/openmrs-eip-sender.tar openmrs-eip-sender:latest
+docker load -i docker_images/dbsync-remote.tar
 ```
 
 Continue with the setup process [from here](#copy-the-eiptemplateenv-file-to-eipenv-using-the-command)
@@ -192,16 +154,10 @@ Continue with the setup process [from here](#copy-the-eiptemplateenv-file-to-eip
 ## Prepare offline installation archive
 First, proceed with a [fresh online installation](#installation) of the desired release, then create [EIP Sender](#running-the-project) container.
 
-Change working directory to <b>/home/eip</b>
+Change working directory to <b>$APPS_PATH/dbsync</b>
 
 ```
-cd /home/eip
-```
-
-Create the EIP Sender container
-
-```
-docker-compose up -d
+cd $APPS_PATH/dbsync
 ```
 
 Stop the EIP Sender container
@@ -222,16 +178,22 @@ Create dir for docker images
 mkdir docker_images
 ```
 
+Tag the image of the container as latest
+
+```
+docker commit dbsync-remote dbsync-remote:latest
+
+```
 Export container
 
 ```
-docker export $(docker ps -aqf "name=openmrs-eip-sender") > docker_images/openmrs-eip-sender.tar
+docker save -o docker_images/dbsync-remote.tar dbsync-remote:latest
 ```
 
 Change base image from docker compose yml files
 
 ```
-sed -i 's/openjdk:17-alpine/openmrs-eip-sender:latest/g' docker-compose.yml
+sed -i 's|hub.csaude.org.mz/base/java:17-debian-11|dbsync-remote:latest|g' docker-compose.yml
 ```
 
 Create archive with EIP Home content
@@ -271,7 +233,7 @@ If for any reason the OpenMRS server in a remote site need to be re-installed, a
 If for some reason the dbsync management database (mgt-db) is lost. You will have to perform a [fresh installation](#installation) without a starting mgt-db. And after the installation you must run the re-sync process using the estimated last sync date; this date will be provided by the central team.
 The re-sync processes will be run using the command bellow
 ```
-docker exec -i openmrs-eip-sender /home/eip/scripts/db_re_sync.sh 'LAST_KNOWN_SYNC_DATE'
+docker exec -i dbsync-remote /home/eip/scripts/db_re_sync.sh 'LAST_KNOWN_SYNC_DATE'
 ```
 
 Note that the date must be in format 'YYYY-MM-DD'.
