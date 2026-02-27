@@ -7,75 +7,38 @@ If you wish to send some maintenance commands to the remote sites, you can alway
 ## Prerequisites
 To have the eip application run, the mysql bin-logs must be active in the remote openmrs database.
 
-If you are using openmrs instance based on [this docker project](https://github.com/FriendsInGlobalHealth/openmrs-docker-2x) follow the steps bellow:
+By default, binlogs are enabled by the OpenMRS project, so make sure they are turned on.
 
-Export the folder of OpenMRS installation
+Export the installation folder.
 ```
-OPENMRS_PATH=/OPENMRS/FOLDER
+APPS_PATH=/OPENMRS/FOLDER
 ```
 Or set the default
 
 ```
-OPENMRS_PATH=/opt/openmrs/appdata/openmrs-docker-2x
+APPS_PATH=/opt/openmrs/appdata/
 ```
 
-Stop the openmrs instance containers using the command
-
-```
-docker-compose -f $OPENMRS_PATH/docker-compose.yml stop
-```
-
-Edit the file "$OPENMRS_PATH/mysql/mysql.cnf" adding 3 lines bellow under [mysqld] group: 
-
-``` 
-vi $OPENMRS_PATH/mysql/mysql.cnf
-```
-
-```
-log-bin=mysql-bin.log
-binlog_format=row
-server-id=1000
-```     
-
-Rebuild the conteiners using the command
-```
-docker-compose -f $OPENMRS_PATH/docker-compose.yml up --build -d
-```
-
-After this, the 3 lines added  in step 3 must apear in “~/.my.cnf” file inside dabase container. Run the bellow command to check
-``` 
-docker exec -it refapp-db cat /root/.my.cnf
-```
-                
-After rebuilding the containers you should check if the bin-logs is up running the instrunction bellow in mysql database
-```
-docker exec -i refapp-db mysql -u DB_USER_NAME -pDB_USER_PASSWORD -e "show variables like '%log_bin%'";
-```
-
-The result should be as shown in the image
-
-![bin_log](etc/bin-logs.png)
 
 
 ## Setup
 <a name="setup"></a>
 
-Create a eip user
+Go to installation folder
 
 ```
-sudo useradd -m -d /home/eip -s /bin/bash -G sudo,docker eip
+cd $APPS_PATH
 ```
 
-Define a password for eip user
+Create dbsync directory
 
 ```
-sudo passwd eip
+mkdir dbsync
 ```
-
-Now login as eip user
+Move to dbsync directory
 
 ```
-su - eip
+cd dbsync
 ```
 
 <br/>
@@ -84,7 +47,7 @@ su - eip
 
 <br/>
 
-Init a git repository in /home/eip directory
+_Init a git repository in $APPS_PATH/dbsync directory_
 
 ```
 git init && git checkout -b main
@@ -173,7 +136,7 @@ Copy the eip_home.tar.gz file to /home/eip
                 
 Change working directory to /home/eip
 ```
-cd /home/eip
+cd $APPS_PATH/dbsync
 ```
 Extract
 
@@ -192,10 +155,10 @@ Continue with the setup process [from here](#copy-the-eiptemplateenv-file-to-eip
 ## Prepare offline installation archive
 First, proceed with a [fresh online installation](#installation) of the desired release, then create [EIP Sender](#running-the-project) container.
 
-Change working directory to <b>/home/eip</b>
+Change working directory to <b>$APPS_PATH/dbsync</b>
 
 ```
-cd /home/eip
+cd $APPS_PATH/dbsync
 ```
 
 Stop the EIP Sender container
