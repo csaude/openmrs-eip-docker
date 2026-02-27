@@ -198,12 +198,6 @@ Change working directory to <b>/home/eip</b>
 cd /home/eip
 ```
 
-Create the EIP Sender container
-
-```
-docker-compose up -d
-```
-
 Stop the EIP Sender container
 
 ```
