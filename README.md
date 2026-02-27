@@ -9,6 +9,10 @@ To have the eip application run, the mysql bin-logs must be active in the remote
 
 By default, binlogs are enabled by the OpenMRS project, so make sure they are turned on.
 
+
+## Setup
+<a name="setup"></a>
+
 Export the installation folder.
 ```
 APPS_PATH=/APP/FOLDER
@@ -18,11 +22,6 @@ Or set the default
 ```
 APPS_PATH=/opt/openmrs/appdata/
 ```
-
-
-
-## Setup
-<a name="setup"></a>
 
 Go to installation folder
 
