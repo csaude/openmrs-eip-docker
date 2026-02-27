@@ -222,10 +222,10 @@ Create dir for docker images
 mkdir docker_images
 ```
 
-Tag the image
+Tag the image of the container as latest
 
 ```
-docker tag hub.csaude.org.mz/base/java:17-debian-11 dbsync-remote:latest
+docker commit dbsync-remote dbsync-remote:latest
 
 ```
 Export container
