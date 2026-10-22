@@ -21,3 +21,4 @@ old_stuff/
 do_git_jobs.sh
 build/
 .release-pull/
+.release_stuff.tar.gz.SHA256

@@ -2,7 +2,8 @@
 # Runs on the HF server before starting the container. Pulls the container image(s)
 # referenced by the dbsync compose file and the release published by
 # publish_release_artifacts.sh from hub.csaude.org.mz with oras for the OpenMRS
-# version of the HF, verifies the checksums and installs:
+# version of the HF, verifies the checksums and installs (only the files whose
+# local copy is missing or does not match the published .SHA256 are downloaded):
 #   - release_stuff.tar.gz -> <STOCK_DIR>/release_stuff (replaces the existing one)
 #   - the jars (+ .SHA256) -> <SHARED_DIR>/releases/EIP-Release-<release_tag>,
 #     the directory download_release.sh uses inside the container
@@ -213,34 +214,83 @@ RELEASE_NAME="EIP-Release-$RELEASE_VERSION_TAG"
 ARTIFACT_REF="$EIP_ARTIFACT_REPO:$RELEASE_VERSION_TAG-$OPENMRS_VERSION"
 RELEASES_DIR="$SHARED_DIR/releases/$RELEASE_NAME"
 STAGING_DIR="$STOCK_DIR/.release-pull"
+# SHA256 of the release_stuff archive last installed in STOCK_DIR
+INSTALLED_ARCHIVE_SHA256="$STOCK_DIR/.$RELEASE_STUFF_ARCHIVE.SHA256"
 
-echo "PULLING $ARTIFACT_REF"
+echo "CHECKING $ARTIFACT_REF"
+
+# "<digest> <file name>" of each file of the artifact
+ARTIFACT_FILES=$(oras manifest fetch --pretty "$ARTIFACT_REF" | awk -F'"' '
+	/"layers"/ { in_layers = 1 }
+	in_layers && $2 == "digest" { digest = $4 }
+	in_layers && $2 == "org.opencontainers.image.title" { print digest, $4 }')
+
+JARS=$(echo "$ARTIFACT_FILES" | awk '$2 ~ /\.jar$/ { print $2 }')
+
+if [ -z "$JARS" ] || ! echo "$ARTIFACT_FILES" | awk '{ print $2 }' | grep -qx "$RELEASE_STUFF_ARCHIVE"; then
+	echo "$ARTIFACT_REF does not contain the expected files" >&2
+	exit 1
+fi
+
+# Downloads the file $1 of the artifact into STAGING_DIR
+fetchFile(){
+	digest=$(echo "$ARTIFACT_FILES" | awk -v name="$1" '$2 == name { print $1 }')
+
+	if [ -z "$digest" ]; then
+		echo "$1 not found in $ARTIFACT_REF" >&2
+		return 1
+	fi
+
+	oras blob fetch --output "$STAGING_DIR/$1" "$EIP_ARTIFACT_REPO@$digest"
+}
 
 rm -fr "$STAGING_DIR"
 mkdir -p "$STAGING_DIR"
 trap 'rm -fr "$STAGING_DIR"' EXIT
 
-oras pull "$ARTIFACT_REF" -o "$STAGING_DIR"
+# The .SHA256 files are always downloaded, the other files only when the local
+# copy is missing or does not match them
+for file in $JARS $RELEASE_STUFF_ARCHIVE; do
+	fetchFile "$file.SHA256"
+done
 
-cd "$STAGING_DIR"
+DOWNLOADED=0
 
-if [ ! -f "$RELEASE_STUFF_ARCHIVE" ] || ! ls *.jar.SHA256 > /dev/null 2>&1; then
-	echo "$ARTIFACT_REF does not contain the expected files" >&2
-	exit 1
+if [ -d "$STOCK_DIR/release_stuff/scripts" ] && [ -f "$INSTALLED_ARCHIVE_SHA256" ] \
+	&& [ "$(cut -d' ' -f1 "$INSTALLED_ARCHIVE_SHA256")" = "$(cut -d' ' -f1 "$STAGING_DIR/$RELEASE_STUFF_ARCHIVE.SHA256")" ]; then
+	echo "release_stuff IS UP TO DATE IN $STOCK_DIR/release_stuff"
+else
+	echo "DOWNLOADING $RELEASE_STUFF_ARCHIVE"
+
+	fetchFile "$RELEASE_STUFF_ARCHIVE"
+	(cd "$STAGING_DIR" && sha256sum -c "$RELEASE_STUFF_ARCHIVE.SHA256")
+
+	echo "INSTALLING release_stuff INTO $STOCK_DIR/release_stuff"
+
+	rm -fr "$STOCK_DIR/release_stuff"
+	tar -xzf "$STAGING_DIR/$RELEASE_STUFF_ARCHIVE" -C "$STOCK_DIR"
+	mv -f "$STAGING_DIR/$RELEASE_STUFF_ARCHIVE.SHA256" "$INSTALLED_ARCHIVE_SHA256"
+
+	DOWNLOADED=$((DOWNLOADED + 1))
 fi
 
-sha256sum -c *.SHA256
-
-echo "INSTALLING release_stuff INTO $STOCK_DIR/release_stuff"
-
-mkdir -p "$STOCK_DIR"
-rm -fr "$STOCK_DIR/release_stuff"
-tar -xzf "$RELEASE_STUFF_ARCHIVE" -C "$STOCK_DIR"
-
-echo "INSTALLING JARS INTO $RELEASES_DIR"
-
 mkdir -p "$RELEASES_DIR"
-mv -f *.jar *.jar.SHA256 "$RELEASES_DIR/"
 
-echo "$RELEASE_NAME FOR OPENMRS $OPENMRS_VERSION PULLED AND INSTALLED"
+for jar in $JARS; do
+	if [ -f "$RELEASES_DIR/$jar" ] && (cd "$RELEASES_DIR" && sha256sum -c --status "$STAGING_DIR/$jar.SHA256"); then
+		echo "$jar IS UP TO DATE IN $RELEASES_DIR"
+	else
+		echo "DOWNLOADING $jar"
 
+		fetchFile "$jar"
+		(cd "$STAGING_DIR" && sha256sum -c "$jar.SHA256")
+
+		mv -f "$STAGING_DIR/$jar" "$RELEASES_DIR/"
+
+		DOWNLOADED=$((DOWNLOADED + 1))
+	fi
+
+	mv -f "$STAGING_DIR/$jar.SHA256" "$RELEASES_DIR/"
+done
+
+echo "$RELEASE_NAME FOR OPENMRS $OPENMRS_VERSION INSTALLED ($DOWNLOADED FILE(S) DOWNLOADED)"
