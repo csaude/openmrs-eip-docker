@@ -1,14 +1,20 @@
 # Image for the openmrs-eip (dbsync) remote container.
 #
 # Replaces the old hub.csaude.org.mz/base/java:17-debian-11 base, whose Debian 11
-# apt repositories are no longer available. Everything that install.sh /
-# apt_install.sh used to install at container start is installed here at build
-# time, the release jars are downloaded and checksum-verified into the image, and
-# release_stuff (with install.sh) is copied into /home/openmrs-eip-docker.
+# apt repositories are no longer available. Everything that apt_install.sh used to
+# install at container start is installed here at build time, and the marker that
+# makes apt_install.sh skip the installation is created.
 #
-# Build (docker-compose.yml only references the resulting image):
-#   docker build -t hub.csaude.org.mz/base/java:17-debian-13 .
-#   docker push hub.csaude.org.mz/base/java:17-debian-13
+# The image only holds the runtime (Java 17 and the tools the scripts use). The
+# release jars, release_stuff and install.sh are not in the image: they are pulled
+# on the HF from hub.csaude.org.mz by pull_release_artifacts.sh and mounted into the
+# container by the compose file (project dir at /home/openmrs-eip-docker, shared dir
+# at /home/eip/shared, install.sh at /home/eip/install.sh).
+#
+# Built and pushed, with the name referenced by docker-compose.yml, by
+# publish_release_artifacts.sh, or manually:
+#   docker build --pull -t hub.csaude.org.mz/dbsync/java:17-debian-13 .
+#   docker push hub.csaude.org.mz/dbsync/java:17-debian-13
 
 # Debian 13 (trixie) no longer packages OpenJDK 17, so the JDK is taken from the
 # official Eclipse Temurin 17 image (glibc based, runs on Debian 13).
