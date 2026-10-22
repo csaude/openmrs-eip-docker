@@ -6,6 +6,7 @@
 #   - the jars (+ .SHA256) -> <TARGET_DIR>/shared/releases/EIP-Release-<release_tag>,
 #     the directory download_release.sh uses inside the container
 #     (./shared is mounted at /home/eip/shared)
+# and then pulls the container image(s) referenced by <TARGET_DIR>/docker-compose.yml
 #
 # Usage: ./pull_release_artifacts.sh [openmrs_version] [release_tag]
 #   openmrs_version 2.6.11 or 2.3.3, asked for when not given
@@ -26,6 +27,7 @@ EIP_ARTIFACT_REPO="${EIP_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/openmrs-eip-rel
 TARGET_DIR="${TARGET_DIR:-$SCRIPT_DIR}"
 OPENMRS_VERSIONS="2.6.11 2.3.3"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
+COMPOSE_FILE="$TARGET_DIR/docker-compose.yml"
 
 for cmd in oras tar sha256sum; do
 	if [ -z "$(command -v $cmd)" ]; then
@@ -105,3 +107,18 @@ mkdir -p "$RELEASES_DIR"
 mv -f *.jar *.jar.SHA256 "$RELEASES_DIR/"
 
 echo "$RELEASE_NAME FOR OPENMRS $OPENMRS_VERSION PULLED AND INSTALLED IN $TARGET_DIR"
+
+# A failure here does not undo the release install, the image can be pulled later
+if [ ! -f "$COMPOSE_FILE" ]; then
+	echo "WARNING: $COMPOSE_FILE not found, the container image was not pulled"
+elif [ -z "$(command -v docker)" ]; then
+	echo "WARNING: docker not found, the container image was not pulled"
+else
+	for image in $(sed -n 's/^\s*image:\s*["'\'']\{0,1\}\([^"'\'' ]*\).*/\1/p' "$COMPOSE_FILE"); do
+		echo "PULLING CONTAINER IMAGE $image"
+
+		if ! docker pull "$image"; then
+			echo "WARNING: Could not pull $image. If the repository is private run \"docker login ${image%%/*}\" and pull it again"
+		fi
+	done
+fi

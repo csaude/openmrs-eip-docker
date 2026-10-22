@@ -7,8 +7,8 @@
 # release_stuff (with install.sh) is copied into /home/openmrs-eip-docker.
 #
 # Build (docker-compose.yml only references the resulting image):
-#   docker build -t hub.csaude.org.mz/dbsync/openmrs-eip-docker:V11.1.0 .
-#   docker push hub.csaude.org.mz/dbsync/openmrs-eip-docker:V11.1.0
+#   docker build -t hub.csaude.org.mz/base/java:17-debian-13 .
+#   docker push hub.csaude.org.mz/base/java:17-debian-13
 
 # Debian 13 (trixie) no longer packages OpenJDK 17, so the JDK is taken from the
 # official Eclipse Temurin 17 image (glibc based, runs on Debian 13).
