@@ -1,12 +1,12 @@
 #!/bin/sh
-# Runs on a workstation with internet access. Pulls the openmrs-eip-docker project
-# for the setup git tag (same as release_stuff/scripts/pull_dbsync_deployment_project_from_git.sh),
-# downloads the release jars (+ .SHA256) from GitHub, verifies them and pushes, for
-# each supported OpenMRS version, an OCI artifact with oras to hub.csaude.org.mz
-# containing:
+# Runs on a workstation with internet access, from a checkout of the
+# openmrs-eip-docker version being released. Downloads the release jars (+ .SHA256)
+# referenced by ./release_stuff/scripts/release_info.sh from GitHub, verifies them
+# and pushes, for each supported OpenMRS version, an OCI artifact with oras to
+# hub.csaude.org.mz containing:
 #   - the openmrs-eip-app jar for that OpenMRS version
 #   - the jars common to all versions (epts-etl-api, centralization-features-manager)
-#   - release_stuff.tar.gz (the release_stuff folder of the pulled project)
+#   - release_stuff.tar.gz (the ./release_stuff folder of this checkout)
 #   - a .SHA256 file for each of the above
 #
 # The artifacts are tagged <release_tag>-<openmrs_version> (ex: V11.1.0-2.6.11)
@@ -15,15 +15,14 @@
 # Finally builds the container image from ./Dockerfile and pushes it with the
 # name referenced by ./docker-compose.yml
 #
-# Usage: ./publish_release_artifacts.sh [setup_git_tag]
-#   setup_git_tag defaults to the one in ./setup_git_tag_info.sh
+# Usage: ./publish_release_artifacts.sh
 #
 # Env:
 #   EIP_ARTIFACT_REPO  registry repository (default: hub.csaude.org.mz/dbsync/openmrs-eip-release)
-#   WORK_DIR           where the project and jars are downloaded (default: ./build/release-artifacts)
+#   WORK_DIR           where the jars are downloaded (default: ./build/release-artifacts)
 #   PUBLISH_IMAGE      set to false to skip building and pushing the image (default: true)
 #
-# Requires git, curl, tar, sha256sum, oras, docker and a previous
+# Requires curl, tar, sha256sum, oras, docker and a previous
 # "docker login hub.csaude.org.mz" (oras reuses the docker credentials).
 
 set -e
@@ -31,7 +30,7 @@ set -e
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 EIP_ARTIFACT_REPO="${EIP_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/openmrs-eip-release}"
 WORK_DIR="${WORK_DIR:-$SCRIPT_DIR/build/release-artifacts}"
-GIT_REPO_URL="https://github.com/csaude/openmrs-eip-docker.git"
+GIT_REPO_URL="https://github.com/csaude/openmrs-eip-docker"
 RELEASE_BASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download"
 ARTIFACT_TYPE="application/vnd.csaude.openmrs-eip.release"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
@@ -42,7 +41,7 @@ COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml"
 # release_info.sh (MySQL 8.x -> platform 2.6.x, MySQL 5.x -> platform 2.3.x)
 OPENMRS_DBSYNC_VERSIONS="2.6.11:1.9.0 2.3.3:1.6.9"
 
-REQUIRED_CMDS="git curl tar sha256sum oras"
+REQUIRED_CMDS="curl tar sha256sum oras"
 
 if [ "$PUBLISH_IMAGE" = "true" ]; then
 	REQUIRED_CMDS="$REQUIRED_CMDS docker"
@@ -62,28 +61,17 @@ for cmd in $REQUIRED_CMDS; do
 	fi
 done
 
-if [ -n "$1" ]; then
-	SETUP_GIT_TAG="$1"
-else
-	. "$SCRIPT_DIR/setup_git_tag_info.sh"
-	SETUP_GIT_TAG="$setup_git_tag"
+# Commit of this checkout, recorded in the artifacts
+GIT_REVISION=$(git -C "$SCRIPT_DIR" rev-parse HEAD 2>/dev/null || echo unknown)
+
+if [ -n "$(git -C "$SCRIPT_DIR" status --porcelain release_stuff 2>/dev/null)" ]; then
+	echo "WARNING: release_stuff has uncommitted changes, they will be published"
+	GIT_REVISION="$GIT_REVISION-dirty"
 fi
-
-PROJECT_DIR="$WORK_DIR/openmrs-eip-docker"
-
-echo "PULLING openmrs-eip-docker ($SETUP_GIT_TAG) INTO $PROJECT_DIR"
-
-#ALWAYS REMOVE THE EXISTING PROJECT DIR TO PREVENT GIT ERRORS
-rm -fr "$PROJECT_DIR"
-mkdir -p "$PROJECT_DIR"
-
-git -C "$PROJECT_DIR" init -q && git -C "$PROJECT_DIR" checkout -q -b "$SETUP_GIT_TAG"
-git -C "$PROJECT_DIR" remote add origin "$GIT_REPO_URL"
-git -C "$PROJECT_DIR" pull -q --depth=1 origin "$SETUP_GIT_TAG"
 
 # release_info.sh can't be sourced here (it queries the site database), so the
 # release tag and the jar names are read from it
-RELEASE_INFO="$PROJECT_DIR/release_stuff/scripts/release_info.sh"
+RELEASE_INFO="$SCRIPT_DIR/release_stuff/scripts/release_info.sh"
 
 RELEASE_VERSION_TAG=$(sed -n 's/^export RELEASE_VERSION_TAG="\(.*\)"/\1/p' "$RELEASE_INFO")
 DBSYNC_VERSIONS=$(sed -n 's/^\s*DBSYNC_VERSION="\(.*\)"/\1/p' "$RELEASE_INFO")
@@ -124,9 +112,9 @@ done
 
 sha256sum -c *.SHA256
 
-echo "ARCHIVING release_stuff INTO $RELEASE_STUFF_ARCHIVE"
+echo "ARCHIVING $SCRIPT_DIR/release_stuff INTO $RELEASE_STUFF_ARCHIVE"
 
-tar -czf "$RELEASE_STUFF_ARCHIVE" -C "$PROJECT_DIR" release_stuff
+tar -czf "$RELEASE_STUFF_ARCHIVE" -C "$SCRIPT_DIR" release_stuff
 sha256sum "$RELEASE_STUFF_ARCHIVE" > "$RELEASE_STUFF_ARCHIVE.SHA256"
 
 for mapping in $OPENMRS_DBSYNC_VERSIONS; do
@@ -145,7 +133,7 @@ for mapping in $OPENMRS_DBSYNC_VERSIONS; do
 		--annotation "org.opencontainers.image.title=$RELEASE_NAME" \
 		--annotation "org.opencontainers.image.version=$RELEASE_VERSION_TAG" \
 		--annotation "org.opencontainers.image.source=$GIT_REPO_URL" \
-		--annotation "mz.org.csaude.eip.setup-git-tag=$SETUP_GIT_TAG" \
+		--annotation "org.opencontainers.image.revision=$GIT_REVISION" \
 		--annotation "mz.org.csaude.eip.openmrs-version=$openmrs_version" \
 		--annotation "mz.org.csaude.eip.dbsync-version=$dbsync_version" \
 		$(for file in $FILES; do echo "$file" "$file.SHA256"; done)
