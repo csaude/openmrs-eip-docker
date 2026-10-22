@@ -7,7 +7,8 @@
 # release_stuff (with install.sh) is copied into /home/openmrs-eip-docker.
 #
 # Build (docker-compose.yml only references the resulting image):
-#   docker build -t openmrs-eip-docker:V11.1.0 .
+#   docker build -t hub.csaude.org.mz/dbsync/openmrs-eip-docker:V11.1.0 .
+#   docker push hub.csaude.org.mz/dbsync/openmrs-eip-docker:V11.1.0
 
 # Debian 13 (trixie) no longer packages OpenJDK 17, so the JDK is taken from the
 # official Eclipse Temurin 17 image (glibc based, runs on Debian 13).
@@ -51,7 +52,7 @@ RUN apt-get update \
         tzdata \
         vim \
         wget \
-    && apt-get upgrade \
+    && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/* \
     && printf '[client]\nssl-verify-server-cert=off\n' > /etc/mysql/conf.d/eip-client.cnf \
     && groupadd -g "$EIP_GID" eip \
