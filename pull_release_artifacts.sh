@@ -1,17 +1,20 @@
 #!/bin/sh
-# Runs on the HF server before starting the container. Pulls the release published
-# by publish_release_artifacts.sh from hub.csaude.org.mz with oras for the chosen
-# OpenMRS version, verifies the checksums and installs:
+# Runs on the HF server before starting the container. Pulls the container image(s)
+# referenced by <TARGET_DIR>/docker-compose.yml and the release published by
+# publish_release_artifacts.sh from hub.csaude.org.mz with oras for the OpenMRS
+# version of the HF, verifies the checksums and installs:
 #   - release_stuff.tar.gz -> <TARGET_DIR>/release_stuff (replaces the existing one)
 #   - the jars (+ .SHA256) -> <TARGET_DIR>/shared/releases/EIP-Release-<release_tag>,
 #     the directory download_release.sh uses inside the container
 #     (./shared is mounted at /home/eip/shared)
-# and then pulls the container image(s) referenced by <TARGET_DIR>/docker-compose.yml
 #
 # Usage: ./pull_release_artifacts.sh [openmrs_version] [release_tag]
-#   openmrs_version 2.6.11 or 2.3.3, asked for when not given
-#   release_tag     ex: V11.1.0, when not given it is chosen from the releases
-#                   published for openmrs_version (default: the latest)
+#   openmrs_version 2.6.11 or 2.3.3. When not given it is detected from the MySQL
+#                   version of the OpenMRS database configured in <TARGET_DIR>/eip.env
+#                   (same rule as release_stuff/scripts/release_info.sh: 5.x -> 2.3.3,
+#                   8.x -> 2.6.11) and asked for if it can't be detected
+#   release_tag     ex: V11.1.0, defaults to the latest release published for
+#                   openmrs_version
 #
 # Env:
 #   EIP_ARTIFACT_REPO  registry repository (default: hub.csaude.org.mz/dbsync/openmrs-eip-release)
@@ -28,6 +31,9 @@ TARGET_DIR="${TARGET_DIR:-$SCRIPT_DIR}"
 OPENMRS_VERSIONS="2.6.11 2.3.3"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
 COMPOSE_FILE="$TARGET_DIR/docker-compose.yml"
+ENV_FILE="$TARGET_DIR/eip.env"
+# Host used by the container to reach the OpenMRS database (release_stuff/scripts/db_env.sh)
+DB_HOST="172.17.0.1"
 
 for cmd in oras tar sha256sum; do
 	if [ -z "$(command -v $cmd)" ]; then
@@ -36,7 +42,66 @@ for cmd in oras tar sha256sum; do
 	fi
 done
 
+# A failure here does not stop the release install, the image can be pulled later
+IMAGE=""
+if [ ! -f "$COMPOSE_FILE" ]; then
+	echo "WARNING: $COMPOSE_FILE not found, the container image was not pulled"
+elif [ -z "$(command -v docker)" ]; then
+	echo "WARNING: docker not found, the container image was not pulled"
+else
+	for image in $(sed -n 's/^\s*image:\s*["'\'']\{0,1\}\([^"'\'' ]*\).*/\1/p' "$COMPOSE_FILE"); do
+		echo "PULLING CONTAINER IMAGE $image"
+
+		if docker pull "$image"; then
+			IMAGE="${IMAGE:-$image}"
+		else
+			echo "WARNING: Could not pull $image. If the repository is private run \"docker login ${image%%/*}\" and pull it again"
+		fi
+	done
+fi
+
+# Prints the MySQL version of the OpenMRS database, using the mysql client of the
+# host or, when there is none or it fails, the one of the container image
+determineMysqlVersion(){
+	if [ ! -f "$ENV_FILE" ]; then
+		echo "WARNING: $ENV_FILE not found" >&2
+		return 1
+	fi
+
+	db_port=$(sed -n 's/^openmrs_db_port=//p' "$ENV_FILE" | tail -n 1 | tr -d '\r')
+	db_passwd=$(sed -n 's/^spring_openmrs_datasource_password=//p' "$ENV_FILE" | tail -n 1 | tr -d '\r')
+	mysql_version=""
+
+	if [ -n "$(command -v mysql)" ]; then
+		mysql_version=$(MYSQL_PWD="$db_passwd" mysql -h "$DB_HOST" -P "$db_port" -u root -N -e "SELECT VERSION();" 2>/dev/null | tail -n 1)
+	fi
+
+	if [ -z "$mysql_version" ] && [ -n "$IMAGE" ]; then
+		mysql_version=$(docker run --rm --network host -e MYSQL_PWD="$db_passwd" --entrypoint mysql "$IMAGE" \
+			-h "$DB_HOST" -P "$db_port" -u root -N -e "SELECT VERSION();" 2>/dev/null | tail -n 1)
+	fi
+
+	echo "$mysql_version"
+}
+
 OPENMRS_VERSION="$1"
+
+if [ -z "$OPENMRS_VERSION" ]; then
+	echo "DETECTING THE OPENMRS VERSION FROM THE MYSQL VERSION"
+
+	MYSQL_VERSION=$(determineMysqlVersion || true)
+
+	case "$MYSQL_VERSION" in
+		5.*) OPENMRS_VERSION="2.3.3" ;;
+		8.*) OPENMRS_VERSION="2.6.11" ;;
+	esac
+
+	if [ -n "$OPENMRS_VERSION" ]; then
+		echo "Detected OpenMRS $OPENMRS_VERSION based on MySQL version $MYSQL_VERSION"
+	else
+		echo "WARNING: Could not detect the OpenMRS version (MySQL version: '${MYSQL_VERSION}')"
+	fi
+fi
 
 if [ -z "$OPENMRS_VERSION" ]; then
 	echo "Which OpenMRS version is installed on this HF?"
@@ -73,33 +138,9 @@ if [ -z "$RELEASE_VERSION_TAG" ]; then
 		exit 1
 	fi
 
-	LATEST_RELEASE_TAG=$(echo "$RELEASE_TAGS" | tail -n 1)
+	RELEASE_VERSION_TAG=$(echo "$RELEASE_TAGS" | tail -n 1)
 
-	echo "Releases available for OpenMRS $OPENMRS_VERSION:"
-	i=1
-	for tag in $RELEASE_TAGS; do
-		echo "  $i) $tag"
-		i=$((i + 1))
-	done
-	printf "Choose [1-%s] (default %s): " "$((i - 1))" "$LATEST_RELEASE_TAG"
-	read -r choice
-
-	if [ -z "$choice" ]; then
-		RELEASE_VERSION_TAG="$LATEST_RELEASE_TAG"
-	fi
-
-	i=1
-	for tag in $RELEASE_TAGS; do
-		if [ "$choice" = "$i" ] || [ "$choice" = "$tag" ]; then
-			RELEASE_VERSION_TAG="$tag"
-		fi
-		i=$((i + 1))
-	done
-
-	if [ -z "$RELEASE_VERSION_TAG" ]; then
-		echo "Invalid release '$choice'" >&2
-		exit 1
-	fi
+	echo "Using the latest release for OpenMRS $OPENMRS_VERSION: $RELEASE_VERSION_TAG"
 fi
 
 RELEASE_NAME="EIP-Release-$RELEASE_VERSION_TAG"
@@ -136,17 +177,3 @@ mv -f *.jar *.jar.SHA256 "$RELEASES_DIR/"
 
 echo "$RELEASE_NAME FOR OPENMRS $OPENMRS_VERSION PULLED AND INSTALLED IN $TARGET_DIR"
 
-# A failure here does not undo the release install, the image can be pulled later
-if [ ! -f "$COMPOSE_FILE" ]; then
-	echo "WARNING: $COMPOSE_FILE not found, the container image was not pulled"
-elif [ -z "$(command -v docker)" ]; then
-	echo "WARNING: docker not found, the container image was not pulled"
-else
-	for image in $(sed -n 's/^\s*image:\s*["'\'']\{0,1\}\([^"'\'' ]*\).*/\1/p' "$COMPOSE_FILE"); do
-		echo "PULLING CONTAINER IMAGE $image"
-
-		if ! docker pull "$image"; then
-			echo "WARNING: Could not pull $image. If the repository is private run \"docker login ${image%%/*}\" and pull it again"
-		fi
-	done
-fi
