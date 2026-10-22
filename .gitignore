@@ -19,3 +19,5 @@ shared/
 old_stuff/
 
 do_git_jobs.sh
+build/
+.release-pull/
