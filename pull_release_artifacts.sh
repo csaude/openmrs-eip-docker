@@ -1,24 +1,27 @@
 #!/bin/sh
-# Runs on the HF server before starting the container. Pulls the container image(s)
-# referenced by the dbsync compose file and the release published by
-# publish_release_artifacts.sh from hub.csaude.org.mz with oras for the OpenMRS
-# version of the HF, verifies the checksums and installs (only the files whose
-# local copy is missing or does not match the published .SHA256 are downloaded):
-#   - release_stuff.tar.gz -> <STOCK_DIR>/release_stuff (replaces the existing one)
-#   - install.sh           -> <INSTALL_SCRIPT>
-#   - the jars (+ .SHA256) -> <SHARED_DIR>/releases/EIP-Release-<release_tag>,
+# Runs on the HF server, from the dbsync dir of the OpenMRS docker project (ex:
+# openmrs-docker-2.6.11/dbsync), where everything related to dbsync lives:
+#   docker-compose.yml   the dbsync service (included by ../docker-compose.yml)
+#   eip.env              the site configuration (created from eip.template.env)
+#   install.sh           mounted at /home/eip/install.sh
+#   release_stuff/       the dir is mounted at /home/openmrs-eip-docker
+#   shared/              mounted at /home/eip/shared
+#
+# Pulls the container image referenced by docker-compose.yml and the release
+# published by publish_release_artifacts.sh from hub.csaude.org.mz with oras for the
+# OpenMRS version of the HF, verifies the checksums and installs (only the files
+# whose local copy is missing or does not match the published .SHA256 are downloaded):
+#   - release_stuff.tar.gz -> release_stuff/ (replaces the existing one)
+#   - install.sh           -> install.sh
+#   - the jars (+ .SHA256) -> shared/releases/EIP-Release-<release_tag>,
 #     the directory download_release.sh uses inside the container
 #
-# The host dirs are read from the compose file, so that they are the ones the
-# container sees:
-#   STOCK_DIR   mounted at /home/openmrs-eip-docker (default: the dir of this script)
-#   SHARED_DIR  mounted at /home/eip/shared (default: <STOCK_DIR>/shared)
-#   ENV_FILE    its env_file (default: <STOCK_DIR>/eip.env)
-#   INSTALL_SCRIPT  mounted at /home/eip/install.sh (default: <STOCK_DIR>/install.sh)
+# This script, docker-compose.yml and eip.template.env are installed and updated
+# by dbsync.sh --enable
 #
 # Usage: ./pull_release_artifacts.sh [openmrs_version] [release_tag]
 #   openmrs_version 2.6.11 or 2.3.3. When not given it is detected from the MySQL
-#                   version of the OpenMRS database configured in ENV_FILE
+#                   version of the OpenMRS database configured in eip.env
 #                   (same rule as release_stuff/scripts/release_info.sh: 5.x -> 2.3.3,
 #                   8.x -> 2.6.11) and asked for if it can't be detected
 #   release_tag     ex: V11.1.0, defaults to the latest release published for
@@ -26,21 +29,26 @@
 #
 # Env:
 #   EIP_ARTIFACT_REPO  registry repository (default: hub.csaude.org.mz/dbsync/openmrs-eip-release)
-#   COMPOSE_FILE       dbsync compose file (default: the first of docker-compose-dbsync.yml
-#                      and docker-compose.yml found in the current dir or in the dir of this script)
 #
 # Requires oras, tar and sha256sum. If the repository is private run
-# "oras login hub.csaude.org.mz" first.
+# "docker login hub.csaude.org.mz" first (oras reuses the docker credentials).
 
 set -e
 
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+DBSYNC_DIR=$(cd "$(dirname "$0")" && pwd)
 EIP_ARTIFACT_REPO="${EIP_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/openmrs-eip-release}"
 OPENMRS_VERSIONS="2.6.11 2.3.3"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
 INSTALL_SCRIPT_FILE="install.sh"
 # Host used by the container to reach the OpenMRS database (release_stuff/scripts/db_env.sh)
 DB_HOST="172.17.0.1"
+
+# Layout of the dbsync dir, matching the mounts of docker-compose.yml
+COMPOSE_FILE="$DBSYNC_DIR/docker-compose.yml"
+ENV_FILE="$DBSYNC_DIR/eip.env"
+STOCK_DIR="$DBSYNC_DIR"
+SHARED_DIR="$DBSYNC_DIR/shared"
+INSTALL_SCRIPT="$DBSYNC_DIR/$INSTALL_SCRIPT_FILE"
 
 for cmd in oras tar sha256sum; do
 	if [ -z "$(command -v $cmd)" ]; then
@@ -49,79 +57,12 @@ for cmd in oras tar sha256sum; do
 	fi
 done
 
-if [ -z "$COMPOSE_FILE" ]; then
-	for file in "$PWD/docker-compose-dbsync.yml" "$PWD/docker-compose.yml" "$SCRIPT_DIR/docker-compose-dbsync.yml" "$SCRIPT_DIR/docker-compose.yml"; do
-		if [ -f "$file" ]; then
-			COMPOSE_FILE="$file"
-			break
-		fi
-	done
-fi
-
-# Resolves a path of the compose file (relative to its dir) to an absolute one
-composePath(){
-	case "$1" in
-		/*) echo "${1%/}" ;;
-		*) echo "$COMPOSE_DIR/$(echo "${1%/}" | sed 's#^\./##')" ;;
-	esac
-}
-
-# Prints the host path the compose file mounts at the container path $1
-composeMountSource(){
-	sed -n "s#^\s*-\s*[\"']\{0,1\}\([^:\"']*\):$1/\{0,1\}\(:[a-z]*\)\{0,1\}[\"']\{0,1\}\s*\$#\1#p" "$COMPOSE_FILE" | head -n 1
-}
-
-# Prints the first env_file of the compose file ("env_file: x" or "env_file:\n  - x")
-composeEnvFile(){
-	awk '
-		found && /^[ \t]*-/ { sub(/^[ \t]*-[ \t]*/, ""); gsub(/["\047]/, ""); print; exit }
-		found { exit }
-		/^[ \t]*env_file:/ {
-			value = $0; sub(/^[ \t]*env_file:[ \t]*/, "", value); gsub(/["\047]/, "", value)
-			if (value != "") { print value; exit }
-			found = 1
-		}' "$COMPOSE_FILE"
-}
-
-STOCK_DIR="$SCRIPT_DIR"
-SHARED_DIR=""
-ENV_FILE=""
-INSTALL_SCRIPT=""
-
-if [ -n "$COMPOSE_FILE" ] && [ -f "$COMPOSE_FILE" ]; then
-	COMPOSE_DIR=$(cd "$(dirname "$COMPOSE_FILE")" && pwd)
-
-	echo "USING COMPOSE FILE $COMPOSE_FILE"
-
-	source_dir=$(composeMountSource /home/openmrs-eip-docker)
-	[ -n "$source_dir" ] && STOCK_DIR=$(composePath "$source_dir")
-
-	source_dir=$(composeMountSource /home/eip/shared)
-	[ -n "$source_dir" ] && SHARED_DIR=$(composePath "$source_dir")
-
-	source_file=$(composeMountSource /home/eip/install.sh)
-	[ -n "$source_file" ] && INSTALL_SCRIPT=$(composePath "$source_file")
-
-	env_file=$(composeEnvFile)
-	[ -n "$env_file" ] && ENV_FILE=$(composePath "$env_file")
-else
-	echo "WARNING: no compose file found, set COMPOSE_FILE to point to it"
-	COMPOSE_FILE=""
-fi
-
-SHARED_DIR="${SHARED_DIR:-$STOCK_DIR/shared}"
-ENV_FILE="${ENV_FILE:-$STOCK_DIR/eip.env}"
-INSTALL_SCRIPT="${INSTALL_SCRIPT:-$STOCK_DIR/install.sh}"
-
-echo "PROJECT DIR (/home/openmrs-eip-docker): $STOCK_DIR"
-echo "SHARED DIR (/home/eip/shared): $SHARED_DIR"
-echo "ENV FILE: $ENV_FILE"
-echo "INSTALL SCRIPT (/home/eip/install.sh): $INSTALL_SCRIPT"
+echo "DBSYNC DIR: $DBSYNC_DIR"
 
 # A failure here does not stop the release install, the image can be pulled later
 IMAGE=""
-if [ -z "$COMPOSE_FILE" ]; then
-	echo "WARNING: the container image was not pulled"
+if [ ! -f "$COMPOSE_FILE" ]; then
+	echo "WARNING: $COMPOSE_FILE not found (run dbsync.sh --enable), the container image was not pulled"
 elif [ -z "$(command -v docker)" ]; then
 	echo "WARNING: docker not found, the container image was not pulled"
 else

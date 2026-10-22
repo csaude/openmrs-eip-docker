@@ -13,6 +13,12 @@
 # The artifacts are tagged <release_tag>-<openmrs_version> (ex: V11.1.0-2.6.11)
 # and are pulled on the HF server with pull_release_artifacts.sh
 #
+# Then pushes the deployment artifact <DEPLOY_ARTIFACT_REPO>:latest, installed in
+# the dbsync dir of the HF by dbsync.sh --enable, containing:
+#   - pull_release_artifacts.sh
+#   - docker-compose.yml (the dbsync service)
+#   - eip.template.env
+#
 # Finally builds the container image from ./Dockerfile and pushes it with the
 # name referenced by ./docker-compose.yml
 #
@@ -20,6 +26,7 @@
 #
 # Env:
 #   EIP_ARTIFACT_REPO  registry repository (default: hub.csaude.org.mz/dbsync/openmrs-eip-release)
+#   DEPLOY_ARTIFACT_REPO  deployment registry repository (default: hub.csaude.org.mz/dbsync/dbsync-deploy)
 #   WORK_DIR           where the jars are downloaded (default: ./build/release-artifacts)
 #   PUBLISH_IMAGE      set to false to skip building and pushing the image (default: true)
 #
@@ -30,6 +37,9 @@ set -e
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 EIP_ARTIFACT_REPO="${EIP_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/openmrs-eip-release}"
+DEPLOY_ARTIFACT_REPO="${DEPLOY_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/dbsync-deploy}"
+DEPLOY_ARTIFACT_TYPE="application/vnd.csaude.openmrs-eip.deploy"
+DEPLOY_FILES="pull_release_artifacts.sh docker-compose.yml eip.template.env"
 WORK_DIR="${WORK_DIR:-$SCRIPT_DIR/build/release-artifacts}"
 GIT_REPO_URL="https://github.com/csaude/openmrs-eip-docker"
 RELEASE_BASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download"
@@ -66,8 +76,8 @@ done
 # Commit of this checkout, recorded in the artifacts
 GIT_REVISION=$(git -C "$SCRIPT_DIR" rev-parse HEAD 2>/dev/null || echo unknown)
 
-if [ -n "$(git -C "$SCRIPT_DIR" status --porcelain release_stuff install.sh 2>/dev/null)" ]; then
-	echo "WARNING: release_stuff or install.sh have uncommitted changes, they will be published"
+if [ -n "$(git -C "$SCRIPT_DIR" status --porcelain release_stuff install.sh $DEPLOY_FILES 2>/dev/null)" ]; then
+	echo "WARNING: release_stuff, install.sh or the deployment files have uncommitted changes, they will be published"
 	GIT_REVISION="$GIT_REVISION-dirty"
 fi
 
@@ -145,6 +155,21 @@ for mapping in $OPENMRS_DBSYNC_VERSIONS; do
 
 	echo "$RELEASE_NAME FOR OPENMRS $openmrs_version PUBLISHED AS $ARTIFACT_REF"
 done
+
+DEPLOY_ARTIFACT_REF="$DEPLOY_ARTIFACT_REPO:latest"
+
+echo "PUSHING THE DEPLOYMENT FILES ($DEPLOY_FILES) TO $DEPLOY_ARTIFACT_REF"
+
+# Pushed from SCRIPT_DIR so that the files keep their bare names
+(cd "$SCRIPT_DIR" && oras push "$DEPLOY_ARTIFACT_REF" \
+	--artifact-type "$DEPLOY_ARTIFACT_TYPE" \
+	--annotation "org.opencontainers.image.title=dbsync-deploy" \
+	--annotation "org.opencontainers.image.version=$RELEASE_VERSION_TAG" \
+	--annotation "org.opencontainers.image.source=$GIT_REPO_URL" \
+	--annotation "org.opencontainers.image.revision=$GIT_REVISION" \
+	$DEPLOY_FILES)
+
+echo "DEPLOYMENT FILES PUBLISHED AS $DEPLOY_ARTIFACT_REF"
 
 if [ "$PUBLISH_IMAGE" = "true" ]; then
 	echo "BUILDING CONTAINER IMAGE $IMAGE"

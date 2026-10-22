@@ -1,4 +1,3 @@
-version: '3.2'
 services:
     dbsync-remote:
         image: hub.csaude.org.mz/dbsync/java:17-debian-13
