@@ -65,5 +65,10 @@ RUN for bin in java keytool; do ln -s "$JAVA_HOME/bin/$bin" "/usr/bin/$bin"; don
     && chmod 777 "$JAVA_HOME/lib/security/cacerts" \
     && java -version
 
+# apt_install.sh skips package installation when this marker exists
+RUN mkdir -p /home/eip/logs/apt \
+    && echo "Packages installed at image build time" > /home/eip/logs/apt/finished \
+    && chown -R eip:eip /home/eip/logs
+
 WORKDIR /home/eip
 

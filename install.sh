@@ -50,8 +50,9 @@ else
         	echo "RUN HISTORY DIR CREATED" | tee -a $LOG_FILE
 	fi
 
-        logToScreenAndFile "INSTALLING DEPENDENCIES" $LOG_FILE
-        $SETUP_STOCK_SCRIPTS_DIR/apt_install.sh
+        # The dependencies are installed in the image at build time (see Dockerfile)
+        #logToScreenAndFile "INSTALLING DEPENDENCIES" $LOG_FILE
+        #$SETUP_STOCK_SCRIPTS_DIR/apt_install.sh
 	
 	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
 
