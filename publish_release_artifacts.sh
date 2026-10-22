@@ -12,15 +12,19 @@
 # The artifacts are tagged <release_tag>-<openmrs_version> (ex: V11.1.0-2.6.11)
 # and are pulled on the HF server with pull_release_artifacts.sh
 #
+# Finally builds the container image from ./Dockerfile and pushes it with the
+# name referenced by ./docker-compose.yml
+#
 # Usage: ./publish_release_artifacts.sh [setup_git_tag]
 #   setup_git_tag defaults to the one in ./setup_git_tag_info.sh
 #
 # Env:
 #   EIP_ARTIFACT_REPO  registry repository (default: hub.csaude.org.mz/dbsync/openmrs-eip-release)
 #   WORK_DIR           where the project and jars are downloaded (default: ./build/release-artifacts)
+#   PUBLISH_IMAGE      set to false to skip building and pushing the image (default: true)
 #
-# Requires git, curl, tar, sha256sum, oras and a previous "oras login hub.csaude.org.mz"
-# (or docker login, oras reuses the docker credentials).
+# Requires git, curl, tar, sha256sum, oras, docker and a previous
+# "docker login hub.csaude.org.mz" (oras reuses the docker credentials).
 
 set -e
 
@@ -31,12 +35,27 @@ GIT_REPO_URL="https://github.com/csaude/openmrs-eip-docker.git"
 RELEASE_BASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download"
 ARTIFACT_TYPE="application/vnd.csaude.openmrs-eip.release"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
+PUBLISH_IMAGE="${PUBLISH_IMAGE:-true}"
+COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml"
 
 # <openmrs_version>:<openmrs-eip-app version>, mirrors the MySQL based choice in
 # release_info.sh (MySQL 8.x -> platform 2.6.x, MySQL 5.x -> platform 2.3.x)
 OPENMRS_DBSYNC_VERSIONS="2.6.11:1.9.0 2.3.3:1.6.9"
 
-for cmd in git curl tar sha256sum oras; do
+REQUIRED_CMDS="git curl tar sha256sum oras"
+
+if [ "$PUBLISH_IMAGE" = "true" ]; then
+	REQUIRED_CMDS="$REQUIRED_CMDS docker"
+
+	IMAGE=$(sed -n 's/^\s*image:\s*["'\'']\{0,1\}\([^"'\'' ]*\).*/\1/p' "$COMPOSE_FILE" | head -n 1)
+
+	if [ -z "$IMAGE" ]; then
+		echo "Could not read the image name from $COMPOSE_FILE" >&2
+		exit 1
+	fi
+fi
+
+for cmd in $REQUIRED_CMDS; do
 	if [ -z "$(command -v $cmd)" ]; then
 		echo "$cmd is required but was not found" >&2
 		exit 1
@@ -133,3 +152,18 @@ for mapping in $OPENMRS_DBSYNC_VERSIONS; do
 
 	echo "$RELEASE_NAME FOR OPENMRS $openmrs_version PUBLISHED AS $ARTIFACT_REF"
 done
+
+if [ "$PUBLISH_IMAGE" = "true" ]; then
+	echo "BUILDING CONTAINER IMAGE $IMAGE"
+
+	# --pull so that the image always starts from the latest base images
+	docker build --pull -t "$IMAGE" "$SCRIPT_DIR"
+
+	echo "PUSHING CONTAINER IMAGE $IMAGE"
+
+	docker push "$IMAGE"
+
+	echo "CONTAINER IMAGE PUBLISHED AS $IMAGE"
+else
+	echo "PUBLISH_IMAGE=$PUBLISH_IMAGE, SKIPPING THE CONTAINER IMAGE"
+fi
