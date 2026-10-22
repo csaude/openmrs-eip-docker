@@ -10,8 +10,8 @@
 #
 # Usage: ./pull_release_artifacts.sh [openmrs_version] [release_tag]
 #   openmrs_version 2.6.11 or 2.3.3, asked for when not given
-#   release_tag     defaults to the setup_git_tag in ./setup_git_tag_info.sh,
-#                   asked for when not given and that file does not exist
+#   release_tag     ex: V11.1.0, when not given it is chosen from the releases
+#                   published for openmrs_version (default: the latest)
 #
 # Env:
 #   EIP_ARTIFACT_REPO  registry repository (default: hub.csaude.org.mz/dbsync/openmrs-eip-release)
@@ -46,7 +46,7 @@ if [ -z "$OPENMRS_VERSION" ]; then
 		i=$((i + 1))
 	done
 	printf "Choose [1-%s]: " "$((i - 1))"
-	read choice
+	read -r choice
 
 	i=1
 	for version in $OPENMRS_VERSIONS; do
@@ -64,14 +64,42 @@ fi
 
 RELEASE_VERSION_TAG="$2"
 
-if [ -z "$RELEASE_VERSION_TAG" ] && [ -f "$SCRIPT_DIR/setup_git_tag_info.sh" ]; then
-	. "$SCRIPT_DIR/setup_git_tag_info.sh"
-	RELEASE_VERSION_TAG="$setup_git_tag"
-fi
-
 if [ -z "$RELEASE_VERSION_TAG" ]; then
-	printf "Release tag (ex: V11.1.0): "
-	read RELEASE_VERSION_TAG
+	# Release tags published for this OpenMRS version, oldest first
+	RELEASE_TAGS=$(oras repo tags "$EIP_ARTIFACT_REPO" | sed -n "s/^\(.*\)-$OPENMRS_VERSION\$/\1/p" | sort -V)
+
+	if [ -z "$RELEASE_TAGS" ]; then
+		echo "No release found in $EIP_ARTIFACT_REPO for OpenMRS $OPENMRS_VERSION" >&2
+		exit 1
+	fi
+
+	LATEST_RELEASE_TAG=$(echo "$RELEASE_TAGS" | tail -n 1)
+
+	echo "Releases available for OpenMRS $OPENMRS_VERSION:"
+	i=1
+	for tag in $RELEASE_TAGS; do
+		echo "  $i) $tag"
+		i=$((i + 1))
+	done
+	printf "Choose [1-%s] (default %s): " "$((i - 1))" "$LATEST_RELEASE_TAG"
+	read -r choice
+
+	if [ -z "$choice" ]; then
+		RELEASE_VERSION_TAG="$LATEST_RELEASE_TAG"
+	fi
+
+	i=1
+	for tag in $RELEASE_TAGS; do
+		if [ "$choice" = "$i" ] || [ "$choice" = "$tag" ]; then
+			RELEASE_VERSION_TAG="$tag"
+		fi
+		i=$((i + 1))
+	done
+
+	if [ -z "$RELEASE_VERSION_TAG" ]; then
+		echo "Invalid release '$choice'" >&2
+		exit 1
+	fi
 fi
 
 RELEASE_NAME="EIP-Release-$RELEASE_VERSION_TAG"
