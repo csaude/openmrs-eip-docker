@@ -1,16 +1,21 @@
 #!/bin/sh
 # Runs on the HF server before starting the container. Pulls the container image(s)
-# referenced by <TARGET_DIR>/docker-compose.yml and the release published by
+# referenced by the dbsync compose file and the release published by
 # publish_release_artifacts.sh from hub.csaude.org.mz with oras for the OpenMRS
 # version of the HF, verifies the checksums and installs:
-#   - release_stuff.tar.gz -> <TARGET_DIR>/release_stuff (replaces the existing one)
-#   - the jars (+ .SHA256) -> <TARGET_DIR>/shared/releases/EIP-Release-<release_tag>,
+#   - release_stuff.tar.gz -> <STOCK_DIR>/release_stuff (replaces the existing one)
+#   - the jars (+ .SHA256) -> <SHARED_DIR>/releases/EIP-Release-<release_tag>,
 #     the directory download_release.sh uses inside the container
-#     (./shared is mounted at /home/eip/shared)
+#
+# The host dirs are read from the compose file, so that they are the ones the
+# container sees:
+#   STOCK_DIR   mounted at /home/openmrs-eip-docker (default: the dir of this script)
+#   SHARED_DIR  mounted at /home/eip/shared (default: <STOCK_DIR>/shared)
+#   ENV_FILE    its env_file (default: <STOCK_DIR>/eip.env)
 #
 # Usage: ./pull_release_artifacts.sh [openmrs_version] [release_tag]
 #   openmrs_version 2.6.11 or 2.3.3. When not given it is detected from the MySQL
-#                   version of the OpenMRS database configured in <TARGET_DIR>/eip.env
+#                   version of the OpenMRS database configured in ENV_FILE
 #                   (same rule as release_stuff/scripts/release_info.sh: 5.x -> 2.3.3,
 #                   8.x -> 2.6.11) and asked for if it can't be detected
 #   release_tag     ex: V11.1.0, defaults to the latest release published for
@@ -18,7 +23,8 @@
 #
 # Env:
 #   EIP_ARTIFACT_REPO  registry repository (default: hub.csaude.org.mz/dbsync/openmrs-eip-release)
-#   TARGET_DIR         openmrs-eip-docker project dir (default: the dir of this script)
+#   COMPOSE_FILE       dbsync compose file (default: the first of docker-compose-dbsync.yml
+#                      and docker-compose.yml found in the current dir or in the dir of this script)
 #
 # Requires oras, tar and sha256sum. If the repository is private run
 # "oras login hub.csaude.org.mz" first.
@@ -27,11 +33,8 @@ set -e
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 EIP_ARTIFACT_REPO="${EIP_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/openmrs-eip-release}"
-TARGET_DIR="${TARGET_DIR:-$SCRIPT_DIR}"
 OPENMRS_VERSIONS="2.6.11 2.3.3"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
-COMPOSE_FILE="$TARGET_DIR/docker-compose.yml"
-ENV_FILE="$TARGET_DIR/eip.env"
 # Host used by the container to reach the OpenMRS database (release_stuff/scripts/db_env.sh)
 DB_HOST="172.17.0.1"
 
@@ -42,10 +45,73 @@ for cmd in oras tar sha256sum; do
 	fi
 done
 
+if [ -z "$COMPOSE_FILE" ]; then
+	for file in "$PWD/docker-compose-dbsync.yml" "$PWD/docker-compose.yml" "$SCRIPT_DIR/docker-compose-dbsync.yml" "$SCRIPT_DIR/docker-compose.yml"; do
+		if [ -f "$file" ]; then
+			COMPOSE_FILE="$file"
+			break
+		fi
+	done
+fi
+
+# Resolves a path of the compose file (relative to its dir) to an absolute one
+composePath(){
+	case "$1" in
+		/*) echo "${1%/}" ;;
+		*) echo "$COMPOSE_DIR/$(echo "${1%/}" | sed 's#^\./##')" ;;
+	esac
+}
+
+# Prints the host path the compose file mounts at the container path $1
+composeMountSource(){
+	sed -n "s#^\s*-\s*[\"']\{0,1\}\([^:\"']*\):$1/\{0,1\}\(:[a-z]*\)\{0,1\}[\"']\{0,1\}\s*\$#\1#p" "$COMPOSE_FILE" | head -n 1
+}
+
+# Prints the first env_file of the compose file ("env_file: x" or "env_file:\n  - x")
+composeEnvFile(){
+	awk '
+		found && /^[ \t]*-/ { sub(/^[ \t]*-[ \t]*/, ""); gsub(/["\047]/, ""); print; exit }
+		found { exit }
+		/^[ \t]*env_file:/ {
+			value = $0; sub(/^[ \t]*env_file:[ \t]*/, "", value); gsub(/["\047]/, "", value)
+			if (value != "") { print value; exit }
+			found = 1
+		}' "$COMPOSE_FILE"
+}
+
+STOCK_DIR="$SCRIPT_DIR"
+SHARED_DIR=""
+ENV_FILE=""
+
+if [ -n "$COMPOSE_FILE" ] && [ -f "$COMPOSE_FILE" ]; then
+	COMPOSE_DIR=$(cd "$(dirname "$COMPOSE_FILE")" && pwd)
+
+	echo "USING COMPOSE FILE $COMPOSE_FILE"
+
+	source_dir=$(composeMountSource /home/openmrs-eip-docker)
+	[ -n "$source_dir" ] && STOCK_DIR=$(composePath "$source_dir")
+
+	source_dir=$(composeMountSource /home/eip/shared)
+	[ -n "$source_dir" ] && SHARED_DIR=$(composePath "$source_dir")
+
+	env_file=$(composeEnvFile)
+	[ -n "$env_file" ] && ENV_FILE=$(composePath "$env_file")
+else
+	echo "WARNING: no compose file found, set COMPOSE_FILE to point to it"
+	COMPOSE_FILE=""
+fi
+
+SHARED_DIR="${SHARED_DIR:-$STOCK_DIR/shared}"
+ENV_FILE="${ENV_FILE:-$STOCK_DIR/eip.env}"
+
+echo "PROJECT DIR (/home/openmrs-eip-docker): $STOCK_DIR"
+echo "SHARED DIR (/home/eip/shared): $SHARED_DIR"
+echo "ENV FILE: $ENV_FILE"
+
 # A failure here does not stop the release install, the image can be pulled later
 IMAGE=""
-if [ ! -f "$COMPOSE_FILE" ]; then
-	echo "WARNING: $COMPOSE_FILE not found, the container image was not pulled"
+if [ -z "$COMPOSE_FILE" ]; then
+	echo "WARNING: the container image was not pulled"
 elif [ -z "$(command -v docker)" ]; then
 	echo "WARNING: docker not found, the container image was not pulled"
 else
@@ -69,7 +135,7 @@ determineMysqlVersion(){
 	fi
 
 	db_port=$(sed -n 's/^openmrs_db_port=//p' "$ENV_FILE" | tail -n 1 | tr -d '\r')
-	db_passwd=$(sed -n 's/^spring_openmrs_datasource_password=//p' "$ENV_FILE" | tail -n 1 | tr -d '\r')
+	db_passwd=$(sed -n 's/^spring_openmrs_datasource_password=//p' "$ENV_FILE" | tail -n 1 | tr -d '\r' | sed 's/\$\$/$/g')
 	mysql_version=""
 
 	if [ -n "$(command -v mysql)" ]; then
@@ -145,8 +211,8 @@ fi
 
 RELEASE_NAME="EIP-Release-$RELEASE_VERSION_TAG"
 ARTIFACT_REF="$EIP_ARTIFACT_REPO:$RELEASE_VERSION_TAG-$OPENMRS_VERSION"
-RELEASES_DIR="$TARGET_DIR/shared/releases/$RELEASE_NAME"
-STAGING_DIR="$TARGET_DIR/.release-pull"
+RELEASES_DIR="$SHARED_DIR/releases/$RELEASE_NAME"
+STAGING_DIR="$STOCK_DIR/.release-pull"
 
 echo "PULLING $ARTIFACT_REF"
 
@@ -165,15 +231,16 @@ fi
 
 sha256sum -c *.SHA256
 
-echo "INSTALLING release_stuff INTO $TARGET_DIR/release_stuff"
+echo "INSTALLING release_stuff INTO $STOCK_DIR/release_stuff"
 
-rm -fr "$TARGET_DIR/release_stuff"
-tar -xzf "$RELEASE_STUFF_ARCHIVE" -C "$TARGET_DIR"
+mkdir -p "$STOCK_DIR"
+rm -fr "$STOCK_DIR/release_stuff"
+tar -xzf "$RELEASE_STUFF_ARCHIVE" -C "$STOCK_DIR"
 
 echo "INSTALLING JARS INTO $RELEASES_DIR"
 
 mkdir -p "$RELEASES_DIR"
 mv -f *.jar *.jar.SHA256 "$RELEASES_DIR/"
 
-echo "$RELEASE_NAME FOR OPENMRS $OPENMRS_VERSION PULLED AND INSTALLED IN $TARGET_DIR"
+echo "$RELEASE_NAME FOR OPENMRS $OPENMRS_VERSION PULLED AND INSTALLED"
 
