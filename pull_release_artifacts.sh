@@ -5,6 +5,7 @@
 # version of the HF, verifies the checksums and installs (only the files whose
 # local copy is missing or does not match the published .SHA256 are downloaded):
 #   - release_stuff.tar.gz -> <STOCK_DIR>/release_stuff (replaces the existing one)
+#   - install.sh           -> <INSTALL_SCRIPT>
 #   - the jars (+ .SHA256) -> <SHARED_DIR>/releases/EIP-Release-<release_tag>,
 #     the directory download_release.sh uses inside the container
 #
@@ -13,6 +14,7 @@
 #   STOCK_DIR   mounted at /home/openmrs-eip-docker (default: the dir of this script)
 #   SHARED_DIR  mounted at /home/eip/shared (default: <STOCK_DIR>/shared)
 #   ENV_FILE    its env_file (default: <STOCK_DIR>/eip.env)
+#   INSTALL_SCRIPT  mounted at /home/eip/install.sh (default: <STOCK_DIR>/install.sh)
 #
 # Usage: ./pull_release_artifacts.sh [openmrs_version] [release_tag]
 #   openmrs_version 2.6.11 or 2.3.3. When not given it is detected from the MySQL
@@ -36,6 +38,7 @@ SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 EIP_ARTIFACT_REPO="${EIP_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/openmrs-eip-release}"
 OPENMRS_VERSIONS="2.6.11 2.3.3"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
+INSTALL_SCRIPT_FILE="install.sh"
 # Host used by the container to reach the OpenMRS database (release_stuff/scripts/db_env.sh)
 DB_HOST="172.17.0.1"
 
@@ -83,6 +86,7 @@ composeEnvFile(){
 STOCK_DIR="$SCRIPT_DIR"
 SHARED_DIR=""
 ENV_FILE=""
+INSTALL_SCRIPT=""
 
 if [ -n "$COMPOSE_FILE" ] && [ -f "$COMPOSE_FILE" ]; then
 	COMPOSE_DIR=$(cd "$(dirname "$COMPOSE_FILE")" && pwd)
@@ -95,6 +99,9 @@ if [ -n "$COMPOSE_FILE" ] && [ -f "$COMPOSE_FILE" ]; then
 	source_dir=$(composeMountSource /home/eip/shared)
 	[ -n "$source_dir" ] && SHARED_DIR=$(composePath "$source_dir")
 
+	source_file=$(composeMountSource /home/eip/install.sh)
+	[ -n "$source_file" ] && INSTALL_SCRIPT=$(composePath "$source_file")
+
 	env_file=$(composeEnvFile)
 	[ -n "$env_file" ] && ENV_FILE=$(composePath "$env_file")
 else
@@ -104,10 +111,12 @@ fi
 
 SHARED_DIR="${SHARED_DIR:-$STOCK_DIR/shared}"
 ENV_FILE="${ENV_FILE:-$STOCK_DIR/eip.env}"
+INSTALL_SCRIPT="${INSTALL_SCRIPT:-$STOCK_DIR/install.sh}"
 
 echo "PROJECT DIR (/home/openmrs-eip-docker): $STOCK_DIR"
 echo "SHARED DIR (/home/eip/shared): $SHARED_DIR"
 echo "ENV FILE: $ENV_FILE"
+echo "INSTALL SCRIPT (/home/eip/install.sh): $INSTALL_SCRIPT"
 
 # A failure here does not stop the release install, the image can be pulled later
 IMAGE=""
@@ -254,6 +263,11 @@ for file in $JARS $RELEASE_STUFF_ARCHIVE; do
 	fetchFile "$file.SHA256"
 done
 
+# Releases published before install.sh was added to the artifact don't have it
+if echo "$ARTIFACT_FILES" | awk '{ print $2 }' | grep -qx "$INSTALL_SCRIPT_FILE"; then
+	fetchFile "$INSTALL_SCRIPT_FILE.SHA256"
+fi
+
 DOWNLOADED=0
 
 if [ -d "$STOCK_DIR/release_stuff/scripts" ] && [ -f "$INSTALLED_ARCHIVE_SHA256" ] \
@@ -270,6 +284,27 @@ else
 	rm -fr "$STOCK_DIR/release_stuff"
 	tar -xzf "$STAGING_DIR/$RELEASE_STUFF_ARCHIVE" -C "$STOCK_DIR"
 	mv -f "$STAGING_DIR/$RELEASE_STUFF_ARCHIVE.SHA256" "$INSTALLED_ARCHIVE_SHA256"
+
+	DOWNLOADED=$((DOWNLOADED + 1))
+fi
+
+if [ ! -f "$STAGING_DIR/$INSTALL_SCRIPT_FILE.SHA256" ]; then
+	echo "WARNING: $ARTIFACT_REF does not contain $INSTALL_SCRIPT_FILE, $INSTALL_SCRIPT was not updated"
+elif [ -f "$INSTALL_SCRIPT" ] \
+	&& [ "$(sha256sum "$INSTALL_SCRIPT" | cut -d' ' -f1)" = "$(cut -d' ' -f1 "$STAGING_DIR/$INSTALL_SCRIPT_FILE.SHA256")" ]; then
+	echo "$INSTALL_SCRIPT_FILE IS UP TO DATE IN $INSTALL_SCRIPT"
+else
+	echo "DOWNLOADING $INSTALL_SCRIPT_FILE"
+
+	fetchFile "$INSTALL_SCRIPT_FILE"
+	(cd "$STAGING_DIR" && sha256sum -c "$INSTALL_SCRIPT_FILE.SHA256")
+
+	echo "INSTALLING $INSTALL_SCRIPT_FILE INTO $INSTALL_SCRIPT"
+
+	# cp keeps the inode of an existing file, so a file bind mount keeps working
+	mkdir -p "$(dirname "$INSTALL_SCRIPT")"
+	cp "$STAGING_DIR/$INSTALL_SCRIPT_FILE" "$INSTALL_SCRIPT"
+	chmod +x "$INSTALL_SCRIPT"
 
 	DOWNLOADED=$((DOWNLOADED + 1))
 fi

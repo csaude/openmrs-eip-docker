@@ -7,6 +7,7 @@
 #   - the openmrs-eip-app jar for that OpenMRS version
 #   - the jars common to all versions (epts-etl-api, centralization-features-manager)
 #   - release_stuff.tar.gz (the ./release_stuff folder of this checkout)
+#   - install.sh (the ./install.sh of this checkout, mounted at /home/eip/install.sh)
 #   - a .SHA256 file for each of the above
 #
 # The artifacts are tagged <release_tag>-<openmrs_version> (ex: V11.1.0-2.6.11)
@@ -34,6 +35,7 @@ GIT_REPO_URL="https://github.com/csaude/openmrs-eip-docker"
 RELEASE_BASE_URL="https://github.com/csaude/openmrs-eip-docker/releases/download"
 ARTIFACT_TYPE="application/vnd.csaude.openmrs-eip.release"
 RELEASE_STUFF_ARCHIVE="release_stuff.tar.gz"
+INSTALL_SCRIPT="install.sh"
 PUBLISH_IMAGE="${PUBLISH_IMAGE:-true}"
 COMPOSE_FILE="$SCRIPT_DIR/docker-compose.yml"
 
@@ -64,8 +66,8 @@ done
 # Commit of this checkout, recorded in the artifacts
 GIT_REVISION=$(git -C "$SCRIPT_DIR" rev-parse HEAD 2>/dev/null || echo unknown)
 
-if [ -n "$(git -C "$SCRIPT_DIR" status --porcelain release_stuff 2>/dev/null)" ]; then
-	echo "WARNING: release_stuff has uncommitted changes, they will be published"
+if [ -n "$(git -C "$SCRIPT_DIR" status --porcelain release_stuff install.sh 2>/dev/null)" ]; then
+	echo "WARNING: release_stuff or install.sh have uncommitted changes, they will be published"
 	GIT_REVISION="$GIT_REVISION-dirty"
 fi
 
@@ -117,12 +119,15 @@ echo "ARCHIVING $SCRIPT_DIR/release_stuff INTO $RELEASE_STUFF_ARCHIVE"
 tar -czf "$RELEASE_STUFF_ARCHIVE" -C "$SCRIPT_DIR" release_stuff
 sha256sum "$RELEASE_STUFF_ARCHIVE" > "$RELEASE_STUFF_ARCHIVE.SHA256"
 
+cp "$SCRIPT_DIR/$INSTALL_SCRIPT" "$INSTALL_SCRIPT"
+sha256sum "$INSTALL_SCRIPT" > "$INSTALL_SCRIPT.SHA256"
+
 for mapping in $OPENMRS_DBSYNC_VERSIONS; do
 	openmrs_version="${mapping%%:*}"
 	dbsync_version="${mapping#*:}"
 
 	ARTIFACT_REF="$EIP_ARTIFACT_REPO:$RELEASE_VERSION_TAG-$openmrs_version"
-	FILES="openmrs-eip-app-$dbsync_version.jar $COMMON_JARS $RELEASE_STUFF_ARCHIVE"
+	FILES="openmrs-eip-app-$dbsync_version.jar $COMMON_JARS $RELEASE_STUFF_ARCHIVE $INSTALL_SCRIPT"
 
 	echo "PUSHING $RELEASE_NAME FOR OPENMRS $openmrs_version TO $ARTIFACT_REF"
 
