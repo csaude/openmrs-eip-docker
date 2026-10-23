@@ -110,19 +110,36 @@ done
 RELEASE_NAME="EIP-Release-$RELEASE_VERSION_TAG"
 RELEASE_DIR="$WORK_DIR/$RELEASE_NAME"
 
-echo "DOWNLOADING $RELEASE_NAME JARS:" $JARS
+echo "CHECKING $RELEASE_NAME JARS:" $JARS
 
-rm -fr "$RELEASE_DIR"
+# RELEASE_DIR is kept between runs: the .SHA256 files are always downloaded and a
+# jar only when the local copy is missing or does not match its .SHA256
 mkdir -p "$RELEASE_DIR"
 cd "$RELEASE_DIR"
 
+DOWNLOADED=0
+
 for jar in $JARS; do
 	url="$RELEASE_BASE_URL/$RELEASE_VERSION_TAG/$jar"
-	curl -fSL --retry 5 --retry-delay 10 -o "$jar.SHA256" "$url.SHA256"
-	curl -fSL --retry 5 --retry-delay 10 -o "$jar" "$url"
+	curl -fsSL --retry 5 --retry-delay 10 -o "$jar.SHA256" "$url.SHA256"
+
+	if [ -f "$jar" ] && sha256sum -c --status "$jar.SHA256"; then
+		echo "$jar IS UP TO DATE IN $RELEASE_DIR"
+		continue
+	fi
+
+	echo "DOWNLOADING $jar"
+
+	# Downloaded to a temporary name so that a failed download never replaces the jar
+	rm -f "$jar.part"
+	curl -fSL --retry 5 --retry-delay 10 -o "$jar.part" "$url"
+	mv -f "$jar.part" "$jar"
+	sha256sum -c "$jar.SHA256"
+
+	DOWNLOADED=$((DOWNLOADED + 1))
 done
 
-sha256sum -c *.SHA256
+echo "$RELEASE_NAME JARS READY ($DOWNLOADED DOWNLOADED)"
 
 echo "ARCHIVING $SCRIPT_DIR/release_stuff INTO $RELEASE_STUFF_ARCHIVE"
 
