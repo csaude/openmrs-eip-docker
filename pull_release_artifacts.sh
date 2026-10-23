@@ -59,6 +59,29 @@ done
 
 echo "DBSYNC DIR: $DBSYNC_DIR"
 
+# Compose interpolates $ in the env_file values when it starts the container, so a
+# literal $ must be written $$. Otherwise the container gets a different value than
+# the one in eip.env (ex: abc$Q7 becomes abc) and can't connect to MySQL
+if [ -f "$ENV_FILE" ]; then
+	UNESCAPED_VARS=$(tr -d '\r' < "$ENV_FILE" | awk '
+		/^[ \t]*#/ || index($0, "=") == 0 { next }
+		{
+			name = substr($0, 1, index($0, "=") - 1)
+			value = substr($0, index($0, "=") + 1)
+			gsub(/\$\$/, "", value)
+			if (index(value, "$")) print name
+		}')
+
+	if [ -n "$UNESCAPED_VARS" ]; then
+		echo "The values of these variables in $ENV_FILE contain a \$ that is not written as \$\$:" >&2
+		for var in $UNESCAPED_VARS; do
+			echo "  $var" >&2
+		done
+		echo "Docker compose would replace it (ex: abc\$Q7 would become abc). Write each \$ as \$\$ and run again." >&2
+		exit 1
+	fi
+fi
+
 # A failure here does not stop the release install, the image can be pulled later
 IMAGE=""
 if [ ! -f "$COMPOSE_FILE" ]; then
