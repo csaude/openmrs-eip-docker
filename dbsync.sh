@@ -33,7 +33,7 @@
 #   DEPLOY_ARTIFACT_REPO  deployment registry repository (default: hub.csaude.org.mz/dbsync/dbsync-deploy)
 #   ORAS_VERSION          oras version installed when it is missing (default: 1.3.5)
 #
-# Requires docker with the compose plugin 2.20+ (include support) and curl. If the
+# Requires docker with the compose plugin 2.30+ (include and raw env_file support) and curl. If the
 # hub repositories are private run "docker login hub.csaude.org.mz" first.
 
 set -e
@@ -81,8 +81,8 @@ checkDocker(){
 	compose_major=$(echo "$compose_version" | cut -d. -f1)
 	compose_minor=$(echo "$compose_version" | cut -d. -f2)
 
-	if [ "$compose_major" -lt 2 ] || { [ "$compose_major" -eq 2 ] && [ "$compose_minor" -lt 20 ]; }; then
-		echo "docker compose $compose_version does not support include, 2.20 or newer is required" >&2
+	if [ "$compose_major" -lt 2 ] || { [ "$compose_major" -eq 2 ] && [ "$compose_minor" -lt 30 ]; }; then
+		echo "docker compose $compose_version does not support include and raw env files, 2.30 or newer is required" >&2
 		exit 1
 	fi
 }
@@ -188,9 +188,9 @@ excludeDbsync(){
 	echo "BACKUP OF THE PREVIOUS FILE IN $MAIN_COMPOSE_FILE.bak"
 }
 
-# Value of the variable $1 in eip.env (compose writes a literal $ as $$)
+# Value of the variable $1 in eip.env (read as written, like docker-compose.yml does)
 envValue(){
-	sed -n "s/^$1=//p" "$DBSYNC_DIR/eip.env" | tail -n 1 | tr -d '\r' | sed 's/\$\$/$/g'
+	sed -n "s/^$1=//p" "$DBSYNC_DIR/eip.env" | tail -n 1 | tr -d '\r'
 }
 
 # Runs the mysql client of the dbsync image against the OpenMRS MySQL server,
@@ -388,7 +388,7 @@ enableDbsync(){
 
 		echo ""
 		echo "$DBSYNC_DIR/eip.env WAS CREATED FROM THE TEMPLATE."
-		echo "Fill it in with the values of this site (write each \$ in a value as \$\$)"
+		echo "Fill it in with the values of this site (values are used as written, \$ included)"
 		echo "and run $0 --enable again."
 		exit 2
 	fi

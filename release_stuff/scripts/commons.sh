@@ -58,6 +58,38 @@ determineMysqlVersion(){
 	mysql -h "$DB_HOST" -P "$DB_HOST_PORT" -u "$DB_USER" -p"$DB_PASSWD" -e "SELECT VERSION();" 2>/dev/null | tail -n1
 }
 
+# Waits until the MySQL server accepts connections, ex: when it starts together with
+# this container. Returns 1, after printing the last mysql error, when it is still
+# not available after max_wait_seconds
+waitForMysql(){
+	DB_HOST=$1
+	DB_HOST_PORT=$2
+	DB_USER=$3
+	DB_PASSWD=$4
+	max_wait_seconds=${5:-300}
+	retry_seconds=10
+	waited_seconds=0
+
+	while true; do
+		mysql_error=$(MYSQL_PWD="$DB_PASSWD" mysql -h "$DB_HOST" -P "$DB_HOST_PORT" -u "$DB_USER" -N -e "SELECT VERSION();" 2>&1 > /dev/null)
+
+		if [ $? -eq 0 ]; then
+			echo "MYSQL $DB_HOST:$DB_HOST_PORT IS AVAILABLE"
+			return 0
+		fi
+
+		if [ $waited_seconds -ge $max_wait_seconds ]; then
+			echo "MYSQL $DB_HOST:$DB_HOST_PORT IS NOT AVAILABLE AFTER ${waited_seconds}s: $mysql_error"
+			return 1
+		fi
+
+		echo "WAITING FOR MYSQL $DB_HOST:$DB_HOST_PORT (${waited_seconds}s/${max_wait_seconds}s): $mysql_error"
+
+		sleep $retry_seconds
+		waited_seconds=$((waited_seconds + retry_seconds))
+	done
+}
+
 checkIfTokenExistsInFile(){
         filename=$1
         token=$2
