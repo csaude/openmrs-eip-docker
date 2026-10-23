@@ -15,7 +15,16 @@
 #              4. runs ./dbsync/pull_release_artifacts.sh, which pulls the image, the
 #                 release (release_stuff, install.sh, jars) and accepts the optional
 #                 openmrs_version and release_tag arguments
-#              5. includes ./dbsync/docker-compose.yml in ./docker-compose.yml
+#              5. when the dbsync state is missing (reinstalled HF), asks for the
+#                 backup to be placed in ./dbsync/shared/bkps and restores it:
+#                 - the newest mgt database dump (*.sql or *.sql.gz), only when the
+#                   openmrs_eip_sender_mgt_<senderId> database does not exist
+#                 - the newest debezium offsets (offsets.txt + dbhistory.txt, plain or
+#                   with the same timestamp suffix), only when
+#                   ./dbsync/shared/.debezium/offsets.txt does not exist
+#                 and validates the state (mgt database, offsets, binlog of the offset)
+#                 Existing state is never overwritten.
+#              6. includes ./dbsync/docker-compose.yml in ./docker-compose.yml
 #              Run it again to update dbsync.
 #   --disable  stops and removes the dbsync container and removes the include from
 #              ./docker-compose.yml. ./dbsync (eip.env, shared data, ...) is kept.
@@ -38,6 +47,10 @@ MANAGED_MARK="# managed by dbsync.sh"
 DEPLOY_ARTIFACT_REPO="${DEPLOY_ARTIFACT_REPO:-hub.csaude.org.mz/dbsync/dbsync-deploy}"
 ORAS_VERSION="${ORAS_VERSION:-1.3.5}"
 REGISTRY="${DEPLOY_ARTIFACT_REPO%%/*}"
+BKPS_DIR="$DBSYNC_DIR/shared/bkps"
+DEBEZIUM_DIR="$DBSYNC_DIR/shared/.debezium"
+# Host used by the container to reach the OpenMRS database (release_stuff/scripts/db_env.sh)
+DB_HOST="172.17.0.1"
 
 usage(){
 	echo "Usage: $0 --enable [openmrs_version] [release_tag]"
@@ -175,6 +188,195 @@ excludeDbsync(){
 	echo "BACKUP OF THE PREVIOUS FILE IN $MAIN_COMPOSE_FILE.bak"
 }
 
+# Value of the variable $1 in eip.env (compose writes a literal $ as $$)
+envValue(){
+	sed -n "s/^$1=//p" "$DBSYNC_DIR/eip.env" | tail -n 1 | tr -d '\r' | sed 's/\$\$/$/g'
+}
+
+# Runs the mysql client of the dbsync image against the OpenMRS MySQL server,
+# passing stdin through
+mysqlClient(){
+	docker run --rm -i --network host -e MYSQL_PWD="$DB_PASSWD" --entrypoint mysql "$DBSYNC_IMAGE" \
+		-h "$DB_HOST" -P "$DB_PORT" -u root "$@"
+}
+
+mysqlQuery(){
+	mysqlClient -N -e "$1" < /dev/null 2>/dev/null
+}
+
+mgtDbExists(){
+	[ "$(mysqlQuery "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = '$MGT_DB'")" = "1" ]
+}
+
+# Prints the binlog file the debezium offsets file $1 points to
+offsetBinlog(){
+	grep -ao '"file":"[^"]*"' "$1" | tail -n 1 | cut -d'"' -f4
+}
+
+# Imports the newest mgt database dump of BKPS_DIR into MGT_DB
+restoreMgtDb(){
+	dump=$(ls -1t "$BKPS_DIR"/*.sql "$BKPS_DIR"/*.sql.gz 2>/dev/null | head -n 1)
+
+	if [ -z "$dump" ]; then
+		echo "NO MGT DATABASE DUMP (*.sql, *.sql.gz) FOUND IN $BKPS_DIR"
+		return 0
+	fi
+
+	case "$dump" in
+		*.gz) read_dump="gzip -dc" ;;
+		*) read_dump="cat" ;;
+	esac
+
+	# A dump made with --databases selects its own database, which must be this site's
+	dump_db=$($read_dump "$dump" | grep -m 1 -i '^USE `' | cut -d'`' -f2)
+
+	if [ -n "$dump_db" ] && [ "$dump_db" != "$MGT_DB" ]; then
+		echo "WARNING: $dump is a dump of $dump_db, not of $MGT_DB. It was not restored" >&2
+		return 0
+	fi
+
+	echo "RESTORING $MGT_DB FROM $dump"
+
+	mysqlQuery "CREATE DATABASE IF NOT EXISTS \`$MGT_DB\`" || true
+
+	if ! $read_dump "$dump" | mysqlClient "$MGT_DB"; then
+		echo "WARNING: the restore of $dump failed" >&2
+		return 0
+	fi
+
+	echo "$MGT_DB RESTORED FROM $dump"
+}
+
+# Copies the newest debezium offsets of BKPS_DIR to DEBEZIUM_DIR
+restoreOffsets(){
+	if [ -f "$BKPS_DIR/offsets.txt" ] && [ -f "$BKPS_DIR/dbhistory.txt" ]; then
+		offsets_bkp="$BKPS_DIR/offsets.txt"
+		history_bkp="$BKPS_DIR/dbhistory.txt"
+	else
+		# offsets.txt<timestamp> and dbhistory.txt<timestamp> (dbsync_state_bkp.sh)
+		offsets_bkp=$(ls -1 "$BKPS_DIR"/offsets.txt?* 2>/dev/null | sort | tail -n 1)
+		history_bkp="$BKPS_DIR/dbhistory.txt${offsets_bkp#"$BKPS_DIR"/offsets.txt}"
+	fi
+
+	if [ -z "$offsets_bkp" ]; then
+		echo "NO DEBEZIUM OFFSETS (offsets.txt, dbhistory.txt) FOUND IN $BKPS_DIR"
+		return 0
+	fi
+
+	if [ ! -f "$history_bkp" ]; then
+		echo "WARNING: $offsets_bkp has no matching $(basename "$history_bkp"). The offsets were not restored" >&2
+		return 0
+	fi
+
+	echo "RESTORING THE DEBEZIUM OFFSETS FROM $offsets_bkp AND $history_bkp"
+
+	mkdir -p "$DEBEZIUM_DIR"
+	cp "$offsets_bkp" "$DEBEZIUM_DIR/offsets.txt"
+	cp "$history_bkp" "$DEBEZIUM_DIR/dbhistory.txt"
+}
+
+# Checks that the mgt database and the offsets exist and are usable together.
+# Returns 1 when dbsync would not continue from where it stopped
+validateDbsyncState(){
+	state_ok=0
+
+	echo ""
+	echo "VALIDATING THE DBSYNC STATE"
+
+	if mgtDbExists; then
+		tables=$(mysqlQuery "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '$MGT_DB'")
+		echo "  OK      mgt database $MGT_DB exists ($tables tables)"
+	else
+		echo "  MISSING mgt database $MGT_DB"
+		state_ok=1
+	fi
+
+	if [ -f "$DEBEZIUM_DIR/offsets.txt" ] && [ -f "$DEBEZIUM_DIR/dbhistory.txt" ]; then
+		binlog=$(offsetBinlog "$DEBEZIUM_DIR/offsets.txt")
+
+		if [ -z "$binlog" ]; then
+			echo "  INVALID debezium offsets: no binlog position found in $DEBEZIUM_DIR/offsets.txt"
+			state_ok=1
+		elif mysqlQuery "SHOW BINARY LOGS" | awk '{ print $1 }' | grep -qx "$binlog"; then
+			echo "  OK      debezium offsets point to $binlog, which exists in MySQL"
+		else
+			echo "  INVALID debezium offsets point to $binlog, which no longer exists in MySQL (purged)"
+			state_ok=1
+		fi
+	else
+		echo "  MISSING debezium offsets in $DEBEZIUM_DIR"
+		state_ok=1
+	fi
+
+	if [ $state_ok -ne 0 ]; then
+		echo ""
+		echo "WARNING: dbsync will not continue from where it stopped. If this is not a new site,"
+		echo "the changes made since the last sync will not be sent. After starting dbsync run"
+		echo "the re-sync with the last sync date given by the central team:"
+		echo "  docker exec -i $DBSYNC_CONTAINER /home/eip/scripts/db_re_sync.sh 'YYYY-MM-DD'"
+	fi
+
+	return $state_ok
+}
+
+# On a reinstalled HF (no mgt database and/or no debezium offsets) restores the
+# backup placed in BKPS_DIR, then validates the state. Existing state is kept.
+restoreDbsyncState(){
+	DB_PORT=$(envValue openmrs_db_port)
+	DB_PASSWD=$(envValue spring_openmrs_datasource_password)
+	MGT_DB="openmrs_eip_sender_mgt_$(envValue db_sync_senderId)"
+	DBSYNC_IMAGE=$(sed -n 's/^\s*image:\s*["'\'']\{0,1\}\([^"'\'' ]*\).*/\1/p' "$DBSYNC_DIR/docker-compose.yml" | head -n 1)
+
+	if [ "$(docker container inspect -f '{{.State.Running}}' "$DBSYNC_CONTAINER" 2>/dev/null)" = "true" ]; then
+		echo "$DBSYNC_CONTAINER IS RUNNING, THE DBSYNC STATE IS NOT CHECKED NOR RESTORED"
+		return 0
+	fi
+
+	if [ "$(mysqlQuery "SELECT 1")" != "1" ]; then
+		echo "WARNING: could not connect to MySQL at $DB_HOST:$DB_PORT with the eip.env settings," >&2
+		echo "the dbsync state was not checked nor restored" >&2
+		return 0
+	fi
+
+	restore_mgt_db=false
+	restore_offsets=false
+	mgtDbExists || restore_mgt_db=true
+	[ -f "$DEBEZIUM_DIR/offsets.txt" ] || restore_offsets=true
+
+	if [ "$restore_mgt_db" = "false" ] && [ "$restore_offsets" = "false" ]; then
+		echo "DBSYNC STATE FOUND (mgt database and debezium offsets), NOTHING TO RESTORE"
+		validateDbsyncState || true
+		return 0
+	fi
+
+	mkdir -p "$BKPS_DIR"
+
+	echo ""
+	echo "THE DBSYNC STATE IS MISSING:"
+	[ "$restore_mgt_db" = "true" ] && echo "  - mgt database $MGT_DB"
+	[ "$restore_offsets" = "true" ] && echo "  - debezium offsets ($DEBEZIUM_DIR/offsets.txt)"
+
+	if [ -t 0 ]; then
+		echo ""
+		echo "If this HF was reinstalled, place the latest dbsync backup in $BKPS_DIR:"
+		echo "  - the mgt database dump (*.sql or *.sql.gz)"
+		echo "  - offsets.txt and dbhistory.txt (or offsets.txt<timestamp> and dbhistory.txt<timestamp>)"
+		printf "Press Enter to restore what is there, or type 'skip' for a new site: "
+		read -r answer
+
+		if [ "$answer" = "skip" ]; then
+			echo "RESTORE SKIPPED"
+			validateDbsyncState || true
+			return 0
+		fi
+	fi
+
+	[ "$restore_mgt_db" = "true" ] && restoreMgtDb
+	[ "$restore_offsets" = "true" ] && restoreOffsets
+
+	validateDbsyncState || true
+}
+
 enableDbsync(){
 	checkDocker
 	installOras
@@ -192,6 +394,8 @@ enableDbsync(){
 	fi
 
 	"$DBSYNC_DIR/pull_release_artifacts.sh" "$@"
+
+	restoreDbsyncState
 
 	includeDbsync
 

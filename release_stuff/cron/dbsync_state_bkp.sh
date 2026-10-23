@@ -1,0 +1,1 @@
+30       1       *       *       *       /home/eip/scripts/dbsync_state_bkp.sh
