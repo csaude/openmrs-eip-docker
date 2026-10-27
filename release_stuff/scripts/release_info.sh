@@ -9,7 +9,7 @@ RELEASE_SCRIPTS_DIR="$RELEASE_DIR/scripts"
 
 export RELEASE_VERSION_TAG="V11.1.0"
 export RELEASE_NAME="EIP-Release-$RELEASE_VERSION_TAG"
-export RELEASE_DATE="2025-06-20 12:00:00"
+export RELEASE_DATE="2026-10-23 12:00:00"
 export RELEASE_DESC="DBSync v1.9x/v1.6x, upgrade of OpenMRS to a new release and accommodation with DBSync"
 
 . $RELEASE_SCRIPTS_DIR/db_env.sh

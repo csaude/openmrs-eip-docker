@@ -1,14 +1,16 @@
-version: '3.2'
 services:
     dbsync-remote:
-        image: hub.csaude.org.mz/base/java:17-debian-11
+        image: hub.csaude.org.mz/dbsync/java:17-debian-13
         command: /home/eip/install.sh
         container_name: dbsync-remote
         network_mode: host
+        # raw: the values are used as written, $ is not interpolated (so nothing from
+        # the .env of the project that includes this file gets into them)
         env_file:
-            - ./eip.env
+            - path: ./eip.env
+              format: raw
         working_dir: /home/eip
-        volumes: 
+        volumes:
             - /etc/timezone:/etc/timezone:ro
             - /etc/localtime:/etc/localtime:ro
             - ./install.sh:/home/eip/install.sh

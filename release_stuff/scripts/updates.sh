@@ -60,10 +60,8 @@ if [ "$LOCAL_RELEASE_DATE" != "$REMOTE_RELEASE_DATE" ]; then
 
 		$RELEASE_SCRIPTS_DIR/performe_dbsync_installation.sh
 
-		SHARED_DIR="$HOME_DIR/shared"
-		RELEASES_PACKAGES_DIR="$SHARED_DIR/releases"
-        	CURRENT_RELEASES_PACKAGES_DIR="$RELEASES_PACKAGES_DIR/$REMOTE_RELEASE_NAME"
-        	RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$CURRENT_RELEASES_PACKAGES_DIR/download_completed"
+		# Marker created by download_release.sh once the release packages are verified
+        	RELEASE_PACKAGES_DOWNLOAD_COMPLETED="$HOME_DIR/release-info/$REMOTE_RELEASE_NAME/download_completed"
 
         	if [ ! -f "$RELEASE_PACKAGES_DOWNLOAD_COMPLETED" ]; then
 			UPDATED=""

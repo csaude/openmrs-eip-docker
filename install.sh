@@ -27,6 +27,15 @@ if [ -f "$ERROR_FILE" ];then
 	logToScreenAndFile "REMOVING OLD ERROR INSTALLATION FILE $timespamp" $LOG_FILE
 fi
 
+# The installation and the application need MySQL, which may still be starting
+# (ex: after a restart of the server). MYSQL_WAIT_SECONDS can be set in eip.env
+. $SETUP_STOCK_SCRIPTS_DIR/db_env.sh
+
+if ! waitForMysql "$DB_HOST" "$DB_HOST_PORT" "$DB_USER" "$DB_PASSWD" "${MYSQL_WAIT_SECONDS:-300}"; then
+	logToScreenAndFile "MYSQL IS NOT AVAILABLE, CHECK openmrs_db_port AND spring_openmrs_datasource_password IN eip.env. Exiting" $LOG_FILE
+	exit 1
+fi
+
 if [ -f "$INSTALL_FINISHED_REPORT_FILE" ]; then
         logToScreenAndFile "INSTALLATION FINISHED" $LOG_FILE
 else
@@ -50,8 +59,9 @@ else
         	echo "RUN HISTORY DIR CREATED" | tee -a $LOG_FILE
 	fi
 
-        logToScreenAndFile "INSTALLING DEPENDENCIES" $LOG_FILE
-        $SETUP_STOCK_SCRIPTS_DIR/apt_install.sh
+        # The dependencies are installed in the image at build time (see Dockerfile)
+        #logToScreenAndFile "INSTALLING DEPENDENCIES" $LOG_FILE
+        #$SETUP_STOCK_SCRIPTS_DIR/apt_install.sh
 	
 	$SETUP_STOCK_SCRIPTS_DIR/pull_dbsync_deployment_project_from_git.sh "$SETUP_STOCK_STUFF_DIR" 2>&1 | tee -a $LOG_FILE
 
